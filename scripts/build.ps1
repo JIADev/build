@@ -1789,3 +1789,7 @@ function summarize-code([switch] $summarize) {
 	$summary = invoke-expression $cmd 
 	out-file -filepath summary.csv -inputObject $summary -encoding ASCII
 }
+
+function show-issue([string]$issue) {
+	start "http://redmine.jenkon.com/issues/show/$issue"
+}
