@@ -1793,3 +1793,5 @@ function summarize-code([switch] $summarize) {
 function show-issue([string]$issue) {
 	start "http://redmine.jenkon.com/issues/show/$issue"
 }
+
+new-alias f core\boot\feature.exe
