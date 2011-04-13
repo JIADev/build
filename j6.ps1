@@ -62,7 +62,7 @@ if ($args -contains "-2008") { load-vs2008 } else { load-vs2005 }
 
 
 ## function in jenkon PSSnapIn for cleaning up $env:Path
-clean-path
+# clean-path
 
 
 
@@ -73,8 +73,9 @@ clean-path
 ##
 
 . core.ps1
-. subversion.ps1
-
+if (gcm svn.exe*) {
+ . subversion.ps1
+}
 
 ###
 ### SWITCH COMMAND functions
@@ -240,7 +241,9 @@ function build-configuration {
 
 $script:command = "console"
 $script:customer = "IH00000"
-$hostconfig = (get-hostconfig).config
+if (gcm get-hostconfig*) {
+	$hostconfig = (get-hostconfig).config
+}
 $buildBitType = "-32bit"
 
 if($Args.Length -gt 0){$script:command = $Args[0]}

@@ -17,9 +17,11 @@ $sis=@("ImportExportModule/SummitIntegration.Service/SummitIntegration.Service.c
 #Returns the official version for the current branch at the current revision number.
 function get-version{
 	param([string]$svnUrl="")
-	$log = get-lastsvnentry $svnUrl
-	$rev = $log.log.logentry.revision
-	$info = [xml](exec-svn info $svnUrl --xml)
+	if (gcm svn.exe*) {
+		$log = get-lastsvnentry $svnUrl
+		$rev = $log.log.logentry.revision
+		$info = [xml](exec-svn info $svnUrl --xml)
+	}
 	$version = "0.0.0"
 	$url = $info.info.entry.url
 	$folder = $url.split("/")[-1]
@@ -34,15 +36,20 @@ function init-fromsvn {
 		$svnrepo,
 		$svncmd = "export"
 	)
-	if(test-path $targetdir){
+	if (gcm svn.exe*) {
+		if(test-path $targetdir){
+			validate-command {
+				rm -r -fo $targetdir
+			} "Unable to delete $targetdir"
+		}
 		validate-command {
-			rm -r -fo $targetdir
-		} "Unable to delete $targetdir"
+			log ("retrieving $svnrepo to $targetdir")
+			exec-svn $svncmd -q --force $svnrepo $targetdir
+		} "unable to init $targetdir from svn"
 	}
-	validate-command {
-		log ("retrieving $svnrepo to $targetdir")
-		exec-svn $svncmd -q --force $svnrepo $targetdir
-	} "unable to init $targetdir from svn"
+	else {
+		log ("No svn.exe found")
+	}
 }
 
 #Sets all the assembly versions to the correct current number for this checkout.
