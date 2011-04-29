@@ -9,6 +9,9 @@ set-psdebug -strict
 
 
 $env:BuildScripts = (split-path $MyInvocation.MyCommand.Definition)
+
+"BuildScripts: $($env:BuildScripts)"
+
 $env:Path += (";{0};{1}" -f $env:BuildScripts,(join-path $env:BuildScripts "scripts"))
 
 ## register the jenkon PSSnapIn if it hasn't been registered.

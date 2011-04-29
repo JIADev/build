@@ -109,14 +109,14 @@ $MercurialRepository
 }
 
 function minify-css {
-	$jar = $env:buildscripts + "yuicompressor.jar"
+	$jar = $env:buildscripts + "\yuicompressor.jar"
 	feature list | % { dir $_ -r -include *.css } `
 		| ? { !($_.fullname -match "(YUI|PrecompiledWeb)") } `
 		| % { "Compressing " + $_.fullname; java -jar $jar $_.fullname -o $_.fullname }
 }
 
 function minify-js {
-	$jar = $env:buildscripts + "yuicompressor.jar"
+	$jar = $env:buildscripts + "\yuicompressor.jar"
 	feature list | % { dir $_ -r -include *.js } `
 		| ? { !($_.fullname -match "(YUI|PrecompiledWeb)") } `
 		| % { "Compressing " + $_.fullname; java -jar $jar --charset utf8 $_.fullname -o $_.fullname }
