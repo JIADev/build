@@ -1756,7 +1756,11 @@ function recreate-database {
 	en "DROP DATABASE [$db]"
 	en "CREATE DATABASE [$db]"
 	set-database -server $server -db $db -user $user -pass $pass
-	feature install --patch --verbose
+	if (test-path core\boot\feature.exe) {
+		core\boot\feature.exe install --patch --verbose
+	} else {
+		feature install --patch --verbose
+	}
 }
 
 
