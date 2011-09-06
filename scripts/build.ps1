@@ -1805,4 +1805,12 @@ function show-issue([string]$issue) {
 	start "http://redmine.jenkon.com/issues/show/$issue"
 }
 
+function incoming-from([string]$url) {
+	f list --name | % {hg --cwd $_ in $url/$_}
+}
+
+function pull-from([string]$url) {
+	f list --name | % {hg --cwd $_ pull -u $url/$_}
+}
+
 new-alias f core\boot\feature.exe
