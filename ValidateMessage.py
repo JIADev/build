@@ -20,17 +20,15 @@ import subprocess
 from mercurial import commands, extensions, util
 
 # Configuration
-_database_server = '5746-WIN7\PENGUIN'
-_database_name = 'Redmine'
-_database_user = 'sa'
-_database_password = 'penguin'
+_database_server = 'DEV-SQL1'
+_database_name = 'RedmineTest'
 
 # Validate issue number
 def validate_issue(ui, issue):
     # Is issue number not in database?
-    connection = ('sqlcmd -U' + _database_user + ' -P' + _database_password +
+    connection = ('sqlcmd' +
         ' -S' + _database_server + ' -d' + _database_name + ' /w 8192')
-    sql = 'set nocount on select id from dbo.issues where id = %s' % str(issue)
+    sql = 'set nocount on select id from Redmine.issues where id = %s' % str(issue)
     result = subprocess.Popen(connection + ' -Q' + '"' + sql + '"',
         stdout=subprocess.PIPE).stdout.readlines()
     if len(result) < 3:
@@ -52,7 +50,7 @@ def validate_message(original_commit, ui, repo, *pats, **opts):
             raise util.Abort('Commit message did not contain an issue number.')
 
         # Validate issue number
-        # validate_issue(ui, match.group(1))
+        validate_issue(ui, match.group(1))
 
     # Proceed with commit.
     return original_commit(ui, repo, *pats, **opts)
