@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RedmineTest" Class="DatabaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=5746-WIN7\PENGUIN;Initial Catalog=RedmineTest;Integrated Security=True" SettingsObjectName="Harvester.Properties.Settings" SettingsPropertyName="RedmineConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.AddRepositoryEntry" Method="AddRepositoryEntry">
+    <Parameter Name="customer" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="branch" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="feature" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="mercurialChangesetId" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="user" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="createdDateTime" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="summary" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="files" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="issueNumber" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="AddRepositoryEntryResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>
