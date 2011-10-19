@@ -1492,14 +1492,13 @@ function read-hglogentry {
 	}
 }
 
-function feature-listhg($command) {
-	$command_args = $args | ? {$true}
-	feature list | % { $directory = [system.io.directoryinfo]$_
-	$feature_name = ([xml](gc ($_ + "\Feature.xml"))).Feature.Name
-	$url = (gc ($_ + "\.hg\hgrc")) | ? {$_ -match "http://.+"}
+function hg-info($command, $command_args, $working_dir = ".") {	
+	$url = (gc ($working_dir + "\.hg\hgrc")) | ? {$_ -match "http://.+"}
 	$url = $url -replace "//(.+):(.+)@","//"
 	$url = $url -replace ".+http","http"
 	$repo_url = $url
+	$command_args = $command_args | ? {$true}
+	$feature_name = ([xml](gc ($working_dir + "\Feature.xml"))).Feature.Name
 	$template = "changeset:   {rev}:{node}
 rev:         {rev}
 node:        {node}
@@ -1516,7 +1515,12 @@ directory:   $directory
 repo_url:    $repo_url
 change_url:  $repo_url/rev/{node}
 "
-	hg --cwd $_ $command $command_args --template $template | read-hglogentry}
+	hg --cwd $working_dir $command $command_args --template $template | read-hglogentry
+}
+
+function feature-listhg($command) {
+	$command_args = $args | ? {$true}
+	feature list | % { $directory = [system.io.directoryinfo]$_; hg-info $command $command_args $_}
 }
 
 function feature-log() {
@@ -1814,3 +1818,56 @@ function pull-from([string]$url) {
 }
 
 new-alias f core\boot\feature.exe
+
+function get-customer([string]$driver = $(throw "enter a driver feature"), 
+			[string]$base = $(throw "enter a base (like releases://7.4.1 or branches://sprint")
+		) 
+{
+	hg clone $base/Core
+	msbuild /t:Bootstrap Core/Feature.proj
+	copy core\shared\log-settings.xml
+	core\boot\feature.exe config sql server db user pass
+	copy sql-settings.xml build-settings.xml
+	set-database server db user pass
+	msbuild /t:Bootstrap Core/Feature.proj
+	hg clone "$base/$driver"
+	core\boot\feature.exe fetch
+		
+}
+
+function get-changesets() {
+	$features = dir . | ? {test-path "$_\Feature.xml"} | % { $_.name}
+	$features | % { 
+		$n = $_; 
+		$x = [xml](gc $n\Feature.xml); 
+		$fn = $x.feature.name
+		$change = $x.feature.sourceidentifiers.sourceidentifier;
+		[void]($change -match 'changeset:.+:([a-f0-9]+)'); 
+		"$fn $($matches[1])"
+	}
+}
+
+function set-changesets() {
+	process {
+		if ($_ -match "(\w+) ([a-f0-9]+)") {
+			"$($matches[1])"
+			hg --cwd $matches[1] update -r $matches[2]
+		}
+	}
+}
+
+function get-changesetssince() {
+	process {
+		if ($_ -match "(\w+) ([a-f0-9]+)") {
+			"$($matches[1])"
+			hg-info "log" "-r $($matches[2]):tip" $matches[1] `
+				| select -skip 1 `
+				| ? {$_}
+		}
+	}
+}
+
+function create-incomingreport($repodir, $reportname = "report.html") {
+	f list --name | % {hg-info incoming "$repodir/$_" $_} | create-hgreport > $reportname
+	"Wrote report to $reportname"
+}
