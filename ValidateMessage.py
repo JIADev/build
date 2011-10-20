@@ -41,10 +41,10 @@ def validate_message(original_commit, ui, repo, *pats, **opts):
     message = opts['message']
 
     # Are we not doing a merge, tag or ignore?
-    if not re.search('\A@merge|\s@merge|\A@tag|\s@tag|\A@ignore|\s@ignore', message):
+    if not re.search('\A\s*@[Mm]erge|\A\s*@[Tt]ag|\A\s*@[Ii]gnore', message):
 
         # Does commit message not start with an issue number?
-        match = re.search('\A#([0-9]*):', message)
+        match = re.search('\A[\w\s]*#\s*([0-9]*)[\s:;]', message)
         if not match:
             # Abort commit and exit.
             raise util.Abort('Commit message did not contain an issue number.')
