@@ -26,8 +26,8 @@ import subprocess
 from mercurial import commands, extensions, util
 
 # Configuration.
-_database_server = 'DEV-SQL1'
-_database_name = 'RedmineTest'
+_database_server = 'JIA-SQL5'
+_database_name = 'RedmineReport'
 
 # Validate issue number.
 def validate_issue(ui, issue):
