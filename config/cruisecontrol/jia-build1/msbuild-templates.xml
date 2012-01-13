@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <cb:define ccwebroot="http://jia-build1/ccnet/" />
+  <cb:define include-source="false" />
+  <cb:define name="mssetupbuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)" />
+    <cb:define project-name="$(project-root)-mssetupbuild" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <cb:define trigger-project="branch_$(branch)" />
+    <cb:define source="$(ccroot)\branch_$(branch)" />
+    <project name="$(project-name)" category="mssetupbuild" queue="$(project-root)-mssetupbuild" queuePriority="2">
+      <triggers>
+        <projectTrigger project="$(trigger-project)" />
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-folder)\artifacts</artifactDirectory>
+      <prebuild>
+    <exec executable="cmd.exe" buildArgs="/c echo beginning prebuild >> output.txt" />
+		<exec executable="powershell" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+        <cb:copy-j6-proj />
+        <cb:msbuild-bootstrap />
+      </prebuild>
+      <tasks>
+    <exec executable="cmd.exe" buildArgs="/c echo beginning tasks >> output.txt" />
+        <cb:configure-db />
+        <cb:msbuild-deleteallsource />
+        <cb:copy-driver />
+        <cb:copy-j6-proj />
+        <cb:msbuild-bootstrap />
+        <cb:msbuild-preparesource />
+		<cb:update-to-bookmark />
+        <cb:msbuild-fullbuild />
+      </tasks>
+      <publishers>
+        <cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+        <externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+  <cb:define name="mssetuppackage">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)" />
+    <cb:define project-name="$(project-root)-mssetuppackage" />
+    <cb:define trigger-project="$(project-root)-mssetupbuild" />
+    <project name="$(project-name)" category="mssetupbuild" queue="$(project-root)-mssetupbuild" queuePriority="10">
+      <triggers>
+        <projectTrigger project="$(trigger-project)" />
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-root)-mssetupbuild" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-folder)\artifactsPackage</artifactDirectory>
+      <tasks>
+		<exec executable="powershell" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+        <cb:msbuild-package />
+      </tasks>
+      <publishers>
+        <cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+        <externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+  <cb:define name="copy-j6-proj">
+    <exec executable="cmd.exe" buildArgs="/c echo if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core >> output.txt" />
+    <exec executable="cmd.exe" buildArgs="/c if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core" />
+    <!--<exec executable="powershell" buildArgs="&quot;$(global_feature) list - -name | % { hg - -cwd $_ pull -B '$(bookmark)' $(source)/$_}&quot;" /> 
+    <exec executable="$(global_feature)" buildArgs="do hg up '$(bookmark)'" />
+    <exec description="copy j6.proj file" executable="cmd" buildArgs="/c copy /y Core\Private\j6.proj j6.proj" /> -->
+  </cb:define>
+  <cb:define name="copy-driver">
+    <exec executable="cmd.exe" buildArgs="/c echo beginning copy-driver >> output.txt" />
+    <exec executable="cmd.exe" buildArgs="/c if not exist $(driver) echo hg clone -b $(hgBranch) --pull $(source)/$(driver) >> output.txt" />
+    <!-- <exec executable="cmd.exe" buildArgs="/c if not exist $(driver) hg clone -b $(hgBranch) - -pull $(source)/$(driver)" /> -->
+  </cb:define>
+  <cb:define name="update-to-bookmark">
+    <exec executable="powershell" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -B '$(bookmark)' $(source)/$_}&quot;" />
+    <exec executable="$(feature)" buildArgs="do hg up '$(bookmark)'" />
+  </cb:define>
+  <cb:define name="configure-db">
+    <msbuild description="configure database">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark)</buildArgs>
+      <targets>Configure</targets>
+      <timeout>1200</timeout>
+    </msbuild>
+  </cb:define>
+  <cb:define name="msbuild-bootstrap">
+    <exec executable="cmd.exe" buildArgs="/c echo beginning msbuild-bootstrap >> output.txt" />
+    <msbuild description="build feature.exe">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark)</buildArgs>
+      <targets>Bootstrap</targets>
+      <timeout>1200</timeout>
+    </msbuild>
+  </cb:define>
+  <cb:define name="msbuild-fetch">
+    <msbuild description="feature fetch">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs></buildArgs>
+      <targets>Fetch</targets>
+      <timeout>1200</timeout>
+    </msbuild>
+  </cb:define>
+  <cb:define name="msbuild-preparesource">
+    <msbuild description="clean,pull,fetch">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs></buildArgs>
+      <targets>PrepareSource</targets>
+      <timeout>2400</timeout>
+    </msbuild>
+  </cb:define>
+  <cb:define name="msbuild-deleteallsource">
+    <msbuild description="Remove feature folder">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs></buildArgs>
+      <targets>DeleteAllSource</targets>
+      <timeout>1200</timeout>
+    </msbuild>
+  </cb:define>
+  <cb:define name="msbuild-fullbuild">
+    <msbuild description="full build">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs></buildArgs>
+      <targets>FullBuild</targets>
+      <timeout>2400</timeout>
+    </msbuild>
+	<exec executable="$(feature)" buildArgs = 'test --coverage' />
+  </cb:define>
+  <cb:define name="msbuild-package">
+    <msbuild description="package build">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules)</buildArgs>
+      <targets>Package</targets>
+      <timeout>1200</timeout>
+    </msbuild>
+  </cb:define>
+  <cb:define name="msbuild-fxcop">
+    <msbuild description="fxcop">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs></buildArgs>
+      <targets>Fxcop</targets>
+      <timeout>1200</timeout>
+    </msbuild>	
+  </cb:define>
+  <cb:define name="echo">
+    <exec executable="cmd.exe" buildArgs="/c echo $(echo-args)" />
+  </cb:define>
+</cb:config-template>
