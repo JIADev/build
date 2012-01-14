@@ -559,7 +559,7 @@
 	<cb:define modificationDelaySeconds = "60" />
 	<cb:define sourceCheckInterval = "600" />
 	<cb:define name = "sourceFeature" >
-		<hg executable="$(hg)" workingDirectory = "$(feature-name)" repo="$(source)/$(branch)/$(feature-name)" multipleHeadsFail="false" autoGetSource="false" branch="$(hgBranch)" />
+		<hg executable="$(hg)" workingDirectory = "$(feature-name)" repo="$(source)/$(branch)/$(feature-name)" multipleHeadsFail="false" autoGetSource="false" />
 	</cb:define>
 	<cb:define name="branch-project">
 		<queue name="$(project-name)" />
