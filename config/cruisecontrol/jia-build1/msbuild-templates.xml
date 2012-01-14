@@ -3,7 +3,7 @@
   <cb:define ccwebroot="http://jia-build1/ccnet/" />
   <cb:define include-source="false" />
   <cb:define name="mssetupbuild">
-    <cb:define project-root="$(driver)-$(branch)$(bookmark)" />
+    <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
     <cb:define project-name="$(project-root)-mssetupbuild" />
     <cb:define db-name="$(project-name)-DEV" />
     <cb:define trigger-project="branch_$(branch)" />
@@ -42,7 +42,7 @@
     </project>
   </cb:define>
   <cb:define name="mssetuppackage">
-    <cb:define project-root="$(driver)-$(branch)$(bookmark)" />
+    <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
     <cb:define project-name="$(project-root)-mssetuppackage" />
     <cb:define trigger-project="$(project-root)-mssetupbuild" />
     <project name="$(project-name)" category="mssetupbuild" queue="$(project-root)-mssetupbuild" queuePriority="10">
@@ -68,17 +68,18 @@
   <cb:define name="copy-j6-proj">
     <exec executable="cmd.exe" buildArgs="/c echo if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core >> output.txt" />
     <exec executable="cmd.exe" buildArgs="/c if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core" />
-    <!--<exec executable="powershell" buildArgs="&quot;$(global_feature) list - -name | % { hg - -cwd $_ pull -B '$(bookmark)' $(source)/$_}&quot;" /> 
-    <exec executable="$(global_feature)" buildArgs="do hg up '$(bookmark)'" />
-    <exec description="copy j6.proj file" executable="cmd" buildArgs="/c copy /y Core\Private\j6.proj j6.proj" /> -->
+    <exec executable="cmd.exe" buildArgs="/c echo hg up '$(bookmark)' >> output.txt" />
+    <exec executable="cmd.exe" baseDirectory="Core" buildArgs="/c hg up '$(bookmark)'" />
+    <exec description="copy j6.proj file" executable="cmd" buildArgs="/c copy /y Core\Private\j6.proj j6.proj" /> 
   </cb:define>
   <cb:define name="copy-driver">
     <exec executable="cmd.exe" buildArgs="/c echo beginning copy-driver >> output.txt" />
-    <exec executable="cmd.exe" buildArgs="/c if not exist $(driver) echo hg clone -b $(hgBranch) --pull $(source)/$(driver) >> output.txt" />
-    <!-- <exec executable="cmd.exe" buildArgs="/c if not exist $(driver) hg clone -b $(hgBranch) - -pull $(source)/$(driver)" /> -->
+    <exec executable="cmd.exe" buildArgs="/c echo if not exist $(driver) hg clone -b $(hgBranch) --pull $(source)/$(driver) >> output.txt" />
+    <exec executable="cmd.exe" buildArgs="/c if not exist $(driver) hg clone -b $(hgBranch) --pull $(source)/$(driver)" />
   </cb:define>
   <cb:define name="update-to-bookmark">
-    <exec executable="powershell" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -B '$(bookmark)' $(source)/$_}&quot;" />
+   <exec executable="cmd.exe" buildArgs="/c echo beginning update-to-bookmark >> output.txt" />
+    <exec executable="powershell" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B '$(bookmark)' $(source)/$_}&quot;" />
     <exec executable="$(feature)" buildArgs="do hg up '$(bookmark)'" />
   </cb:define>
   <cb:define name="configure-db">
