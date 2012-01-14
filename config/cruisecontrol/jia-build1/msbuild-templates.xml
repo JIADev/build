@@ -66,10 +66,15 @@
     </project>
   </cb:define>
   <cb:define name="copy-j6-proj">
+    <exec executable="cmd.exe" buildArgs="/c echo beginning copy-j6-proj >> output.txt" />
     <exec executable="cmd.exe" buildArgs="/c echo if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core >> output.txt" />
     <exec executable="cmd.exe" buildArgs="/c if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core" />
-    <exec executable="cmd.exe" buildArgs="/c echo hg up '$(bookmark)' >> output.txt" />
-    <exec executable="cmd.exe" baseDirectory="Core" buildArgs="/c hg up '$(bookmark)'" />
+    <exec executable="cmd.exe" buildArgs="/c echo if not bm:$(bookmark) == bm: hg pull -b $(hgBranch) -B $(bookmark) >> output.txt" />
+   <!-- This step brings the bookmark down to the local working copy, so we can update to it. --> 
+    <exec executable="cmd.exe" baseDirectory="Core" buildArgs="/c if not bm:$(bookmark) == bm: hg pull -b $(hgBranch) -B $(bookmark)" />
+    <exec executable="cmd.exe" buildArgs="/c echo if not bm:$(bookmark) == bm: hg up $(bookmark) >> output.txt" />
+   <!-- This step actually updates to the bookmark -->
+    <exec executable="cmd.exe" baseDirectory="Core" buildArgs="/c if not bm:$(bookmark) == bm: hg up $(bookmark)" />
     <exec description="copy j6.proj file" executable="cmd" buildArgs="/c copy /y Core\Private\j6.proj j6.proj" /> 
   </cb:define>
   <cb:define name="copy-driver">
@@ -79,14 +84,17 @@
   </cb:define>
   <cb:define name="update-to-bookmark">
    <exec executable="cmd.exe" buildArgs="/c echo beginning update-to-bookmark >> output.txt" />
-    <exec executable="powershell" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B '$(bookmark)' $(source)/$_}&quot;" />
-    <exec executable="$(feature)" buildArgs="do hg up '$(bookmark)'" />
+   <exec executable="cmd.exe" buildArgs="/c echo &quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B $(bookmark) }&quot; >> output.txt" />
+   <!-- This step brings the bookmark down to the local working copy, so we can update to it. --> 
+   <exec executable="powershell" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B $(bookmark) }&quot;" />
+   <!-- This step actually updates to the bookmark -->
+    <exec executable="$(feature)" buildArgs="do if not bm:$(bookmark) == bm: hg up $(bookmark)" />
   </cb:define>
   <cb:define name="configure-db">
     <msbuild description="configure database">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark)</buildArgs>
+      <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark);hgBranch=$(hgBranch)</buildArgs>
       <targets>Configure</targets>
       <timeout>1200</timeout>
     </msbuild>
@@ -129,6 +137,7 @@
     </msbuild>
   </cb:define>
   <cb:define name="msbuild-fullbuild">
+    <exec executable="cmd.exe" buildArgs="/c echo beginning msbuild-fullbuild >> output.txt" />
     <msbuild description="full build">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
