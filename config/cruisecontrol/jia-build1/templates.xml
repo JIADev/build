@@ -363,7 +363,7 @@
 	</cb:define>
 
 	<cb:define name="packagebuild">
-		<project name="$(project-name)">
+		<project name="$(project-name)" category="package" queue="$(project-root)" queuePriority="4">
 			<workingDirectory>$(ccroot)\$(build-project)</workingDirectory>
 			<artifactDirectory>$(ccroot)\$(project-name)\artifacts</artifactDirectory>
 			<triggers>
