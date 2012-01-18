@@ -4,7 +4,8 @@
 	<cb:define platform="AnyCpu" />
 	<cb:define configuration="Debug" />
 	<cb:define name = "bootstrap">
-		<msbuild>
+	        <exec executable = "cmd.exe" buildArgs = '/c echo Starting bootstrap >>output.txt' />
+ 	        <msbuild>
 			<executable>$(msbuild)</executable>
 			<workingDirectory>Core</workingDirectory>
 			<projectFile>Feature.proj</projectFile>
@@ -158,11 +159,13 @@
 			<workingDirectory>$(project-folder)</workingDirectory>
 			<artifactDirectory>$(project-folder)\artifacts</artifactDirectory>
 			<prebuild>
+				<exec executable = "cmd.exe" buildArgs = '/c echo Starting prebuild>> output.txt' />
 				<cb:copy-logger-local />
 				<cb:new-start />
-				<exec executable = "cmd.exe" buildArgs = 'echo hg clone --pull $(source)/$(driver) >output2.txt' />
-				<!--<exec executable = "$(hg)" buildArgs = 'clone - -pull $(source)/$(driver)' />
-				<exec executable = "$(hg)" buildArgs = 'clone - -pull $(source)/Core' /> -->
+				<exec executable = "cmd.exe" buildArgs = '/c echo hg clone --pull $(source)/$(driver) >>output.txt' />
+				<exec executable = "$(hg)" buildArgs = 'clone --pull $(source)/$(driver)' />
+				<exec executable = "cmd.exe" buildArgs = '/c echo hg clone --pull $(source)/Core >>output.txt' />
+				<exec executable = "$(hg)" buildArgs = 'clone --pull $(source)/Core' />
 				<!-- for some reason, once doesn't always copy all the Jenkon.Core.*.dlls into the boot folder. -->
 				<cb:bootstrap/>
 				<cb:bootstrap/>
@@ -196,8 +199,8 @@
 			<prebuild>
 				<cb:copy-logger-local />
 				<cb:new-start />
-				<!--<exec executable = "$(hg)" buildArgs = 'clone $(source)/$(driver)' />
-				<exec executable = "$(hg)" buildArgs = 'clone $(source)/Core' /> -->
+				<exec executable = "$(hg)" buildArgs = 'clone $(source)/$(driver)' />
+				<exec executable = "$(hg)" buildArgs = 'clone $(source)/Core' />
 				<!-- Copy feature.exe so we've got one in the same location that post-7.3 bootstraps put it-->
 				<exec executable = "powershell" buildArgs = '-c "if (test-path Core\boot) { rm -r -fo Core\boot; echo &quot;removed boot dir&quot; }"' />
 				<exec executable = "cmd" buildArgs="/C mkdir Core\boot" />
