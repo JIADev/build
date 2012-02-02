@@ -26,10 +26,37 @@ namespace Harvester.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DEV-SQL1;Initial Catalog=RedmineTest;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DEV-SQL1;Initial Catalog=RedmineReport;Integrated Security=True")]
         public string RedmineConnectionString {
             get {
                 return ((string)(this["RedmineConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("build")]
+        public string MercurialUser {
+            get {
+                return ((string)(this["MercurialUser"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("build")]
+        public string MercurialPassword {
+            get {
+                return ((string)(this["MercurialPassword"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string Directory {
+            get {
+                return ((string)(this["Directory"]));
             }
         }
     }
