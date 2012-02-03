@@ -65,6 +65,10 @@
       <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
+  <cb:define name="mssetup-project">
+    <cb:mssetupbuild />
+    <cb:mssetuppackage />
+  </cb:define>
   <cb:define name="copy-j6-proj">
     <exec executable="cmd.exe" buildArgs="/c echo beginning copy-j6-proj >> output.txt" />
     <exec executable="cmd.exe" buildArgs="/c echo if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core >> output.txt" />
@@ -88,7 +92,7 @@
    <!-- This step brings the bookmark down to the local working copy, so we can update to it. --> 
    <exec executable="powershell" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B $(bookmark) }&quot;" />
    <!-- This step actually updates to the bookmark -->
-    <exec executable="$(feature)" buildArgs="do if not bm:$(bookmark) == bm: hg up $(bookmark)" />
+    <exec executable="$(feature)" buildArgs="do hg up $(bookmark)" />
   </cb:define>
   <cb:define name="configure-db">
     <msbuild description="configure database">
