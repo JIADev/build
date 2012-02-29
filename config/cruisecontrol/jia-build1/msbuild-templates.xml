@@ -13,8 +13,9 @@
         <projectTrigger project="$(trigger-project)" />
       </triggers>
       <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
       <workingDirectory>$(project-folder)</workingDirectory>
-      <artifactDirectory>$(project-folder)\artifacts</artifactDirectory>
+      <artifactDirectory>$(project-artifacts)</artifactDirectory>
       <prebuild>
     <exec executable="cmd.exe" buildArgs="/c echo beginning prebuild >> output.txt" />
 		<exec executable="powershell" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
@@ -50,8 +51,9 @@
         <projectTrigger project="$(trigger-project)" />
       </triggers>
       <cb:define project-folder="$(ccroot)\$(project-root)-mssetupbuild" />
+      <cb:define project-artifacts="$(ccroot)\Artifacts\$(project-root)-mssetupbuild" />
       <workingDirectory>$(project-folder)</workingDirectory>
-      <artifactDirectory>$(project-folder)\artifactsPackage</artifactDirectory>
+      <artifactDirectory>$(project-artifacts)Package</artifactDirectory>
       <tasks>
 		<exec executable="powershell" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
         <cb:msbuild-package />
