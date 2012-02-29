@@ -100,11 +100,12 @@
 	</cb:define>	
 
 	<cb:define name="feature-install-patches" description = "install patches">
+	  <exec executable = "cmd.exe" buildArgs = '/c echo Installing Patches $(feature) install patch verbose >> output.txt' />
 		<exec description="Feature Install Patches" executable="$(feature)" buildArgs="install --patch --verbose" buildTimeoutSeconds = "6000" />		
 	</cb:define>
 
 	<cb:define name="feature-build">
-		<exec executable="$(feature)" description = "Feature Build" buildTimeoutSeconds="6000" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration) /logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll;$(project-folder)\Artifacts\msbuild-results.xml' />
+		<exec executable="$(feature)" description = "Feature Build" buildTimeoutSeconds="6000" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration) /logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll;$(project-artifacts)\msbuild-results.xml' />
 	</cb:define>
 
 	<cb:define name="feature-test-unit">
@@ -156,8 +157,9 @@
 				<projectTrigger project="$(fastbuild-project)" />
 			</triggers>
 			<cb:define project-folder="$(ccroot)\$(project-name)" />
+			<cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
 			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\artifacts</artifactDirectory>
+			<artifactDirectory>$(project-artifacts)</artifactDirectory>
 			<prebuild>
 				<exec executable = "cmd.exe" buildArgs = '/c echo Starting prebuild>> output.txt' />
 				<cb:copy-logger-local />
@@ -194,8 +196,9 @@
 				<projectTrigger project="$(fastbuild-project)" />
 			</triggers>
 			<cb:define project-folder="$(ccroot)\$(project-name)" />
+			<cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
 			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\artifacts</artifactDirectory>
+			<artifactDirectory>$(project-artifacts)</artifactDirectory>
 			<prebuild>
 				<cb:copy-logger-local />
 				<cb:new-start />
@@ -229,8 +232,9 @@
 	<cb:define name="fastbuild">
 		<project name="$(project-name)" category = "fast build" queue="$(project-root)" queuePriority="1">
 			<cb:define project-folder="$(ccroot)\$(project-name)" />
+			<cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
 			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\artifacts</artifactDirectory>
+			<artifactDirectory>$(project-artifacts)</artifactDirectory>
 			<triggers>
 				<projectTrigger project="$(trigger-project)" />
 			</triggers>
@@ -258,7 +262,7 @@
 			<tasks>
 				<cb:feature-install-patches />
 				<cb:feature-setup />
-				<exec description = "build" executable="$(feature)" buildTimeoutSeconds = "6000" buildArgs='build "/logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll";$(project-folder)\Artifacts\msbuild-results.xml --features Communication CommunicationSalesOrder Contact Core DashBoard Earning Engine Genealogy ImportExport Jcoach Payment PlanBuilder SalesOrder Web WebService' />
+				<exec description = "build" executable="$(feature)" buildTimeoutSeconds = "6000" buildArgs='build "/logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll";$(project-artifacts)\msbuild-results.xml --features Communication CommunicationSalesOrder Contact Core DashBoard Earning Engine Genealogy ImportExport Jcoach Payment PlanBuilder SalesOrder Web WebService' />
 				<!--
 				<cb:feature-test-unit />
 				-->
@@ -273,8 +277,9 @@
 	<cb:define name="fastbuild-pre73">
 		<project name="$(project-name)" category = "fast build" queue="$(project-root)" queuePriority="1">
 			<cb:define project-folder="$(ccroot)\$(project-name)" />
+			<cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
 			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\artifacts</artifactDirectory>
+			<artifactDirectory>$(project-artifacts)</artifactDirectory>
 			<triggers>
 				<projectTrigger project="$(trigger-project)" />
 			</triggers>
@@ -300,7 +305,7 @@
 			<tasks>
 				<cb:feature-install-patches />
 				<cb:feature-setup />
-				<exec description = "build" executable="$(feature)" buildTimeoutSeconds = "6000" buildArgs='build "/logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll";$(project-folder)\Artifacts\msbuild-results.xml --features Communication CommunicationEngine CommunicationSalesOrder Contact Core DashBoard Earning Engine Genealogy ImportExport Jcoach Jenkon.Feature PlanBuilder Realtime SalesOrder Test Web WebService FrameworkCore FrameworkPayment FrameworkWeb' />
+				<exec description = "build" executable="$(feature)" buildTimeoutSeconds = "6000" buildArgs='build "/logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll";$(project-artifacts)\msbuild-results.xml --features Communication CommunicationEngine CommunicationSalesOrder Contact Core DashBoard Earning Engine Genealogy ImportExport Jcoach Jenkon.Feature PlanBuilder Realtime SalesOrder Test Web WebService FrameworkCore FrameworkPayment FrameworkWeb' />
 				<!--
 				<cb:feature-test-unit />
 				-->
