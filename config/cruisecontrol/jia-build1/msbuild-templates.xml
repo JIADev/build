@@ -182,6 +182,16 @@
 	<!--
     <cb:define trigger-project="branch_$(branch)" />
 	-->
+	<cb:define name="msbuild-clean">
+		<msbuild description="clean">
+		<executable>$(msbuild)</executable>
+		<projectFile>j6.proj</projectFile>
+		<buildArgs></buildArgs>
+		<targets>Clean</targets>
+		<timeout>1200</timeout>
+		</msbuild>
+	</cb:define>
+
     <cb:define name="msbuild-target">
     <msbuild description="msbuild /t:$(target)">
       <executable>$(msbuild)</executable>
@@ -205,7 +215,7 @@
 		<sourcecontrol type="hg">
 		  <autoGetSource>true</autoGetSource>
 		  <workingDirectory>$(project-folder)</workingDirectory>
-		  <timeout>60000</timeout>
+		  <timeout>12000000</timeout>
 		  <repo>$(source)</repo>
 		  <multipleHeadsFail>false</multipleHeadsFail>
 		  <tagOnSuccess>false</tagOnSuccess>
@@ -248,7 +258,9 @@
         <cb:msbuild-bootstrap />
 		<exec executable="powershell" buildArgs = '-c "core\boot\feature do hg revert --all"' />
 		<exec executable="powershell" buildArgs = '-c "core\boot\feature features"' />
-        <cb:msbuild-target target="RecreateDb" />
+		<exec executable="$(feature)" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+		<exec executable="powershell" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+		<cb:recreate-database />
 		<exec executable="$(feature)" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
 		<exec executable="$(feature)" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
 		<exec executable="$(feature)" buildArgs = 'build' buildTimeoutSeconds = '6000' />
