@@ -2,7 +2,8 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
 
 	<cb:define platform="AnyCpu" />
-	<cb:define configuration="Debug" />
+	<cb:define configuration="Release" />
+	<cb:define protect="true" />
 	<cb:define name = "bootstrap">
 	        <exec executable = "cmd.exe" buildArgs = '/c echo Starting bootstrap >>output.txt' />
  	        <msbuild>
