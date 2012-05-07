@@ -214,7 +214,7 @@
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
 		<sourcecontrol type="hg">
-		  <autoGetSource>true</autoGetSource>
+		  <autoGetSource>false</autoGetSource>
 		  <workingDirectory>$(project-folder)</workingDirectory>
 		  <timeout>12000000</timeout>
 		  <repo>$(source)</repo>
