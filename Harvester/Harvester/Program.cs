@@ -15,12 +15,11 @@ namespace Harvester
 		/// <summary>
 		/// Harvest Mercurial changesets.
 		/// 
-		/// args may be used to facilitate testing against a test repository.
-		/// If specified, the Repository table will not be used and hg clone will not be done.
+		/// args may be used to facilitate testing repository parsing logic.
+		/// args[0] = customer code
+		/// 
+		/// If specified, hg clone will not be done.
 		/// A test repository should have been previously cloned into the app setting configured directory.
-		/// The branch and feature specified must correspond to a record in the Repository table.
-		/// args[0] = branch
-		/// args[1] = feature
 		/// </summary>
 		static void Main(string[] args)
 		{
@@ -29,80 +28,133 @@ namespace Harvester
 			WriteMessage("Started", ConsoleColor.Green);
 			try
 			{
-				List<Repository> repositories;
+				List<Customer> customers;
 
-				if (args.Count() != 2)
+				if (args.Count() != 1)
 				{
-					// Get list of repositories.
+					// Get customer information for all customers configured to be harvested.
 					using (var dataContext = new DatabaseDataContext())
 					{
-						repositories = dataContext.Repositories
-							.Where(r => r.HarvestFlag == true)
-							.OrderBy(r => r.Branch)
-							.ThenBy(r => r.Feature)
-							.ToList();
+						customers = (
+							from customer in dataContext.Customers
+							where customer.HarvestFlag == true
+							orderby customer.Code
+							select customer).ToList();
 					}
 				}
 				else
 				{
-					// Use specified information for repository.
-					repositories = new List<Repository> {new Repository {Branch = args[0], Feature = args[1], URL = ""}};
+					// Get customer information for specified customer.
+					using (var dataContext = new DatabaseDataContext())
+					{
+						customers = (
+							from customer in dataContext.Customers
+							where customer.Code == args[0]
+							&& customer.HarvestFlag == true
+							select customer).ToList();
+					}
 				}
 
-				// Loop through repositories.
-				foreach (var repository in repositories)
+				// Set directory to hold repositories.
+				string path = Properties.Settings.Default.Directory + @"\HarvesterRepository\";
+
+				// Loop through customers.
+				foreach (var customer in customers)
 				{
-					WriteMessage(repository.Branch + " " + repository.Feature, ConsoleColor.Cyan);
+					WriteMessage("Customer " + customer.Code, ConsoleColor.Green);
 
-					string path = Properties.Settings.Default.Directory + @"\HarvesterRepository";
-					if (args.Count() != 2)
+					if (args.Count() != 1)
 					{
-						// Prepare empty directory.
-						if (Directory.Exists(path))
+						// Get repositories for customer.
+						if (!GetRepositoriesForCustomer(customer.Code, path))
 						{
-							Directory.Delete(path, true);
-							while (Directory.Exists(path))
-							{
-								Thread.Sleep(50);
-							}
+							// Skip further processing if an issue was encountered.
+							continue;
 						}
-						Directory.CreateDirectory(path);
 					}
 
-					// Clone repository to directory.
-					if (args.Count() != 2)
+					var masterBranchList = new List<MercurialName>();
+					var masterBookmarkList = new List<MercurialName>();
+
+					// Determine if customer uses Mercurial subrepositories.
+					bool usesSubrepositories = Directory.Exists(path + customer.Code + "\\.hg");
+
+					// Does customer use Mercurial subrepositories?
+					if (usesSubrepositories)
 					{
-						string output;
-						RunProgram("hg",
-						           "clone http://" + Properties.Settings.Default.MercurialUser + ":" + Properties.Settings.Default.MercurialPassword + "@" + repository.URL,
-						           path,
-						           out output);
+						// Get master repository branches for customer.
+						if (!GetBranchesForCustomer(customer.Code, path, masterBranchList))
+						{
+							// Skip further processing if an issue was encountered.
+							continue;
+						}
+						// Get master repository bookmarks for customer.
+						if (!GetBookmarksForCustomer(customer.Code, path, masterBookmarkList))
+						{
+							// Skip further processing if an issue was encountered.
+							continue;
+						}
 					}
 
-					// Get repository history.
-					string repositoryDirectory = new DirectoryInfo(path).GetDirectories().First().FullName;
-					List<RepositoryEntry> repositoryHistory;
-					GetRepositoryHistory(repositoryDirectory, out repositoryHistory);
+					// Loop through feature directories.
+					var repositoryPattern = new Regex(@"^.+/hgwebdir.cgi/(?<branch>.+)/(?<feature>[^/]+$)");
+					foreach (var directory in Directory.GetDirectories(path + customer.Code))
+					{
+						// Skip Mercurial directory and Shared directory.
+						if (!directory.EndsWith(".hg") && (!directory.EndsWith("\\Shared")))
+						{
+							// Does directory have a Mercurial configuration file?
+							string repository = "";
+							var hgFile = new FileInfo(directory + "\\.hg\\hgrc");
+							if (hgFile.Exists)
+							{
+								// Get repository name from Mercurial configuration file.
+								GetConfigItem(hgFile.FullName, "paths", "default", out repository);
+							}
 
-					// Load Parent indices for repository entries.
-					LoadParentIndices(ref repositoryHistory);
+							// Split repository name into components.
+							var match = repositoryPattern.Match(repository);
+							string branch;
+							string feature;
+							if (match.Success)
+							{
+								branch = match.Groups["branch"].Value;
+								if (branch.Substring(0, 8) == "feature/")
+									branch = branch.Substring(8);
+								feature = match.Groups["feature"].Value;
 
-					// Determine branches for repository entries.
-					DetermineBranches(ref repositoryHistory);
+								WriteMessage(branch + " " + feature, ConsoleColor.Cyan);
+							}
+							else
+							{
+								throw new Exception("Repository path does not have expected format.");
+							}
 
-					// Determine bookmarks for repository entries.
-					DetermineBookmarks(ref repositoryHistory);
+							// Get repository history.
+							List<RepositoryEntry> repositoryHistory;
+							GetRepositoryHistory(directory, out repositoryHistory);
 
-					// Save repository history to database.
-					SaveRepositoryHistory(repository.Branch, repository.Feature, ref repositoryHistory);
+							// Load Parent indices for repository entries.
+							LoadParentIndices(ref repositoryHistory);
 
-					if (args.Count() != 2)
+							// Determine branches for repository entries.
+							DetermineBranches(ref repositoryHistory, usesSubrepositories, ref masterBranchList, feature);
+
+							// Determine bookmarks for repository entries.
+							DetermineBookmarks(ref repositoryHistory, usesSubrepositories, ref masterBookmarkList, feature);
+
+							// Save repository history to database.
+							SaveRepositoryHistory(customer.Code, repository, branch, feature, ref repositoryHistory);
+						}
+					}
+
+					if (args.Count() != 1)
 					{
 						// Delete directory.
 						Directory.Delete(path, true);
 						while (Directory.Exists(path))
 						{
-							Thread.Sleep(50);
+							Thread.Sleep(100);
 						}
 					}
 				}
@@ -180,6 +232,237 @@ namespace Harvester
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Get repositories for customer.
+		/// </summary>
+		private static bool GetRepositoriesForCustomer(string customerCode, string path)
+		{
+			Customer customerInfo;
+
+			// Get customer information.
+			using (var dataContext = new DatabaseDataContext())
+			{
+				customerInfo = (
+					from customer in dataContext.Customers
+					where customer.Code == customerCode
+					&& customer.HarvestFlag == true
+					select customer).SingleOrDefault();
+			}
+
+			// Exit if no customer information found or if customer is inactive.
+			if ((customerInfo == null)
+			|| (customerInfo.HarvestFlag == null)
+			|| (customerInfo.HarvestFlag == false))
+			{
+				return false;
+			}
+
+			// Prepare empty directory.
+			if (Directory.Exists(path))
+			{
+				Directory.Delete(path, true);
+				while (Directory.Exists(path))
+				{
+					Thread.Sleep(100);
+				}
+			}
+			Directory.CreateDirectory(path);
+
+			// Is a master repository configured?
+			if (customerInfo.URL != null)
+			{
+				WriteMessage("Cloning repository " + customerInfo.URL.Substring(customerInfo.URL.IndexOf(".cgi", StringComparison.InvariantCultureIgnoreCase) + 4), ConsoleColor.Cyan);
+
+				// Clone master repository and sub repositories to directory.
+				string output;
+				RunProgram("hg",
+							"clone http://" + customerInfo.URL,
+							path,
+							out output);
+			}
+			else
+			{
+				// Create directory to hold repositories (to make directory structure similar to master/sub repository style).
+				path = path + "\\" + customerCode;
+				Directory.CreateDirectory(path);
+
+				List<Repository> repositories;
+
+				// Get list of repositories.
+				using (var dataContext = new DatabaseDataContext())
+				{
+					repositories = (
+						from customer in dataContext.Customers
+						join customerRepository in dataContext.CustomerRepositories on customer.Id equals customerRepository.Customer
+						join repository in dataContext.Repositories on customerRepository.Repository equals repository.Id
+						where customer.Code == customerCode
+						&& repository.HarvestFlag == true
+						select repository).ToList();
+				}
+
+				// Loop through repositories.
+				foreach (var repository in repositories)
+				{
+					WriteMessage("Cloning repository " + repository.URL.Substring(repository.URL.IndexOf(".cgi", StringComparison.InvariantCultureIgnoreCase) + 4), ConsoleColor.Cyan);
+
+					// Clone repository to directory.
+					string output;
+					RunProgram("hg",
+								"clone http://" + repository.URL,
+								path,
+								out output);
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Get master repository branches for customer.
+		/// </summary>
+		private static bool GetBranchesForCustomer(string customerCode, string path, List<MercurialName> branchList)
+		{
+			string output;
+
+			// Run hg branches command.
+			RunProgram("hg",
+						"branches",
+						path + customerCode,
+						out output);
+
+			// Loop through repository branches.
+			var linePattern = new Regex(@"^(?<name>[\d\w.-_]+)\s+(?<revisionNumber>.+):(?<changesetId>.+)$");
+			string[] branchesOutput = Regex.Split(output, "\n");
+			foreach (var line in branchesOutput)
+			{
+				// Skip blank lines.
+				if (line.Trim() == "") continue;
+
+				// Split branch line into components.
+				var match = linePattern.Match(line);
+				if (!match.Success)
+				{
+					throw new Exception("Branch line does not have expected format.");
+				}
+
+				// Add branch to list.
+				branchList.Add
+				(
+					new MercurialName()
+					{
+						Name = match.Groups["name"].Value,
+						SubrepositoryList = new List<Subrepository>()
+					}
+				);
+			}
+
+			// Loop through branch list.
+			foreach (var branch in branchList)
+			{
+				// Get subrepository ids.
+				GetSubrepositoryIds(customerCode, path, branch);
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Get master repository bookmarks for customer.
+		/// </summary>
+		private static bool GetBookmarksForCustomer(string customerCode, string path, List<MercurialName> bookmarkList)
+		{
+			string output;
+
+			// Run hg bookmarks command.
+			RunProgram("hg",
+						"bookmarks",
+						path + customerCode,
+						out output);
+
+			// Loop through repository bookmarks.
+			var linePattern = new Regex(@"^\s{0,}(?<name>[\d\w.-_]+)\s+(?<revisionNumber>.+):(?<changesetId>.+)$");
+			string[] bookmarksOutput = Regex.Split(output, "\n");
+			foreach (var line in bookmarksOutput)
+			{
+				// Exit if no bookmarks are present.
+				if (line == "no bookmarks set") return true;
+
+				// Skip blank lines.
+				if (line.Trim() == "") continue;
+
+				// Split bookmark line into components.
+				var match = linePattern.Match(line);
+				if (!match.Success)
+				{
+					throw new Exception("Bookmark line does not have expected format.");
+				}
+
+				// Add bookmark to list.
+				bookmarkList.Add
+				(
+					new MercurialName()
+					{
+						Name = match.Groups["name"].Value,
+						SubrepositoryList = new List<Subrepository>()
+					}
+				);
+			}
+
+			// Loop through bookmark list.
+			foreach (var bookmark in bookmarkList)
+			{
+				// Get subrepository ids.
+				GetSubrepositoryIds(customerCode, path, bookmark);
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Get subrepository ids.
+		/// </summary>
+		private static bool GetSubrepositoryIds(string customerCode, string path, MercurialName mercurialName)
+		{
+			string output;
+
+			// Run hg update command to get Mercurial to switch to specified name.
+			RunProgram("hg",
+						"update " + mercurialName.Name,
+						path + customerCode,
+						out output);
+
+			using (var reader = new StreamReader(path + customerCode + "\\.hgsubstate"))
+			{
+				// Read hgsubstate file.
+				var linePattern = new Regex(@"^(?<changesetId>[\d\w]+)\s+(?<subrepositoryName>.+)$");
+				String line;
+				while ((line = reader.ReadLine()) != null)
+				{
+					// Skip blank lines.
+					if (line.Trim() == "") continue;
+
+					// Split hgsubstate line into components.
+					var match = linePattern.Match(line);
+					if (!match.Success)
+					{
+						throw new Exception("hgsubstate line does not have expected format.");
+					}
+
+					// Add subrepository to list
+					mercurialName.SubrepositoryList.Add
+					(
+						new Subrepository()
+						{
+							Name = match.Groups["subrepositoryName"].Value,
+							ChangesetId = match.Groups["changesetId"].Value
+						}
+					);
+				}
+			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -437,26 +720,57 @@ namespace Harvester
 		/// <summary>
 		/// Determine branches for repository entries.
 		/// </summary>
-		private static void DetermineBranches(ref List<RepositoryEntry> repositoryHistory)
+		private static void DetermineBranches(ref List<RepositoryEntry> repositoryHistory, bool usesSubrepositories, ref List<MercurialName> masterBranchList, string feature)
 		{
-			// Loop through repository history.
+			// Does customer use Mercurial subrepositories?
 			var numberOfEntries = repositoryHistory.Count();
-			for (int ii = 0; ii < numberOfEntries; ii++)
+			if (usesSubrepositories)
 			{
-				var repositoryEntry = repositoryHistory[ii];
-
-				// Does repository entry have branch(es)?
-				var branchList = Regex.Split(repositoryEntry.Branches, @"\*\^\*");
-				if (branchList.Count() > 1)
+				// Loop through branches.
+				foreach (var branch in masterBranchList)
 				{
-					// Loop through branches.
-					foreach (string branch in branchList)
+					// Loop through subrepositories for branch.
+					foreach (var subrepository in branch.SubrepositoryList)
 					{
-						// Skip last entry in list.
-						if (branch == "") continue;
+						// Are we on subrepository for feature?
+						if (subrepository.Name == feature)
+						{
+							// Loop through subrepository history.
+							for (int ii = 0; ii < numberOfEntries; ii++)
+							{
+								var repositoryEntry = repositoryHistory[ii];
 
-						// Add branch to current entry and all parents.
-						AddBranch(ref repositoryHistory, ii, branch);
+								// Are we on tip for branch?
+								if (repositoryEntry.ChangesetId == subrepository.ChangesetId)
+								{
+									// Add branch to current entry and all parents.
+									AddBranch(ref repositoryHistory, ii, branch.Name);
+								}
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				// Loop through repository history.
+				for (int ii = 0; ii < numberOfEntries; ii++)
+				{
+					var repositoryEntry = repositoryHistory[ii];
+
+					// Does repository entry have branch(es)?
+					var branchList = Regex.Split(repositoryEntry.Branches, @"\*\^\*");
+					if (branchList.Count() > 1)
+					{
+						// Loop through branches.
+						foreach (string branch in branchList)
+						{
+							// Skip last entry in list.
+							if (branch == "") continue;
+
+							// Add branch to current entry and all parents.
+							AddBranch(ref repositoryHistory, ii, branch);
+						}
 					}
 				}
 			}
@@ -488,26 +802,57 @@ namespace Harvester
 		/// <summary>
 		/// Determine bookmarks for repository entries.
 		/// </summary>
-		private static void DetermineBookmarks(ref List<RepositoryEntry> repositoryHistory)
+		private static void DetermineBookmarks(ref List<RepositoryEntry> repositoryHistory, bool usesSubrepositories, ref List<MercurialName> masterBookmarkList, string feature)
 		{
-			// Loop through repository history.
+			// Does customer use Mercurial subrepositories?
 			var numberOfEntries = repositoryHistory.Count();
-			for (int ii = 0; ii < numberOfEntries; ii++)
+			if (usesSubrepositories)
 			{
-				var repositoryEntry = repositoryHistory[ii];
-
-				// Does repository entry have bookmark(s)?
-				var bookmarkList = Regex.Split(repositoryEntry.Bookmarks, @"\*\^\*");
-				if (bookmarkList.Count() > 1)
+				// Loop through bookmarks.
+				foreach (var bookmark in masterBookmarkList)
 				{
-					// Loop through bookmarks.
-					foreach (string bookmark in bookmarkList)
+					// Loop through subrepositories for bookmark.
+					foreach (var subrepository in bookmark.SubrepositoryList)
 					{
-						// Skip last entry in list.
-						if (bookmark == "") continue;
+						// Are we on subrepository for feature?
+						if (subrepository.Name == feature)
+						{
+							// Loop through subrepository history.
+							for (int ii = 0; ii < numberOfEntries; ii++)
+							{
+								var repositoryEntry = repositoryHistory[ii];
 
-						// Add bookmark to current entry and all parents.
-						AddBookmark(ref repositoryHistory, ii, bookmark);
+								// Are we on tip for bookmark?
+								if (repositoryEntry.ChangesetId == subrepository.ChangesetId)
+								{
+									// Add bookmark to current entry and all parents.
+									AddBookmark(ref repositoryHistory, ii, bookmark.Name);
+								}
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				// Loop through repository history.
+				for (int ii = 0; ii < numberOfEntries; ii++)
+				{
+					var repositoryEntry = repositoryHistory[ii];
+
+					// Does repository entry have bookmark(s)?
+					var bookmarkList = Regex.Split(repositoryEntry.Bookmarks, @"\*\^\*");
+					if (bookmarkList.Count() > 1)
+					{
+						// Loop through bookmarks.
+						foreach (string bookmark in bookmarkList)
+						{
+							// Skip last entry in list.
+							if (bookmark == "") continue;
+
+							// Add bookmark to current entry and all parents.
+							AddBookmark(ref repositoryHistory, ii, bookmark);
+						}
 					}
 				}
 			}
@@ -539,8 +884,13 @@ namespace Harvester
 		/// <summary>
 		/// Save repository history to database.
 		/// </summary>
-		private static void SaveRepositoryHistory(string branch, string feature, ref List<RepositoryEntry> repositoryHistory)
+		private static void SaveRepositoryHistory(string customerCode, string repository, string branch, string feature, ref List<RepositoryEntry> repositoryHistory)
 		{
+			// Format repository URL.
+			string repositoryURL = repository;
+			if (repositoryURL.Substring(0, 7) == "http://")
+				repositoryURL = repositoryURL.Substring(7);
+
 			// Loop through repository history.
 			foreach (var repositoryEntry in repositoryHistory)
 			{
@@ -558,16 +908,18 @@ namespace Harvester
 						bookmarks.Append(bookmark + "*^*");
 					}
 
-					ISingleResult<AddRepositoryEntryResult> result = dataContext.AddRepositoryEntry(branch,
-					                                                                                feature,
-					                                                                                repositoryEntry.ChangesetId,
-					                                                                                repositoryEntry.User,
-					                                                                                repositoryEntry.CreatedDateTime,
-					                                                                                repositoryEntry.Summary,
-					                                                                                repositoryEntry.Files,
+					ISingleResult<AddRepositoryEntryResult> result = dataContext.AddRepositoryEntry(customerCode,
+																									repositoryURL,
+																									branch,
+																									feature,
+																									repositoryEntry.ChangesetId,
+																									repositoryEntry.User,
+																									repositoryEntry.CreatedDateTime,
+																									repositoryEntry.Summary,
+																									repositoryEntry.Files,
 																									branches.ToString(),
-					                                                                                bookmarks.ToString(),
-					                                                                                repositoryEntry.IssueNumber);
+																									bookmarks.ToString(),
+																									repositoryEntry.IssueNumber);
 
 					if ((int) result.ReturnValue != 0)
 						throw new Exception("Error while adding repository entry to database.");
