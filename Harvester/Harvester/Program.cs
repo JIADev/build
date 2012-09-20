@@ -24,7 +24,7 @@ namespace Harvester
 		static void Main(string[] args)
 		{
 			var startDateTime = DateTime.UtcNow;
-			WriteMessage("Mercurial Changeset Harvester", ConsoleColor.Green);
+			WriteMessage("Jenkon Changeset Harvester", ConsoleColor.Green);
 			WriteMessage("Started", ConsoleColor.Green);
 			try
 			{
@@ -333,7 +333,7 @@ namespace Harvester
 						out output);
 
 			// Loop through repository branches.
-			var linePattern = new Regex(@"^(?<name>[\d\w.-_]+)\s+(?<revisionNumber>.+):(?<changesetId>.+)$");
+			var linePattern = new Regex(@"^(?<name>[\d\w.\-_]+)\s+(?<revisionNumber>.+):(?<changesetId>.+)$");
 			string[] branchesOutput = Regex.Split(output, "\n");
 			foreach (var line in branchesOutput)
 			{
@@ -382,7 +382,7 @@ namespace Harvester
 						out output);
 
 			// Loop through repository bookmarks.
-			var linePattern = new Regex(@"^\s{0,}(?<name>[\d\w.-_]+)\s+(?<revisionNumber>.+):(?<changesetId>.+)$");
+			var linePattern = new Regex(@"^\s{0,}(?<name>[\d\w.\-_]+)\s+(?<revisionNumber>.+):(?<changesetId>.+)$");
 			string[] bookmarksOutput = Regex.Split(output, "\n");
 			foreach (var line in bookmarksOutput)
 			{
