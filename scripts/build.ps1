@@ -1871,3 +1871,5 @@ function create-incomingreport($repodir, $reportname = "report.html") {
 	f list --name | % {hg-info incoming "$repodir/$_" $_} | create-hgreport > $reportname
 	"Wrote report to $reportname"
 }
+
+set-alias iisexpress "c:\program files (x86)\iis express\iisexpress"
