@@ -385,6 +385,10 @@
 			<tasks>
 				<cb:copy-logger-local />
 				<cb:configure-db />
+				
+				<exec executable="powershell" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
+				<exec executable="powershell" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
+				<exec executable="powershell" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
 				<msbuild description="build feature.exe">
 					<executable>$(msbuild)</executable>
 					<projectFile>Core\Feature.proj</projectFile>
@@ -423,8 +427,30 @@
 						</compareCondition>
 					</conditions>
 					<tasks>
-						<exec description="test --coverage --pattern DataTest" executable="$(feature)" buildTimeoutSeconds = "57600" buildArgs='test --coverage --pattern DataTest' />
+						<exec executable="powershell" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
 						<exec>
+							<executable>powershell</executable>
+							<description>Run unit tests</description>
+							<buildTimeoutSeconds>57600</buildTimeoutSeconds>
+							<buildArgs>-c "&amp; {echo 'Running unit tests'; dir privatebuild\*unittest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with unit tests'}"</buildArgs>
+							<baseDirectory>$(project-folder)</baseDirectory>
+						</exec>
+						<exec>
+							<executable>powershell</executable>
+							<description>Run data tests</description>
+							<buildTimeoutSeconds>57600</buildTimeoutSeconds>
+							<buildArgs>-c "&amp; {echo 'Running data tests'; dir privatebuild\*datatest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with data tests'}"</buildArgs>
+							<baseDirectory>$(project-folder)</baseDirectory>
+						</exec>
+						<exec>
+							<description>Generate coverage report</description>
+							<executable>ncover.reporting.exe</executable>
+							<buildTimeoutSeconds>600</buildTimeoutSeconds>
+							<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+							<baseDirectory>$(project-folder)\Coverage</baseDirectory>
+						</exec>
+						<exec>
+							<description>Run FxCop</description>
 							<executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
 							<baseDirectory>$(project-folder)</baseDirectory>
 							<buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
@@ -459,9 +485,8 @@
 						<!--<cb:define name="standard-publishers">-->
 							<merge>
 								<files>
-									<file>TestResult\j6-test.xml</file>
-									<file>Coverage\UnitTest-coverage.xml</file>
-									<file>Coverage\summarymodule.xml</file>
+									<file>TestResult\*.xml</file>
+									<file>Coverage\SymbolModule.xml</file>
 									<file>TestResult\FxCop-results.xml</file>
 								</files>
 							</merge>
