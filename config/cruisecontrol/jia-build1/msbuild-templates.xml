@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-  <cb:define ccwebroot="http://jia-build1/ccnet/" />
+  <cb:define ccBuildServer="jia-build1" />
+  <cb:define ccwebroot="http://$(ccBuildServer)/ccnet/" />
   <cb:define include-source="false" />
   <cb:define name="mssetupbuild">
     <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
@@ -39,7 +40,7 @@
       <externalLinks>
         <externalLink name="root" url="$(ccwebroot)" />
       </externalLinks>
-      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
   <cb:define name="mssetuppackage">
