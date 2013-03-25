@@ -774,6 +774,14 @@ function create-release-branch {
 	popd
 }
 
+function new-branch {
+	param([string] $branch = $(throw "Enter a name for the branch"))
+	if (-not(test-path j6)) { $(throw "Must be at repo root") }
+	hg branch $branch
+	hg --cwd j6 branch $branch
+	#dir CUST* | %{hg --cwd $_ branch $branch}
+}
+
 function set-theme {
 	param([string]$theme = $(throw "Enter a theme name"))
 	$pattern = "<pages theme=.+>"
