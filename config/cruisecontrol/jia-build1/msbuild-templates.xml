@@ -58,7 +58,6 @@
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(project-artifacts)Package</artifactDirectory>
       <tasks>
-	<exec executable="$(powershell)" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
         <cb:msbuild-package />
       </tasks>
       <publishers>
@@ -157,6 +156,9 @@
     <exec executable="$(feature)" buildArgs = 'test --coverage' />
   </cb:define>
   <cb:define name="msbuild-package">
+    <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+    <exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+
     <msbuild description="package build">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
@@ -164,6 +166,14 @@
       <targets>Package</targets>
       <timeout>120000</timeout>
     </msbuild>
+    
+    <exec executable="$(powershell)" description="Recreate package folder">
+      <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+    </exec>
+    
+    <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"' />
+    <exec executable="$(powershell)" description="move releases to the release deployment folder" buildArgs='-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"' />
+    
   </cb:define>
   <cb:define name="msbuild-fxcop">
     <msbuild description="fxcop">
@@ -178,7 +188,20 @@
     <exec executable="$(cmdExe)" buildArgs="/c echo $(echo-args)" />
   </cb:define>
   
-  
+  <cb:define name="force-clean">
+    <exec executable="$(cmdExe)" baseDirectory="$(ccroot)" description="Delete entire project folder" successExitCodes="0">
+      <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
+    </exec>
+    <!--
+	<exec executable="$(cmdExe)" baseDirectory="\" description="Recreate project folder">
+	<buildArgs>/c "mkdir $(project-folder)"</buildArgs>
+	</exec>
+    -->
+    <exec executable="$(cmdExe)" baseDirectory="$(ccroot)" description="Reclone source" successExitCodes="0">
+      <buildArgs>/c "hg clone $(source) $(project-name)"</buildArgs>
+    </exec>
+    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' successExitCodes="0" />
+  </cb:define>
   <cb:define name="msbuild-clean">
     <msbuild description="clean">
       <executable>$(msbuild)</executable>
@@ -187,6 +210,7 @@
       <targets>Clean</targets>
       <timeout>1200</timeout>
     </msbuild>
+    
   </cb:define>
   
   <cb:define name="msbuild-target">
@@ -237,14 +261,35 @@
       <prebuild>
 	<conditional>
 	  <conditions>
+	    <compareCondition>
+	      <value1>$(forceclean)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:force-clean />
+	  </tasks>
+	  <elseTasks>
+	    <conditional>
+	      <conditions>
+		<fileExistsCondition>
+		  <file>j6.proj</file>
+		</fileExistsCondition>
+	      </conditions>
+	      <tasks>
+		<cb:msbuild-clean />
+	      </tasks>
+	    </conditional>
+	  </elseTasks>
+	</conditional>
+	<conditional>
+	  <conditions>
 	    <fileExistsCondition>
 	      <file>j6.proj</file>
 	    </fileExistsCondition>
 	  </conditions>
-	  <tasks>
-	    <!-- Tasks to perform if condition passed -->
-	    <cb:msbuild-clean />
-	  </tasks>
 	  <elseTasks>
 	    <!-- Tasks to perform if condition failed -->
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
@@ -324,8 +369,6 @@
 	    </compareCondition>
 	  </conditions>
 	  <tasks>
-	    <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-	    <exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 	    <cb:msbuild-package />
 	  </tasks>
 	</conditional>
@@ -380,14 +423,36 @@
       <prebuild>
 	<conditional>
 	  <conditions>
+	    <compareCondition>
+	      <value1>$(forceclean)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:force-clean />
+	  </tasks>
+	  <elseTasks>
+	    <conditional>
+	      <conditions>
+		<fileExistsCondition>
+		  <file>j6.proj</file>
+		</fileExistsCondition>
+	      </conditions>
+	      <tasks>
+		<!-- Tasks to perform if condition passed -->
+		<cb:msbuild-clean />
+	      </tasks>
+	    </conditional>
+	  </elseTasks>
+	</conditional>
+	<conditional>
+	  <conditions>
 	    <fileExistsCondition>
 	      <file>j6.proj</file>
 	    </fileExistsCondition>
 	  </conditions>
-	  <tasks>
-	    <!-- Tasks to perform if condition passed -->
-	    <cb:msbuild-clean />
-	  </tasks>
 	  <elseTasks>
 	    <!-- Tasks to perform if condition failed -->
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
@@ -517,8 +582,6 @@
 	    </compareCondition>
 	  </conditions>
 	  <tasks>
-	    <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-	    <exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 	    <cb:msbuild-package />
 	  </tasks>
 	</conditional>
@@ -585,14 +648,36 @@
       <prebuild>
 	<conditional>
 	  <conditions>
+	    <compareCondition>
+	      <value1>$(forceclean)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:force-clean />
+	  </tasks>
+	  <elseTasks>
+	    <conditional>
+	      <conditions>
+		<fileExistsCondition>
+		  <file>j6.proj</file>
+		</fileExistsCondition>
+	      </conditions>
+	      <tasks>
+		<!-- Tasks to perform if condition passed -->
+		<cb:msbuild-clean />
+	      </tasks>
+	    </conditional>
+	  </elseTasks>
+	</conditional>
+	<conditional>
+	  <conditions>
 	    <fileExistsCondition>
 	      <file>j6.proj</file>
 	    </fileExistsCondition>
 	  </conditions>
-	  <tasks>
-	    <!-- Tasks to perform if condition passed -->
-	    <cb:msbuild-clean />
-	  </tasks>
 	  <elseTasks>
 	    <!-- Tasks to perform if condition failed -->
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
@@ -644,7 +729,7 @@
 		<cb:recreate-database />
 	      </tasks>
 	    </conditional>
-
+	    
 	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
 	  </tasks>
 	</conditional>
@@ -673,8 +758,6 @@
 	    </compareCondition>
 	  </conditions>
 	  <tasks>
-	    <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-	    <exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 	    <cb:msbuild-package />
 	  </tasks>
 	</conditional>
