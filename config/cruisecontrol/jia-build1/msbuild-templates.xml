@@ -632,7 +632,7 @@
       <sourcecontrol type="hg">
 	<autoGetSource>false</autoGetSource>
 	<workingDirectory>$(project-folder)</workingDirectory>
-	<timeout>12000000</timeout>
+	<timeout>600</timeout>
 	<repo>$(source)</repo>
 	<multipleHeadsFail>false</multipleHeadsFail>
 	<tagOnSuccess>false</tagOnSuccess>
@@ -685,11 +685,11 @@
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '600' />
 	  </elseTasks>
 	</conditional>
 	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '600' />
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
@@ -699,7 +699,7 @@
 	  <projectFile>j6.proj</projectFile>
 	  <buildArgs></buildArgs>
 	  <targets>Bootstrap</targets>
-	  <timeout>1200</timeout>
+	  <timeout>120</timeout>
 	</msbuild>
 	
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
