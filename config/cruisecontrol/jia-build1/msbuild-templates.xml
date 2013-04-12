@@ -167,12 +167,12 @@
       <timeout>120000</timeout>
     </msbuild>
     
-    <exec executable="$(powershell)" description="Recreate package folder">
+    <exec executable="$(powershell)" description="Create package folder if needed">
       <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
     </exec>
     
     <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"' />
-    <exec executable="$(powershell)" description="move releases to the release deployment folder" buildArgs='-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"' />
+    <exec executable="$(powershell)" description="move releases to the package folder" buildArgs='-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"' />
     
   </cb:define>
   <cb:define name="msbuild-fxcop">
@@ -341,7 +341,7 @@
 		<cb:recreate-database />
 	      </tasks>
 	    </conditional>
-	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
+	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
 	  </tasks>
 	</conditional>
 	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
@@ -508,7 +508,7 @@
 		<cb:recreate-database />
 	      </tasks>
 	    </conditional>
-	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
+	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
 	  </tasks>
 	</conditional>
 	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
@@ -730,10 +730,10 @@
 	      </tasks>
 	    </conditional>
 	    
-	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
+	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
 	  </tasks>
 	</conditional>
-	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
+	<exec executable="$(feature)" buildTimeoutSeconds = '900' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
 	
 	<conditional>
 	  <conditions>
