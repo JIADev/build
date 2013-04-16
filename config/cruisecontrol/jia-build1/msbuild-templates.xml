@@ -99,7 +99,7 @@
     <exec executable="$(feature)" buildArgs="do hg up $(bookmark)" />
   </cb:define>
   <cb:define name="configure-db">
-    <msbuild description="configure database">
+    <msbuild description="configure database (timeout 20 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark);hgBranch=$(hgBranch)</buildArgs>
@@ -109,15 +109,20 @@
   </cb:define>
   <cb:define name="msbuild-bootstrap">
     <exec executable="$(cmdExe)" buildArgs="/c echo beginning msbuild-bootstrap >> output.txt" />
-    <msbuild description="build feature.exe">
+    <cb:build-feature-exe />
+  </cb:define>
+
+    <cb:define name="build-feature-exe">
+    <msbuild description="build feature.exe (timeout 5 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark)</buildArgs>
       <targets>Bootstrap</targets>
-      <timeout>1200</timeout>
+      <timeout>300</timeout>
     </msbuild>
-  </cb:define>
-  <cb:define name="msbuild-fetch">
+    </cb:define>
+
+  <cb:define name="msbuild-fetch (timeout 20 mins)">
     <msbuild description="feature fetch">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
@@ -127,7 +132,7 @@
     </msbuild>
   </cb:define>
   <cb:define name="msbuild-preparesource">
-    <msbuild description="clean,pull,fetch">
+    <msbuild description="clean,pull,fetch (timeout 40 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
@@ -136,7 +141,7 @@
     </msbuild>
   </cb:define>
   <cb:define name="msbuild-deleteallsource">
-    <msbuild description="Remove feature folder">
+    <msbuild description="Remove feature folder (timeout 20 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
@@ -146,7 +151,7 @@
   </cb:define>
   <cb:define name="msbuild-fullbuild">
     <exec executable="$(cmdExe)" buildArgs="/c echo beginning msbuild-fullbuild >> output.txt" />
-    <msbuild description="full build">
+    <msbuild description="full build (timeout 40 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
@@ -176,7 +181,7 @@
     
   </cb:define>
   <cb:define name="msbuild-fxcop">
-    <msbuild description="fxcop">
+    <msbuild description="fxcop (timeout 20 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
@@ -200,21 +205,21 @@
     <exec executable="$(cmdExe)" baseDirectory="$(ccroot)" description="Reclone source" successExitCodes="0">
       <buildArgs>/c "hg clone $(source) $(project-name)"</buildArgs>
     </exec>
-    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' successExitCodes="0" />
+    <cb:update-source />
   </cb:define>
   <cb:define name="msbuild-clean">
-    <msbuild description="clean">
+    <msbuild description="clean (timeout 20 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
       <targets>Clean</targets>
       <timeout>1200</timeout>
     </msbuild>
-    
+    <exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
   </cb:define>
   
   <cb:define name="msbuild-target">
-    <msbuild description="msbuild /t:$(target)">
+    <msbuild description="msbuild /t:$(target) (timeout 40 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
@@ -223,6 +228,9 @@
     </msbuild>
   </cb:define>
   
+  <cb:define name="update-source">
+    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch (timeout 10 mins)" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '600' />
+  </cb:define>
   
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
@@ -297,28 +305,20 @@
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 	  </elseTasks>
 	</conditional>
-	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	<cb:update-source />
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
 	<cb:configure-db />
-	<msbuild description="build feature.exe">
-	  <executable>$(msbuild)</executable>
-	  <projectFile>Core\Feature.proj</projectFile>
-	  <buildArgs></buildArgs>
-	  <targets>Bootstrap</targets>
-	  <timeout>1200</timeout>
-	</msbuild>
+	<cb:build-feature-exe />
 	<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
-	<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '300' />
-	<conditional>
+	<exec executable="$(feature)" description = "feature setup (timemout 5 mins)" buildArgs = 'setup' buildTimeoutSeconds = '300' />
+	<conditional description="Install patches">
 	  <conditions>
 	    <compareCondition>
 	      <value1>$(install-patches)</value1>
@@ -328,7 +328,7 @@
 	    </compareCondition>
 	  </conditions>
 	  <tasks>
-	    <conditional>
+	    <conditional description="Recreate database based upon switch">
 	      <conditions>
 		<compareCondition>
 		  <value1>$(recreate-db)</value1>
@@ -341,12 +341,12 @@
 		<cb:recreate-database />
 	      </tasks>
 	    </conditional>
-	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
+	    <exec executable="$(feature)" description = "install patches (timeout 10 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
 	  </tasks>
 	</conditional>
-	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
+	<cb:f-build />
 	
-	<conditional>
+	<conditional description="Run unit tests">
 	  <conditions>
 	    <compareCondition>
 	      <value1>$(unit-test)</value1>
@@ -359,7 +359,7 @@
 	    <cb:feature-test-unit />
 	  </tasks>
 	</conditional>
-	<conditional>
+	<conditional description="Package">
 	  <conditions>
 	    <compareCondition>
 	      <value1>$(package)</value1>
@@ -421,7 +421,7 @@
 	<committerName>CruiseControl.NET</committerName>
       </sourcecontrol>
       <prebuild>
-	<conditional>
+	<conditional description="Clean working directory">
 	  <conditions>
 	    <compareCondition>
 	      <value1>$(forceclean)</value1>
@@ -434,7 +434,7 @@
 	    <cb:force-clean />
 	  </tasks>
 	  <elseTasks>
-	    <conditional>
+	    <conditional description="Run msbuild clean if j6.proj exists">
 	      <conditions>
 		<fileExistsCondition>
 		  <file>j6.proj</file>
@@ -447,11 +447,11 @@
 	    </conditional>
 	  </elseTasks>
 	</conditional>
-	<conditional>
+	<conditional description="Working directory setup">
 	  <conditions>
 	    <fileExistsCondition>
 	      <file>j6.proj</file>
-	    </fileExistsCondition>
+PP	    </fileExistsCondition>
 	  </conditions>
 	  <elseTasks>
 	    <!-- Tasks to perform if condition failed -->
@@ -460,11 +460,9 @@
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 	  </elseTasks>
 	</conditional>
-	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	<cb:update-source />
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
@@ -473,19 +471,13 @@
 	<exec executable="$(powershell)" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
 	<exec executable="$(powershell)" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
 	<exec executable="$(powershell)" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
-	<msbuild description="build feature.exe">
-	  <executable>$(msbuild)</executable>
-	  <projectFile>Core\Feature.proj</projectFile>
-	  <buildArgs></buildArgs>
-	  <targets>Bootstrap</targets>
-	  <timeout>1200</timeout>
-	</msbuild>
+	<cb:build-feature-exe />
 	<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
-	<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '300' />
-	<conditional>
+	<exec executable="$(feature)" description = "feature setup (timeout 5 mins)" buildArgs = 'setup' buildTimeoutSeconds = '300' />
+	<conditional description="Install patches">
 	  <conditions>
 	    <compareCondition>
 	      <value1>$(install-patches)</value1>
@@ -495,7 +487,7 @@
 	    </compareCondition>
 	  </conditions>
 	  <tasks>
-	    <conditional>
+	    <conditional description="Recreate database based upon switch">
 	      <conditions>
 		<compareCondition>
 		  <value1>$(recreate-db)</value1>
@@ -508,12 +500,12 @@
 		<cb:recreate-database />
 	      </tasks>
 	    </conditional>
-	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
+	    <exec executable="$(feature)" description = "install patches (timeout 10 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
 	  </tasks>
 	</conditional>
-	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
+	<cb:f-build />
 	
-	<conditional>
+	<conditional description="Run unit tests">
 	  <conditions>
 	    <compareCondition>
 	      <value1>$(unit-test)</value1>
@@ -526,27 +518,27 @@
 	    <exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
 	    <exec>
 	      <executable>powershell</executable>
-	      <description>Run unit tests</description>
+	      <description>Run unit tests (timeout 16 hours)</description>
 	      <buildTimeoutSeconds>57600</buildTimeoutSeconds>
 	      <buildArgs>-c "&amp; {echo 'Running unit tests'; dir privatebuild\*unittest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with unit tests'}"</buildArgs>
 	      <baseDirectory>$(project-folder)</baseDirectory>
 	    </exec>
 	    <exec>
 	      <executable>powershell</executable>
-	      <description>Run data tests</description>
+	      <description>Run data tests (timeout 16 hours)</description>
 	      <buildTimeoutSeconds>57600</buildTimeoutSeconds>
 	      <buildArgs>-c "&amp; {echo 'Running data tests'; dir privatebuild\*datatest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with data tests'}"</buildArgs>
 	      <baseDirectory>$(project-folder)</baseDirectory>
 	    </exec>
 	    <exec>
 	      <description>Generate coverage report</description>
-	      <executable>ncover.reporting.exe</executable>
+	      <executable>ncover.reporting.exe (timeout 10 mins)</executable>
 	      <buildTimeoutSeconds>600</buildTimeoutSeconds>
 	      <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
 	      <baseDirectory>$(project-folder)\Coverage</baseDirectory>
 	    </exec>
 	    <exec>
-	      <description>Run FxCop</description>
+	      <description>Run FxCop (timeout 10 mins)</description>
 	      <executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
 	      <baseDirectory>$(project-folder)</baseDirectory>
 	      <buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
@@ -557,7 +549,7 @@
 	      <ndepend>
 	      <project>..\myProject.ndproj</project>
 	      <executable>C:\Program Files (x86)\NDepend_4.0.1.6475\NDepend.Console.exe</executable>
-	      <description>Run the NDepend analysis.</description>
+	      <description>Run the NDepend analysis. (timeout 2 mins)</description>
 	      <emitXml>true</emitXml>
 	      <outputDir>TestResult</outputDir>
 	      <inputDirs>
@@ -572,7 +564,7 @@
 	  -->
 	  
 	</conditional>
-	<conditional>
+	<conditional description="Package">
 	  <conditions>
 	    <compareCondition>
 	      <value1>$(package)</value1>
@@ -608,6 +600,9 @@
   </cb:define>
   
   
+  <cb:define name="f-build">
+    <exec executable="$(feature)" buildTimeoutSeconds = '1200' description = "Feature Build (timeout 20 mins)" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
+  </cb:define>
   
   
   
@@ -685,27 +680,19 @@
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
 	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '600' />
 	  </elseTasks>
 	</conditional>
-	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '600' />
+	<cb:update-source />
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
 	<cb:configure-db />
-	<msbuild description="build feature.exe">
-	  <executable>$(msbuild)</executable>
-	  <projectFile>j6.proj</projectFile>
-	  <buildArgs></buildArgs>
-	  <targets>Bootstrap</targets>
-	  <timeout>120</timeout>
-	</msbuild>
-	
+	<cb:build-feature-exe />
+
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
-	<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '300' />
+	<exec executable="$(feature)" description = "feature setup (timeout 5 mins)" buildArgs = 'setup' buildTimeoutSeconds = '300' />
 	<conditional description="Setup database">
 	  <conditions>
 	    <compareCondition>
@@ -730,11 +717,10 @@
 	      </tasks>
 	    </conditional>
 	    
-	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
+	    <exec executable="$(feature)" description = "install patches (timeout 10 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
 	  </tasks>
 	</conditional>
-	<exec executable="$(feature)" buildTimeoutSeconds = '900' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
-	
+	<cb:f-build />
 	<conditional description="Run unit tests">
 	  <conditions>
 	    <compareCondition>
