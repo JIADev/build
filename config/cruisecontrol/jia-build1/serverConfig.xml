@@ -31,10 +31,10 @@
 	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui" />
       <exec executable="$(cmdExe)" 
 	    description="Copy .xml files to server config folder"
-	    buildArgs="/c copy $(ccnetConfigSource)\*.xml $(ccNetServer)" />
+	    buildArgs='/c copy "$(ccnetConfigSource)\*.xml" "$(ccNetServer)"' />
       <exec executable="$(cmdExe)"
 	    description="Copy .config files to server config folder"
-	    buildArgs="/c copy $(ccnetConfigSource)\*.config $(ccNetServer)" />
+	    buildArgs='/c copy "$(ccnetConfigSource)\*.config" "$(ccNetServer)"' />
     </tasks>
   </project>  
 </cb:config-template>
