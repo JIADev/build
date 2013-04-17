@@ -602,7 +602,7 @@ PP	    </fileExistsCondition>
     <exec executable="$(feature)" description = "feature setup (timeout 10 mins)" buildArgs = 'setup' buildTimeoutSeconds = '600' />
   </cb:define>
   <cb:define name="f-build">
-    <exec executable="$(feature)" buildTimeoutSeconds = '1200' description = "Feature Build (timeout 20 mins)" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
+    <exec executable="$(feature)" buildTimeoutSeconds = '1500' description = "Feature Build (timeout 25 mins)" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
   </cb:define>
   
   
