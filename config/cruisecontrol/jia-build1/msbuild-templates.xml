@@ -4,7 +4,6 @@
   <cb:define ccwebroot="http://$(ccBuildServer)/ccnet/" />
   <cb:define include-source="false" />
   <cb:define powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" />
-  <cb:define cmdExe="C:\WINDOWS\system32\cmd.exe" />
   <cb:define name="mssetupbuild">
     <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
     <cb:define project-name="$(project-root)-mssetupbuild" />
@@ -164,12 +163,12 @@
     <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
     <exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 
-    <msbuild description="package build (timeout 15 mins)">
+    <msbuild description="package build (timeout 20 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect)</buildArgs>
       <targets>Package</targets>
-      <timeout>900</timeout>
+      <timeout>1200</timeout>
     </msbuild>
     
     <exec executable="$(powershell)" description="Create package folder if needed">
@@ -317,7 +316,7 @@
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
-	<exec executable="$(feature)" description = "feature setup (timemout 5 mins)" buildArgs = 'setup' buildTimeoutSeconds = '300' />
+	<cb:f-setup />
 	<conditional description="Install patches">
 	  <conditions>
 	    <compareCondition>
@@ -476,7 +475,7 @@ PP	    </fileExistsCondition>
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
-	<exec executable="$(feature)" description = "feature setup (timeout 5 mins)" buildArgs = 'setup' buildTimeoutSeconds = '300' />
+	<cb:f-setup />
 	<conditional description="Install patches">
 	  <conditions>
 	    <compareCondition>
@@ -599,7 +598,9 @@ PP	    </fileExistsCondition>
     </project>
   </cb:define>
   
-  
+  <cb:define name="f-setup">
+    <exec executable="$(feature)" description = "feature setup (timeout 10 mins)" buildArgs = 'setup' buildTimeoutSeconds = '600' />
+  </cb:define>
   <cb:define name="f-build">
     <exec executable="$(feature)" buildTimeoutSeconds = '1200' description = "Feature Build (timeout 20 mins)" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
   </cb:define>
@@ -692,7 +693,7 @@ PP	    </fileExistsCondition>
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
-	<exec executable="$(feature)" description = "feature setup (timeout 5 mins)" buildArgs = 'setup' buildTimeoutSeconds = '300' />
+	<cb:f-setup />
 	<conditional description="Setup database">
 	  <conditions>
 	    <compareCondition>
