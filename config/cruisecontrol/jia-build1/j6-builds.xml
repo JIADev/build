@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-<invalid>
+
   <!-- Source control projects -->
   
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
