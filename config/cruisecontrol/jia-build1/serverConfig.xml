@@ -5,6 +5,7 @@
   <cb:define ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol\jia-build1" />
   <cb:define ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" />
   <cb:define ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" />
+  <cb:define ccNetLogDir="f:\ccnet.log" />
   <project name="ccnet" category="ccnet" queue="ccnet">
     <triggers>
       <intervalTrigger seconds="60" />
@@ -28,7 +29,7 @@
       <exec 
 	  description="Validate configuration"
 	  executable="$(ccNetServer)\CCValidator.exe"
-	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui" />
+	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui --format=xml --logfile=$(ccnetLogDir)\configLog.xml" />
       <exec executable="$(cmdExe)" 
 	    description="Copy .xml files to server config folder"
 	    buildArgs='/c copy "$(ccnetConfigSource)\*.xml" "$(ccNetServer)"' />
@@ -36,5 +37,9 @@
 	    description="Copy .config files to server config folder"
 	    buildArgs='/c copy "$(ccnetConfigSource)\*.config" "$(ccNetServer)"' />
     </tasks>
+    <publishers>
+      <xmllogger logdir="$(ccnetLogDir)" />
+    </publishers>
   </project>  
 </cb:config-template>
+  
