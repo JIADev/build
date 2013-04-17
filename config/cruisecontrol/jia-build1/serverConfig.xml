@@ -27,7 +27,7 @@
     <tasks>
       <exec 
 	  executable="$(ccNetServer)\CCValidator.exe"
-	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui --logfile=validate.log.xml --format=xml" />
+	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui" />
       <exec executable="$(cmdExe)" 
 	    buildArgs="/c copy $(ccnetConfigSource)\*.xml $(ccNetServer)" />
       <exec executable="$(cmdExe)" 
