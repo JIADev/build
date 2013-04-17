@@ -38,7 +38,7 @@
 	    buildArgs='/c copy "$(ccnetConfigSource)\*.config" "$(ccNetServer)"' />
     </tasks>
     <publishers>
-      <xmllogger logdir="$(ccnetLogDir)" />
+      <xmllogger logDir="$(ccnetLogDir)" />
     </publishers>
   </project>  
 </cb:config-template>
