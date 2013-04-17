@@ -19,8 +19,8 @@
 	tagOnSuccess="false"
 	commitModifications="false"
 	commitUntracked="false"
-	purgeModifications="true"
-	revertModifications="true"
+	purgeModifications="false"
+	revertModifications="false"
 	committerName="CruiseControl.NET"
 	>
     </sourcecontrol>
