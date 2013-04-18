@@ -150,7 +150,7 @@
       branch = '7.4.4'
       driver = 'CUST069'
       db-server="dev-sql1"
-      source = 'http://build:build@sourcehg/hgwebdir.cgi/feature/customers/CUST069'	
+      source = 'http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature/customers/CUST069'	
       />
   
   <cb:customerbuild
