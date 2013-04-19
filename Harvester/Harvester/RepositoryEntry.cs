@@ -8,6 +8,7 @@ namespace Harvester
 		// Mercurial fields.
 		public int RevisionNumber { get; set; }
 		public string ChangesetId { get; set; }
+		public string ChangesetBranch { get; set; }
 		public string Branches { get; set; }
 		public string Bookmarks { get; set; }
 		public string Parents { get; set; }

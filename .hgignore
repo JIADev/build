@@ -1,3 +1,27 @@
+syntax: regexp
+\.log
+\.suo
+\.txt
+/obj/
+/[Bb]in/
+\.ldf
+\.mdf
+\.svn
+/PrecompiledWeb/
+/_ReSharper
+\.resharper
+\.hgignore
+\.mine
+\.r[0-9]+
+NDependOut
+UpgradeLog.XML
+_UpgradeReport_Files
+/Release/
+/Debug/
+\.rej
+/?Assembly/
+\.user
+
 SnapIns
 .pyo
 UiUxTools/UiUxTools/_ReSharper.UiUxTools

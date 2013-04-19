@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RedmineReport" Class="DatabaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DEV-SQL1;Initial Catalog=RedmineReport;Integrated Security=True" SettingsObjectName="Harvester.Properties.Settings" SettingsPropertyName="RedmineConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=GKIM-V7\PENGUIN;Initial Catalog=RedmineReport;Integrated Security=True" SettingsObjectName="Harvester.Properties.Settings" SettingsPropertyName="RedmineConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Repository" Member="Repositories">
     <Type Name="Repository">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -28,6 +28,40 @@
       <Association Name="Customer_CustomerRepository" Member="CustomerRepositories" ThisKey="Id" OtherKey="Customer" Type="CustomerRepository" />
     </Type>
   </Table>
+  <Function Name="dbo.AddBookmark" Method="AddBookmark">
+    <Parameter Name="branch" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="feature" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="mercurialChangesetId" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="mercurialBookmark" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="AddBookmarkResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.AddBranch" Method="AddBranch">
+    <Parameter Name="branch" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="feature" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="mercurialChangesetId" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="mercurialBranch" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="AddBranchResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.AddChangeset" Method="AddChangeset">
+    <Parameter Name="customerCode" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="repositoryURL" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="branch" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="feature" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="mercurialChangesetId" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="user" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="createdDateTime" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="summary" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="files" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="mercurialChangesetBranch" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="issueNumber" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="AddChangesetResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
   <Function Name="dbo.AddRepositoryEntry" Method="AddRepositoryEntry">
     <Parameter Name="customerCode" Type="System.String" DbType="NVarChar(50)" />
     <Parameter Name="repositoryURL" Type="System.String" DbType="NVarChar(200)" />
@@ -40,6 +74,7 @@
     <Parameter Name="files" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="branches" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="bookmarks" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="mercurialChangesetBranch" Type="System.String" DbType="NVarChar(50)" />
     <Parameter Name="issueNumber" Type="System.String" DbType="NVarChar(50)" />
     <ElementType Name="AddRepositoryEntryResult">
       <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
