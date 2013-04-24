@@ -206,11 +206,10 @@
       />
 
   <cb:flatbuild
-      branch = 'RELEASE-2'
+      branch = 'RELEASE-2-CVS_TestBuild'
       driver = 'CUST2090'
       db-server = "dev-sql1"
-      source = "f:/source.tmp.cvs/CUST2090"
-      buildVariationLabel = "-CVS-TestBuild"
+      source = "$(source)/customers/CUST2090"
       />
 
   <cb:flatbuild
