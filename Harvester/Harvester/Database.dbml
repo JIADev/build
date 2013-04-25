@@ -80,4 +80,11 @@
       <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.AddPortal" Method="AddPortal">
+    <Parameter Name="mercurialChangesetId" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="portal" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="AddPortalResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>

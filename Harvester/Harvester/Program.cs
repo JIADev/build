@@ -1283,9 +1283,10 @@ namespace Harvester
 
 						case 3:
 							// Loop through repository entry files.
-							var filePattern = new Regex(@"^(?<action>\w+):(?<feature>.+?)/.+$");
+							var fileFeaturePattern = new Regex(@"^(?<action>\w+):(?<feature>.+?)/.+$");
 							var fileList = Regex.Split(repositoryEntry.Files, @"\*\^\*");
 							var fileFeatureList = new List<string>();
+							var filePortalList = new List<string>();
 							foreach (var file in fileList)
 							{
 								// Skip last entry in list.
@@ -1293,7 +1294,7 @@ namespace Harvester
 
 								// Determine feature for file.
 								// (Ignore mismatches because some files are in root directory and not tied to a feature.)
-								var match = filePattern.Match(file);
+								var match = fileFeaturePattern.Match(file);
 								if (match.Success)
 								{
 									var fileFeature = match.Groups["feature"].Value;
@@ -1304,6 +1305,9 @@ namespace Harvester
 										fileFeatureList.Add(fileFeature);
 									}
 								}
+
+								// Determine j6 portal(s) for file and add to list.
+								DeterminePortalsForFile(file, ref filePortalList);
 							}
 
 							// Loop through repository entry features.
@@ -1356,7 +1360,75 @@ namespace Harvester
 								}
 							}
 
+							// Loop through repository entry portals.
+							foreach (var portal in filePortalList)
+							{
+								// Add portal.
+								var addPortalResult = dataContext.AddPortal(repositoryEntry.ChangesetId, portal);
+								if ((int)addPortalResult.ReturnValue != 0)
+									throw new Exception("Error while adding portal to database.");
+							}
+
 							break;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Determine j6 portal(s) for file and add to list.
+		/// </summary>
+		private static void DeterminePortalsForFile(string file, ref List<string> filePortalList)
+		{
+			var fileConsultantPattern = new Regex(@"^WebBusiness/.+$|^.+/Site/Business/.+$|^WebConsultant/.+$|^.+/Site/Consultant/.+$");
+			var fileEmployeePattern = new Regex(@"^WebEmployee/.+$|^.+/Site/Employee/.+$");
+			var filePersonalPattern = new Regex(@"^WebPersonal/.+$|^.+/Site/Personal/.+$");
+			var fileServicePattern = new Regex(@"^WebService/.+$|^.+/Site/Service/.+$|^.+/Site/Services/.+$");
+
+			string portal;
+
+			// Determine portal for file.
+			var match = fileConsultantPattern.Match(file);
+			if (match.Success)
+			{
+				portal = "Business";
+				if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+			}
+			else
+			{
+				match = fileEmployeePattern.Match(file);
+				if (match.Success)
+				{
+					portal = "Corporate";
+					if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+				}
+				else
+				{
+					match = filePersonalPattern.Match(file);
+					if (match.Success)
+					{
+						portal = "PWS";
+						if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+					}
+					else
+					{
+						match = fileServicePattern.Match(file);
+						if (match.Success)
+						{
+							portal = "Services";
+							if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+						}
+						else
+						{
+							portal = "Business";
+							if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+							portal = "Corporate";
+							if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+							portal = "PWS";
+							if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+							portal = "Services";
+							if (!filePortalList.Contains(portal)) filePortalList.Add(portal);
+						}
 					}
 				}
 			}

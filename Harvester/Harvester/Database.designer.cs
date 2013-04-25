@@ -122,6 +122,13 @@ namespace Harvester
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), customerCode, repositoryURL, branch, feature, mercurialChangesetId, user, createdDateTime, summary, files, branches, bookmarks, mercurialChangesetBranch, issueNumber);
 			return ((ISingleResult<AddRepositoryEntryResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddPortal")]
+		public ISingleResult<AddPortalResult> AddPortal([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string mercurialChangesetId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string portal)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), mercurialChangesetId, portal);
+			return ((ISingleResult<AddPortalResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Repository")]
@@ -748,6 +755,32 @@ namespace Harvester
 		private int _Column1;
 		
 		public AddRepositoryEntryResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="", Storage="_Column1", DbType="Int NOT NULL")]
+		public int Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class AddPortalResult
+	{
+		
+		private int _Column1;
+		
+		public AddPortalResult()
 		{
 		}
 		
