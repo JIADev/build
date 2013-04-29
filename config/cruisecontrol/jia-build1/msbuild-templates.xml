@@ -163,12 +163,12 @@
     <exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
     <exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 
-    <msbuild description="package build (timeout 20 mins)">
+    <msbuild description="package build (timeout 25 mins)">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect)</buildArgs>
       <targets>Package</targets>
-      <timeout>1200</timeout>
+      <timeout>1500</timeout>
     </msbuild>
     
     <exec executable="$(powershell)" description="Create package folder if needed">
