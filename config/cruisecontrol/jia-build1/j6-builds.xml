@@ -81,6 +81,15 @@
       unit-test="True"
       buildVariationLabel=""
       />
+
+    <cb:flatbuild
+      branch = '7.5.4'
+      driver = 'CUST000'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST000'	
+      unit-test="True"
+      buildVariationLabel=""
+      />
   
   <cb:flatbuild
       branch = '7.5.4'
