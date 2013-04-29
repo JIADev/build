@@ -210,6 +210,7 @@
       driver = 'CUST2090'
       db-server = "dev-sql1"
       source = "$(source)/customers/CUST2090"
+      package="false"
       />
 
   <cb:flatbuild
