@@ -110,6 +110,15 @@
       />
   
   <cb:flatbuild
+      branch = 'CUST2092_REQ6'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2092'	
+      unit-test="false"
+      buildVariationLabel=""
+      />
+  
+  <cb:flatbuild
       branch = '7.5.2'
       driver = 'CUST000'
       db-server="dev-sql1"
