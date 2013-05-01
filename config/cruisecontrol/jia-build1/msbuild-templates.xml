@@ -340,7 +340,7 @@
 		<cb:recreate-database />
 	      </tasks>
 	    </conditional>
-	    <exec executable="$(feature)" description = "install patches (timeout 10 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
+	    <exec executable="$(feature)" description = "install patches (timeout 15 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '900' />
 	  </tasks>
 	</conditional>
 	<cb:f-build />
@@ -499,7 +499,7 @@ PP	    </fileExistsCondition>
 		<cb:recreate-database />
 	      </tasks>
 	    </conditional>
-	    <exec executable="$(feature)" description = "install patches (timeout 10 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
+	    <exec executable="$(feature)" description = "install patches (timeout 15 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '900' />
 	  </tasks>
 	</conditional>
 	<cb:f-build />
@@ -718,7 +718,7 @@ PP	    </fileExistsCondition>
 	      </tasks>
 	    </conditional>
 	    
-	    <exec executable="$(feature)" description = "install patches (timeout 10 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '600' />
+	    <exec executable="$(feature)" description = "install patches (timeout 15 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '900' />
 	  </tasks>
 	</conditional>
 	<cb:f-build />
