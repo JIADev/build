@@ -230,6 +230,13 @@
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2090'	
       />
+
+  <cb:flatbuild
+      branch = 'REQ21'
+      driver = 'CUST2090'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2090'	
+      />
 <!--
   <cb:flatbuild
       branch = 'RELEASE-2-CVS_TestBuild'
