@@ -1,6 +1,6 @@
 # ValidateMessage.py
 #
-# Mercurial extension to check commit messages for format compliance.
+# Mercurial extension to check commit messages for format compliance and other concerns
 #
 # Commit messages must have an issue number in "#number:" format unless
 # they contain "@merge", "@tag" or "@ignore" within the message text. A
@@ -24,6 +24,7 @@ import re
 import subprocess
 
 from mercurial import commands, extensions, util
+import mercurial
 
 # Configuration.
 _database_server = 'JIA-SQL5'
@@ -41,8 +42,27 @@ def validate_issue(ui, issue):
         # Abort commit and exit.
         raise util.Abort('Commit message issue number was not found.')
 
+def validate_same_branch(ui, repo, *paths, **opts):
+    master = repo[None].branch()
+    sub = mercurial.hg.repository(ui, "j6")
+    j6 = sub[None].branch()
+    if master != j6:
+        raise util.Abort("Master branch %s doesn't match j6 branch %s" % (master,j6))
+
+def validate_not_direct_version_commit(ui, repo, *pats, **opts):
+    rev = repo[None]
+    branch = rev.branch()
+    direct = re.search(r"^\d\.\d\.\d$", branch) and not opts['close_branch']
+    direct = direct and len(rev.parents()) <= 1 and not rev.tags()
+    if direct:
+        raise util.Abort("Cannot commit directly to a numbered version, make changes in another branch and merge instead")
+
+
 # Validate Mercurial commit message.
 def validate_message(original_commit, ui, repo, *pats, **opts):
+    if opts['subrepos']:
+        validate_same_branch(ui, repo, *pats, **opts)
+    validate_not_direct_version_commit(ui, repo, *pats, **opts)
     # Retrieve commit message.
     message = opts['message']
 
