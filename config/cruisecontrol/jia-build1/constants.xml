@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <!-- Common definitions for all projects, edit to suit your system -->
+  <cb:define hg = "C:\progra~1\Mercurial\hg.exe" />
+  <cb:define feature="Core\boot\feature.exe" />
+  <cb:define global_feature_dir="c:\build" />
+  <cb:define scripts_dir="c:\build\scripts" />
+  <cb:define global_feature="c:\build\feature.exe" />
+  <cb:define modules="NONE" />
+  <cb:define ccroot="f:\cc" />
+  <cb:define pkgroot="f:\pkg" />
+  <cb:define ccserver="C:\Program Files (x86)\CruiseControl.NET\server" />
+  <cb:define source="http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature" />
+  <cb:define mailhost="mail.jenkon.com"/>
+  <cb:define ndepend="C:\ndepend\NDepend.Console.exe"/>
+  <cb:define gendarme="C:\Program Files\Novell\Gendarme\gendarme.exe"/>
+  <cb:define fxcop="C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCop.exe"/>
+  <cb:define msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" />
+  <cb:define 		
+      db-server="dev-sql1"
+      db-user="sqluser"
+      db-password="j0l-6-web"
+      rtq-server="\\dl360-web2"
+      deploy-root="\\dl360-web2\QA_Sites"
+      deploy-root-local="C:\j6\QA_Sites"
+      bookmark=""
+      hgBranch="default"
+      pull-options=""
+      tag = ""
+      unit-test="true"
+      package="true"
+      forceclean="true"
+      recreate-db="true"
+      install-patches="true"
+      buildVariationLabel=""
+      />
+  
+</cb:config-template>
