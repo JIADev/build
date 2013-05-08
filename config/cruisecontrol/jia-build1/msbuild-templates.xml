@@ -6,10 +6,8 @@
   <cb:define powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" />
   <cb:define name="mssetupbuild">
     <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
-    <cb:if expr="'$(project-name)'==''">
-      <cb:define project-name="$(project-root)-mssetupbuild" />
-      </cb:if>
-      <cb:define db-name="$(project-name)-DEV" />
+    <cb:define project-name="$(project-root)-mssetupbuild" />
+    <cb:define db-name="$(project-name)-DEV" />
     <cb:define trigger-project="branch_$(branch)" />
     <cb:define source="$(ccroot)\branch_$(branch)" />
     <project name="$(project-name)" category="mssetupbuild" queue="$(project-root)" queuePriority="10">
@@ -48,10 +46,8 @@
   </cb:define>
   <cb:define name="mssetuppackage">
     <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
-    <cb:if expr="'$(project-name)'==''">
-      <cb:define project-name="$(project-root)-mssetuppackage" />
-      </cb:if>
-      <cb:define trigger-project="$(project-root)-mssetupbuild" />
+    <cb:define project-name="$(project-root)-mssetuppackage" />
+    <cb:define trigger-project="$(project-root)-mssetupbuild" />
     <project name="$(project-name)" category="mssetuppackage" queue="$(project-root)" queuePriority="20">
       <triggers>
         <projectTrigger project="$(trigger-project)" />
@@ -237,10 +233,8 @@
   
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
-    <cb:if expr="'$(project-name)'==''">
-      <cb:define project-name="$(project-root)" />
-      </cb:if>
-      <cb:define db-name="$(project-name)-DEV" />
+    <cb:define project-name="$(project-root)" />
+    <cb:define db-name="$(project-name)-DEV" />
     <!--
 	<cb:define trigger-project="branch_$(branch)" />
     -->
@@ -392,10 +386,8 @@
   
   <cb:define name="nightlybuild"> <!-- Copied Whole Cloth from customerbuild on 14 June 2012 -->
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-    <cb:if expr="'$(project-name)'==''">
-      <cb:define project-name="$(project-root)" />
-      </cb:if>
-      <cb:define db-name="$(project-name)-DEV" />
+    <cb:define project-name="$(project-root)" />
+    <cb:define db-name="$(project-name)-DEV" />
     <!--
 	<cb:define trigger-project="branch_$(branch)" />
     -->
@@ -617,9 +609,7 @@ PP	    </fileExistsCondition>
   
   <cb:define name="flatbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-          <cb:if expr="'$(project-name)'==''">
-	<cb:define project-name="$(project-root)" />
-        </cb:if>
+    <cb:define project-name="$(project-root)" />
     <cb:define db-name="$(project-name)-DEV" />
     <!--
 	<cb:define trigger-project="branch_$(branch)" />
