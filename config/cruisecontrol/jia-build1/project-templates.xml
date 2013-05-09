@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="$(project-name)-DEV" />
@@ -29,7 +28,7 @@
 	<branch>$(branch)</branch>
       </sourcecontrol>
       <prebuild>
-	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
+	<cb:update-source />
 	<conditional description="Clean working directory">
 	  <conditions>
 	    <compareCondition>
@@ -145,7 +144,7 @@
 	<branch>$(branch)</branch>
       </sourcecontrol>
       <prebuild>
-	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
+	<cb:update-source />
 	<conditional description="Clean working directory">
 	  <conditions>
 	    <compareCondition>
