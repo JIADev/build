@@ -9,11 +9,11 @@
       <triggers>
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
       </triggers>
-      <workingDirectory>$(project-folder)</workingDirectory>
-      <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
+      <workingDirectory>$(source-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <sourcecontrol type="hg">
 	<autoGetSource>false</autoGetSource>
-	<workingDirectory>$(project-folder)</workingDirectory>
+	<workingDirectory>$(source-folder)</workingDirectory>
 	<timeout>12000000</timeout>
 	<repo>$(source)</repo>
 	<multipleHeadsFail>false</multipleHeadsFail>
@@ -26,6 +26,7 @@
 	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
 	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
 	<committerName>CruiseControl.NET</committerName>
+	<branch>$(branch)</branch>
       </sourcecontrol>
       <prebuild>
 	<conditional description="Clean working directory">
@@ -40,35 +41,7 @@
 	  <tasks description="Force clean">
 	    <cb:force-clean />
 	  </tasks>
-	  <elseTasks description="msbuild clean">
-	    <conditional description="Run msbuild clean if j6.proj exists">
-	      <conditions>
-		<fileExistsCondition>
-		  <file>j6.proj</file>
-		</fileExistsCondition>
-	      </conditions>
-	      <tasks description="msbuild clean">
-		<cb:msbuild-clean />
-	      </tasks>
-	    </conditional>
-	  </elseTasks>
 	</conditional>
-	<conditional description="Working directory setup">
-	  <conditions>
-	    <fileExistsCondition>
-	      <file>j6.proj</file>
-	    </fileExistsCondition>
-	  </conditions>
-	  <elseTasks description="Configure hg and update">
-	    <!-- Tasks to perform if condition failed -->
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-	  </elseTasks>
-	</conditional>
-	<cb:update-source />
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
@@ -152,10 +125,10 @@
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
       </triggers>
       <workingDirectory>$(project-folder)</workingDirectory>
-      <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <sourcecontrol type="hg">
 	<autoGetSource>false</autoGetSource>
-	<workingDirectory>$(project-folder)</workingDirectory>
+	<workingDirectory>$(source-folder)</workingDirectory>
 	<timeout>120000</timeout>
 	<repo>$(source)</repo>
 	<multipleHeadsFail>false</multipleHeadsFail>
@@ -168,6 +141,7 @@
 	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
 	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
 	<committerName>CruiseControl.NET</committerName>
+	<branch>$(branch)</branch>
       </sourcecontrol>
       <prebuild>
 	<conditional description="Clean working directory">
@@ -182,36 +156,7 @@
 	  <tasks description="Force clean">
 	    <cb:force-clean />
 	  </tasks>
-	  <elseTasks description="MsBuild clean">
-	    <conditional description="Run msbuild clean if j6.proj exists">
-	      <conditions>
-		<fileExistsCondition>
-		  <file>j6.proj</file>
-		</fileExistsCondition>
-	      </conditions>
-	      <tasks description="MsBuild clean">
-		<!-- Tasks to perform if condition passed -->
-		<cb:msbuild-clean />
-	      </tasks>
-	    </conditional>
-	  </elseTasks>
 	</conditional>
-	<conditional description="Working directory setup">
-	  <conditions>
-	    <fileExistsCondition>
-	      <file>j6.proj</file>
-	    </fileExistsCondition>
-	  </conditions>
-	  <elseTasks description="Configure hd and update">
-	    <!-- Tasks to perform if condition failed -->
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-	  </elseTasks>
-	</conditional>
-	<cb:update-source />
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />

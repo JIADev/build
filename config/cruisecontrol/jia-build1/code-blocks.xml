@@ -8,11 +8,10 @@
     </exec>
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)" 
-	  description="Reclone source" 
+	  description="Copy source" 
 	  successExitCodes="0">
-      <buildArgs>/c "hg clone $(source) $(project-folder)"</buildArgs>
+      <buildArgs>xcopy $(source-folder) $(project-folder) /e/q/y /exclude:\.hg\</buildArgs>
     </exec>
-    <cb:update-source />
   </cb:define>
   
   <cb:define name="msbuild-clean">
@@ -27,15 +26,6 @@
 	executable="$(powershell)" 
 	description = "Clear log files">
       <buildArgs>-c "rm -r -fo $(project-folder)\*.log*"</buildArgs>
-    </exec>
-  </cb:define>
-  
-  <cb:define name="update-source">
-    <exec 
-	executable="$(powershell)" 
-	description="hg update to bookmark, tag, or branch (timeout 10 mins)" 
-	buildTimeoutSeconds = '600'>
-      <buildArgs>-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"</buildArgs>
     </exec>
   </cb:define>
   

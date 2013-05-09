@@ -21,12 +21,17 @@
       rtq-server="\\dl360-web2"
       ccroot="f:\cc"
       pkgroot="f:\pkg"
+      srcroot="f:\cc\src"
+      artifactroot="f:\cc\artifacts"
       deploy-root-local="C:\j6\QA_Sites"
       cmdExe="C:\WINDOWS\system32\cmd.exe"
       ccNetSourceWorkingDir="$(ccroot)\ccnet"
       ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol\jia-build1" 
       ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
       ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
+      source-folder="$(srcroot)\$(project-name)"
+      artifact-folder="$(artifactroot)\$(project-name)"
+      project-folder="$(ccroot)\$(project-name)"
       ccNetLogDir="f:\ccnet.log" />
 
   <!-- Network Urls and Servers -->
@@ -65,7 +70,6 @@
       install-patches="true"
       buildVariationLabel=""
       project-name="$(project-root)"
-      project-folder="$(ccroot)\$(project-name)"
       />
   
 </cb:config-template>
