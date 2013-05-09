@@ -9,8 +9,9 @@
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)" 
 	  description="Reclone source" 
-	  successExitCodes="0"
-	  buildArgs='/c "hg clone $(source) $(project-folder)"' />
+	  successExitCodes="0">
+	  <buildArgs>/c "hg clone $(source) $(project-folder)"</buildArgs>
+    </exec>
     <cb:update-source />
   </cb:define>
 
