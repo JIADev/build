@@ -11,7 +11,7 @@
       <workingDirectory>$(source-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <sourcecontrol type="hg">
-	<autoGetSource>true</autoGetSource>
+	<autoGetSource>false</autoGetSource>
 	<workingDirectory>$(source-folder)</workingDirectory>
 	<timeout>12000000</timeout>
 	<repo>$(source)</repo>
@@ -127,7 +127,7 @@
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <sourcecontrol type="hg">
-	<autoGetSource>true</autoGetSource>
+	<autoGetSource>false</autoGetSource>
 	<workingDirectory>$(source-folder)</workingDirectory>
 	<timeout>120000</timeout>
 	<repo>$(source)</repo>
