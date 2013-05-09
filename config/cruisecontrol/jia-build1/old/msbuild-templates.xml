@@ -4,9 +4,19 @@
   <cb:define ccwebroot="http://$(ccBuildServer)/ccnet/" />
   <cb:define include-source="false" />
   <cb:define powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" />
+  <cb:define name="ensure-project-name" append="">
+    <cb:ifdef name="project-name">
+    </cb:ifdef>
+    <cb:else>
+      <cb:define project-name="$(project-root)" />
+    </cb:else>
+    <cb:if expr="'$(project-name)'==''">
+      <cb:define project-name="$(project-root)$(append)" />
+    </cb:if>
+  </cb:define>
   <cb:define name="mssetupbuild">
     <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
-    <cb:define project-name="$(project-root)-mssetupbuild" />
+    <cb:ensure-project-name append="-mssetupbuild" />
     <cb:define db-name="$(project-name)-DEV" />
     <cb:define trigger-project="branch_$(branch)" />
     <cb:define source="$(ccroot)\branch_$(branch)" />
@@ -46,7 +56,7 @@
   </cb:define>
   <cb:define name="mssetuppackage">
     <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
-    <cb:define project-name="$(project-root)-mssetuppackage" />
+    <cb:ensure-project-name append="-mssetuppackage" />
     <cb:define trigger-project="$(project-root)-mssetupbuild" />
     <project name="$(project-name)" category="mssetuppackage" queue="$(project-root)" queuePriority="20">
       <triggers>
@@ -233,7 +243,7 @@
   
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
-    <cb:define project-name="$(project-root)" />
+    <cb:ensure-project-name />
     <cb:define db-name="$(project-name)-DEV" />
     <!--
 	<cb:define trigger-project="branch_$(branch)" />
@@ -386,7 +396,7 @@
   
   <cb:define name="nightlybuild"> <!-- Copied Whole Cloth from customerbuild on 14 June 2012 -->
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-    <cb:define project-name="$(project-root)" />
+    <cb:ensure-project-name />
     <cb:define db-name="$(project-name)-DEV" />
     <!--
 	<cb:define trigger-project="branch_$(branch)" />
@@ -609,7 +619,7 @@ PP	    </fileExistsCondition>
   
   <cb:define name="flatbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-    <cb:define project-name="$(project-root)" />
+    <cb:ensure-project-name />
     <cb:define db-name="$(project-name)-DEV" />
     <!--
 	<cb:define trigger-project="branch_$(branch)" />

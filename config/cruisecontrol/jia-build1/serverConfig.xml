@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-  <cb:define cmdExe="C:\WINDOWS\system32\cmd.exe" />
-  <cb:define ccNetSourceWorkingDir="$(ccroot)\ccnet" />
-  <cb:define ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol\jia-build1" />
-  <cb:define ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" />
-  <cb:define ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" />
-  <cb:define ccNetLogDir="f:\ccnet.log" />
+
   <project name="ccnet" category="ccnet" queue="ccnet">
     <triggers>
       <intervalTrigger seconds="60" />
