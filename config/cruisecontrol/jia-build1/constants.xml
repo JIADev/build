@@ -28,6 +28,7 @@
       ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
       ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
       ccNetLogDir="f:\ccnet.log" />
+
   <!-- Network Urls and Servers -->
   <cb:define
       source="http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature"
@@ -63,6 +64,7 @@
       recreate-db="true"
       install-patches="true"
       buildVariationLabel=""
+      project-name="$(project-root)"
       />
   
 </cb:config-template>

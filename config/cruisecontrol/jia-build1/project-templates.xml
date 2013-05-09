@@ -3,7 +3,6 @@
 
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
-    <cb:define project-name="$(project-root)" />
     <cb:define db-name="$(project-name)-DEV" />
 
     <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
@@ -148,7 +147,6 @@
 
   <cb:define name="flatbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-    <cb:define project-name="$(project-root)" />
     <cb:define db-name="$(project-name)-DEV" />
     <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
       <triggers>
