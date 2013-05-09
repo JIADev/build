@@ -10,7 +10,7 @@
 	  baseDirectory="$(ccroot)" 
 	  description="Reclone source" 
 	  successExitCodes="0"
-	  buildArgs='/c "hg clone $(source) $(project-name)"' />
+	  buildArgs='/c "hg clone $(source) $(project-folder)"' />
     <cb:update-source />
   </cb:define>
 
