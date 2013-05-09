@@ -9,7 +9,7 @@
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
 	  description="Copy source"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
+	  buildArgs='/c xcopy /s/e/y/q/i /exclude:$(srcroot)\excludefiles.txt "$(source-folder)" "$(project-folder)"' />
 
   </cb:define>
   
