@@ -60,26 +60,24 @@ def validate_not_direct_version_commit(ui, repo, *pats, **opts):
 
 def validate_built_and_tested(ui, repo, *pats, **opts):
     rev = repo[None]
-    needs_test = not opts['close_branch'] and not rev.tags()
-    if needs_test:
-        if ui.prompt("Would you like to build j6 and run the unit tests before committing? [Yn]", default = 'y') in ('y', 'Y'):
-            tools = os.getcwd() + r"\tools.sln"
-            is_7_6_or_greater = os.path.exists(tools)
-            try:
-                if is_7_6_or_greater:
-                    subprocess.check_call(["msbuild", "/t:Build", "j6.proj"])
-                else:
-                    subprocess.check_call([r"j6\core\boot\feature", "build"])                    
-            except:
-                raise util.Abort("Build failed")
-            try:
-                if is_7_6_or_greater:
-                    test = subprocess.check_call(["msbuild", "/t:UnitTest", "j6.proj"])
-                else:
-                    test = subprocess.check_call([r"j6\core\boot\feature", "test"])
-            except:
-                raise util.Abort("Tests failed")
-            return opts['message'] + "\r\n** j6 unit tests pass **"
+    if ui.prompt("Would you like to build j6 and run the unit tests before committing? [Yn]", default = 'y') in ('y', 'Y'):
+        tools = os.getcwd() + r"\tools.sln"
+        is_7_6_or_greater = os.path.exists(tools)
+        try:
+            if is_7_6_or_greater:
+                subprocess.check_call(["msbuild", "/t:Build", "j6.proj"])
+            else:
+                subprocess.check_call([r"j6\core\boot\feature", "build"])                    
+        except:
+            raise util.Abort("Build failed")
+        try:
+            if is_7_6_or_greater:
+                test = subprocess.check_call(["msbuild", "/t:UnitTest", "j6.proj"])
+            else:
+                test = subprocess.check_call([r"j6\core\boot\feature", "test"])
+        except:
+            raise util.Abort("Tests failed")
+        return opts['message'] + "\r\n** j6 unit tests pass **"
 
 # Validate Mercurial commit message.
 def validate_message(original_commit, ui, repo, *pats, **opts):
