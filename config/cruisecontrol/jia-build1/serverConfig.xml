@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+
+  <project name="ccnet" category="ccnet" queue="ccnet">
+    <triggers>
+      <intervalTrigger seconds="60" />
+    </triggers>
+    <sourcecontrol 
+	type="hg" 
+	workingDirectory="$(ccNetSourceWorkingDir)"
+	repo="$(ccNetConfigRepo)"
+	autoGetSource="true" 
+	timeout="12000000"
+	multipleHeadsFail="false"
+	tagOnSuccess="false"
+	commitModifications="false"
+	commitUntracked="false"
+	purgeModifications="false"
+	revertModifications="false"
+	committerName="CruiseControl.NET"
+	>
+    </sourcecontrol>
+    <tasks>
+      <exec 
+	  description="Validate configuration"
+	  executable="$(ccNetServer)\CCValidator.exe"
+	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui --format=xml --logfile=$(ccnetLogDir)\configLog.xml" />
+      <exec executable="$(cmdExe)" 
+	    description="Copy .xml files to server config folder"
+	    buildArgs='/c copy "$(ccnetConfigSource)\*.xml" "$(ccNetServer)"' />
+      <exec executable="$(cmdExe)"
+	    description="Copy .config files to server config folder"
+	    buildArgs='/c copy "$(ccnetConfigSource)\*.config" "$(ccNetServer)"' />
+    </tasks>
+    <publishers>
+      <xmllogger logDir="$(ccnetLogDir)" />
+    </publishers>
+  </project>  
+</cb:config-template>
+  
