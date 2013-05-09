@@ -1,0 +1,596 @@
+<!-- Common components and templates used throughout. No customization necesary. -->
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <cb:define platform="AnyCpu" />
+  <cb:define configuration="Release" />
+  <cb:define protect="true" />
+  <cb:define name = "bootstrap">
+    <exec executable = "$(cmdExe)" buildArgs = '/c echo Starting bootstrap >>output.txt' />
+    <msbuild>
+      <executable>$(msbuild)</executable>
+      <workingDirectory>Core</workingDirectory>
+      <projectFile>Feature.proj</projectFile>
+      <buildArgs>/noconsolelogger /p:Configuration=Debug </buildArgs>
+      <targets>Bootstrap</targets>
+      <timeout>900</timeout>
+      <logger>$(ccserver)\ThoughtWorks.CruiseControl.MSBuild.dll</logger>
+      <description>Bootstrap feature.exe</description>
+    </msbuild>			
+  </cb:define>
+  <cb:define name="email-sprint">
+    <email from="buildmaster@jenkon.com" mailhost="$(mailhost)" mailport="25" includeDetails="TRUE"
+	   useSSL="FALSE">
+      <users>
+	<user name="brk" group="buildmaster" address="brk@jenkon.com"/>
+	<user name="sprint" group="developers" address="brk@jenkon.com"/>
+      </users>
+      
+      <groups>
+	<group name="developers">
+	  <notifications>
+	    <notificationType>Failed</notificationType>
+	    <notificationType>Fixed</notificationType>
+	  </notifications>
+	</group>
+	<group name="buildmaster" >
+	  <notifications>
+	    <notificationType>Always</notificationType>
+	  </notifications>
+	</group>
+      </groups>
+      
+      <converters>
+	<regexConverter find="$" replace="@jenkon.com" />
+      </converters>
+      
+      <modifierNotificationTypes>
+	<NotificationType>Failed</NotificationType>
+	<NotificationType>Fixed</NotificationType>
+      </modifierNotificationTypes>
+      
+      <subjectSettings>
+	<subject buildResult="StillBroken" value="Build is still broken for $(project-name)" />
+      </subjectSettings>
+      
+      <xslFiles>
+	<file>xsl\header.xsl</file>
+	<file>xsl\compile.xsl</file>
+	<file>xsl\compile-msbuild.xsl</file>
+	<file>xsl\unittests.xsl</file>
+	<file>xsl\modifications.xsl</file>
+      </xslFiles>
+      
+      <attachments>
+      </attachments>
+    </email>
+  </cb:define>
+  
+  <cb:define name="recreate-database">
+    <exec description="Drop Database" executable="sqlcmd" buildArgs="-S $(db-server) -U $(db-user) -P $(db-password) -Q &quot;IF EXISTS (SELECT name FROM sys.databases WHERE name = '$(db-name)') DROP DATABASE [$(db-name)]&quot;" />			
+    <exec description="Create Database" executable="sqlcmd" buildArgs="-S $(db-server) -U $(db-user) -P $(db-password) -Q &quot;CREATE DATABASE [$(db-name)]&quot;" />			
+  </cb:define>
+  
+  <cb:define name="ensure-database">
+    <exec description="Ensure Database" executable="sqlcmd" buildArgs="-S $(db-server) -U $(db-user) -P $(db-password) -Q &quot;IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '$(db-name)') CREATE DATABASE [$(db-name)]&quot;" />			
+  </cb:define>
+  
+  <cb:define name="copy-logger-local">
+    <exec executable = "$(cmdExe)" buildArgs= '/C copy "$(ccserver)\ThoughtWorks.CruiseControl.MSBuild.dll" $(project-folder)'	/>
+  </cb:define>
+  
+  <cb:define name = "set-database">
+    <exec executable = "$(cmdExe)" buildArgs = '/C echo "Calling: $(feature) config sql $(db-server) $(db-name) $(db-user) $(db-password)"'/>
+    <exec executable="$(feature)" buildArgs="config sql $(db-server) . $(db-name) . $(db-user) . $(db-password)" />			
+    <exec executable="$(powershell)" buildArgs="if (test-path build-settings.xml) { rm -fo build-settings.xml}" />			
+  </cb:define>
+  
+  <cb:define name="set-logsettings" >
+    <exec executable = "$(cmdExe)" buildArgs = "/C copy Core\shared\log-settings.xml" />
+  </cb:define>
+  
+  <cb:define name="feature-fetch">
+    <exec description="Feature Fetch" executable="$(feature)" buildArgs="fetch" buildTimeoutSeconds = "6000" />			
+  </cb:define>
+  
+  <cb:define name="feature-setup">
+    <exec description="Feature Setup" executable="$(feature)" buildArgs="setup" />			
+  </cb:define>	
+  
+  <cb:define name="feature-setversion">
+    <exec description="Feature SetVersion" executable="$(feature)" buildArgs="setversion" />			
+  </cb:define>	
+  
+  <cb:define name="feature-install-patches" description = "install patches">
+    <exec executable = "$(cmdExe)" buildArgs = '/c echo Installing Patches $(feature) install patch verbose >> output.txt' />
+    <exec description="Feature Install Patches" executable="$(feature)" buildArgs="install --patch --verbose" buildTimeoutSeconds = "6000" />		
+  </cb:define>
+  
+  <cb:define name="feature-build">
+    <exec executable="$(feature)" description = "Feature Build" buildTimeoutSeconds="6000" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration) /logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll;$(project-artifacts)\msbuild-results.xml' />
+  </cb:define>
+  
+  <cb:define name="feature-test-unit">
+    <!-- 14400 seconds = 4 hours -->
+    <exec description="test pattern UnitTest" executable="$(feature)" buildTimeoutSeconds = "14400" buildArgs="test --pattern UnitTest" />
+  </cb:define>
+  
+  <cb:define name="feature-test">
+    <exec description="test coverage" executable="$(feature)" buildTimeoutSeconds = "14400" buildArgs="test --coverage" />
+  </cb:define>
+  
+  <cb:define name="feature-tag">
+    <exec executable="$(feature)" buildArgs="each hg tag -f $(tag)" />
+  </cb:define>
+  
+  <cb:define name="feature-push">
+    <exec executable="$(feature)" buildArgs="each hg push" />
+  </cb:define>
+  
+  <cb:define name="feature-install-shared">
+    <exec description="feature install shared" executable="$(feature)" buildArgs="install --shared" />
+  </cb:define>
+  
+  <cb:define name="new-start">
+    <exec description="feature clean" executable="$(global_feature)" buildArgs='cleanjunctions' buildTimeoutSeconds="2400" />
+    <exec description="remove features" executable="$(powershell)" buildArgs= '$(global_feature) list | % { rm -r -fo $_ }' />
+    <exec description="remove sites" executable="$(powershell)" buildArgs= 'if (test-path Site) {rm -r -fo Site}' />
+    <exec description="remove shared" executable="$(powershell)" buildArgs= 'if (test-path Shared) {rm -r -fo Shared}' />
+  </cb:define>
+  
+  <cb:define name="standard-publishers">
+    <!--
+	<merge>
+	  <files>
+	    <file>TestResult\j6-test.xml</file>
+	    <file>Coverage\UnitTest-coverage.xml</file>
+	  </files>
+	</merge>
+	-->
+    <xmllogger />
+    <statistics />
+  </cb:define>
+  
+  <!-- Standard build templates. No customization necesary. -->
+  
+  <cb:define name="fullbuild">
+    <project name="$(project-name)" category="full build" queue="$(project-root)" queuePriority="2">
+      <triggers>
+	<projectTrigger project="$(fastbuild-project)" />
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-artifacts)</artifactDirectory>
+      <prebuild>
+	<exec executable = "$(cmdExe)" buildArgs = '/c echo Starting prebuild>> output.txt' />
+	<cb:copy-logger-local />
+	<cb:new-start />
+	<exec executable = "$(cmdExe)" buildArgs = '/c echo hg clone --pull $(source)/$(driver) >>output.txt' />
+	<exec executable = "$(hg)" buildArgs = 'clone --pull $(source)/$(driver)' />
+	<exec executable = "$(cmdExe)" buildArgs = '/c echo hg clone --pull $(source)/Core >>output.txt' />
+	<exec executable = "$(hg)" buildArgs = 'clone --pull $(source)/Core' />
+	<!-- for some reason, once doesn't always copy all the Jenkon.Core.*.dlls into the boot folder. -->
+	<cb:bootstrap/>
+	<cb:bootstrap/>
+	
+	<cb:set-database />
+	<cb:set-logsettings />
+	
+	<cb:feature-fetch />
+	<cb:recreate-database />
+      </prebuild>
+      <tasks>
+	<cb:feature-install-patches />
+	<cb:feature-setup />
+	<cb:feature-setversion />
+	<cb:feature-build configuration="Debug" />
+      </tasks>	
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+    </project>
+  </cb:define>
+  
+  <cb:define name="fullbuild-pre73">
+    <project name="$(project-name)" category="full build" queue="$(project-root)" queuePriority="2">
+      <triggers>
+	<projectTrigger project="$(fastbuild-project)" />
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-artifacts)</artifactDirectory>
+      <prebuild>
+	<cb:copy-logger-local />
+	<cb:new-start />
+	<exec executable = "$(hg)" buildArgs = 'clone $(source)/$(driver)' />
+	<exec executable = "$(hg)" buildArgs = 'clone $(source)/Core' />
+	<!-- Copy feature.exe so we've got one in the same location that post-7.3 bootstraps put it-->
+	<exec executable = "$(powershell)" buildArgs = '-c "if (test-path Core\boot) { rm -r -fo Core\boot; echo &quot;removed boot dir&quot; }"' />
+	<exec executable = "$(cmdExe)" buildArgs="/C mkdir Core\boot" />
+	<exec executable = "$(cmdExe)" buildArgs="/C copy $(global_feature_dir)\*.dll Core\boot" />
+	<exec executable = "$(cmdExe)" buildArgs="/C copy $(global_feature) Core\boot" />
+	
+	<cb:set-database />
+	<cb:set-logsettings />
+	
+	<cb:feature-fetch />
+	<cb:recreate-database />
+      </prebuild>
+      <tasks>
+	<cb:feature-install-patches />
+	<cb:feature-setup />
+	<cb:feature-setversion />
+	<cb:feature-build configuration="Debug" />
+      </tasks>	
+      <publishers>
+	<cb:standard-publishers />
+	<cb:email-sprint />
+      </publishers>
+    </project>
+  </cb:define>
+  
+  <cb:define name="fastbuild">
+    <project name="$(project-name)" category = "fast build" queue="$(project-root)" queuePriority="1">
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-artifacts)</artifactDirectory>
+      <triggers>
+	<projectTrigger project="$(trigger-project)" />
+      </triggers>
+      <prebuild>			
+	<exec executable = "$(cmdExe)" buildArgs= '/C copy "$(ccserver)\ThoughtWorks.CruiseControl.MSBuild.dll"'	/>
+	<exec executable = "$(powershell)" 
+	      buildArgs = "-c &quot;if(-not (test-path $(driver))) { $(hg) clone $(source)/$(driver)}"/>
+	
+	<exec executable = "$(global_feature)" buildArgs="fetch --verbose" buildTimeoutSeconds="6000" />				
+	<cb:bootstrap/>
+	<cb:bootstrap/>
+	<cb:set-database />
+	<cb:set-logsettings />
+	<cb:ensure-database/>
+	<exec description = "clean" executable="$(feature)" buildArgs="clean --verbose" buildTimeoutSeconds="6000" />			
+	<exec description = "pull" executable="$(feature)" buildArgs="each hg pull -u"  buildTimeoutSeconds="6000" />			
+	<exec description = "update" executable="$(feature)" buildArgs="each hg update -C"  buildTimeoutSeconds="6000" />			
+	<!-- Rebuild feature.exe so we've got one based on the latest code -->
+	<cb:bootstrap/>
+	<cb:feature-fetch />
+	<!-- Don't do this, that's part of what makes it 'fastbuild' 
+	     <cb:recreate-database />
+	     -->
+      </prebuild>
+      <tasks>
+	<cb:feature-install-patches />
+	<cb:feature-setup />
+	<exec description = "build" executable="$(feature)" buildTimeoutSeconds = "6000" buildArgs='build "/logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll";$(project-artifacts)\msbuild-results.xml --features Communication CommunicationSalesOrder Contact Core DashBoard Earning Engine Genealogy ImportExport Jcoach Payment PlanBuilder SalesOrder Web WebService' />
+	<!--
+	    <cb:feature-test-unit />
+	    -->
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+	<cb:email-sprint />
+      </publishers>
+    </project>
+  </cb:define>
+  
+  <cb:define name="fastbuild-pre73">
+    <project name="$(project-name)" category = "fast build" queue="$(project-root)" queuePriority="1">
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <cb:define project-artifacts="$(ccroot)\artifacts\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-artifacts)</artifactDirectory>
+      <triggers>
+	<projectTrigger project="$(trigger-project)" />
+      </triggers>
+      <prebuild>			
+	<exec executable = "$(cmdExe)" buildArgs= '/C copy "$(ccserver)\ThoughtWorks.CruiseControl.MSBuild.dll"'	/>
+	<exec executable = "$(powershell)" buildArgs = '-c "if (-not (test-path $(driver))) { $(hg) clone $(source)/$(driver); $(global_feature) fetch --verbose}"' buildTimeoutSeconds = "6000" />				-
+	<!-- Copy feature.exe so we've got one in the same location that post&dash;7.3 bootstraps put it -->
+	<exec executable = "$(powershell)" buildArgs = '-c "if (test-path Core\boot) { rm -r -fo Core\boot; echo &quot;removed boot dir&quot; }"' />
+	<exec executable = "$(cmdExe)" buildArgs="/C mkdir Core\boot" />
+	<exec executable = "$(cmdExe)" buildArgs="/C copy $(global_feature_dir)\*.dll Core\boot" />
+	<exec executable = "$(cmdExe)" buildArgs="/C copy $(global_feature) Core\boot" />
+	<cb:set-database />
+	<cb:set-logsettings />
+	<cb:ensure-database/>
+	<exec description = "clean" executable="$(feature)" buildArgs="clean --verbose" buildTimeoutSeconds="6000" />			
+	<exec description = "pull" executable="$(feature)" buildArgs="each hg pull -u"  buildTimeoutSeconds="6000" />			
+	<exec description = "update" executable="$(feature)" buildArgs="each hg update -C"  buildTimeoutSeconds="6000" />			
+	<cb:feature-fetch />
+	<!-- Don't do this, that's part of what makes it 'fastbuild' 
+	     <cb:recreate-database />
+	     -->
+      </prebuild>
+      <tasks>
+	<cb:feature-install-patches />
+	<cb:feature-setup />
+	<exec description = "build" executable="$(feature)" buildTimeoutSeconds = "6000" buildArgs='build "/logger:$(project-folder)\ThoughtWorks.CruiseControl.MSBuild.dll";$(project-artifacts)\msbuild-results.xml --features Communication CommunicationEngine CommunicationSalesOrder Contact Core DashBoard Earning Engine Genealogy ImportExport Jcoach Jenkon.Feature PlanBuilder Realtime SalesOrder Test Web WebService FrameworkCore FrameworkPayment FrameworkWeb' />
+	<!--
+	    <cb:feature-test-unit />
+	    -->
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+	<cb:email-sprint />
+      </publishers>
+    </project>
+  </cb:define>
+  
+  <cb:define name="testbuild">
+    <project name="$(project-name)" category = "test" queue="$(project-root)" queuePriority="4">			
+      <workingDirectory>$(ccroot)\$(project-name)</workingDirectory>
+      <artifactDirectory>$(ccroot)\$(project-name)\artifacts</artifactDirectory>
+      <triggers>
+	<scheduleTrigger time="$(schedule-time)" buildCondition="ForceBuild" name="Scheduled" />
+      </triggers>
+      <prebuild>
+      </prebuild>
+      <tasks>
+	<exec description="remove Coverage" executable="$(powershell)" buildArgs='if (test-path Coverage) {rm -r -fo Coverage}' />
+	<exec description="remove NDepend-Reports" executable="$(powershell)" buildArgs='if (test-path NDepend-Reports) {rm -r -fo NDepend-Reports}' />
+	<exec description="remove TestResult" executable="$(powershell)" buildArgs='if (test-path TestResult) {rm -r -fo TestResult}' />
+	<cb:new-start />
+	<exec description="copy build" executable="$(powershell)" buildArgs='-c "$(global_feature) list `"--dir=$(ccroot)\$(build-project)`" | % { $_.split(&apos;\&apos;)[-1] } | % { cp -r -fo $(ccroot)\$(build-project)\$_ }"' buildTimeoutSeconds="6000" />
+	<exec description="copy settings" executable="$(powershell)" buildArgs='-c "cp -fo $(ccroot)\$(build-project)\*.xml"' />
+	<cb:feature-install-shared />
+	<ndepend executable="$(ndepend)">					
+	  <project>Core\j6-ndepend.xml</project>
+	  <outputDir>NDepend-Reports</outputDir>
+	  <inputDirs>Shared\</inputDirs>
+	  <silent>false</silent>
+	  <publish>true</publish>
+	</ndepend>
+	<gendarme executable="$(gendarme)">
+	  <baseDirectory>Shared</baseDirectory>
+	  <assemblies>
+	    <assemblyMatch expr='J6.*.dll' />
+	    <assemblyMatch expr='Jenkon.*.dll' />
+	    <assemblyMatch expr='CUST*.dll' />
+	    <assemblyMatch expr='IH*.dll' />
+	    <assemblyMatch expr='*.exe' />
+	  </assemblies>
+	  <limit>200</limit>
+	  <severity>medium+</severity>
+	  <confidence>normal+</confidence>
+	  <quiet>FALSE</quiet>
+	  <verbose>TRUE</verbose>
+	  <failBuildOnFoundDefects>FALSE</failBuildOnFoundDefects>
+	  <verifyTimeoutSeconds>600</verifyTimeoutSeconds>
+	</gendarme>
+	<cb:feature-test />
+      </tasks>	
+      <publishers>
+	<cb:standard-publishers />
+	<cb:email-sprint />
+      </publishers>
+    </project>	
+  </cb:define>
+  
+  <cb:define name="packagebuild">
+    <project name="$(project-name)" category="package" queue="$(project-root)" queuePriority="4">
+      <workingDirectory>$(ccroot)\$(build-project)</workingDirectory>
+      <artifactDirectory>$(ccroot)\$(project-name)\artifacts</artifactDirectory>
+      <triggers>
+	<projectTrigger project="$(build-project)" />
+      </triggers>
+      <prebuild>
+      </prebuild>
+      <tasks>
+	<!--
+	    <exec executable="$(feature)" buildArgs='protect' 
+		  buildTimeoutSeconds = "6000"/>
+	    -->
+	<exec executable="$(powershell)" buildArgs = '-c "if (test-path Release) {rm -r -fo Release}"' />
+	<exec executable="$(powershell)" buildArgs = '-c "rm -r -fo $(ccroot)\$(build-project)\RELEASE-*"' />
+	<exec executable="$(powershell)" buildArgs = '-c "rm -r -fo $(ccroot)\RELEASE-*"' />
+	<exec executable="$(feature)" buildArgs='package $(ccroot)\$(project-name)\Release $(driver)' 
+	      buildTimeoutSeconds = "6000"/>
+	
+	<exec executable="$(powershell)" buildArgs = '-c "$ver = (dir $(ccroot)\$(project-name)\Release\Core*).name.substring(5);$e = get-date -format &apos;yyyyMMdd-HHmmss&apos;; mv $(ccroot)\$(project-name)\Release $(ccroot)\$(project-name)\Release-$ver-$e;#Core\boot\feature each $(hg) tag $(project-name)-$ver-$e"' />
+	<!-- <cb:feature-push /> -->
+      </tasks>	
+      <publishers>
+	<cb:standard-publishers />
+	<cb:email-sprint />
+      </publishers>
+    </project>	
+  </cb:define>
+  
+  <cb:define name="deploybuild">
+    <project name="$(project-name)" category = "deployment" queue="$(project-root)" queuePriority="3">
+      <workingDirectory>$(ccroot)\$(project-name)</workingDirectory>
+      <artifactDirectory>$(ccroot)\$(project-name)\artifacts</artifactDirectory>
+      <prebuild>
+      </prebuild>
+      <tasks>
+	<exec description="Stop RTQ" executable="sc" buildArgs = '$(rtq-server) stop $(rtq-service-name)' 
+	      successExitCodes="0,1060,1062" />			
+	<exec description="Remove RTQ" executable="sc" buildArgs = '$(rtq-server) delete $(rtq-service-name)'
+	      successExitCodes="0,1060" />			
+	
+	<cb:set-database feature="$(ccroot)\$(build-project)\Core\boot\feature" />
+	<exec executable="$(cmdExe)" buildArgs = '/C copy $(ccroot)\$(build-project)\Core\Shared\log-settings.xml' />
+	<cb:ensure-database/>
+	
+	<exec executable="$(cmdExe)" buildArgs = '/C copy $(ccroot)\$(build-project)\Core\boot\feature.exe' />
+	<exec description="Remove Shared" executable="$(powershell)" buildArgs='-c "if (test-path Shared) {rm -r -fo Shared}"' buildTimeoutSeconds = "6000"/>
+	<exec description="Install Shared" executable="$(ccroot)\$(build-project)\Core\boot\feature.exe" buildArgs = 'install --shared "--dir=$(ccroot)\$(build-project)"' />
+	<exec description="Remove Site" executable="$(powershell)" buildArgs='-c "if (test-path Site) {rm -r -fo Site}"' buildTimeoutSeconds = "6000"/>
+	<exec description="Install Site" executable="$(ccroot)\$(build-project)\Core\boot\feature.exe" buildTimeoutSeconds = '6000'  buildArgs = 'install --site "--dir=$(ccroot)\$(build-project)"' />
+	<exec description="Install Patches" executable="$(ccroot)\$(build-project)\Core\boot\feature.exe" buildTimeoutSeconds = '6000' buildArgs = 'install --patch --verbose "--dir=$(ccroot)\$(build-project)"' />
+	
+	<exec executable="$(powershell)" buildArgs='-c "if (test-path $(rtq-folder)) {rm -r -fo $(rtq-folder)}"' buildTimeoutSeconds = "6000"/>
+	<exec executable="$(powershell)" buildArgs='-c "mkdir $(rtq-folder)"' buildTimeoutSeconds = "6000"/>
+	<exec executable="$(powershell)" buildArgs='-c "cp -r -fo shared $(rtq-folder)\.."' buildTimeoutSeconds = "6000"/>
+	<exec executable="$(powershell)" buildArgs='-c "if (test-path $(site-folder)) {rm -r -fo $(site-folder)}"' buildTimeoutSeconds = "6000"/>
+	<exec executable="$(powershell)" buildArgs='-c "mkdir $(site-folder)"' buildTimeoutSeconds = "6000"/>
+	<exec executable="$(powershell)" buildArgs='-c "cp -r -fo site $(site-folder)\.."' buildTimeoutSeconds = "6000"/>
+	<exec executable="$(powershell)" buildArgs='-c "cp sql-settings.xml $(site-folder)\.."' buildTimeoutSeconds = "6000"/>
+	<exec executable="$(powershell)" buildArgs='-c "cp sql-settings.xml $(rtq-folder)\.."' buildTimeoutSeconds = "6000"/>
+	
+	<exec description="Install Reports" executable="feature" buildTimeoutSeconds = '6000'  buildArgs = 'install --report "--dir=$(ccroot)\$(build-project)"' />
+	<exec description="Install Custom Reports" executable="feature" buildTimeoutSeconds = '6000'  buildArgs = 'install --report "--dir=$(ccroot)\$(build-project)" $(driver)' />
+	
+	<exec description="Create RTQ" executable="sc" successExitCodes="0" buildArgs = '$(rtq-server) create $(rtq-service-name) binPath= $(service-path)\RealtimeQualifications.exe' />			
+	<exec description="Start RTQ" executable="sc" successExitCodes="0" buildArgs = '$(rtq-server) start $(rtq-service-name)' />			
+      </tasks>	
+    </project>	
+  </cb:define>
+  
+  <cb:define name="build-test-deploy">
+    <queue name="$(project-root)" lockqueues="$(trigger-project)"/>
+    <cb:fastbuild project-name="$(project-root)-1fast" 
+		  db-name="ccnet-$(project-root)-fast-dev"
+		  />
+    
+    <cb:fullbuild project-name="$(project-root)-2full" 
+		  fastbuild-project="$(project-root)-1fast"
+		  db-name="ccnet-$(project-root)-full-dev"
+		  />
+    
+    <cb:testbuild project-name="$(project-root)-4tests"
+		  build-project="$(project-root)-2full"
+		  schedule-time="00:30"
+		  />
+    <cb:deploybuild 
+       project-name="$(project-root)-3deploy" 
+       build-project="$(project-root)-2full" 
+       db-name="ccnet-$(project-root)-deploy"
+       rtq-service-name = "RTQ-$(project-root)-deploy"
+       deploy-folder="$(deploy-root)\$(project-root)"
+       service-path="$(deploy-root-local)\$(project-root)\shared"
+       site-folder = "$(deploy-folder)\Site"
+       rtq-folder = "$(deploy-folder)\Shared"
+       />
+  </cb:define>
+  
+  <cb:define name="build-deploy">
+    <queue name="$(project-root)" lockqueues="$(trigger-project)"/>
+    <cb:fastbuild project-name="$(project-root)-1fast" 
+		  db-name="ccnet-$(project-root)-fast-dev"
+		  />
+    
+    <cb:fullbuild project-name="$(project-root)-2full" 
+		  fastbuild-project="$(project-root)-1fast"
+		  db-name="ccnet-$(project-root)-full-dev"
+		  />
+    
+    <cb:deploybuild 
+       project-name="$(project-root)-3deploy" 
+       build-project="$(project-root)-2full" 
+       db-name="ccnet-$(project-root)-deploy"
+       rtq-service-name = "RTQ-$(project-root)-deploy"
+       deploy-folder="$(deploy-root)\$(project-root)"
+       service-path="$(deploy-root-local)\$(project-root)\shared"
+       site-folder = "$(deploy-folder)\Site"
+       rtq-folder = "$(deploy-folder)\Shared"
+       />
+  </cb:define>
+  
+  <cb:define name="build-deploy-package">
+    <queue name="$(project-root)" lockqueues="$(trigger-project)"/>
+    <cb:fastbuild project-name="$(project-root)-1fast" 
+		  db-name="ccnet-$(project-root)-fast-dev"
+		  />
+    
+    <cb:fullbuild project-name="$(project-root)-2full" 
+		  fastbuild-project="$(project-root)-1fast"
+		  db-name="ccnet-$(project-root)-full-dev"
+		  />
+    
+    <cb:deploybuild 
+       project-name="$(project-root)-3deploy" 
+       build-project="$(project-root)-2full" 
+       db-name="ccnet-$(project-root)-deploy"
+       rtq-service-name = "RTQ-$(project-root)-deploy"
+       deploy-folder="$(deploy-root)\$(project-root)"
+       service-path="$(deploy-root-local)\$(project-root)\shared"
+       site-folder = "$(deploy-folder)\Site"
+       rtq-folder = "$(deploy-folder)\Shared"
+       />
+    <cb:packagebuild project-name="$(project-root)-4package"
+		     build-project="$(project-root)-2full"
+		     />
+  </cb:define>
+  
+  <cb:define name="build-test-deploy-pre73">
+    <queue name="$(project-root)" lockqueues="$(trigger-project)"/>
+    <cb:fastbuild-pre73 project-name="$(project-root)-1fast" 
+			db-name="ccnet-$(project-root)-fast-dev"
+			/>
+    
+    <cb:fullbuild-pre73 project-name="$(project-root)-2full" 
+			fastbuild-project="$(project-root)-1fast"
+			db-name="ccnet-$(project-root)-full-dev"
+			/>
+    
+    <cb:testbuild project-name="$(project-root)-4tests"
+		  build-project="$(project-root)-2full"
+		  schedule-time="00:30"
+		  />
+    <cb:deploybuild 
+       project-name="$(project-root)-3deploy" 
+       build-project="$(project-root)-2full" 
+       db-name="ccnet-$(project-root)-deploy"
+       rtq-service-name = "RTQ-$(project-root)-deploy"
+       deploy-folder="$(deploy-root)\$(project-root)"
+       service-path="$(deploy-root-local)\$(project-root)\shared"
+       site-folder = "$(deploy-folder)\Site"
+       rtq-folder = "$(deploy-folder)\Shared"
+       />
+  </cb:define>
+  
+  <cb:define name="build-deploy-pre73">
+    <queue name="$(project-root)" lockqueues="$(trigger-project)"/>
+    <cb:fastbuild-pre73 project-name="$(project-root)-1fast" 
+			db-name="ccnet-$(project-root)-fast-dev"
+			/>
+    
+    <cb:fullbuild-pre73 project-name="$(project-root)-2full" 
+			fastbuild-project="$(project-root)-1fast"
+			db-name="ccnet-$(project-root)-full-dev"
+			/>
+    
+    <cb:deploybuild 
+       project-name="$(project-root)-3deploy" 
+       build-project="$(project-root)-2full" 
+       db-name="ccnet-$(project-root)-deploy"
+       rtq-service-name = "RTQ-$(project-root)-deploy"
+       deploy-folder="$(deploy-root)\$(project-root)"
+       service-path="$(deploy-root-local)\$(project-root)\shared"
+       site-folder = "$(deploy-folder)\Site"
+       rtq-folder = "$(deploy-folder)\Shared"
+       />
+  </cb:define>
+  
+  <cb:define modificationDelaySeconds = "60" />
+  <cb:define sourceCheckInterval = "600" />
+  <cb:define name = "sourceFeature" >
+    <hg executable="$(hg)" workingDirectory = "$(feature-name)" repo="$(source)/$(branch)/$(feature-name)" multipleHeadsFail="false" autoGetSource="false" />
+  </cb:define>
+  <cb:define name="branch-project">
+    <queue name="$(project-name)" />
+    <project name="$(project-name)" category="branch" modificationDelaySeconds="$(modificationDelaySeconds)" queue="$(project-name)" queuePriority="1">
+      <workingDirectory>$(ccroot)\$(project-name)</workingDirectory>
+      <artifactDirectory>$(ccroot)\$(project-name)\artifacts</artifactDirectory>
+      <triggers>
+	<intervalTrigger seconds = "$(sourceCheckInterval)" />
+      </triggers>
+      <sourcecontrol type="multi">			
+	<sourceControls>
+	  <cb:sources />
+	</sourceControls>
+      </sourcecontrol>
+      <prebuild>
+      </prebuild>
+      <tasks>
+	<exec description="Pull bookmarks" executable="$(powershell)" buildArgs="&quot;dir | % {$n = $_.name; if ((test-path $_\.hg) -and ('$(pull-options)'.length -gt 0)) { foreach($mark in '$(pull-options)'.split(',')) {hg --cwd $n pull -B $mark --insecure $(source)/$(branch)/$n}}}&quot;" buildTimeoutSeconds = "6000" />			
+      </tasks>	
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+    </project>
+  </cb:define>
+  
+</cb:config-template>
