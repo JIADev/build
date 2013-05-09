@@ -6,9 +6,10 @@
 	  successExitCodes="0"> 
       <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
     </exec>
-      <exec executable="$(cmdExe)" 
-	    description="Copy source"
-	    buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
+    <exec executable="$(cmdExe)" 
+	  baseDirectory="$(ccroot)"
+	  description="Copy source"
+	  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
 
   </cb:define>
   
