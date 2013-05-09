@@ -57,8 +57,8 @@
   </cb:define>
 
   <cb:define name="update-source">
-    <exec executable="$(cmdExe)" description="configure hg subrepo path" buildArgs = '-c "echo [paths] >> $(source-folder)\.hg\hgrc"' />
-    <exec executable="$(cmdExe)" description="configure hg subrepo default path" buildArgs = '-c "echo $(source)/customers/$(driver) >> $(source-folder)\.hg\hgrc"' />
+    <exec executable="$(powershell)" description="configure hg subrepo path" buildArgs = '-c "echo [paths] >> $(source-folder)\.hg\hgrc"' />
+    <exec executable="$(powershell)" description="configure hg subrepo default path" buildArgs = '-c "echo $(source)/ >> $(source-folder)\.hg\hgrc"' />
 
     	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
   </cb:define>
