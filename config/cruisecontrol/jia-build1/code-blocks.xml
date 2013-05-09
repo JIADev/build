@@ -9,7 +9,7 @@
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
 	  description="Copy source"
-	  buildArgs='/c xcopy /s/e/y/q/i /exclude:$(srcroot)\excludefiles.txt "$(source-folder)" "$(project-folder)"' />
+	  buildArgs='/c xcopy /s/e/y/q/i /exclude:$(ccserver)\excludefiles.config "$(source-folder)" "$(project-folder)"' />
 
   </cb:define>
   
@@ -58,7 +58,7 @@
   <cb:define name="update-source">
       <exec executable="$(cmdExe)" 
 	    description="Copy hgrc files to .hgrc"
-	    buildArgs='/c copy /y "$(srcroot)\default.hgrc" "$(source-folder)\.hg\hgrc"' />
+	    buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
 
     	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
 
