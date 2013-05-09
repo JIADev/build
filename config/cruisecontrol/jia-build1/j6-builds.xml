@@ -107,6 +107,7 @@
       source = '$(source)/customers/CUST2092'	
       unit-test="True"
       buildVariationLabel=""
+      project-name = 'CUST2092-R1'
       />
 
   <cb:flatbuild
@@ -116,6 +117,7 @@
       source = '$(source)/customers/CUST2092'	
       unit-test="false"
       buildVariationLabel=""
+      project-name = 'CUST2092-REQ11'
       />
   
   <cb:flatbuild
@@ -124,6 +126,7 @@
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2092'	
       buildVariationLabel=""
+      project-name = 'CUST2092-REQ6'
       />
   
   <cb:flatbuild
@@ -229,6 +232,7 @@
       driver = 'CUST2090'
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2090'	
+      project-name = 'CUST2090-R2'
       />
 
   <cb:flatbuild
@@ -236,6 +240,7 @@
       driver = 'CUST2090'
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2090'	
+      project-name = 'CUST2090-REQ21'
       />
 <!--
   <cb:flatbuild
