@@ -7,15 +7,9 @@
       <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
     </exec>
       <exec executable="$(cmdExe)" 
-	    description="Copy .xml files to server config folder"
-	    buildArgs='/c copy /y "$(source-folder)" "$(project-folder)"' />
+	    description="Copy source"
+	    buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
 
-    <exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)" 
-	  description="Copy source" 
-	  successExitCodes="0">
-      <buildArgs>xcopy $(source-folder) $(project-folder) /e/q/y /exclude:\.hg\</buildArgs>
-    </exec>
   </cb:define>
   
   <cb:define name="msbuild-clean">
