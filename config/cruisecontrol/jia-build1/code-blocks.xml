@@ -6,6 +6,10 @@
 	  successExitCodes="0"> 
       <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
     </exec>
+      <exec executable="$(cmdExe)" 
+	    description="Copy .xml files to server config folder"
+	    buildArgs='/c copy /y "$(source-folder)" "$(project-folder)"' />
+
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)" 
 	  description="Copy source" 
@@ -57,8 +61,9 @@
   </cb:define>
 
   <cb:define name="update-source">
-
-    <exec executable="$(cmdExe)" description="configure hg subrepo path" buildArgs = "copy /y $(srcroot)\default.hgrc $(source-folder)\.hg\hgrc" />
+      <exec executable="$(cmdExe)" 
+	    description="Copy hgrc files to .hgrc"
+	    buildArgs='/c copy /y "$(srcroot)\default.hgrc" "$(source-folder)\.hg\hgrc"' />
 
     	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
 
