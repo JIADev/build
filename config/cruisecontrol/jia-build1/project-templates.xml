@@ -29,6 +29,7 @@
 	<branch>$(branch)</branch>
       </sourcecontrol>
       <prebuild>
+	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
 	<conditional description="Clean working directory">
 	  <conditions>
 	    <compareCondition>
@@ -144,6 +145,7 @@
 	<branch>$(branch)</branch>
       </sourcecontrol>
       <prebuild>
+	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
 	<conditional description="Clean working directory">
 	  <conditions>
 	    <compareCondition>
