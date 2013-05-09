@@ -4,75 +4,76 @@
   <!-- Source control projects -->
   
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
+
+<!-- release branches -->
   
-  <!-- mssetup-project defines both mssetupbuild and mssetuppackage. You no longer need to specify both in ccnet.config. -CVS -->
-  
-  <!--
-      <cb:mssetup-project
-      branch='sprint'
-      driver = 'CUST2087'
-      include-source="true"
-      />
-      <cb:mssetup-project
-      branch='demo_7_4_3'
-      driver=''
-      />
-      
-      <cb:mssetup-project
-      branch='7_4_1'
-      driver = 'CUST2085'
-      />
-  -->
-  
-  <!-- We only want to build CUST000 on sprint, not create a package, so we use mssetupbuild here. -CVS -->
-  
-  <!--
-      <cb:mssetupbuild
-      branch='sprint'
-      driver='CUST000'
-      />
-  -->
-  
-  <cb:customerbuild
-      branch = '7.4.5'
-      driver = 'CUST2089'
+  <cb:flatbuild
+      project-name="CUST$(branch)"
+      branch = '2090-R2'
+      driver = 'CUST2090'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2089'	
+      source = '$(source)/customers/CUST2090'	
       />
 
-  <!--
-      <cb:customerbuild
-      tag = 'DEMO'
-      driver = 'CUST000'
+  <cb:flatbuild
+      project-name="CUST$(branch)"
+      branch = '2092-R1'
+      driver = 'CUST2092'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
+      source = '$(source)/customers/CUST2092'	
+      unit-test="True"
+      buildVariationLabel=""
       />
-      <cb:customerbuild
-      branch = 'default'
-      driver = 'CUST000'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
-      unit-test="True"	
-      />
-      <cb:nightlybuild
-      branch = 'default'
-      driver = 'CUST000'
-      buildVariationLabel = '-nightlybuild'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
-      unit-test="True"	
-      />
-      
-      <cb:customerbuild
-      branch = '7.5.1'
-      driver = 'CUST000'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
-      unit-test="True"	
-      />
-      
-  -->
 
+<!-- req branches -->
+
+  <cb:flatbuild
+      project-name="CUST$(branch)"
+      branch = '2090-REQ21'
+      driver = 'CUST2090'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2090'	
+      />
+
+  <cb:flatbuild
+      project-name="CUST$(branch)"
+      branch = '2092-REQ11'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2092'	
+      unit-test="false"
+      buildVariationLabel=""
+      />
+  
+  <cb:flatbuild
+      project-name="CUST$(branch)"
+      branch = '2092-REQ6'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2092'	
+      buildVariationLabel=""
+      />
+  
+<!-- version branches -->  
+
+  <cb:flatbuild
+      branch = '7.5.4'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2092'	
+      unit-test="false"
+      buildVariationLabel=""
+      />
+
+  <cb:flatbuild
+      branch = '7.5.4'
+      driver = 'CUST000'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST000'	
+      unit-test="True"
+      buildVariationLabel=""
+      />
+  
   <cb:flatbuild
       branch = '7.5.3'
       driver = 'CUST000'
@@ -82,48 +83,35 @@
       buildVariationLabel=""
       />
 
-    <cb:flatbuild
-      branch = '7.5.4'
-      driver = 'CUST000'
+  <cb:flatbuild
+      branch = '7.5.2'
+      driver = 'CUST2091'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
-      unit-test="True"
-      buildVariationLabel=""
+      source = '$(source)/customers/CUST2091'	
+      unit-test="True"	
       />
   
   <cb:flatbuild
-      branch = '7.5.4'
-      driver = 'CUST2092'
+      branch = '7.5.2'
+      driver = 'CUST001'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
-      unit-test="false"
-      buildVariationLabel=""
+      source = '$(source)/customers/CUST001'	
+      unit-test="True"	
+      />
+  
+  <cb:customerbuild
+      branch = '7.5.2'
+      driver = 'CUST2088'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2088'	
+      unit-test="True"	
       />
   
   <cb:flatbuild
-      branch = 'R1'
-      driver = 'CUST2092'
+      branch = '7.5.2'
+      driver = 'CUST2093'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
-      unit-test="True"
-      buildVariationLabel=""
-      />
-
-  <cb:flatbuild
-      branch = 'REQ11'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
-      unit-test="false"
-      buildVariationLabel=""
-      />
-  
-  <cb:flatbuild
-      branch = 'CUST2092_REQ6'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
-      buildVariationLabel=""
+      source = '$(source)/customers/CUST2093'	
       />
   
   <cb:flatbuild
@@ -136,6 +124,7 @@
       />
   
   <cb:flatbuild
+      project-name="$(driver)-$(tag)"
       branch = '7.5.2'
       tag = '7.5.2_start'
       driver = 'CUST000'
@@ -143,7 +132,59 @@
       source = '$(source)/customers/CUST000'	
       unit-test="True"	
       />
+
+  <cb:flatbuild
+      branch = '7.5.0'
+      driver = 'CUST2086'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2086'	
+      />
   
+  <cb:flatbuild
+      branch = '7.5.0'
+      driver = 'CUST065'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST065'	
+      />
+  
+  <cb:customerbuild
+      branch = '7.4.5'
+      driver = 'CUST2088'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2088'	
+      />
+  
+  <cb:customerbuild
+      branch = '7.4.5'
+      driver = 'CUST2089'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2089'	
+      />
+
+  <cb:customerbuild
+      branch = '7.4.4'
+      driver = 'CUST069'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST069'	
+      />
+  
+  <cb:customerbuild
+      branch = '7.4.1'
+      driver = 'CUST2083'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2083'	
+      />
+  
+  <cb:customerbuild
+      branch = '7.4.1'
+      bookmark = 'dev'
+      driver = 'CUST2083'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2083'	
+      />
+
+<!-- "default" branches -->
+
   <cb:customerbuild
       branch = 'default'
       driver = 'CUST043'
@@ -163,27 +204,6 @@
       include-source = 'true'
       />
   
-  <cb:flatbuild
-      branch = '7.5.0'
-      driver = 'CUST065'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST065'	
-      />
-  
-  <cb:customerbuild
-      branch = '7.4.4'
-      driver = 'CUST069'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST069'	
-      />
-  
-  <cb:customerbuild
-      branch = '7.4.5'
-      driver = 'CUST2088'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2088'	
-      />
-  
   <cb:customerbuild
       branch = 'default'
       driver = 'CUST2082'
@@ -192,194 +212,5 @@
       configuration="Debug"
       protect="false"
       />
-
-  <!--
-      <cb:customerbuild
-      branch = 'default'
-      driver = 'CUST2086'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2086'	
-      />
-  -->
-
-  <cb:flatbuild
-      branch = '7.5.0'
-      driver = 'CUST2086'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2086'	
-      />
-  
-  <cb:customerbuild
-      branch = '7.4.1'
-      driver = 'CUST2083'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2083'	
-      />
-  
-  <cb:customerbuild
-      branch = '7.4.1'
-      bookmark = 'dev'
-      driver = 'CUST2083'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2083'	
-      />
-  
-  <cb:flatbuild
-      branch = 'RELEASE-2'
-      driver = 'CUST2090'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2090'	
-      />
-
-  <cb:flatbuild
-      branch = 'REQ21'
-      driver = 'CUST2090'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2090'	
-      />
-<!--
-  <cb:flatbuild
-      branch = 'RELEASE-2-CVS_TestBuild'
-      driver = 'CUST2090'
-      db-server = "dev-sql1"
-      source = "$(source)/customers/CUST2090"
-      package="false"
-      />
--->
-  <cb:flatbuild
-      branch = '7.5.2'
-      driver = 'CUST2091'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2091'	
-      unit-test="True"	
-      />
-  
-  <cb:flatbuild
-      branch = '7.5.2'
-      driver = 'CUST001'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST001'	
-      unit-test="True"	
-      />
-  
-  
-  <cb:customerbuild
-      branch = '7.5.2'
-      driver = 'CUST2088'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2088'	
-      unit-test="True"	
-      />
-  
-  <cb:flatbuild
-      branch = '7.5.2'
-      driver = 'CUST2093'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2093'	
-      />
-
-  <!--
-      <cb:mssetup-project
-      branch='7_4_1'
-      driver='CUST2083'
-      bookmark="rte"
-      prevent-multipleheads="false"
-      />
-      
-      <cb:mssetup-project
-      branch='7_4_1'
-      driver='CUST2083'
-      bookmark="pvgv"
-      prevent-multipleheads="false"
-      />
-      
-      <cb:mssetup-project
-      branch='7_4_1_perf'
-      driver='CUST2083'
-      bookmark="perf"
-      prevent-multipleheads="false"
-      />
-      <cb:mssetup-project
-      branch='7_4_1'
-      driver='CUST2083'
-      />
-      
-      <cb:mssetup-project
-      branch='7_4_1'
-      bookmark='UTH-PROD'
-      driver='CUST2083'
-      />
-      
-      
-      <cb:mssetup-project
-      branch='sprint'
-      hgBranch='7.4.4'
-      driver='CUST065'
-      prevent-multipleheads="false"
-      />
-      
-      <cb:mssetup-project
-      branch='sprint'
-      hgBranch='7.4.4'
-      driver='CUST069'
-      prevent-multipleheads="false"
-      modules='AUTOSHIP'
-      />
-      
-      <cb:mssetup-project
-      branch='sprint'
-      hgBranch='7.4.5'
-      driver='CUST2088'
-      prevent-multipleheads="false"
-      />
-      
-  -->
-  
-  <!-- Pre-7.4 style builds  -->
-  
-  <!--	
-      <cb:build-deploy-package
-      project-root = 'jia-JJL-7.3.3-jjl'
-      source = '$(ccroot)\branch_7_3_3_jjl'
-      trigger-project = 'branch_7_3_3_jjl'
-      driver = 'CUST2082'
-      msbuild = "C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe" />
-      />
-      
-      <cb:build-deploy-package
-      project-root = 'jia-CUST2086-7.3.3'
-      source = '$(ccroot)\branch_7_3_3'
-      trigger-project = 'branch_7_3_3'
-      driver = 'CUST2086'
-      msbuild = "C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe" />
-      />
-      
-      <cb:build-deploy-package
-      project-root = 'jia-CUST043-7.3.4'
-      source = '$(ccroot)\branch_7_3_4'
-      trigger-project = 'branch_7_3_4'
-      driver = 'CUST043'
-      global_feature="c:\build\feature.exe"
-      msbuild = "C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe" />
-      />
-      
-      <cb:build-deploy-package
-      project-root = 'jia-CUST000-7.3.3'
-      source = '$(ccroot)\branch_7_3_3'
-      trigger-project = 'branch_7_3_3'
-      driver = 'CUST000'
-      msbuild = "C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe" />
-      />
-  -->
-  
-  <!--
-      <cb:build-deploy-package
-      project-root = 'jia-CUST000-7.3.3'
-      source = '$(ccroot)\branch_7_3_3'
-      trigger-project = 'branch_7_3_3'
-      driver = 'CUST000'
-      msbuild = "C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe" />
-      />
-  -->
 
 </cb:config-template>

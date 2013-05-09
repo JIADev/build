@@ -2,28 +2,63 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   
   <!-- Common definitions for all projects, edit to suit your system -->
-  <cb:define hg = "C:\progra~1\Mercurial\hg.exe" />
-  <cb:define feature="Core\boot\feature.exe" />
-  <cb:define global_feature_dir="c:\build" />
-  <cb:define scripts_dir="c:\build\scripts" />
-  <cb:define global_feature="c:\build\feature.exe" />
-  <cb:define modules="NONE" />
-  <cb:define ccroot="f:\cc" />
-  <cb:define pkgroot="f:\pkg" />
-  <cb:define ccserver="C:\Program Files (x86)\CruiseControl.NET\server" />
-  <cb:define source="http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature" />
-  <cb:define mailhost="mail.jenkon.com"/>
-  <cb:define ndepend="C:\ndepend\NDepend.Console.exe"/>
-  <cb:define gendarme="C:\Program Files\Novell\Gendarme\gendarme.exe"/>
-  <cb:define fxcop="C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCop.exe"/>
-  <cb:define msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" />
-  <cb:define 		
+
+  <!-- Paths -->
+  <cb:define 
+      hg = "C:\progra~1\Mercurial\hg.exe"
+      feature="Core\boot\feature.exe"
+      sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
+      global_feature_dir="c:\build" 
+      scripts_dir="c:\build\scripts"
+      global_feature="c:\build\feature.exe"
+      ccserver="C:\Program Files (x86)\CruiseControl.NET\server"
+      ndepend="C:\ndepend\NDepend.Console.exe"
+      gendarme="C:\Program Files\Novell\Gendarme\gendarme.exe"
+      fxcop="C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCop.exe"
+      msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
+      powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+      deploy-root="\\dl360-web2\QA_Sites"
+      rtq-server="\\dl360-web2"
+      ccroot="f:\cc"
+      pkgroot="f:\pkg"
+      srcroot="f:\cc\src"
+      artifactroot="f:\cc\artifacts"
+      deploy-root-local="C:\j6\QA_Sites"
+      cmdExe="C:\WINDOWS\system32\cmd.exe"
+      ccNetSourceWorkingDir="$(ccroot)\ccnet"
+      ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol\jia-build1" 
+      ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
+      ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
+      source-folder="$(srcroot)\$(project-name)"
+      artifact-folder="$(artifactroot)\$(project-name)"
+      project-folder="$(ccroot)\$(project-name)"
+      ccNetLogDir="f:\ccnet.log" />
+
+  <!-- Network Urls and Servers -->
+  <cb:define
+      source="http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature"
+      mailhost="mail.jenkon.com"
+      ccwebroot="http://$(ccBuildServer)/ccnet/"
       db-server="dev-sql1"
+      ccBuildServer="jia-build1" />
+
+  <!-- Credentials -->
+  <cb:define
       db-user="sqluser"
       db-password="j0l-6-web"
-      rtq-server="\\dl360-web2"
-      deploy-root="\\dl360-web2\QA_Sites"
-      deploy-root-local="C:\j6\QA_Sites"
+      />
+
+  <!-- Build Switches -->
+  <cb:define
+      modules="NONE" 
+      platform="AnyCpu"
+      configuration="Release"
+      include-source="false"
+      protect="true" />
+
+  <!-- Other defaults -->
+  <cb:define
+      sourceCheckInterval = "600"
       bookmark=""
       hgBranch="default"
       pull-options=""
@@ -34,6 +69,7 @@
       recreate-db="true"
       install-patches="true"
       buildVariationLabel=""
+      project-name="$(project-root)"
       />
   
 </cb:config-template>
