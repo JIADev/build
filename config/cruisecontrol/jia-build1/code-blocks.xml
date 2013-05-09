@@ -94,7 +94,7 @@
     <exec 
 	description="Create Database" 
 	executable="$(sqlCmd)">
-      <buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "CREATE DATABASE [$(db-name)]</buildArgs>
+      <buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "CREATE DATABASE [$(db-name)]"</buildArgs>
     </exec>
   </cb:define>
   
