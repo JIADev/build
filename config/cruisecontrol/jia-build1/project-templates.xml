@@ -113,7 +113,7 @@
       <externalLinks>
 	<externalLink name="root" url="$(ccwebroot)" />
       </externalLinks>
-      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
 
@@ -229,7 +229,7 @@
       <externalLinks>
 	<externalLink name="root" url="$(ccwebroot)" />
       </externalLinks>
-      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
 

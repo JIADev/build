@@ -57,11 +57,11 @@
 
   <cb:define name="update-source">
       <exec executable="$(cmdExe)" 
-	    description="Copy hgrc files to .hgrc"
+	    description="Copy default.hgrc file to .hg\hgrc"
 	    buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
 
       <exec executable="$(cmdExe)" 
-	    description="Copy hgrc files to .hgrc"
+	    description="Copy exclude file to source folder"
 	    buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
 
     	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
