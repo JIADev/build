@@ -65,6 +65,7 @@
       install-patches="true"
       buildVariationLabel=""
       project-name="$(project-root)"
+      project-folder="$(ccroot)\$(project-name)"
       />
   
 </cb:config-template>

@@ -9,7 +9,6 @@
       <triggers>
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
       </triggers>
-      <cb:define project-folder="$(ccroot)\$(project-name)" />
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
       <sourcecontrol type="hg">
@@ -152,7 +151,6 @@
       <triggers>
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
       </triggers>
-      <cb:define project-folder="$(ccroot)\$(project-name)" />
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
       <sourcecontrol type="hg">
