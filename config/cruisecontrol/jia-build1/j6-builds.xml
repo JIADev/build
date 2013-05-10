@@ -145,6 +145,7 @@
       branch = '2086_7.5.0'
       driver = 'CUST2086'
       db-server="dev-sql1"
+      exclude-files="true"
       source = '$(source)/customers/CUST2086'	
       />
   
@@ -153,6 +154,7 @@
       branch = '065_7.5.0'
       driver = 'CUST065'
       db-server="dev-sql1"
+      exclude-files="true"
       source = '$(source)/customers/CUST065'	
       />
   
