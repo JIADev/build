@@ -139,8 +139,9 @@
     </exec>
     <exec
 	executable="$(powershell)" 
+	baseDirectory="$(source-folder)"
 	description = "create $(driver)/REVISION.txt">
-      <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"</buildArgs>
+      <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(project-folder)\$(driver)\REVISION.txt"</buildArgs>
     </exec>
     
     <msbuild description="package build (timeout 25 mins)"
