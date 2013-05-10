@@ -60,7 +60,7 @@
   <cb:define
       sourceCheckInterval = "600"
       bookmark=""
-      excludeFiles="true"
+      excludeFiles="false"
       hgBranch="default"
       pull-options=""
       tag = ""
