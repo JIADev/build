@@ -6,11 +6,29 @@
 	  successExitCodes="0"> 
       <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
     </exec>
-    <exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)"
-	  description="Copy source"
-	  buildArgs='/c xcopy /s/e/y/q/i /exclude:$(source-folder)\excludeFiles.config "$(source-folder)" "$(project-folder)"' />
-
+    <conditional>
+      <conditions>
+	<compareCondition>
+	  <value1>$(excludeFiles)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy source"
+	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(source-folder)\excludeFiles.config "$(source-folder)" "$(project-folder)"' />
+      </tasks>
+      <elseTasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy source"
+	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
+      </elseTasks>
+    </conditional>
+    
   </cb:define>
   
   <cb:define name="msbuild-clean">
@@ -54,18 +72,17 @@
       <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark)</buildArgs>
     </msbuild>
   </cb:define>
-
+  
   <cb:define name="update-source">
-      <exec executable="$(cmdExe)" 
-	    description="Copy default.hgrc file to .hg\hgrc"
-	    buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
-
-      <exec executable="$(cmdExe)" 
-	    description="Copy exclude file to source folder"
-	    buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
-
-    	<exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
-
+    <exec executable="$(cmdExe)" 
+	  description="Copy default.hgrc file to .hg\hgrc"
+	  buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
+    <exec executable="$(cmdExe)" 
+	  description="Copy exclude file to source folder"
+	  buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
+    
+    <exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
+    
   </cb:define>
   <cb:define name="f-setup">
     <exec 
