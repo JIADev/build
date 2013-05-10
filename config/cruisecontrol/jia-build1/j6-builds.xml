@@ -12,7 +12,8 @@
       branch = '2090-R2'
       driver = 'CUST2090'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2090'	
+      source = '$(source)/customers/CUST2090'
+      exclude-files="true"
       />
 
   <cb:flatbuild
@@ -23,6 +24,7 @@
       source = '$(source)/customers/CUST2092'	
       unit-test="True"
       buildVariationLabel=""
+      exclude-files="true"
       />
 
 <!-- req branches -->

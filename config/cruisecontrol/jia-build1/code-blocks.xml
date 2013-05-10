@@ -9,7 +9,7 @@
     <conditional>
       <conditions>
 	<compareCondition 
-	    value1="$(excludeFiles)" 
+	    value1="$(exclude-files)" 
 	    value2="true" 
 	    evaluation="equal"
 	    ignoreCase="true" />
