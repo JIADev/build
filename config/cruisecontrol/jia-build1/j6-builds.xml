@@ -44,6 +44,7 @@
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2092'	
       unit-test="false"
+      exclude-files="true"
       buildVariationLabel=""
       />
   
@@ -53,6 +54,7 @@
       driver = 'CUST2092'
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2092'	
+      exclude-files="true"
       buildVariationLabel=""
       />
   
