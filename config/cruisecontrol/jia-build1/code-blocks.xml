@@ -59,6 +59,11 @@
     <exec executable="$(cmdExe)" 
 	  description="Copy default.hgrc file to .hg\hgrc"
 	  buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
+
+    <exec executable="$(cmdExe)" 
+	  description="Configure hgrc"
+	  buildArgs='/c echo $(driver)/ >> $(source-folder)\.hg\hgrc"' />
+
     <exec executable="$(cmdExe)" 
 	  description="Copy exclude file to source folder"
 	  buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
