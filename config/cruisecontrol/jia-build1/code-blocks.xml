@@ -18,19 +18,20 @@
       <tasks>
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
-	      description="Copy source"
+	      description="Copy source (timeout 20 min)"
+	      timeout="1200"
 	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(source-folder)\excludeFiles.config "$(source-folder)" "$(project-folder)"' />
       </tasks>
       <elseTasks>
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
-	      description="Copy source"
+	      description="Copy source (timeout 20 min)"
+	      timeout="1200"
 	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
       </elseTasks>
     </conditional>
-    
   </cb:define>
-  
+
   <cb:define name="msbuild-clean">
     <msbuild 
 	description="clean (timeout 20 mins)"
