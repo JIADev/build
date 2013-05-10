@@ -25,18 +25,6 @@
       buildVariationLabel=""
       />
 
-  <cb:flatbuild
-      project-name="CVS-CUST$(branch)"
-      branch = '2092-R1'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
-      unit-test="false"
-      package="false"
-      excludeFiles="true"
-      buildVariationLabel=""
-      />
-
 <!-- req branches -->
 
   <cb:flatbuild
