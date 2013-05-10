@@ -33,6 +33,7 @@
       source = '$(source)/customers/CUST2092'	
       unit-test="false"
       package="false"
+      excludeFiles="true"
       buildVariationLabel=""
       />
 
