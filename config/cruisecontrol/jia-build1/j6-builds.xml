@@ -64,6 +64,7 @@
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2092'	
       unit-test="false"
+      exclude-files="true"
       buildVariationLabel=""
       />
 
@@ -73,6 +74,7 @@
       db-server="dev-sql1"
       source = '$(source)/customers/CUST000'	
       unit-test="True"
+      exclude-files="true"
       buildVariationLabel=""
       />
   
@@ -82,6 +84,7 @@
       db-server="dev-sql1"
       source = '$(source)/customers/CUST000'	
       unit-test="True"
+      exclude-files="true"
       buildVariationLabel=""
       />
 
