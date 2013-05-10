@@ -39,33 +39,8 @@
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+	<cb:f-install-patches />
 	<cb:f-setup />
-	<conditional description="Install patches">
-	  <conditions>
-	    <compareCondition>
-	      <value1>$(install-patches)</value1>
-	      <value2>true</value2>
-	      <evaluation>equal</evaluation>
-	      <ignoreCase>true</ignoreCase>
-	    </compareCondition>
-	  </conditions>
-	  <tasks>
-	    <conditional description="Recreate database based upon switch">
-	      <conditions>
-		<compareCondition>
-		  <value1>$(recreate-db)</value1>
-		  <value2>true</value2>
-		  <evaluation>equal</evaluation>
-		  <ignoreCase>true</ignoreCase>
-		</compareCondition>
-	      </conditions>
-	      <tasks>
-		<cb:recreate-database />
-	      </tasks>
-	    </conditional>
-	    <exec executable="$(feature)" description = "install patches (timeout 15 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '900' />
-	  </tasks>
-	</conditional>
 	<cb:f-build />
 	
 	<conditional description="Run unit tests">
@@ -143,34 +118,8 @@
 	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
 	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
 	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
+	<cb:f-install-patches />
 	<cb:f-setup />
-	<conditional description="Setup database">
-	  <conditions>
-	    <compareCondition>
-	      <value1>$(install-patches)</value1>
-	      <value2>true</value2>
-	      <evaluation>equal</evaluation>
-	      <ignoreCase>true</ignoreCase>
-	    </compareCondition>
-	  </conditions>
-	  <tasks description="Setup database">
-	    <conditional description="Recreate database based upon switch">
-	      <conditions>
-		<compareCondition>
-		  <value1>$(recreate-db)</value1>
-		  <value2>true</value2>
-		  <evaluation>equal</evaluation>
-		  <ignoreCase>true</ignoreCase>
-		</compareCondition>
-	      </conditions>
-	      <tasks description="Recreate Database">
-		<cb:recreate-database />
-	      </tasks>
-	    </conditional>
-	    
-	    <exec executable="$(feature)" description = "install patches (timeout 15 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '900' />
-	  </tasks>
-	</conditional>
 	<cb:f-build />
 	<conditional description="Run unit tests">
 	  <conditions>
