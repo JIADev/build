@@ -6,11 +6,30 @@
 	  successExitCodes="0"> 
       <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
     </exec>
-    <exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)"
-	  description="Copy source (timeout 20 min)"
-	  buildTimeoutSeconds="1200"
-	  buildArgs='/c xcopy /s/e/y/q/i /exclude:$(source-folder)\excludeFiles.config "$(source-folder)" "$(project-folder)"' />
+    <conditional>
+      <conditions>
+	<compareCondition 
+	    value1="$(excludeFiles)" 
+	    value2="true" 
+	    evaluation="equal"
+	    ignoreCase="true" />
+      </conditions>
+      <tasks>
+	
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy source (timeout 20 min)"
+	      buildTimeoutSeconds="1200"
+	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(source-folder)\excludeFiles.config "$(source-folder)" "$(project-folder)"' />
+      </tasks>
+      <elseTasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy source (timeout 20 min)"
+	      buildTimeoutSeconds="1200"
+	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
+      </elseTasks>
+    </conditional>
   </cb:define>
 
   <cb:define name="msbuild-clean">
@@ -129,7 +148,7 @@
 	     projectFile="j6.proj"
 	     targets="Package"
 	     timeout="1500">
-      <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect)</buildArgs>
+      <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
     </msbuild>
     <exec 
 	executable="$(powershell)" 
