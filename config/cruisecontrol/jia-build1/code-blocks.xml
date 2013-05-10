@@ -90,6 +90,36 @@
     <exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
     
   </cb:define>
+  
+  <cb:define name="f-install-patches">
+    <conditional description="Setup Database">
+      <conditions>
+	<compareCondition>
+	  <value1>$(install-patches)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks description="Setup Database">
+	<conditional description="Recreate database based upon switch">
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(recreate-db)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks description="Recreate Database">
+	    <cb:recreate-database />
+	  </tasks>
+	</conditional>
+	<exec executable="$(feature)" description = "install patches (timeout 15 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '900' />
+      </tasks>
+    </conditional>
+  </cb:define>
+
   <cb:define name="f-setup">
     <exec 
 	executable="$(feature)" 
