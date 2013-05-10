@@ -134,14 +134,14 @@
       />
 
   <cb:flatbuild
-      branch = '7.5.0'
+      branch = '2086_7.5.0'
       driver = 'CUST2086'
       db-server="dev-sql1"
       source = '$(source)/customers/CUST2086'	
       />
   
   <cb:flatbuild
-      branch = '7.5.0'
+      branch = '065_7.5.0'
       driver = 'CUST065'
       db-server="dev-sql1"
       source = '$(source)/customers/CUST065'	
