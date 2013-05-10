@@ -29,19 +29,7 @@
       </sourcecontrol>
       <prebuild>
 	<cb:update-source />
-	<conditional description="Clean working directory">
-	  <conditions>
-	    <compareCondition>
-	      <value1>$(forceclean)</value1>
-	      <value2>true</value2>
-	      <evaluation>equal</evaluation>
-	      <ignoreCase>true</ignoreCase>
-	    </compareCondition>
-	  </conditions>
-	  <tasks description="Force clean">
-	    <cb:force-clean />
-	  </tasks>
-	</conditional>
+	<cb:force-clean />
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
@@ -145,19 +133,7 @@
       </sourcecontrol>
       <prebuild>
 	<cb:update-source />
-	<conditional description="Clean working directory">
-	  <conditions>
-	    <compareCondition>
-	      <value1>$(forceclean)</value1>
-	      <value2>true</value2>
-	      <evaluation>equal</evaluation>
-	      <ignoreCase>true</ignoreCase>
-	    </compareCondition>
-	  </conditions>
-	  <tasks description="Force clean">
-	    <cb:force-clean />
-	  </tasks>
-	</conditional>
+	<cb:force-clean />
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
