@@ -134,6 +134,7 @@
       />
 
   <cb:flatbuild
+      project-name="CUST$(branch)"
       branch = '2086_7.5.0'
       driver = 'CUST2086'
       db-server="dev-sql1"
@@ -141,6 +142,7 @@
       />
   
   <cb:flatbuild
+      project-name="CUST$(branch)"
       branch = '065_7.5.0'
       driver = 'CUST065'
       db-server="dev-sql1"
