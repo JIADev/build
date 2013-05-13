@@ -46,6 +46,15 @@
   
   <cb:flatbuild
       project-name="CUST$(branch)"
+      branch = '2090-REQ17'
+      driver = 'CUST2090'
+      db-server="dev-sql1"
+      source = '$(source)/customers/CUST2090'	
+      exclude-files="true"
+      />
+  
+  <cb:flatbuild
+      project-name="CUST$(branch)"
       branch = '2092-REQ6'
       driver = 'CUST2092'
       db-server="dev-sql1"
