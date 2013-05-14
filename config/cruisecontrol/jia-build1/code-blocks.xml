@@ -31,7 +31,7 @@
       </elseTasks>
     </conditional>
   </cb:define>
-
+  
   <cb:define name="msbuild-clean">
     <msbuild 
 	description="clean (timeout 20 mins)"
@@ -49,7 +49,7 @@
   
   <cb:define name="copy-logger-local">
     <exec description="Copy CruiseControl MSBuild.dll"
-	executable = "$(cmdExe)">
+	  executable = "$(cmdExe)">
       <buildArgs>/C copy "$(ccserver)\ThoughtWorks.CruiseControl.MSBuild.dll" $(project-folder)</buildArgs>
     </exec>
   </cb:define>
@@ -78,11 +78,11 @@
     <exec executable="$(cmdExe)" 
 	  description="Copy default.hgrc file to .hg\hgrc"
 	  buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
-
+    
     <exec executable="$(cmdExe)" 
 	  description="Configure hgrc"
 	  buildArgs='/c echo $(driver)/ >> $(source-folder)\.hg\hgrc' />
-
+    
     <exec executable="$(cmdExe)" 
 	  description="Copy exclude file to source folder"
 	  buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
@@ -119,7 +119,23 @@
       </tasks>
     </conditional>
   </cb:define>
-
+  
+  <cb:define name="f-unit-tests">
+    <conditional description="Run unit tests">
+      <conditions>
+	<compareCondition>
+	  <value1>$(unit-test)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks description="Run unit tests">
+	<cb:feature-test-unit />
+      </tasks>
+    </conditional>
+  </cb:define>
+  
   <cb:define name="f-setup">
     <exec 
 	executable="$(feature)" 
@@ -159,6 +175,28 @@
 	buildTimeoutSeconds = "14400"> 
       <buildArgs>test --pattern UnitTest</buildArgs>
     </exec>
+  </cb:define>
+  
+  <cb:define name="f-package">
+    <conditional description="Package">
+      <conditions>
+	<compareCondition>
+	  <value1>$(package)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks description="Package">
+	<cb:msbuild-package />
+      </tasks>
+    </conditional>
+  </cb:define>
+  
+  <cb:define name="create-settings">
+    <exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+    <exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+    <exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
   </cb:define>
   
   <cb:define name="msbuild-package">
