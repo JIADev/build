@@ -1,0 +1,213 @@
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <cb:define name="force-clean">
+    <exec executable="$(cmdExe)" 
+	  baseDirectory="$(ccroot)" 
+	  description="Delete entire project folder" 
+	  successExitCodes="0"> 
+      <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
+    </exec>
+    <conditional description="Copy source">
+      <conditions>
+	<compareCondition 
+	    value1="$(exclude-files)" 
+	    value2="true" 
+	    evaluation="equal"
+	    ignoreCase="true" />
+      </conditions>
+      <tasks>
+	
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy source (timeout 20 min)"
+	      buildTimeoutSeconds="1200"
+	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(source-folder)\excludeFiles.config "$(source-folder)" "$(project-folder)"' />
+      </tasks>
+      <elseTasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy source (timeout 20 min)"
+	      buildTimeoutSeconds="1200"
+	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
+      </elseTasks>
+    </conditional>
+  </cb:define>
+
+  <cb:define name="msbuild-clean">
+    <msbuild 
+	description="clean (timeout 20 mins)"
+	executable="$(msbuild)"
+	projectFile="j6.proj"
+	buildArgs=""
+	targets="Clean"
+	timeout="1200" />
+    <exec 
+	executable="$(powershell)" 
+	description = "Clear log files">
+      <buildArgs>-c "rm -r -fo $(project-folder)\*.log*"</buildArgs>
+    </exec>
+  </cb:define>
+  
+  <cb:define name="copy-logger-local">
+    <exec description="Copy CruiseControl MSBuild.dll"
+	executable = "$(cmdExe)">
+      <buildArgs>/C copy "$(ccserver)\ThoughtWorks.CruiseControl.MSBuild.dll" $(project-folder)</buildArgs>
+    </exec>
+  </cb:define>
+  
+  <cb:define name="configure-db">
+    <msbuild description="configure database (timeout 20 mins)"
+	     executable="$(msbuild)"
+	     projectFile="j6.proj"
+	     targets="Configure"
+	     timeout="1200">
+      <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark);hgBranch=$(hgBranch)</buildArgs>
+    </msbuild>
+  </cb:define>
+  
+  <cb:define name="build-feature-exe">
+    <msbuild description="build feature.exe (timeout 5 mins)"
+	     executable="$(msbuild)"
+	     projectFile="j6.proj"
+	     targets="Bootstrap"
+	     timeout="300">
+      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark)</buildArgs>
+    </msbuild>
+  </cb:define>
+  
+  <cb:define name="update-source">
+    <exec executable="$(cmdExe)" 
+	  description="Copy default.hgrc file to .hg\hgrc"
+	  buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
+
+    <exec executable="$(cmdExe)" 
+	  description="Configure hgrc"
+	  buildArgs='/c echo $(driver)/ >> $(source-folder)\.hg\hgrc' />
+
+    <exec executable="$(cmdExe)" 
+	  description="Copy exclude file to source folder"
+	  buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
+    
+    <exec executable="$(powershell)" description = "hg update to branch" buildArgs = '-c "hg update $(branch)"' baseDirectory="$(source-folder)" />
+    
+  </cb:define>
+  
+  <cb:define name="f-install-patches">
+    <conditional description="Setup Database">
+      <conditions>
+	<compareCondition>
+	  <value1>$(install-patches)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks description="Setup Database">
+	<conditional description="Recreate database based upon switch">
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(recreate-db)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks description="Recreate Database">
+	    <cb:recreate-database />
+	  </tasks>
+	</conditional>
+	<exec executable="$(feature)" description = "install patches (timeout 15 mins)" buildArgs = 'install --patch' buildTimeoutSeconds = '900' />
+      </tasks>
+    </conditional>
+  </cb:define>
+
+  <cb:define name="f-setup">
+    <exec 
+	executable="$(feature)" 
+	description = "feature setup (timeout 10 mins)" 
+	buildTimeoutSeconds = '600'>
+      <buildArgs>setup</buildArgs>
+    </exec>
+  </cb:define>
+  
+  <cb:define name="f-build">
+    <exec 
+	executable="$(feature)" 
+	buildTimeoutSeconds = '1500' 
+	description = "Feature Build (timeout 25 mins)">
+      <buildArgs>build /p:Platform=$(platform) /p:Configuration=$(configuration)</buildArgs>
+    </exec>
+  </cb:define>
+  
+  <cb:define name="recreate-database">
+    <exec 
+	description="Drop Database" 
+	executable="$(sqlCmd)">
+      <buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "IF EXISTS (SELECT name FROM sys.databases WHERE name = '$(db-name)') DROP DATABASE [$(db-name)]"</buildArgs>
+    </exec>
+    <exec 
+	description="Create Database" 
+	executable="$(sqlCmd)">
+      <buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "CREATE DATABASE [$(db-name)]"</buildArgs>
+    </exec>
+  </cb:define>
+  
+  <cb:define name="feature-test-unit">
+    <!-- 14400 seconds = 4 hours -->
+    <exec 
+	description="test pattern UnitTest"
+	executable="$(feature)"
+	buildTimeoutSeconds = "14400"> 
+      <buildArgs>test --pattern UnitTest</buildArgs>
+    </exec>
+  </cb:define>
+  
+  <cb:define name="msbuild-package">
+    <exec 
+	executable="$(powershell)"
+	description = "remove old releases">
+      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE-*"</buildArgs>
+    </exec>
+    <exec
+	executable="$(powershell)" 
+	baseDirectory="$(source-folder)"
+	description = "create $(driver)/REVISION.txt">
+      <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(project-folder)\$(driver)\REVISION.txt"</buildArgs>
+    </exec>
+    
+    <msbuild description="package build (timeout 25 mins)"
+	     executable="$(msbuild)"
+	     projectFile="j6.proj"
+	     targets="Package"
+	     timeout="1500">
+      <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
+    </msbuild>
+    <exec 
+	executable="$(powershell)" 
+	description="Create package folder if needed">
+      <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+    </exec>
+    <exec
+	executable="$(powershell)"
+	description = "remove old releases">
+      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"</buildArgs>
+    </exec>
+    <exec 
+	executable="$(powershell)"
+	description="move releases to the package folder">
+      <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
+    </exec>
+  </cb:define>
+  
+  <cb:define name="standard-publishers">
+    <!--
+	<merge>
+	<files>
+	<file>TestResult\j6-test.xml</file>
+	<file>Coverage\UnitTest-coverage.xml</file>
+	</files>
+	</merge>
+    -->
+    <xmllogger />
+    <statistics />
+  </cb:define>
+</cb:config-template>

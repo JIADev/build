@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <cb:define name="customerbuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
+    <cb:define db-name="$(project-name)-DEV" />
+
+    <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+      <triggers>
+	<intervalTrigger seconds = "$(sourceCheckInterval)" />
+      </triggers>
+      <workingDirectory>$(source-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
+      <sourcecontrol type="hg">
+	<autoGetSource>false</autoGetSource>
+	<workingDirectory>$(source-folder)</workingDirectory>
+	<timeout>12000000</timeout>
+	<repo>$(source)</repo>
+	<multipleHeadsFail>false</multipleHeadsFail>
+	<tagOnSuccess>false</tagOnSuccess>
+	<commitModifications>false</commitModifications>
+	<commitUntracked>false</commitUntracked>
+	<purgeModifications>true</purgeModifications>
+	<revertModifications>true</revertModifications>
+	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
+	<committerName>CruiseControl.NET</committerName>
+	<branch>$(branch)</branch>
+      </sourcecontrol>
+      <prebuild>
+	<cb:update-source />
+	<cb:force-clean />
+      </prebuild>
+      <tasks>
+	<cb:copy-logger-local />
+	<cb:configure-db />
+	<cb:build-feature-exe />
+	<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
+	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+	<cb:f-install-patches />
+	<cb:f-setup />
+	<cb:f-build />
+	
+	<conditional description="Run unit tests">
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(unit-test)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:feature-test-unit />
+	  </tasks>
+	</conditional>
+	<conditional description="Package">
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(package)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:msbuild-package />
+	  </tasks>
+	</conditional>
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+
+  <cb:define name="flatbuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+      <triggers>
+	<intervalTrigger seconds = "$(sourceCheckInterval)" />
+      </triggers>
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
+      <sourcecontrol type="hg">
+	<autoGetSource>false</autoGetSource>
+	<workingDirectory>$(source-folder)</workingDirectory>
+	<timeout>120000</timeout>
+	<repo>$(source)</repo>
+	<multipleHeadsFail>false</multipleHeadsFail>
+	<tagOnSuccess>false</tagOnSuccess>
+	<commitModifications>false</commitModifications>
+	<commitUntracked>false</commitUntracked>
+	<purgeModifications>true</purgeModifications>
+	<revertModifications>true</revertModifications>
+	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
+	<committerName>CruiseControl.NET</committerName>
+	<branch>$(branch)</branch>
+      </sourcecontrol>
+      <prebuild>
+	<cb:update-source />
+	<cb:force-clean />
+      </prebuild>
+      <tasks description="Bootstrap setup">
+	<cb:copy-logger-local />
+	<cb:configure-db />
+	<cb:build-feature-exe />
+
+	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
+	<cb:f-install-patches />
+	<cb:f-setup />
+	<cb:f-build />
+	<conditional description="Run unit tests">
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(unit-test)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks description="Run unit tests">
+	    <cb:feature-test-unit />
+	  </tasks>
+	</conditional>
+	<conditional description="Package">
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(package)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks description="Package">
+	    <cb:msbuild-package />
+	  </tasks>
+	</conditional>
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+
+</cb:config-template>
