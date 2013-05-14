@@ -17,16 +17,6 @@
       />
 
   <cb:flatbuild
-      project-name="CUST$(branch)-UNPROTECTED"
-      branch = '2090-R2'
-      driver = 'CUST2090'
-      db-server="dev-sql1"
-      source = '$(source)/customers/CUST2090'
-      exclude-files="true"
-      protect="false"
-      />
-
-  <cb:flatbuild
       project-name="CUST$(branch)"
       branch = '2092-R1'
       driver = 'CUST2092'
