@@ -19,12 +19,19 @@
   </cb:define>
   
   <cb:define name="force-clean">
-    <exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)" 
-	  description="Delete entire project folder" 
-	  successExitCodes="0"> 
-      <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
-    </exec>
+    <conditional description="Delete entire project folder">
+      <conditions>
+	<folderExistsCondition folder="$(project-folder)" />>
+      </conditions>
+      <tasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)" 
+	      description="Delete entire project folder" 
+	      successExitCodes="0"> 
+	  <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
+	</exec>
+      </tasks>
+    </conditional>
     <conditional description="Copy source">
       <conditions>
 	<compareCondition 
