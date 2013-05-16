@@ -131,7 +131,8 @@
       branch = '7.5.2'
       driver = 'CUST000'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
+      source = '$(source)/customers/CUST000'
+      exclude-files = "true"
       />
   
   <cb:customerbuild
