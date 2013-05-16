@@ -109,6 +109,7 @@
       driver = 'CUST001'
       db-server="dev-sql1"
       source = '$(source)/customers/CUST001'	
+      exclude-files="true"
       />
   
   <cb:customerbuild
