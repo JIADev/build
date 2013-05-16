@@ -36,7 +36,8 @@
 
   <!-- Network Urls and Servers -->
   <cb:define
-      source="http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature"
+      repo-source-root="http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature"
+      source="$(repo-source-root)/customers/$(driver)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://$(ccBuildServer)/ccnet/"
       db-server="dev-sql1"

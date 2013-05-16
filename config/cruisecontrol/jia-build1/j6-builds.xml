@@ -12,7 +12,6 @@
       branch = '2090-R2'
       driver = 'CUST2090'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2090'
       exclude-files="true"
       />
 
@@ -21,7 +20,6 @@
       branch = '2092-R1'
       driver = 'CUST2092'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
       exclude-files="true"
       />
 
@@ -32,7 +30,6 @@
       branch = '2090-REQ21'
       driver = 'CUST2090'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2090'	
       />
 
   <cb:customerbuild
@@ -40,7 +37,6 @@
       branch = '2092-REQ11'
       driver = 'CUST2092'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
       exclude-files="true"
       />
   
@@ -49,7 +45,6 @@
       branch = '2092-REQ10'
       driver = 'CUST2092'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
       exclude-files="true"
       />
   
@@ -58,7 +53,6 @@
       branch = '2090_REQ17'
       driver = 'CUST2090'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2090'	
       exclude-files="true"
       />
   
@@ -67,7 +61,6 @@
       branch = '2092-REQ6'
       driver = 'CUST2092'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
       exclude-files="true"
       />
   
@@ -77,7 +70,6 @@
       branch = '7.5.4'
       driver = 'CUST2092'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2092'	
       exclude-files="true"
       />
 
@@ -85,7 +77,6 @@
       branch = '7.5.4'
       driver = 'CUST000'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
       exclude-files="true"
       />
   
@@ -93,7 +84,6 @@
       branch = '7.5.3'
       driver = 'CUST000'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
       exclude-files="true"
       />
 
@@ -101,14 +91,12 @@
       branch = '7.5.2'
       driver = 'CUST2091'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2091'	
       />
   
   <cb:customerbuild
       branch = '7.5.2'
       driver = 'CUST001'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST001'	
       exclude-files="true"
       />
   
@@ -116,7 +104,6 @@
       branch = '7.5.2'
       driver = 'CUST2088'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2088'	
       />
   
   <cb:customerbuild
@@ -124,7 +111,6 @@
       branch = '2093_7.5.2'
       driver = 'CUST2093'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2093'
       exclude-files = "true"
       />
   
@@ -132,8 +118,7 @@
       branch = '7.5.2'
       driver = 'CUST000'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'
-      exclude-files = "true"
+      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -142,7 +127,6 @@
       tag = '7.5.2_start'
       driver = 'CUST000'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST000'	
       />
 
   <cb:customerbuild
@@ -151,7 +135,6 @@
       driver = 'CUST2086'
       db-server="dev-sql1"
       exclude-files="true"
-      source = '$(source)/customers/CUST2086'	
       />
   
   <cb:customerbuild
@@ -160,21 +143,18 @@
       driver = 'CUST065'
       db-server="dev-sql1"
       exclude-files="true"
-      source = '$(source)/customers/CUST065'	
       />
   
   <cb:customerbuild
       branch = '7.4.5'
       driver = 'CUST2088'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2088'	
       />
   
   <cb:customerbuild
       branch = '7.4.5'
       driver = 'CUST2089'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2089'
       exclude-files="true"
       />
 
@@ -182,14 +162,12 @@
       branch = '7.4.4'
       driver = 'CUST069'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST069'	
       />
   
   <cb:customerbuild
       branch = '7.4.1'
       driver = 'CUST2083'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2083'	
       />
   
   <cb:customerbuild
@@ -197,7 +175,6 @@
       bookmark = 'dev'
       driver = 'CUST2083'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2083'	
       />
 
 <!-- "default" branches -->
@@ -206,7 +183,6 @@
       branch = 'default'
       driver = 'CUST043'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST043'	
       configuration="Debug"
       protect="True"
       />
@@ -216,7 +192,6 @@
       bookmark = 'bbd-dev'
       driver = 'CUST2087'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2087'	
       include-source = 'true'
       />
   
@@ -224,7 +199,6 @@
       branch = 'default'
       driver = 'CUST2082'
       db-server="dev-sql1"
-      source = '$(source)/customers/CUST2082'	
       configuration="Debug"
       protect="false"
       />
