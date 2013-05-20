@@ -30,6 +30,7 @@
       branch = '2090-REQ21'
       driver = 'CUST2090'
       db-server="dev-sql1"
+      exclude-files="true"
       />
 
   <cb:customerbuild
@@ -104,6 +105,7 @@
       branch = '7.5.2'
       driver = 'CUST2088'
       db-server="dev-sql1"
+      exclude-files="true"
       />
   
   <cb:customerbuild
