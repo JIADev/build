@@ -1883,6 +1883,6 @@ function create-incomingreport($repodir, $reportname = "report.html") {
 set-alias iisexpress "c:\program files (x86)\iis express\iisexpress"
 
 function j([string]$command = "build") {
-	$rest = $args[1..($args.length)]
-	msbuild /t:$command @rest
+	$rest = [string]::join(" ", $args)
+	msbuild /t:$command $rest j6.proj
 }
