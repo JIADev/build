@@ -105,7 +105,6 @@
       branch = '7.5.2'
       driver = 'CUST2088'
       db-server="dev-sql1"
-      exclude-files="true"
       />
   
   <cb:customerbuild
