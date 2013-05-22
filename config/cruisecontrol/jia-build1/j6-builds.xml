@@ -120,6 +120,7 @@
       driver = 'CUST000'
       db-server="dev-sql1"
       exclude-files="true"
+      package="false"
       />
   
   <cb:customerbuild
