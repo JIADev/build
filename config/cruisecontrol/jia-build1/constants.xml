@@ -72,6 +72,7 @@
       install-patches="true"
       buildVariationLabel=""
       project-name="$(project-root)"
+      queue-priority="2"
       />
   
 </cb:config-template>

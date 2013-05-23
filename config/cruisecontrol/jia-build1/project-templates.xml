@@ -4,7 +4,7 @@
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="$(project-name)-DEV" />
     
-    <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+    <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
       <triggers>
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
       </triggers>
