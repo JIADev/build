@@ -51,7 +51,7 @@
   
   <cb:customerbuild
       project-name="CUST$(branch)"
-      branch = '2090_REQ17'
+      branch = '2090-REQ17'
       driver = 'CUST2090'
       db-server="dev-sql1"
       exclude-files="true"
