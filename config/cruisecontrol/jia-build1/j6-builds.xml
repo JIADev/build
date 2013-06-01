@@ -47,6 +47,7 @@
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
+      unit-test="False"	
       />
   
   <cb:customerbuild
