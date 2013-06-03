@@ -8,7 +8,7 @@
       <triggers>
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
       </triggers>
-      <workingDirectory>$(source-folder)</workingDirectory>
+      <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <sourcecontrol type="hg">
 	<autoGetSource>false</autoGetSource>
