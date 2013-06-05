@@ -43,7 +43,7 @@ def validate_issue(ui, issue):
         # Abort commit and exit.
         raise util.Abort('Commit message issue number was not found.')
 
-def validate_same_branch(ui, repo, *paths, **opts):
+def validate_same_branch(ui, repo, *pats, **opts):
     master = repo[None].branch()
     sub = mercurial.hg.repository(ui, "j6")
     j6 = sub[None].branch()
@@ -56,7 +56,8 @@ def validate_not_direct_version_commit(ui, repo, *pats, **opts):
     direct = re.search(r"^\d\.\d\.\d$", branch) and not opts['close_branch']
     direct = direct and len(rev.parents()) <= 1 and not rev.tags()
     if direct:
-        raise util.Abort("Cannot commit directly to a numbered version, make changes in another branch and merge instead")
+        if ui.prompt('Warning, committing directly to a numbered version. Would you like to proceed? [Ny]', default = 'n') not in ('y', 'Y'):
+            raise util.Abort('Aborted by user request.')
 
 def validate_built_and_tested(ui, repo, *pats, **opts):
     rev = repo[None]
@@ -67,7 +68,7 @@ def validate_built_and_tested(ui, repo, *pats, **opts):
             if is_7_6_or_greater:
                 subprocess.check_call(["msbuild", "/t:Build", "j6.proj"])
             else:
-                subprocess.check_call([r"j6\core\boot\feature", "build"])                    
+                subprocess.check_call([r"j6\core\boot\feature", "build"])
         except:
             raise util.Abort("Build failed")
         try:
@@ -85,6 +86,7 @@ def validate_message(original_commit, ui, repo, *pats, **opts):
         validate_same_branch(ui, repo, *pats, **opts)
     validate_not_direct_version_commit(ui, repo, *pats, **opts)
     updated_message = validate_built_and_tested(ui, repo, *pats, **opts)
+
     # Retrieve commit message.
     message = updated_message or opts['message']
     opts['message'] = message
