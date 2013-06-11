@@ -15,15 +15,6 @@
       exclude-files="true"
       />
 	
-	<cb:customerbuild
-      project-name="CUST2090-CPK"
-      branch = 'cpk_000_2090_R2'
-      driver = 'CUST2090'
-      db-server="dev-sql1"
-      exclude-files="true"
-      />
-
-  
    <cb:customerbuild
       project-name="CUST$(branch)"
       branch = '2092_REL1'
