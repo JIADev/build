@@ -23,14 +23,6 @@
       exclude-files="true"
       />
 
-   <cb:customerbuild
-      project-name="CUST$(branch)"
-      branch = '2092-R1'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      exclude-files="true"
-      />
-
 <!-- req branches -->
 
   <cb:customerbuild
@@ -47,7 +39,8 @@
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
-      unit-test="False"	
+      unit-test="true"
+      package="false"
       />
   
   <cb:customerbuild
@@ -56,6 +49,7 @@
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
+      package="false"
       />
   
   <cb:customerbuild
@@ -72,6 +66,7 @@
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
+      package="false"
       />
   
 <!-- version branches -->  
