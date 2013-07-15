@@ -82,6 +82,10 @@ def validate_built_and_tested(ui, repo, *pats, **opts):
 
 # Validate Mercurial commit message.
 def validate_message(original_commit, ui, repo, *pats, **opts):
+    if not os.path.isdir("j6"): 
+        # Proceed with commit.
+        return original_commit(ui, repo, *pats, **opts)        return
+        
     if opts['subrepos']:
         validate_same_branch(ui, repo, *pats, **opts)
     validate_not_direct_version_commit(ui, repo, *pats, **opts)
