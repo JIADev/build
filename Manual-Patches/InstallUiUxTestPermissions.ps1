@@ -47,6 +47,6 @@ $l = $l -replace "--","$permissionNameId"
 Execute $l
 
 
-Write-Host Database Updated
-Write-Host Don't forget to Flush Redit and restart your app-pool.
+Write-Host "Database Updated"
+Write-Host "Don't forget to Flush Redit and restart your app-pool."
 
