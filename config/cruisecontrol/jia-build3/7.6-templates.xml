@@ -1,0 +1,335 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+ 	<cb:define name="v76build">
+		<cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
+		<cb:define project-name="$(project-root)" />
+		<cb:define db-name="$(project-name)-DEV" />
+		<cb:define name="msbuild-package">
+			<cb:define platform="AnyCpu" />
+			<cb:define configuration="Release" />
+
+			<msbuild description="package build">
+			<executable>$(msbuild)</executable>
+			<projectFile>j6.proj</projectFile>
+			<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect)</buildArgs>
+			<targets>Package</targets>
+			<timeout>120000</timeout>
+		</msbuild>
+		</cb:define>
+		<cb:define name="msbuild-fxcop">
+		<msbuild description="fxcop">
+		  <executable>$(msbuild)</executable>
+		  <projectFile>j6.proj</projectFile>
+		  <buildArgs></buildArgs>
+		  <targets>Fxcop</targets>
+		  <timeout>1200</timeout>
+		</msbuild>	
+		</cb:define>
+		<cb:define name="echo">
+		<exec executable="cmd.exe" buildArgs="/c echo $(echo-args)" />
+		</cb:define>
+		<cb:define name="msbuild-clean">
+			<msbuild description="clean">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs></buildArgs>
+				<targets>Clean</targets>
+				<timeout>1200</timeout>
+			</msbuild>
+		</cb:define>
+
+		<cb:define name="msbuild-configure">
+			<exec executable="powershell" description = "Clear old config" buildArgs = '-c "rm -force Config.targets*"' />
+			<msbuild description="configure">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)"</buildArgs>
+				<targets>Configure</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+			<msbuild description="showconfig">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+			    <buildArgs></buildArgs>
+				<targets>ShowConfig</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+
+		<cb:define name="msbuild-fullbuild">
+			<msbuild description="fullbuild">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db) /p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+				<targets>FullBuild</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+
+		<cb:define name="msbuild-build">
+			<msbuild description="build">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+				<targets>Build</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+
+		<cb:define name="msbuild-tools">
+			<msbuild description="tools">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+				<targets>Tools</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+
+		<cb:define name="msbuild-bootstrap">
+			<msbuild description="bootstrap">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+				<targets>Bootstrap</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+
+		<cb:define name="msbuild-setup">
+			<msbuild description="setup">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+				<targets>Setup</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+		<cb:define name="msbuild-recreatedb">
+			<msbuild description="recreatedb">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+				<targets>RecreateDb</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+		<cb:define name="msbuild-patch">
+			<msbuild description="patch">
+				<executable>$(msbuild)</executable>
+				<projectFile>j6.proj</projectFile>
+				<buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+				<targets>Patch</targets>
+				<timeout>120000</timeout>
+			</msbuild>
+		</cb:define>
+		<cb:define name="copy-dlls-to-privatebuild"> 
+			<exec executable = "cmd" buildArgs= '/C copy $(project-folder)\Build\*.dll $(project-folder)\PrivateBuild'	/>
+		</cb:define>
+				<project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+			<triggers>
+				<intervalTrigger seconds = "$(sourceCheckInterval)" />
+			</triggers>
+			<cb:define project-folder="$(ccroot)\$(project-name)" />
+			<workingDirectory>$(project-folder)</workingDirectory>
+			<artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
+			<sourcecontrol type="hg">
+				<autoGetSource>false</autoGetSource>
+				<workingDirectory>$(project-folder)</workingDirectory>
+				<timeout>12000000</timeout>
+				<repo>$(source)</repo>
+				<multipleHeadsFail>false</multipleHeadsFail>
+				<tagOnSuccess>false</tagOnSuccess>
+				<commitModifications>false</commitModifications>
+				<commitUntracked>false</commitUntracked>
+				<purgeModifications>true</purgeModifications>
+				<revertModifications>true</revertModifications>
+				<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+				<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+				<tagNameFormat>ccnet_build_{0}</tagNameFormat>
+				<committerName>CruiseControl.NET</committerName>
+			</sourcecontrol>
+			<prebuild>
+				<conditional>
+					<conditions>
+						<fileExistsCondition>
+						<file>j6.proj</file>
+						</fileExistsCondition>
+						<compareCondition>
+							<value1>$(clean)</value1>
+							<value2>true</value2>
+							<evaluation>equal</evaluation>
+							<ignoreCase>true</ignoreCase>
+						</compareCondition>
+					</conditions>
+					<tasks>
+						<!-- Tasks to perform if condition passed -->
+						<cb:msbuild-clean />
+					</tasks>
+					<elseTasks>
+						<!-- Tasks to perform if condition failed -->
+						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+						<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+					</elseTasks>
+				</conditional>
+				<exec executable="powershell" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+				<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+			</prebuild>
+			<tasks>
+				<cb:copy-logger-local />
+				<cb:msbuild-configure />
+				<cb:msbuild-bootstrap />
+				<cb:msbuild-setup />
+				<conditional>
+					<conditions>
+						<compareCondition>
+							<value1>$(install-patches)</value1>
+							<value2>true</value2>
+							<evaluation>equal</evaluation>
+							<ignoreCase>true</ignoreCase>
+						</compareCondition>
+					</conditions>
+					<tasks>
+						<cb:msbuild-recreatedb />
+						<cb:msbuild-patch />
+					</tasks>
+				</conditional>
+				<conditional>
+					<conditions>
+						<compareCondition>
+							<value1>$(build)</value1>
+							<value2>true</value2>
+							<evaluation>equal</evaluation>
+							<ignoreCase>true</ignoreCase>
+						</compareCondition>
+					</conditions>
+					<tasks>
+						<cb:msbuild-build />
+					</tasks>
+				</conditional>
+
+				<exec executable="powershell" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
+				<exec executable="powershell" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
+				<exec executable="powershell" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
+				<exec executable="powershell" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
+
+				<cb:define name="run-ncover">
+					<exec>
+						<description>Run unit tests for $(assembly)</description>
+						<executable>ncover.console.exe</executable>
+						<buildTimeoutSeconds>57600</buildTimeoutSeconds>
+						<buildArgs>$(project-folder)\Core\Private\Lib\nunit-console.exe /nologo /framework=4.0.30319 "/xml=TestResult\$(assembly)-test.xml" //x Coverage\$(assembly)-coverage.xml //at Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
+						<baseDirectory>$(project-folder)</baseDirectory>
+					</exec>
+				</cb:define>
+				<conditional>
+					<conditions>
+						<compareCondition>
+							<value1>$(unit-test)</value1>
+							<value2>true</value2>
+							<evaluation>equal</evaluation>
+							<ignoreCase>true</ignoreCase>
+						</compareCondition>
+					</conditions>
+					<tasks>
+						<cb:copy-dlls-to-privatebuild />
+						<cb:run-ncover assembly="j6.Core.UnitTest" />
+						<cb:run-ncover assembly="j6.Communication.UnitTest" />
+						<cb:run-ncover assembly="j6.CommunicationSalesOrder.UnitTest" />
+						<cb:run-ncover assembly="j6.Core.UnitTest" />
+						<cb:run-ncover assembly="j6.Earning.UnitTest" />
+						<!--
+						<cb:run-ncover assembly="J6.Event.UnitTests" />
+					-->
+						<cb:run-ncover assembly="j6.Genealogy.UnitTest" />
+						<cb:run-ncover assembly="j6.Payment.UnitTest" />
+						<cb:run-ncover assembly="j6.SalesOrder.UnitTest" />
+						<!--
+						<cb:run-ncover assembly="j6.Web.UnitTest" />
+					-->
+					</tasks>
+				</conditional>
+				<conditional>
+					<conditions>
+						<compareCondition>
+							<value1>$(data-test)</value1>
+							<value2>true</value2>
+							<evaluation>equal</evaluation>
+							<ignoreCase>true</ignoreCase>
+						</compareCondition>
+					</conditions>
+					<tasks>
+						<cb:copy-dlls-to-privatebuild />
+						<cb:run-ncover assembly='j6.Communication.DataTest' />        
+						<cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
+						<cb:run-ncover assembly='j6.Core.DataTest' />                   
+						<cb:run-ncover assembly='j6.Earning.DataTest' />                
+						<cb:run-ncover assembly='j6.Engine.DataTest' />                 
+						<cb:run-ncover assembly='j6.Event.DataTest' />                  
+						<cb:run-ncover assembly='j6.Genealogy.DataTest' />              
+						<cb:run-ncover assembly='j6.Payment.DataTest' />                
+						<cb:run-ncover assembly='j6.SalesOrder.DataTest' />             
+						<!--
+						<exec>
+							<description>Run FxCop</description>
+							<executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
+							<baseDirectory>$(project-folder)</baseDirectory>
+							<buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
+							<buildTimeoutSeconds>600</buildTimeoutSeconds>
+						</exec>
+					-->
+					</tasks>
+				</conditional>
+				<exec>
+					<description>Generate coverage report</description>
+					<executable>ncover.reporting.exe</executable>
+					<buildTimeoutSeconds>600</buildTimeoutSeconds>
+					<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+					<baseDirectory>$(project-folder)\Coverage</baseDirectory>
+				</exec>
+				<exec executable="powershell" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
+				<ndepend>
+					<project>j6.ndproj</project>
+					<executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
+					<description>Run the NDepend analysis.</description>
+					<emitXml>true</emitXml>
+					<outputDir>NDepend</outputDir>
+					<inputDirs>
+						<inputDir>Build</inputDir>
+					</inputDirs>
+					<silent>false</silent>
+					<reportXslt>custom-report.xsl</reportXslt>
+					<timeout>600</timeout>
+					<baseDir>$(project-folder)</baseDir>
+					<publish>true</publish>
+				</ndepend>
+				<exec executable="powershell" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+				<exec executable="powershell" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+				<cb:msbuild-package />
+			</tasks>
+			<publishers>
+				<!--<cb:standard-publishers />-->
+						<!--<cb:define name="standard-publishers">-->
+							<merge>
+								<files>
+									<file>TestResult\*.xml</file>
+									<file>Coverage\SymbolModule.xml</file>
+									<file>TestResult\FxCop-results.xml</file>
+									<file action="Copy">NDepend\*</file>
+								</files>
+							</merge>
+							<xmllogger />
+							<statistics />
+						<!--</cb:define>-->
+			</publishers>
+			<externalLinks>
+				<externalLink name="root" url="$(ccwebroot)" />
+			</externalLinks>
+			<webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+		</project>
+	</cb:define>	
+</cb:config-template>
