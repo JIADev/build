@@ -36,15 +36,14 @@ Execute $l
 $l = "update [Core].[Template] SET [SubjectResourceKey]=### WHERE [Code]='ForgotPasswordEmail'"
 $l = $l -replace "###","$passwordChangeEmailSubjectId"
 Execute $l
+
+write-host Inserting into [Genealogy].[Account]
+Execute "INSERT INTO [Genealogy].[Account] ( [Code], [Name], [ReportName], [Country], [Currency], [AccountClass], [Email], [Placement], [FamilyName], [GivenName], [MiddleName], [Prefix], [Suffix], [KnownAs], [Website], [BirthDate], [Address], [Phone], [SMS], [Culture] ) VALUES ( '003145', 'Barbara Keepster', 'Keepster, Barbara', 'US', null, '4', 'jcb@jenkon.com', '0', 'Keepster', 'Barbara', '', null, null, 'Babara Keepster', null, '1970-01-01 00:00:00.000', null, '360-256-4400', '', '75' )"
 	
 
 write-host Finding new [Genealogy].[Account] ID
 $accountId = (ExecuteGetValue "select id from [Genealogy].[Account] where code='003145'")
 write-host ... $accountId
-
-
-write-host Inserting into [Genealogy].[Account]
-Execute "INSERT INTO [Genealogy].[Account] ( [Code], [Name], [ReportName], [Country], [Currency], [AccountClass], [Email], [Placement], [FamilyName], [GivenName], [MiddleName], [Prefix], [Suffix], [KnownAs], [Website], [BirthDate], [Address], [Phone], [SMS], [Culture] ) VALUES ( '003145', 'Barbara Keepster', 'Keepster, Barbara', 'US', null, '4', 'jcb@jenkon.com', '0', 'Keepster', 'Barbara', '', null, null, 'Babara Keepster', null, '1970-01-01 00:00:00.000', null, '360-256-4400', '', '75' )"
 
 write-host Updating email address.
 Execute "Update [Genealogy].[Account] set [Email]='jeremy.starcher@jenkon.com' where [Code]='003145'"
@@ -95,8 +94,7 @@ write-host "Adding user to [Genealogy].[AccountPreference] "
 
 $l = "insert into [Genealogy].[AccountPreference] ([Account], [Key], [Value]) VALUES (###, 'PlacementOption', null)"
 $l = $l -replace "###","$accountId"
-Execute "insert into [Security].[RoleAccountClass] ([AccountClass], [Role]) VALUES (###, 'PlacementOption', null)"
-
+Execute $l
 
 en "insert into [Security].[RoleAccountClass] ([AccountClass], [Role]) VALUES (17,1)"
 en "insert into [Security].[RoleAccountClass] ([AccountClass], [Role]) VALUES (21, 1)"
