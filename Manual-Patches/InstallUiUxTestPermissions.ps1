@@ -33,11 +33,11 @@ $everyoneId = [int] (ExecuteGetValue "SELECT [Id] FROM [Security].[Role] where [
 Write-Host "Everyone's ID = $everyoneId"
 
 
-$portalId = [int] (ExecuteGetValue "SELECT  [Id]  FROM [JJS-qa_760-dev].[Security].[Role] where [Code] = 'business-portal'")
+$portalId = [int] (ExecuteGetValue "SELECT  [Id]  FROM [Security].[Role] where [Code] = 'business-portal'")
 Write-Host "Portal's ID = $portalId"
 
 Write-Host Adding rows to [Security].[RolePermission]
-$ins = "INSERT INTO [JJS-qa_760-dev].[Security].[RolePermission] ([Role], [Permission], [Grant]) VALUES (##, --, 1)"
+$ins = "INSERT INTO [Security].[RolePermission] ([Role], [Permission], [Grant]) VALUES (##, --, 1)"
 $l = $ins -replace "##","$everyoneId"
 $l = $l -replace "--","$permissionNameId"
 Execute $l
