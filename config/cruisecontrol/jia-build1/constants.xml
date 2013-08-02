@@ -21,16 +21,23 @@
       rtq-server="\\dl360-web2"
       ccroot="f:\cc"
       pkgroot="f:\pkg"
+      srcroot="f:\cc\src"
+      artifactroot="f:\cc\artifacts"
       deploy-root-local="C:\j6\QA_Sites"
       cmdExe="C:\WINDOWS\system32\cmd.exe"
       ccNetSourceWorkingDir="$(ccroot)\ccnet"
       ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol\jia-build1" 
       ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
       ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
+      source-folder="$(srcroot)\$(project-name)"
+      artifact-folder="$(artifactroot)\$(project-name)"
+      project-folder="$(ccroot)\$(project-name)"
       ccNetLogDir="f:\ccnet.log" />
+
   <!-- Network Urls and Servers -->
   <cb:define
-      source="http://build:build@source.jenkon.com/hg/hgwebdir.cgi/feature"
+      repo-source-root="http://source.jenkon.com/hg/hgwebdir.cgi/feature"
+      source="$(repo-source-root)/customers/$(driver)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://$(ccBuildServer)/ccnet/"
       db-server="dev-sql1"
@@ -54,6 +61,7 @@
   <cb:define
       sourceCheckInterval = "600"
       bookmark=""
+      exclude-files="false"
       hgBranch="default"
       pull-options=""
       tag = ""
@@ -63,6 +71,8 @@
       recreate-db="true"
       install-patches="true"
       buildVariationLabel=""
+      project-name="$(project-root)"
+      queue-priority="2"
       />
   
 </cb:config-template>
