@@ -26,7 +26,7 @@
 		</msbuild>	
 		</cb:define>
 		<cb:define name="echo">
-		<exec executable="cmd.exe" buildArgs="/c echo $(echo-args)" />
+		<exec executable="$(cmdExe)" buildArgs="/c echo $(echo-args)" />
 		</cb:define>
 		<cb:define name="msbuild-clean">
 			<msbuild description="clean">
@@ -39,7 +39,7 @@
 		</cb:define>
 
 		<cb:define name="msbuild-configure">
-			<exec executable="powershell" description = "Clear old config" buildArgs = '-c "rm -force Config.targets*"' />
+			<exec executable="$(powershell)" description = "Clear old config" buildArgs = '-c "rm -force Config.targets*"' />
 			<msbuild description="configure">
 				<executable>$(msbuild)</executable>
 				<projectFile>j6.proj</projectFile>
@@ -124,7 +124,7 @@
 			</msbuild>
 		</cb:define>
 		<cb:define name="copy-dlls-to-privatebuild"> 
-			<exec executable = "cmd" buildArgs= '/C copy $(project-folder)\Build\*.dll $(project-folder)\PrivateBuild'	/>
+			<exec executable="$(cmdExe)" buildArgs= '/C copy $(project-folder)\Build\*.dll $(project-folder)\PrivateBuild'	/>
 		</cb:define>
 				<project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
 			<triggers>
@@ -168,16 +168,16 @@
 					</tasks>
 					<elseTasks>
 						<!-- Tasks to perform if condition failed -->
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 					</elseTasks>
 				</conditional>
-				<exec executable="powershell" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 			</prebuild>
 			<tasks>
 				<cb:copy-logger-local />
@@ -212,10 +212,10 @@
 					</tasks>
 				</conditional>
 
-				<exec executable="powershell" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
-				<exec executable="powershell" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
-				<exec executable="powershell" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
-				<exec executable="powershell" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
 
 				<cb:define name="run-ncover">
 					<exec>
@@ -286,12 +286,12 @@
 				</conditional>
 				<exec>
 					<description>Generate coverage report</description>
-					<executable>ncover.reporting.exe</executable>
+					<executable>$(ncoverReportingExe)</executable>
 					<buildTimeoutSeconds>600</buildTimeoutSeconds>
 					<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
 					<baseDirectory>$(project-folder)\Coverage</baseDirectory>
 				</exec>
-				<exec executable="powershell" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
+				<exec executable="$(powershell)" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
 				<ndepend>
 					<project>j6.ndproj</project>
 					<executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
@@ -307,8 +307,8 @@
 					<baseDir>$(project-folder)</baseDir>
 					<publish>true</publish>
 				</ndepend>
-				<exec executable="powershell" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="powershell" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 				<cb:msbuild-package />
 			</tasks>
 			<publishers>

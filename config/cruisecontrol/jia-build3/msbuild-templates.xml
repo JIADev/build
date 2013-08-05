@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-  <cb:define ccBuildServer="jia-build1" />
-  <cb:define ccwebroot="http://$(ccBuildServer)/ccnet/" />
-  <cb:define include-source="false" />
   <cb:define name="mssetupbuild">
     <cb:define project-root="$(driver)-$(branch)-$(hgBranch)-$(bookmark)" />
     <cb:define project-name="$(project-root)-mssetupbuild" />
@@ -18,13 +15,13 @@
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(project-artifacts)</artifactDirectory>
       <prebuild>
-	<exec executable="cmd.exe" buildArgs="/c echo beginning prebuild >> output.txt" />
-	<exec executable="powershell" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+	<exec executable="$(cmdExe)" buildArgs="/c echo beginning prebuild >> output.txt" />
+	<exec executable="$(powershell)" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
         <cb:copy-j6-proj />
         <cb:msbuild-bootstrap />
       </prebuild>
       <tasks>
-	<exec executable="cmd.exe" buildArgs="/c echo beginning tasks >> output.txt" />
+	<exec executable="$(cmdExe)" buildArgs="/c echo beginning tasks >> output.txt" />
         <cb:configure-db />
         <cb:msbuild-deleteallsource />
         <cb:copy-driver />
@@ -56,7 +53,7 @@
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(project-artifacts)Package</artifactDirectory>
       <tasks>
-	<exec executable="powershell" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+	<exec executable="$(powershell)" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
         <cb:msbuild-package />
       </tasks>
       <publishers>
@@ -73,27 +70,27 @@
     <cb:mssetuppackage />
   </cb:define>
   <cb:define name="copy-j6-proj">
-    <exec executable="cmd.exe" buildArgs="/c echo beginning copy-j6-proj >> output.txt" />
-    <exec executable="cmd.exe" buildArgs="/c echo if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core >> output.txt" />
-    <exec executable="cmd.exe" buildArgs="/c if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core" />
-    <exec executable="cmd.exe" buildArgs="/c echo if not bm:$(bookmark) == bm: hg pull -b $(hgBranch) -B $(bookmark) >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo beginning copy-j6-proj >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c if not exist Core hg clone -b $(hgBranch) --pull $(source)/Core" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo if not bm:$(bookmark) == bm: hg pull -b $(hgBranch) -B $(bookmark) >> output.txt" />
     <!-- This step brings the bookmark down to the local working copy, so we can update to it. --> 
-    <exec executable="cmd.exe" baseDirectory="Core" buildArgs="/c if not bm:$(bookmark) == bm: hg pull -b $(hgBranch) -B $(bookmark)" />
-    <exec executable="cmd.exe" buildArgs="/c echo if not bm:$(bookmark) == bm: hg up $(bookmark) >> output.txt" />
+    <exec executable="$(cmdExe)" baseDirectory="Core" buildArgs="/c if not bm:$(bookmark) == bm: hg pull -b $(hgBranch) -B $(bookmark)" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo if not bm:$(bookmark) == bm: hg up $(bookmark) >> output.txt" />
     <!-- This step actually updates to the bookmark -->
-    <exec executable="cmd.exe" baseDirectory="Core" buildArgs="/c if not bm:$(bookmark) == bm: hg up $(bookmark)" />
+    <exec executable="$(cmdExe)" baseDirectory="Core" buildArgs="/c if not bm:$(bookmark) == bm: hg up $(bookmark)" />
     <exec description="copy j6.proj file" executable="cmd" buildArgs="/c copy /y Core\Private\j6.proj j6.proj" /> 
   </cb:define>
   <cb:define name="copy-driver">
-    <exec executable="cmd.exe" buildArgs="/c echo beginning copy-driver >> output.txt" />
-    <exec executable="cmd.exe" buildArgs="/c echo if not exist $(driver) hg clone -b $(hgBranch) --pull $(source)/$(driver) >> output.txt" />
-    <exec executable="cmd.exe" buildArgs="/c if not exist $(driver) hg clone -b $(hgBranch) --pull $(source)/$(driver)" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo beginning copy-driver >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo if not exist $(driver) hg clone -b $(hgBranch) --pull $(source)/$(driver) >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c if not exist $(driver) hg clone -b $(hgBranch) --pull $(source)/$(driver)" />
   </cb:define>
   <cb:define name="update-to-bookmark">
-    <exec executable="cmd.exe" buildArgs="/c echo beginning update-to-bookmark >> output.txt" />
-    <exec executable="cmd.exe" buildArgs="/c echo &quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B $(bookmark) }&quot; >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo beginning update-to-bookmark >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo &quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B $(bookmark) }&quot; >> output.txt" />
     <!-- This step brings the bookmark down to the local working copy, so we can update to it. --> 
-    <exec executable="powershell" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B $(bookmark) }&quot;" />
+    <exec executable="$(powershell)" buildArgs="&quot;$(feature) list --name | % { hg --cwd $_ pull -b $(hgBranch) -B $(bookmark) }&quot;" />
     <!-- This step actually updates to the bookmark -->
     <exec executable="$(feature)" buildArgs="do hg up $(bookmark)" />
   </cb:define>
@@ -107,7 +104,7 @@
     </msbuild>
   </cb:define>
   <cb:define name="msbuild-bootstrap">
-    <exec executable="cmd.exe" buildArgs="/c echo beginning msbuild-bootstrap >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo beginning msbuild-bootstrap >> output.txt" />
     <msbuild description="build feature.exe">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
@@ -144,7 +141,7 @@
     </msbuild>
   </cb:define>
   <cb:define name="msbuild-fullbuild">
-    <exec executable="cmd.exe" buildArgs="/c echo beginning msbuild-fullbuild >> output.txt" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo beginning msbuild-fullbuild >> output.txt" />
     <msbuild description="full build">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
@@ -173,7 +170,7 @@
     </msbuild>	
   </cb:define>
   <cb:define name="echo">
-    <exec executable="cmd.exe" buildArgs="/c echo $(echo-args)" />
+    <exec executable="$(cmdExe)" buildArgs="/c echo $(echo-args)" />
   </cb:define>
  
 
@@ -245,16 +242,16 @@
 					</tasks>
 					<elseTasks>
 						<!-- Tasks to perform if condition failed -->
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+						<exec eexecutable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 					</elseTasks>
 				</conditional>
-				<exec executable="powershell" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 			</prebuild>
 			<tasks>
 				<cb:copy-logger-local />
@@ -266,10 +263,10 @@
 					<targets>Bootstrap</targets>
 					<timeout>1200</timeout>
 				</msbuild>
-				<exec executable="powershell" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
+				<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
 				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="powershell" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="powershell" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
 				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
 				<conditional>
 					<conditions>
@@ -300,8 +297,8 @@
 						<cb:feature-test-unit />
 					</tasks>
 				</conditional>
-				<exec executable="powershell" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="powershell" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 				<cb:msbuild-package />
 			</tasks>
 			<publishers>
@@ -372,24 +369,24 @@
 					</tasks>
 					<elseTasks>
 						<!-- Tasks to perform if condition failed -->
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 					</elseTasks>
 				</conditional>
-				<exec executable="powershell" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 			</prebuild>
 			<tasks>
 				<cb:copy-logger-local />
 				<cb:configure-db />
 				
-				<exec executable="powershell" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
-				<exec executable="powershell" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
-				<exec executable="powershell" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
+				<exec executable="$(powershell)" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
+				<exec executable="$(powershell)" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
+				<exec executable="$(powershell)" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
 				<msbuild description="build feature.exe">
 					<executable>$(msbuild)</executable>
 					<projectFile>Core\Feature.proj</projectFile>
@@ -397,10 +394,10 @@
 					<targets>Bootstrap</targets>
 					<timeout>1200</timeout>
 				</msbuild>
-				<exec executable="powershell" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
+				<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
 				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="powershell" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="powershell" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
 				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
 				<conditional>
 					<conditions>
@@ -428,7 +425,7 @@
 						</compareCondition>
 					</conditions>
 					<tasks>
-						<exec executable="powershell" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
+						<exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
 						<exec>
 							<executable>powershell</executable>
 							<description>Run unit tests</description>
@@ -445,7 +442,7 @@
 						</exec>
 						<exec>
 							<description>Generate coverage report</description>
-							<executable>ncover.reporting.exe</executable>
+							<executable>$(ncoverReportingExe)</executable>
 							<buildTimeoutSeconds>600</buildTimeoutSeconds>
 							<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
 							<baseDirectory>$(project-folder)\Coverage</baseDirectory>
@@ -477,8 +474,8 @@
 					-->
 
 				</conditional>
-				<exec executable="powershell" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="powershell" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 				<cb:msbuild-package />
 			</tasks>
 			<publishers>
@@ -553,16 +550,16 @@
 					</tasks>
 					<elseTasks>
 						<!-- Tasks to perform if condition failed -->
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 					</elseTasks>
 				</conditional>
-				<exec executable="powershell" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 			</prebuild>
 			<tasks>
 				<cb:copy-logger-local />
@@ -576,8 +573,8 @@
 				</msbuild>
 				
 				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="powershell" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="powershell" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
+				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
 				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
 				<conditional>
 					<conditions>
@@ -608,8 +605,8 @@
 						<cb:feature-test-unit />
 					</tasks>
 				</conditional>
-				<exec executable="powershell" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="powershell" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 				<cb:msbuild-package />
 			</tasks>
 			<publishers>
@@ -670,16 +667,16 @@
 					</tasks>
 					<elseTasks>
 						<!-- Tasks to perform if condition failed -->
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 					</elseTasks>
 				</conditional>
-				<exec executable="powershell" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="powershell" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
 			</prebuild>
 			<tasks>
 				<cb:copy-logger-local />
@@ -692,9 +689,9 @@
 					<timeout>1200</timeout>
 				</msbuild>
 
-				<exec executable="powershell" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
-				<exec executable="powershell" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
-				<exec executable="powershell" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
+				<exec executable="$(powershell)" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
+				<exec executable="$(powershell)" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
+				<exec executable="$(powershell)" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
 				<msbuild description="build feature.exe">
 					<executable>$(msbuild)</executable>
 					<projectFile>Core\Feature.proj</projectFile>
@@ -702,10 +699,10 @@
 					<targets>Bootstrap</targets>
 					<timeout>1200</timeout>
 				</msbuild>
-				<exec executable="powershell" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
+				<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
 				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="powershell" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="powershell" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
 				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
 				<conditional>
 					<conditions>
@@ -723,10 +720,10 @@
 				</conditional>
 				<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
 
-				<exec executable="powershell" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
-				<exec executable="powershell" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
-				<exec executable="powershell" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
-				<exec executable="powershell" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
+				<exec executable="$(powershell)" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
 
 				<cb:define name="run-ncover">
 					<exec>
@@ -780,12 +777,12 @@
 				</conditional>
 				<exec>
 					<description>Generate coverage report</description>
-					<executable>ncover.reporting.exe</executable>
+					<executable>$(ncoverReportingExe)</executable>
 					<buildTimeoutSeconds>600</buildTimeoutSeconds>
 					<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
 					<baseDirectory>$(project-folder)\Coverage</baseDirectory>
 				</exec>
-				<exec executable="powershell" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
+				<exec executable="$(powershell)" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
 				<ndepend>
 					<project>j6.ndproj</project>
 					<executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
@@ -801,8 +798,8 @@
 					<baseDir>$(project-folder)</baseDir>
 					<publish>true</publish>
 				</ndepend>
-				<exec executable="powershell" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="powershell" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
 				<!-- <cb:msbuild-package /> -->
 			</tasks>
 			<publishers>

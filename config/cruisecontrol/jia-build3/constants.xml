@@ -17,6 +17,7 @@
       fxcop="C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCop.exe"
       msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
       powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+      ncoverReportingExe="C:\Program Files\NCover\NCover.Reporting.exe"
       deploy-root="\\dl360-web2\QA_Sites"
       rtq-server="\\dl360-web2"
       ccroot="c:\f_cc"
@@ -32,7 +33,10 @@
       source-folder="$(srcroot)\$(project-name)"
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
-      ccNetLogDir="c:\ccnet.log" />
+      ccNetLogDir="c:\ccnet.log"
+      redis-server="localhost"
+      redis-db="10"
+      />
 
   <!-- Network Urls and Servers -->
   <cb:define
