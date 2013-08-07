@@ -17,7 +17,7 @@
 	  buildArgs = '-c "hg update $(branch)"' 
 	  baseDirectory="$(source-folder)" />
   </cb:define>
-  
+
   <cb:define name="force-clean">
     <conditional description="Delete entire project folder">
       <conditions>
