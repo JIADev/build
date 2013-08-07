@@ -32,7 +32,7 @@
 	driver = 'CUST000'
 	clean="true"
 	build="true"	
-	unit-test="false"
+	unit-test="true"
 	data-test="false"
 	redis-db="16"
 	platform="AnyCpu"
