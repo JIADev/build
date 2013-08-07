@@ -103,6 +103,7 @@
       <timeout>1200</timeout>
     </msbuild>
   </cb:define>
+  
   <cb:define name="msbuild-bootstrap">
     <exec executable="$(cmdExe)" buildArgs="/c echo beginning msbuild-bootstrap >> output.txt" />
     <msbuild description="build feature.exe">
@@ -113,6 +114,7 @@
       <timeout>1200</timeout>
     </msbuild>
   </cb:define>
+  
   <cb:define name="msbuild-fetch">
     <msbuild description="feature fetch">
       <executable>$(msbuild)</executable>
@@ -140,6 +142,7 @@
       <timeout>1200</timeout>
     </msbuild>
   </cb:define>
+  
   <cb:define name="msbuild-fullbuild">
     <exec executable="$(cmdExe)" buildArgs="/c echo beginning msbuild-fullbuild >> output.txt" />
     <msbuild description="full build">
@@ -151,7 +154,21 @@
     </msbuild>
     <exec executable="$(feature)" buildArgs = 'test --coverage' />
   </cb:define>
+  
+  <cb:define name="msbuild-build">
+    <msbuild description="build">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+      <targets>Build</targets>
+      <timeout>120000</timeout>
+    </msbuild>
+  </cb:define>
+  
   <cb:define name="msbuild-package">
+    <cb:define platform="AnyCpu" />
+    <cb:define configuration="Release" />
+    
     <msbuild description="package build">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
@@ -172,655 +189,655 @@
   <cb:define name="echo">
     <exec executable="$(cmdExe)" buildArgs="/c echo $(echo-args)" />
   </cb:define>
- 
-
-	<cb:define name="msbuild-clean">
-		<msbuild description="clean">
-	<executable>$(msbuild)</executable>
-	<projectFile>j6.proj</projectFile>
-	<buildArgs></buildArgs>
-	<targets>Clean</targets>
-	<timeout>1200</timeout>
-		</msbuild>
-	</cb:define>
-
-	<cb:define name="msbuild-target">
-		<msbuild description="msbuild /t:$(target)">
-	<executable>$(msbuild)</executable>
-	<projectFile>j6.proj</projectFile>
-	<buildArgs></buildArgs>
-	<targets>$(target)</targets>
-	<timeout>2400</timeout>
-		</msbuild>
-	</cb:define>
-
- 
-	<cb:define name="customerbuild">
-		<cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
-		<cb:define project-name="$(project-root)" />
-		<cb:define db-name="$(project-name)-DEV" />
-		<!--
-		<cb:define trigger-project="branch_$(branch)" />
-		-->
-
-		<project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
-			<triggers>
-			<!--
-				<projectTrigger project="$(trigger-project)" />
-			-->
-				<intervalTrigger seconds = "$(sourceCheckInterval)" />
-			</triggers>
-			<cb:define project-folder="$(ccroot)\$(project-name)" />
-			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
-			<sourcecontrol type="hg">
-				<autoGetSource>false</autoGetSource>
-				<workingDirectory>$(project-folder)</workingDirectory>
-				<timeout>12000000</timeout>
-				<repo>$(source)</repo>
-				<multipleHeadsFail>false</multipleHeadsFail>
-				<tagOnSuccess>false</tagOnSuccess>
-				<commitModifications>false</commitModifications>
-				<commitUntracked>false</commitUntracked>
-				<purgeModifications>true</purgeModifications>
-				<revertModifications>true</revertModifications>
-				<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
-				<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
-				<tagNameFormat>ccnet_build_{0}</tagNameFormat>
-				<committerName>CruiseControl.NET</committerName>
-			</sourcecontrol>
-			<prebuild>
-				<conditional>
-					<conditions>
-						<fileExistsCondition>
-						<file>j6.proj</file>
-						</fileExistsCondition>
-					</conditions>
-					<tasks>
-						<!-- Tasks to perform if condition passed -->
-						<cb:msbuild-clean />
-					</tasks>
-					<elseTasks>
-						<!-- Tasks to perform if condition failed -->
-						<exec eexecutable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-					</elseTasks>
-				</conditional>
-				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-			</prebuild>
-			<tasks>
-				<cb:copy-logger-local />
-				<cb:configure-db />
-				<msbuild description="build feature.exe">
-					<executable>$(msbuild)</executable>
-					<projectFile>Core\Feature.proj</projectFile>
-					<buildArgs></buildArgs>
-					<targets>Bootstrap</targets>
-					<timeout>1200</timeout>
-				</msbuild>
-				<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
-				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
-				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(install-patches)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<cb:recreate-database />
-						<exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
-					</tasks>
-				</conditional>
-				<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
-
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(unit-test)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<cb:feature-test-unit />
-					</tasks>
-				</conditional>
-				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
-				<cb:msbuild-package />
-			</tasks>
-			<publishers>
-				<cb:standard-publishers />
-			</publishers>
-			<externalLinks>
-				<externalLink name="root" url="$(ccwebroot)" />
-			</externalLinks>
-			<webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
-		</project>
-	</cb:define>
-
+  
+  
+  <cb:define name="msbuild-clean">
+    <msbuild description="clean">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs></buildArgs>
+      <targets>Clean</targets>
+      <timeout>1200</timeout>
+    </msbuild>
+  </cb:define>
+  
+  <cb:define name="msbuild-target">
+    <msbuild description="msbuild /t:$(target)">
+      <executable>$(msbuild)</executable>
+      <projectFile>j6.proj</projectFile>
+      <buildArgs></buildArgs>
+      <targets>$(target)</targets>
+      <timeout>2400</timeout>
+    </msbuild>
+  </cb:define>
+  
+  
+  <cb:define name="customerbuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
+    <cb:define project-name="$(project-root)" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <!--
+	<cb:define trigger-project="branch_$(branch)" />
+    -->
+    
+    <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+      <triggers>
+	<!--
+	    <projectTrigger project="$(trigger-project)" />
+	-->
+	<intervalTrigger seconds = "$(sourceCheckInterval)" />
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
+      <sourcecontrol type="hg">
+	<autoGetSource>false</autoGetSource>
+	<workingDirectory>$(project-folder)</workingDirectory>
+	<timeout>12000000</timeout>
+	<repo>$(source)</repo>
+	<multipleHeadsFail>false</multipleHeadsFail>
+	<tagOnSuccess>false</tagOnSuccess>
+	<commitModifications>false</commitModifications>
+	<commitUntracked>false</commitUntracked>
+	<purgeModifications>true</purgeModifications>
+	<revertModifications>true</revertModifications>
+	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
+	<committerName>CruiseControl.NET</committerName>
+      </sourcecontrol>
+      <prebuild>
+	<conditional>
+	  <conditions>
+	    <fileExistsCondition>
+	      <file>j6.proj</file>
+	    </fileExistsCondition>
+	  </conditions>
+	  <tasks>
+	    <!-- Tasks to perform if condition passed -->
+	    <cb:msbuild-clean />
+	  </tasks>
+	  <elseTasks>
+	    <!-- Tasks to perform if condition failed -->
+	    <exec eexecutable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	  </elseTasks>
+	</conditional>
+	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+      </prebuild>
+      <tasks>
+	<cb:copy-logger-local />
+	<cb:configure-db />
+	<msbuild description="build feature.exe">
+	  <executable>$(msbuild)</executable>
+	  <projectFile>Core\Feature.proj</projectFile>
+	  <buildArgs></buildArgs>
+	  <targets>Bootstrap</targets>
+	  <timeout>1200</timeout>
+	</msbuild>
+	<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
+	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+	<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(install-patches)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:recreate-database />
+	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
+	  </tasks>
+	</conditional>
+	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
 	
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(unit-test)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:feature-test-unit />
+	  </tasks>
+	</conditional>
+	<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+	<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+	<cb:msbuild-package />
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <cb:define name="nightlybuild"> <!-- Copied Whole Cloth from customerbuild on 14 June 2012 -->
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
+    <cb:define project-name="$(project-root)" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <!--
+	<cb:define trigger-project="branch_$(branch)" />
+    -->
+    
+    <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+      <triggers>
+	<scheduleTrigger time="00:24" buildCondition="ForceBuild" name="Scheduled"></scheduleTrigger>	
+	<!--
+	    <projectTrigger project="$(trigger-project)" />
+	    <intervalTrigger seconds = "$(sourceCheckInterval)" />
+	-->
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
+      <sourcecontrol type="hg">
+	<autoGetSource>false</autoGetSource>
+	<workingDirectory>$(project-folder)</workingDirectory>
+	<timeout>12000000</timeout>
+	<repo>$(source)</repo>
+	<multipleHeadsFail>false</multipleHeadsFail>
+	<tagOnSuccess>false</tagOnSuccess>
+	<commitModifications>false</commitModifications>
+	<commitUntracked>false</commitUntracked>
+	<purgeModifications>true</purgeModifications>
+	<revertModifications>true</revertModifications>
+	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
+	<committerName>CruiseControl.NET</committerName>
+      </sourcecontrol>
+      <prebuild>
+	<conditional>
+	  <conditions>
+	    <fileExistsCondition>
+	      <file>j6.proj</file>
+	    </fileExistsCondition>
+	  </conditions>
+	  <tasks>
+	    <!-- Tasks to perform if condition passed -->
+	    <cb:msbuild-clean />
+	  </tasks>
+	  <elseTasks>
+	    <!-- Tasks to perform if condition failed -->
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	  </elseTasks>
+	</conditional>
+	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+      </prebuild>
+      <tasks>
+	<cb:copy-logger-local />
+	<cb:configure-db />
 	
+	<exec executable="$(powershell)" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
+	<exec executable="$(powershell)" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
+	<exec executable="$(powershell)" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
+	<msbuild description="build feature.exe">
+	  <executable>$(msbuild)</executable>
+	  <projectFile>Core\Feature.proj</projectFile>
+	  <buildArgs></buildArgs>
+	  <targets>Bootstrap</targets>
+	  <timeout>1200</timeout>
+	</msbuild>
+	<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
+	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+	<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(install-patches)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:recreate-database />
+	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
+	  </tasks>
+	</conditional>
+	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
 	
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(unit-test)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
+	    <exec>
+	      <executable>powershell</executable>
+	      <description>Run unit tests</description>
+	      <buildTimeoutSeconds>57600</buildTimeoutSeconds>
+	      <buildArgs>-c "&amp; {echo 'Running unit tests'; dir privatebuild\*unittest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with unit tests'}"</buildArgs>
+	      <baseDirectory>$(project-folder)</baseDirectory>
+	    </exec>
+	    <exec>
+	      <executable>powershell</executable>
+	      <description>Run data tests</description>
+	      <buildTimeoutSeconds>57600</buildTimeoutSeconds>
+	      <buildArgs>-c "&amp; {echo 'Running data tests'; dir privatebuild\*datatest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with data tests'}"</buildArgs>
+	      <baseDirectory>$(project-folder)</baseDirectory>
+	    </exec>
+	    <exec>
+	      <description>Generate coverage report</description>
+	      <executable>$(ncoverReportingExe)</executable>
+	      <buildTimeoutSeconds>600</buildTimeoutSeconds>
+	      <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+	      <baseDirectory>$(project-folder)\Coverage</baseDirectory>
+	    </exec>
+	    <exec>
+	      <description>Run FxCop</description>
+	      <executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
+	      <baseDirectory>$(project-folder)</baseDirectory>
+	      <buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
+	      <buildTimeoutSeconds>600</buildTimeoutSeconds>
+	    </exec>
+	  </tasks>
+	  <!--
+	      <ndepend>
+	      <project>..\myProject.ndproj</project>
+	      <executable>C:\Program Files (x86)\NDepend_4.0.1.6475\NDepend.Console.exe</executable>
+	      <description>Run the NDepend analysis.</description>
+	      <emitXml>true</emitXml>
+	      <outputDir>TestResult</outputDir>
+	      <inputDirs>
+	      <inputDir>PrivateBuild</inputDir>
+	      </inputDirs>
+	      <silent>false</silent>
+	      <reportXslt>custom-report.xsl</reportXslt>
+	      <timeout>120</timeout>
+	      <baseDir>TestResult</baseDir>
+	      <publish>true</publish>
+	      </ndepend>
+	  -->
+	  
+	</conditional>
+	<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+	<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+	<cb:msbuild-package />
+      </tasks>
+      <publishers>
+	<!--<cb:standard-publishers />-->
+	<!--<cb:define name="standard-publishers">-->
+	<merge>
+	  <files>
+	    <file>TestResult\*.xml</file>
+	    <file>Coverage\SymbolModule.xml</file>
+	    <file>TestResult\FxCop-results.xml</file>
+	  </files>
+	</merge>
+	<xmllogger />
+	<statistics />
+	<!--</cb:define>-->
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+  
+  
+  
+  
+  
+  <cb:define name="flatbuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
+    <cb:define project-name="$(project-root)" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <!--
+	<cb:define trigger-project="branch_$(branch)" />
+    -->
+    
+    <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+      <triggers>
+	<!--
+	    <projectTrigger project="$(trigger-project)" />
+	-->
+	<intervalTrigger seconds = "$(sourceCheckInterval)" />
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
+      <sourcecontrol type="hg">
+	<autoGetSource>false</autoGetSource>
+	<workingDirectory>$(project-folder)</workingDirectory>
+	<timeout>12000000</timeout>
+	<repo>$(source)</repo>
+	<multipleHeadsFail>false</multipleHeadsFail>
+	<tagOnSuccess>false</tagOnSuccess>
+	<commitModifications>false</commitModifications>
+	<commitUntracked>false</commitUntracked>
+	<purgeModifications>true</purgeModifications>
+	<revertModifications>true</revertModifications>
+	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
+	<committerName>CruiseControl.NET</committerName>
+      </sourcecontrol>
+      <prebuild>
+	<conditional>
+	  <conditions>
+	    <fileExistsCondition>
+	      <file>j6.proj</file>
+	    </fileExistsCondition>
+	  </conditions>
+	  <tasks>
+	    <!-- Tasks to perform if condition passed -->
+	    <cb:msbuild-clean />
+	  </tasks>
+	  <elseTasks>
+	    <!-- Tasks to perform if condition failed -->
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	  </elseTasks>
+	</conditional>
+	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+      </prebuild>
+      <tasks>
+	<cb:copy-logger-local />
+	<cb:configure-db />
+	<msbuild description="build feature.exe">
+	  <executable>$(msbuild)</executable>
+	  <projectFile>j6.proj</projectFile>
+	  <buildArgs></buildArgs>
+	  <targets>Bootstrap</targets>
+	  <timeout>1200</timeout>
+	</msbuild>
 	
+	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
+	<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(install-patches)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:recreate-database />
+	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
+	  </tasks>
+	</conditional>
+	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
 	
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(unit-test)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:feature-test-unit />
+	  </tasks>
+	</conditional>
+	<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+	<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+	<cb:msbuild-package />
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+  
+  <cb:define name="flatnightlybuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
+    <cb:define project-name="$(project-root)" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <!--
+	<cb:define trigger-project="branch_$(branch)" />
+    -->
+    
+    <project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
+      <triggers>
+	<scheduleTrigger time="00:24" buildCondition="ForceBuild" name="Scheduled"></scheduleTrigger>	
+	<!--
+	    <projectTrigger project="$(trigger-project)" />
+	    <intervalTrigger seconds = "$(sourceCheckInterval)" />
+	-->
+      </triggers>
+      <cb:define project-folder="$(ccroot)\$(project-name)" />
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
+      <sourcecontrol type="hg">
+	<autoGetSource>false</autoGetSource>
+	<workingDirectory>$(project-folder)</workingDirectory>
+	<timeout>12000000</timeout>
+	<repo>$(source)</repo>
+	<multipleHeadsFail>false</multipleHeadsFail>
+	<tagOnSuccess>false</tagOnSuccess>
+	<commitModifications>false</commitModifications>
+	<commitUntracked>false</commitUntracked>
+	<purgeModifications>true</purgeModifications>
+	<revertModifications>true</revertModifications>
+	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
+	<committerName>CruiseControl.NET</committerName>
+      </sourcecontrol>
+      <prebuild>
+	<conditional>
+	  <conditions>
+	    <fileExistsCondition>
+	      <file>j6.proj</file>
+	    </fileExistsCondition>
+	  </conditions>
+	  <tasks>
+	    <!-- Tasks to perform if condition passed -->
+	    <cb:msbuild-clean />
+	  </tasks>
+	  <elseTasks>
+	    <!-- Tasks to perform if condition failed -->
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
+	    <exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+	  </elseTasks>
+	</conditional>
+	<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
+	<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
+      </prebuild>
+      <tasks>
+	<cb:copy-logger-local />
+	<cb:configure-db />
+	<msbuild description="build feature.exe">
+	  <executable>$(msbuild)</executable>
+	  <projectFile>j6.proj</projectFile>
+	  <buildArgs></buildArgs>
+	  <targets>Bootstrap</targets>
+	  <timeout>1200</timeout>
+	</msbuild>
 	
+	<exec executable="$(powershell)" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
+	<exec executable="$(powershell)" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
+	<exec executable="$(powershell)" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
+	<msbuild description="build feature.exe">
+	  <executable>$(msbuild)</executable>
+	  <projectFile>Core\Feature.proj</projectFile>
+	  <buildArgs></buildArgs>
+	  <targets>Bootstrap</targets>
+	  <timeout>1200</timeout>
+	</msbuild>
+	<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
+	<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+	<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
+	<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
+	<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(install-patches)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:recreate-database />
+	    <exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
+	  </tasks>
+	</conditional>
+	<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
 	
+	<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
+	<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
+	<exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
+	<exec executable="$(powershell)" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
 	
-	
-	
-	<cb:define name="nightlybuild"> <!-- Copied Whole Cloth from customerbuild on 14 June 2012 -->
-		<cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-		<cb:define project-name="$(project-root)" />
-		<cb:define db-name="$(project-name)-DEV" />
-		<!--
-		<cb:define trigger-project="branch_$(branch)" />
-		-->
-
-		<project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
-			<triggers>
-				<scheduleTrigger time="00:24" buildCondition="ForceBuild" name="Scheduled"></scheduleTrigger>	
-					<!--
-					<projectTrigger project="$(trigger-project)" />
-					<intervalTrigger seconds = "$(sourceCheckInterval)" />
-					-->
-			</triggers>
-			<cb:define project-folder="$(ccroot)\$(project-name)" />
-			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
-			<sourcecontrol type="hg">
-				<autoGetSource>false</autoGetSource>
-				<workingDirectory>$(project-folder)</workingDirectory>
-				<timeout>12000000</timeout>
-				<repo>$(source)</repo>
-				<multipleHeadsFail>false</multipleHeadsFail>
-				<tagOnSuccess>false</tagOnSuccess>
-				<commitModifications>false</commitModifications>
-				<commitUntracked>false</commitUntracked>
-				<purgeModifications>true</purgeModifications>
-				<revertModifications>true</revertModifications>
-				<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
-				<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
-				<tagNameFormat>ccnet_build_{0}</tagNameFormat>
-				<committerName>CruiseControl.NET</committerName>
-			</sourcecontrol>
-			<prebuild>
-				<conditional>
-					<conditions>
-						<fileExistsCondition>
-						<file>j6.proj</file>
-						</fileExistsCondition>
-					</conditions>
-					<tasks>
-						<!-- Tasks to perform if condition passed -->
-						<cb:msbuild-clean />
-					</tasks>
-					<elseTasks>
-						<!-- Tasks to perform if condition failed -->
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-					</elseTasks>
-				</conditional>
-				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-			</prebuild>
-			<tasks>
-				<cb:copy-logger-local />
-				<cb:configure-db />
-				
-				<exec executable="$(powershell)" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
-				<exec executable="$(powershell)" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
-				<exec executable="$(powershell)" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
-				<msbuild description="build feature.exe">
-					<executable>$(msbuild)</executable>
-					<projectFile>Core\Feature.proj</projectFile>
-					<buildArgs></buildArgs>
-					<targets>Bootstrap</targets>
-					<timeout>1200</timeout>
-				</msbuild>
-				<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
-				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
-				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(install-patches)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<cb:recreate-database />
-						<exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
-					</tasks>
-				</conditional>
-				<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
-
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(unit-test)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
-						<exec>
-							<executable>powershell</executable>
-							<description>Run unit tests</description>
-							<buildTimeoutSeconds>57600</buildTimeoutSeconds>
-							<buildArgs>-c "&amp; {echo 'Running unit tests'; dir privatebuild\*unittest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with unit tests'}"</buildArgs>
-							<baseDirectory>$(project-folder)</baseDirectory>
-						</exec>
-						<exec>
-							<executable>powershell</executable>
-							<description>Run data tests</description>
-							<buildTimeoutSeconds>57600</buildTimeoutSeconds>
-							<buildArgs>-c "&amp; {echo 'Running data tests'; dir privatebuild\*datatest*.dll | % { $n = $_.name; $(feature) test --coverage --pattern $n}; echo 'Done with data tests'}"</buildArgs>
-							<baseDirectory>$(project-folder)</baseDirectory>
-						</exec>
-						<exec>
-							<description>Generate coverage report</description>
-							<executable>$(ncoverReportingExe)</executable>
-							<buildTimeoutSeconds>600</buildTimeoutSeconds>
-							<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
-							<baseDirectory>$(project-folder)\Coverage</baseDirectory>
-						</exec>
-						<exec>
-							<description>Run FxCop</description>
-							<executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
-							<baseDirectory>$(project-folder)</baseDirectory>
-							<buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
-							<buildTimeoutSeconds>600</buildTimeoutSeconds>
-						</exec>
-					</tasks>
-					<!--
-					<ndepend>
-						<project>..\myProject.ndproj</project>
-						<executable>C:\Program Files (x86)\NDepend_4.0.1.6475\NDepend.Console.exe</executable>
-						<description>Run the NDepend analysis.</description>
-						<emitXml>true</emitXml>
-						<outputDir>TestResult</outputDir>
-						<inputDirs>
-							<inputDir>PrivateBuild</inputDir>
-						</inputDirs>
-						<silent>false</silent>
-						<reportXslt>custom-report.xsl</reportXslt>
-						<timeout>120</timeout>
-						<baseDir>TestResult</baseDir>
-						<publish>true</publish>
-					</ndepend>
-					-->
-
-				</conditional>
-				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
-				<cb:msbuild-package />
-			</tasks>
-			<publishers>
-				<!--<cb:standard-publishers />-->
-						<!--<cb:define name="standard-publishers">-->
-							<merge>
-								<files>
-									<file>TestResult\*.xml</file>
-									<file>Coverage\SymbolModule.xml</file>
-									<file>TestResult\FxCop-results.xml</file>
-								</files>
-							</merge>
-							<xmllogger />
-							<statistics />
-						<!--</cb:define>-->
-			</publishers>
-			<externalLinks>
-				<externalLink name="root" url="$(ccwebroot)" />
-			</externalLinks>
-			<webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
-		</project>
-	</cb:define>
-	
-	
-	
-	
-	
-	<cb:define name="flatbuild">
-		<cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-		<cb:define project-name="$(project-root)" />
-		<cb:define db-name="$(project-name)-DEV" />
-		<!--
-		<cb:define trigger-project="branch_$(branch)" />
-		-->
-
-		<project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
-			<triggers>
-			<!--
-				<projectTrigger project="$(trigger-project)" />
-			-->
-				<intervalTrigger seconds = "$(sourceCheckInterval)" />
-			</triggers>
-			<cb:define project-folder="$(ccroot)\$(project-name)" />
-			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
-			<sourcecontrol type="hg">
-				<autoGetSource>false</autoGetSource>
-				<workingDirectory>$(project-folder)</workingDirectory>
-				<timeout>12000000</timeout>
-				<repo>$(source)</repo>
-				<multipleHeadsFail>false</multipleHeadsFail>
-				<tagOnSuccess>false</tagOnSuccess>
-				<commitModifications>false</commitModifications>
-				<commitUntracked>false</commitUntracked>
-				<purgeModifications>true</purgeModifications>
-				<revertModifications>true</revertModifications>
-				<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
-				<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
-				<tagNameFormat>ccnet_build_{0}</tagNameFormat>
-				<committerName>CruiseControl.NET</committerName>
-			</sourcecontrol>
-			<prebuild>
-				<conditional>
-					<conditions>
-						<fileExistsCondition>
-						<file>j6.proj</file>
-						</fileExistsCondition>
-					</conditions>
-					<tasks>
-						<!-- Tasks to perform if condition passed -->
-						<cb:msbuild-clean />
-					</tasks>
-					<elseTasks>
-						<!-- Tasks to perform if condition failed -->
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-					</elseTasks>
-				</conditional>
-				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-			</prebuild>
-			<tasks>
-				<cb:copy-logger-local />
-				<cb:configure-db />
-				<msbuild description="build feature.exe">
-					<executable>$(msbuild)</executable>
-					<projectFile>j6.proj</projectFile>
-					<buildArgs></buildArgs>
-					<targets>Bootstrap</targets>
-					<timeout>1200</timeout>
-				</msbuild>
-				
-				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
-				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(install-patches)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<cb:recreate-database />
-						<exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
-					</tasks>
-				</conditional>
-				<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
-
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(unit-test)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<cb:feature-test-unit />
-					</tasks>
-				</conditional>
-				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
-				<cb:msbuild-package />
-			</tasks>
-			<publishers>
-				<cb:standard-publishers />
-			</publishers>
-			<externalLinks>
-				<externalLink name="root" url="$(ccwebroot)" />
-			</externalLinks>
-			<webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
-		</project>
-	</cb:define>
-	
-	<cb:define name="flatnightlybuild">
-		<cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)$(buildVariationLabel)" />
-		<cb:define project-name="$(project-root)" />
-		<cb:define db-name="$(project-name)-DEV" />
-		<!--
-		<cb:define trigger-project="branch_$(branch)" />
-		-->
-
-		<project name="$(project-name)" category="$(driver)" queue="$(project-root)-build" queuePriority="2">
-			<triggers>
-				<scheduleTrigger time="00:24" buildCondition="ForceBuild" name="Scheduled"></scheduleTrigger>	
-					<!--
-					<projectTrigger project="$(trigger-project)" />
-					<intervalTrigger seconds = "$(sourceCheckInterval)" />
-					-->
-			</triggers>
-			<cb:define project-folder="$(ccroot)\$(project-name)" />
-			<workingDirectory>$(project-folder)</workingDirectory>
-			<artifactDirectory>$(project-folder)\..\artifacts\$(project-name)</artifactDirectory>
-			<sourcecontrol type="hg">
-				<autoGetSource>false</autoGetSource>
-				<workingDirectory>$(project-folder)</workingDirectory>
-				<timeout>12000000</timeout>
-				<repo>$(source)</repo>
-				<multipleHeadsFail>false</multipleHeadsFail>
-				<tagOnSuccess>false</tagOnSuccess>
-				<commitModifications>false</commitModifications>
-				<commitUntracked>false</commitUntracked>
-				<purgeModifications>true</purgeModifications>
-				<revertModifications>true</revertModifications>
-				<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
-				<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
-				<tagNameFormat>ccnet_build_{0}</tagNameFormat>
-				<committerName>CruiseControl.NET</committerName>
-			</sourcecontrol>
-			<prebuild>
-				<conditional>
-					<conditions>
-						<fileExistsCondition>
-						<file>j6.proj</file>
-						</fileExistsCondition>
-					</conditions>
-					<tasks>
-						<!-- Tasks to perform if condition passed -->
-						<cb:msbuild-clean />
-					</tasks>
-					<elseTasks>
-						<!-- Tasks to perform if condition failed -->
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[extensions]&apos; -encoding ASCII"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;hgext.purge=&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;[paths]&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" buildArgs = '-c "out-file .hg\hgrc -input &apos;default = $(source)&apos; -encoding ASCII -append"' />
-						<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-					</elseTasks>
-				</conditional>
-				<exec executable="$(powershell)" description = "Clear log files" buildArgs = '-c "rm -r -fo $(project-folder)\*.log*"' />
-				<exec executable="$(powershell)" description="hg update to bookmark, tag, or branch" buildArgs = '-c "if (&apos;$(bookmark)&apos;) {hg pull -B $(bookmark); hg up -C $(bookmark)} elseif (&apos;$(tag)&apos;) { hg up -C $(tag) } else {hg up -C $(branch)}"' buildTimeoutSeconds = '6000' />
-			</prebuild>
-			<tasks>
-				<cb:copy-logger-local />
-				<cb:configure-db />
-				<msbuild description="build feature.exe">
-					<executable>$(msbuild)</executable>
-					<projectFile>j6.proj</projectFile>
-					<buildArgs></buildArgs>
-					<targets>Bootstrap</targets>
-					<timeout>1200</timeout>
-				</msbuild>
-
-				<exec executable="$(powershell)" description = "remove old test results" buildArgs = '-c "if (test-path $(project-folder)\TestResult) {rm -r -fo $(project-folder)\TestResult}"' />
-				<exec executable="$(powershell)" description = "remove old coverage" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\*coverage*}"' />
-				<exec executable="$(powershell)" description = "remove old coverage report" buildArgs = '-c "if (test-path $(project-folder)\Coverage) {rm -r -fo $(project-folder)\Coverage\SymbolModule.xm*}"' />
-				<msbuild description="build feature.exe">
-					<executable>$(msbuild)</executable>
-					<projectFile>Core\Feature.proj</projectFile>
-					<buildArgs></buildArgs>
-					<targets>Bootstrap</targets>
-					<timeout>1200</timeout>
-				</msbuild>
-				<exec executable="$(powershell)" description = "hg revert all features" buildArgs = '-c "core\boot\feature do hg revert --all"' />
-				<exec executable="$(feature)" description = "create sql-settings.xml" buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
-				<exec executable="$(powershell)" description = "create build-settings.xml" buildArgs = '-c "cp -fo sql-settings.xml build-settings.xml"' />
-				<exec executable="$(powershell)" description = "create log-settings.xml" buildArgs = '-c "cp core\shared\log-settings.xml ."' />
-				<exec executable="$(feature)" description = "feature setup" buildArgs = 'setup' buildTimeoutSeconds = '6000' />
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(install-patches)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<cb:recreate-database />
-						<exec executable="$(feature)" description = "install patches" buildArgs = 'install --patch' buildTimeoutSeconds = '6000' />
-					</tasks>
-				</conditional>
-				<exec executable="$(feature)" buildTimeoutSeconds = '6000' description = "Feature Build" buildArgs='build /p:Platform=$(platform) /p:Configuration=$(configuration)'/>
-
-				<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
-				<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
-				<exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' />
-				<exec executable="$(powershell)" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
-
-				<cb:define name="run-ncover">
-					<exec>
-						<description>Run unit tests for $(assembly)</description>
-						<executable>ncover.console.exe</executable>
-						<buildTimeoutSeconds>57600</buildTimeoutSeconds>
-						<buildArgs>$(project-folder)\Core\Private\Lib\nunit-console.exe /nologo /framework=4.0.30319 "/xml=TestResult\$(assembly)-test.xml" //x Coverage\$(assembly)-coverage.xml //at Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
-						<baseDirectory>$(project-folder)</baseDirectory>
-					</exec>
-				</cb:define>
-
-				<cb:run-ncover assembly="j6.Core.UnitTest" />
-				<cb:run-ncover assembly="j6.Communication.UnitTest" />
-				<cb:run-ncover assembly="j6.CommunicationSalesOrder.UnitTest" />
-				<cb:run-ncover assembly="j6.Core.UnitTest" />
-				<cb:run-ncover assembly="j6.Earning.UnitTest" />
-				<cb:run-ncover assembly="J6.Event.UnitTests" />
-				<cb:run-ncover assembly="j6.Genealogy.UnitTest" />
-				<cb:run-ncover assembly="j6.Payment.UnitTest" />
-				<cb:run-ncover assembly="j6.SalesOrder.UnitTest" />
-				<cb:run-ncover assembly="j6.Web.UnitTest" />
-				<conditional>
-					<conditions>
-						<compareCondition>
-							<value1>$(data-test)</value1>
-							<value2>true</value2>
-							<evaluation>equal</evaluation>
-							<ignoreCase>true</ignoreCase>
-						</compareCondition>
-					</conditions>
-					<tasks>
-						<cb:run-ncover assembly='j6.Communication.DataTest' />        
-						<cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
-						<cb:run-ncover assembly='j6.Core.DataTest' />                   
-						<cb:run-ncover assembly='j6.Earning.DataTest' />                
-						<cb:run-ncover assembly='j6.Engine.DataTest' />                 
-						<cb:run-ncover assembly='j6.Event.DataTest' />                  
-						<cb:run-ncover assembly='j6.Genealogy.DataTest' />              
-						<cb:run-ncover assembly='j6.Payment.DataTest' />                
-						<cb:run-ncover assembly='j6.SalesOrder.DataTest' />             
-						<!--
-						<exec>
-							<description>Run FxCop</description>
-							<executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
-							<baseDirectory>$(project-folder)</baseDirectory>
-							<buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
-							<buildTimeoutSeconds>600</buildTimeoutSeconds>
-						</exec>
-					-->
-					</tasks>
-				</conditional>
-				<exec>
-					<description>Generate coverage report</description>
-					<executable>$(ncoverReportingExe)</executable>
-					<buildTimeoutSeconds>600</buildTimeoutSeconds>
-					<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
-					<baseDirectory>$(project-folder)\Coverage</baseDirectory>
-				</exec>
-				<exec executable="$(powershell)" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
-				<ndepend>
-					<project>j6.ndproj</project>
-					<executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
-					<description>Run the NDepend analysis.</description>
-					<emitXml>true</emitXml>
-					<outputDir>TestResult</outputDir>
-					<inputDirs>
-						<inputDir>PrivateBuild</inputDir>
-					</inputDirs>
-					<silent>false</silent>
-					<reportXslt>custom-report.xsl</reportXslt>
-					<timeout>120</timeout>
-					<baseDir>$(project-folder)</baseDir>
-					<publish>true</publish>
-				</ndepend>
-				<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
-				<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
-				<!-- <cb:msbuild-package /> -->
-			</tasks>
-			<publishers>
-				<!--<cb:standard-publishers />-->
-						<!--<cb:define name="standard-publishers">-->
-							<merge>
-								<files>
-									<file>TestResult\*.xml</file>
-									<file>Coverage\SymbolModule.xml</file>
-									<file>TestResult\FxCop-results.xml</file>
-								</files>
-							</merge>
-							<xmllogger />
-							<statistics />
-						<!--</cb:define>-->
-			</publishers>
-			<externalLinks>
-				<externalLink name="root" url="$(ccwebroot)" />
-			</externalLinks>
-			<webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
-		</project>
+	<cb:define name="run-ncover">
+	  <exec>
+	    <description>Run unit tests for $(assembly)</description>
+	    <executable>ncover.console.exe</executable>
+	    <buildTimeoutSeconds>57600</buildTimeoutSeconds>
+	    <buildArgs>$(project-folder)\Core\Private\Lib\nunit-console.exe /nologo /framework=4.0.30319 "/xml=TestResult\$(assembly)-test.xml" //x Coverage\$(assembly)-coverage.xml //at Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
+	    <baseDirectory>$(project-folder)</baseDirectory>
+	  </exec>
 	</cb:define>
 	
+	<cb:run-ncover assembly="j6.Core.UnitTest" />
+	<cb:run-ncover assembly="j6.Communication.UnitTest" />
+	<cb:run-ncover assembly="j6.CommunicationSalesOrder.UnitTest" />
+	<cb:run-ncover assembly="j6.Core.UnitTest" />
+	<cb:run-ncover assembly="j6.Earning.UnitTest" />
+	<cb:run-ncover assembly="J6.Event.UnitTests" />
+	<cb:run-ncover assembly="j6.Genealogy.UnitTest" />
+	<cb:run-ncover assembly="j6.Payment.UnitTest" />
+	<cb:run-ncover assembly="j6.SalesOrder.UnitTest" />
+	<cb:run-ncover assembly="j6.Web.UnitTest" />
+	<conditional>
+	  <conditions>
+	    <compareCondition>
+	      <value1>$(data-test)</value1>
+	      <value2>true</value2>
+	      <evaluation>equal</evaluation>
+	      <ignoreCase>true</ignoreCase>
+	    </compareCondition>
+	  </conditions>
+	  <tasks>
+	    <cb:run-ncover assembly='j6.Communication.DataTest' />        
+	    <cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
+	    <cb:run-ncover assembly='j6.Core.DataTest' />                   
+	    <cb:run-ncover assembly='j6.Earning.DataTest' />                
+	    <cb:run-ncover assembly='j6.Engine.DataTest' />                 
+	    <cb:run-ncover assembly='j6.Event.DataTest' />                  
+	    <cb:run-ncover assembly='j6.Genealogy.DataTest' />              
+	    <cb:run-ncover assembly='j6.Payment.DataTest' />                
+	    <cb:run-ncover assembly='j6.SalesOrder.DataTest' />             
+	    <!--
+		<exec>
+		<description>Run FxCop</description>
+		<executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
+		<baseDirectory>$(project-folder)</baseDirectory>
+		<buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
+		<buildTimeoutSeconds>600</buildTimeoutSeconds>
+		</exec>
+	    -->
+	  </tasks>
+	</conditional>
+	<exec>
+	  <description>Generate coverage report</description>
+	  <executable>$(ncoverReportingExe)</executable>
+	  <buildTimeoutSeconds>600</buildTimeoutSeconds>
+	  <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+	  <baseDirectory>$(project-folder)\Coverage</baseDirectory>
+	</exec>
+	<exec executable="$(powershell)" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
+	<ndepend>
+	  <project>j6.ndproj</project>
+	  <executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
+	  <description>Run the NDepend analysis.</description>
+	  <emitXml>true</emitXml>
+	  <outputDir>TestResult</outputDir>
+	  <inputDirs>
+	    <inputDir>PrivateBuild</inputDir>
+	  </inputDirs>
+	  <silent>false</silent>
+	  <reportXslt>custom-report.xsl</reportXslt>
+	  <timeout>120</timeout>
+	  <baseDir>$(project-folder)</baseDir>
+	  <publish>true</publish>
+	</ndepend>
+	<exec executable="$(powershell)" description = "remove old releases" buildArgs = '-c "rm -r -fo $(project-folder)\RELEASE-*"' />
+	<exec executable="$(powershell)" description = "create $(driver)/REVISION.txt" buildArgs = '-c "hg parent --template &apos;{node}&apos; > $(driver)\REVISION.txt"' />
+	<!-- <cb:msbuild-package /> -->
+      </tasks>
+      <publishers>
+	<!--<cb:standard-publishers />-->
+	<!--<cb:define name="standard-publishers">-->
+	<merge>
+	  <files>
+	    <file>TestResult\*.xml</file>
+	    <file>Coverage\SymbolModule.xml</file>
+	    <file>TestResult\FxCop-results.xml</file>
+	  </files>
+	</merge>
+	<xmllogger />
+	<statistics />
+	<!--</cb:define>-->
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/local/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+  
 </cb:config-template>

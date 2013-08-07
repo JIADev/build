@@ -32,6 +32,7 @@
 	<cb:force-clean />
       </prebuild>
       <tasks description="Bootstrap setup">
+
 	<cb:copy-logger-local />
 	<cb:configure-db />
 	<cb:build-feature-exe />

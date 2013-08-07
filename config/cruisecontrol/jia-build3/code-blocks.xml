@@ -102,7 +102,7 @@
 	  buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
   </cb:define>
   
-<cb:define name="install-patches">
+<cb:define name="msbuild-install-patches">
   <conditional>
     <conditions>
       <compareCondition>
