@@ -128,14 +128,6 @@
       />
   
   <cb:customerbuild
-      project-name="$(driver)-$(tag)"
-      branch = '7.5.2'
-      tag = '7.5.2_start'
-      driver = 'CUST000'
-      db-server="dev-sql1"
-      />
-
-  <cb:customerbuild
       project-name="CUST$(branch)"
       branch = '2086_7.5.0'
       driver = 'CUST2086'
@@ -177,13 +169,6 @@
       db-server="dev-sql1"
       />
   
-  <cb:customerbuild
-      branch = '7.4.1'
-      bookmark = 'dev'
-      driver = 'CUST2083'
-      db-server="dev-sql1"
-      />
-
 <!-- "default" branches -->
 
   <cb:customerbuild
