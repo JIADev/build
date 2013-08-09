@@ -18,16 +18,6 @@
 	/>
 
 <cb:v76build
-	branch = 'fix_redis_tests'
-	driver = 'CUST000'
-	clean="true"
-	build="true"	
-	data-test="true"
-	redis-db="15"
-	platform="AnyCpu"
-	/>
-
-<cb:v76build
 	branch = '760_QA'
 	driver = 'CUST000'
 	clean="true"
