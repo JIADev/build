@@ -42,16 +42,16 @@
 	      successExitCodes="0"> 
 	  <buildArgs>/c "mkdir $(project-folder)"</buildArgs>
 	</exec>
-      <exec executable="$(cmdExe)" 
-	    description="Copy .xml files to working folder"
-	    buildArgs='/c copy "$(ccnetConfigSource)\*.xml" "$(project-folder)"' />
       <exec executable="$(cmdExe)"
-	    description="Copy .config files to working folder"
-	    buildArgs='/c copy "$(ccnetConfigSource)\*.config" "$(project-folder)"' />
+	    description="Copy common config files to working folder"
+	    buildArgs='/c copy "$(ccnetConfigSource)\common\server\*" "$(project-folder)"' />
+      <exec executable="$(cmdExe)" 
+	    description="Copy server-specific config files to working folder"
+	    buildArgs='/c copy "$(ccnetConfigSource)\$(ccBuildServer)\server\*" "$(project-folder)"' />
       <exec 
 	  description="Validate configuration"
 	  executable="$(ccNetServer)\CCValidator.exe"
-	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui --format=xml --logfile=$(ccnetLogDir)\configLog.xml" />
+	  buildArgs="$(project-folder)\ccnet.config --nogui --format=xml --logfile=$(ccnetLogDir)\configLog.xml" />
       <exec executable="$(cmdExe)" 
 	    description="Copy working folder files to server config folder"
 	    buildArgs='/c copy "$(project-folder)\*" "$(ccNetServer)"' />
