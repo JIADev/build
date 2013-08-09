@@ -172,6 +172,7 @@
   
 <!-- "default" branches -->
 
+<!--  Requires msbuild for .NET 2.0  No longer configured correctly
   <cb:customerbuild
       branch = 'default'
       driver = 'CUST043'
@@ -179,7 +180,7 @@
       configuration="Debug"
       protect="True"
       />
-  
+-->  
   <cb:customerbuild
       branch = 'default'
       bookmark = 'bbd-dev'
