@@ -7,33 +7,24 @@
   <cb:define 
       hg = "C:\progra~1\Mercurial\hg.exe"
       feature="Core\boot\feature.exe"
-      sqlCmd="C:\Program Files\Microsoft SQL Server\110\Tools\Binn\SQLCMD.exe"
       global_feature_dir="c:\build" 
       scripts_dir="c:\build\scripts"
       global_feature="c:\build\feature.exe"
       ccserver="C:\Program Files (x86)\CruiseControl.NET\server"
-      ndepend="C:\Program Files (x86)\NDepend\NDepend.Console.exe"
       gendarme="C:\Program Files\Novell\Gendarme\gendarme.exe"
       fxcop="C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCop.exe"
       msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
       powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
       ncoverReportingExe="C:\Program Files\NCover\NCover.Reporting.exe"
-      ccroot="c:\f_cc"
-      pkgroot="c:\pkg"
-      srcroot="c:\f_cc\src"
-      artifactroot="c:\f_cc\artifacts"
       deploy-root-local="C:\j6\QA_Sites"
       cmdExe="C:\WINDOWS\system32\cmd.exe"
       ccNetSourceWorkingDir="$(ccroot)\ccnet"
-      ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol\jia-build3" 
+      ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol\$(ccBuildServer)\server"
       ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
       ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
       source-folder="$(srcroot)\$(project-name)"
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
-      ccNetLogDir="c:\ccnet.log"
-      redis-server="localhost"
-      redis-db="10"
       />
 
   <!-- Network Urls and Servers -->
@@ -42,13 +33,6 @@
       source="$(repo-source-root)/customers/$(driver)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://$(ccBuildServer)/ccnet/"
-      db-server="jia-sql12"
-      ccBuildServer="jia-build3" />
-
-  <!-- Credentials -->
-  <cb:define
-      db-user=""
-      db-password=""
       />
 
   <!-- Build Switches -->
@@ -63,7 +47,6 @@
   <cb:define
       sourceCheckInterval = "600"
       bookmark=""
-      exclude-files="true"
       hgBranch="default"
       pull-options=""
       tag = ""
