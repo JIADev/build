@@ -21,16 +21,38 @@
 	>
     </sourcecontrol>
     <tasks>
+    <conditional description="Delete working folder">
+      <conditions>
+	<folderExistsCondition folder="$(project-folder)" />>
+      </conditions>
+      <tasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)" 
+	      description="Delete working folder" 
+	      successExitCodes="0"> 
+	  <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
+	</exec>
+      </tasks>
+    </conditional>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)" 
+	      description="recreate working folder" 
+	      successExitCodes="0"> 
+	  <buildArgs>/c "mkdir $(project-folder)"</buildArgs>
+	</exec>
+      <exec executable="$(cmdExe)" 
+	    description="Copy .xml files to working folder"
+	    buildArgs='/c copy "$(ccnetConfigSource)\*.xml" "$(project-folder)"' />
+      <exec executable="$(cmdExe)"
+	    description="Copy .config files to working folder"
+	    buildArgs='/c copy "$(ccnetConfigSource)\*.config" "$(project-folder)"' />
       <exec 
 	  description="Validate configuration"
 	  executable="$(ccNetServer)\CCValidator.exe"
 	  buildArgs="$(ccNetConfigSource)\ccnet.config --nogui --format=xml --logfile=$(ccnetLogDir)\configLog.xml" />
       <exec executable="$(cmdExe)" 
-	    description="Copy .xml files to server config folder"
-	    buildArgs='/c copy "$(ccnetConfigSource)\*.xml" "$(ccNetServer)"' />
-      <exec executable="$(cmdExe)"
-	    description="Copy .config files to server config folder"
-	    buildArgs='/c copy "$(ccnetConfigSource)\*.config" "$(ccNetServer)"' />
+	    description="Copy working folder files to server config folder"
+	    buildArgs='/c copy "$(project-folder)\*" "$(ccNetServer)"' />
     </tasks>
     <publishers>
       <xmllogger logDir="$(ccnetLogDir)" />
