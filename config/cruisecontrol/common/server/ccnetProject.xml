@@ -53,6 +53,9 @@
 	  executable="$(ccNetServer)\CCValidator.exe"
 	  buildArgs="$(project-folder)\ccnet.config --nogui --format=xml --logfile=$(ccnetLogDir)\configLog.xml" />
       <exec executable="$(cmdExe)" 
+	    description="Copy dashboard config to server webdashboard"
+	    buildArgs='/c copy "$(ccnetConfigSource)\$(ccBuildServer)\webdashboard\*" "$(ccNetWebDashboard)"' />
+      <exec executable="$(cmdExe)" 
 	    description="Copy working folder files to server config folder"
 	    buildArgs='/c copy "$(project-folder)\*" "$(ccNetServer)"' />
     </tasks>
