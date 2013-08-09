@@ -23,6 +23,14 @@
       exclude-files="true"
       />
 
+   <cb:customerbuild
+      project-name="CUST$(branch)"
+      branch = '2092_R2'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      exclude-files="true"
+      />
+
 <!-- req branches -->
 
   <cb:customerbuild
