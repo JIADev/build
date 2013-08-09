@@ -184,6 +184,8 @@
       protect="True"
       />
 -->  
+
+<!-- bbd-dev bookmark gone
   <cb:customerbuild
       branch = 'default'
       bookmark = 'bbd-dev'
@@ -191,7 +193,7 @@
       db-server="dev-sql1"
       include-source = 'true'
       />
-  
+-->
   <cb:customerbuild
       branch = 'default'
       driver = 'CUST2082'
