@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
 
-  <project name="ccnet" category="ccnet" queue="ccnet">
+  <project name="ccnet-jia-build3" category="ccnet" queue="ccnet">
     <triggers>
       <intervalTrigger seconds="60" />
     </triggers>
