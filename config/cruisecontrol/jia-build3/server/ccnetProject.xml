@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-
-  <project name="ccnet-$(ccBuildServer)" category="ccnet" queue="ccnet">
+<cb:define
+    project-name="ccnet-$(ccBuildServer)"
+    project-folder="$(ccroot)\$(project-name)"
+    />
+  <project name="$(project-name)" category="ccnet" queue="ccnet">
     <triggers>
       <intervalTrigger seconds="60" />
     </triggers>
