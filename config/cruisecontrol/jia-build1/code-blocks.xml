@@ -17,7 +17,7 @@
 	  buildArgs = '-c "hg update $(branch)"' 
 	  baseDirectory="$(source-folder)" />
   </cb:define>
-  
+
   <cb:define name="force-clean">
     <conditional description="Delete entire project folder">
       <conditions>
@@ -292,7 +292,7 @@
     <msbuild description="configure">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)"</buildArgs>
+      <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(source-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)"</buildArgs>
       <targets>Configure</targets>
       <timeout>120000</timeout>
     </msbuild>
