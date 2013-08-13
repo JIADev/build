@@ -19,8 +19,8 @@ function Execute($sql) {
 
 $accountsCount = [int] (ExecuteGetValue "select count(*) as Count from [Genealogy].[Account]")
 echo "$accountsCount account(s) found."
-if ($accountsCount -gt 1) {
-  Write-Host "Accounts found. This is not an empty database"
+if ($accountsCount -gt 2) {
+  Write-Host "More than two accounts found. This is not an empty database"
   Write-Host "Bailing..... (for your own protection)"
   break
 }
