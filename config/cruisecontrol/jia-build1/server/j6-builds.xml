@@ -205,7 +205,8 @@
 <!-- CUST2091 -->
 
   <cb:customerbuild
-      branch = '7.5.2'
+      project-name="CUST$(branch)"
+      branch = '2091-7.5.2'
       driver = 'CUST2091'
       db-server="dev-sql1"
       />
