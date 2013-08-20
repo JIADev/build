@@ -46,7 +46,7 @@
 
   <!-- Other defaults -->
   <cb:define
-      sourceCheckInterval = "60"
+      sourceCheckInterval = "300"
       bookmark=""
       hgBranch="default"
       pull-options=""
