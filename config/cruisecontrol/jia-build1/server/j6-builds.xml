@@ -45,7 +45,7 @@
       driver = 'CUST2090'
       db-server="dev-sql1"
       exclude-files="true"
-      package="true"
+      package="false"
       />
   
   <cb:customerbuild
@@ -111,7 +111,7 @@
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
-      package="false"
+      package="true"
       />
 
 <!-- version branches -->  
