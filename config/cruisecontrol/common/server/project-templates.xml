@@ -1,41 +1,26 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-
-<!-- 7.4.x and 7.5.x build project (maybe works with 7.3.x?) -->
-
+  
+  <!-- 7.4.x and 7.5.x build project (maybe works with 7.3.x?) -->
+  
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="$(project-name)-DEV" />
-    
+    <cb:define feature="$(relativefeature)" />
+
     <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
       <triggers>
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
       </triggers>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <sourcecontrol type="hg">
-	<autoGetSource>false</autoGetSource>
-	<workingDirectory>$(source-folder)</workingDirectory>
-	<timeout>120000</timeout>
-	<repo>$(source)</repo>
-	<multipleHeadsFail>false</multipleHeadsFail>
-	<tagOnSuccess>false</tagOnSuccess>
-	<commitModifications>false</commitModifications>
-	<commitUntracked>false</commitUntracked>
-	<purgeModifications>true</purgeModifications>
-	<revertModifications>true</revertModifications>
-	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
-	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
-	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
-	<committerName>CruiseControl.NET</committerName>
-	<branch>$(branch)</branch>
-      </sourcecontrol>
+      <cb:sourcecontrol />
       <prebuild>
 	<cb:update-source />
 	<cb:force-clean />
       </prebuild>
       <tasks description="Bootstrap setup">
-
+	
 	<cb:copy-logger-local />
 	<cb:configure-db />
 	<cb:build-feature-exe />
@@ -55,12 +40,13 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
-
-<!-- 7.6.x build project -->
-
+  
+  <!-- 7.6.x build project -->
+  
   <cb:define name="v76build">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="$(project-name)-DEV" />
+    <cb:define feature="$(relativefeature)" />
     
     <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
       <triggers>
@@ -68,23 +54,7 @@
       </triggers>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <sourcecontrol type="hg">
-	<autoGetSource>false</autoGetSource>
-	<workingDirectory>$(source-folder)</workingDirectory>
-	<timeout>120000</timeout>
-	<repo>$(source)</repo>
-	<multipleHeadsFail>false</multipleHeadsFail>
-	<tagOnSuccess>false</tagOnSuccess>
-	<commitModifications>false</commitModifications>
-	<commitUntracked>false</commitUntracked>
-	<purgeModifications>true</purgeModifications>
-	<revertModifications>true</revertModifications>
-	<tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
-	<modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
-	<tagNameFormat>ccnet_build_{0}</tagNameFormat>
-	<committerName>CruiseControl.NET</committerName>
-	<branch>$(branch)</branch>
-      </sourcecontrol>
+      <cb:sourcecontrol />
       <prebuild>
 	<cb:update-source />
 	<cb:force-clean />
@@ -118,5 +88,5 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
-
+  
 </cb:config-template>

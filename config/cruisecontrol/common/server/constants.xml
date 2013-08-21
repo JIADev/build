@@ -4,9 +4,11 @@
   <!-- Common definitions for all projects, edit to suit your system -->
 
   <!-- Paths -->
+  <!-- Common feature used for legacy builds -->
   <cb:define 
       hg = "C:\progra~1\Mercurial\hg.exe"
-      feature="Core\boot\feature.exe"
+      relativefeature="Core\boot\feature.exe"
+      commonfeature = "$(ccnetSourceWorkingDir)\Feature.exe" 
       global_feature_dir="c:\build" 
       scripts_dir="c:\build\scripts"
       global_feature="c:\build\feature.exe"

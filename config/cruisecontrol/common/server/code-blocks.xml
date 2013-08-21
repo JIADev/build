@@ -1,4 +1,24 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <cb:define name="sourcecontrol">
+    <sourcecontrol type="hg">
+      <autoGetSource>false</autoGetSource>
+      <workingDirectory>$(source-folder)</workingDirectory>
+      <timeout>120000</timeout>
+      <repo>$(source)</repo>
+      <multipleHeadsFail>false</multipleHeadsFail>
+      <tagOnSuccess>false</tagOnSuccess>
+      <commitModifications>false</commitModifications>
+      <commitUntracked>false</commitUntracked>
+      <purgeModifications>true</purgeModifications>
+      <revertModifications>true</revertModifications>
+      <tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+      <modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+      <tagNameFormat>ccnet_build_{0}</tagNameFormat>
+      <committerName>CruiseControl.NET</committerName>
+      <branch>$(branch)</branch>
+    </sourcecontrol>
+  </cb:define>
+  
   <cb:define name="update-source">
     <exec executable="$(cmdExe)" 
 	  description="Copy default.hgrc file to .hg\hgrc"
@@ -17,7 +37,7 @@
 	  buildArgs = '-c "hg update $(branch)"' 
 	  baseDirectory="$(source-folder)" />
   </cb:define>
-
+  
   <cb:define name="force-clean">
     <conditional description="Delete entire project folder">
       <conditions>
@@ -102,22 +122,22 @@
 	  buildArgs = '-c "if (test-path core\shared\log-settings.xml) {cp core\shared\log-settings.xml .}"' />
   </cb:define>
   
-<cb:define name="msbuild-install-patches">
-  <conditional>
-    <conditions>
-      <compareCondition>
-	<value1>$(install-patches)</value1>
-	<value2>true</value2>
-	<evaluation>equal</evaluation>
-	<ignoreCase>true</ignoreCase>
-      </compareCondition>
-    </conditions>
-    <tasks>
-      <cb:msbuild-recreatedb />
-      <cb:msbuild-patch />
-    </tasks>
-  </conditional>
-</cb:define>
+  <cb:define name="msbuild-install-patches">
+    <conditional>
+      <conditions>
+	<compareCondition>
+	  <value1>$(install-patches)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
+	<cb:msbuild-recreatedb />
+	<cb:msbuild-patch />
+      </tasks>
+    </conditional>
+  </cb:define>
   <cb:define name="f-install-patches">
     <conditional description="Setup Database">
       <conditions>
@@ -176,7 +196,7 @@
       <buildArgs>setup</buildArgs>
     </exec>
   </cb:define>
-
+  
   <cb:define name="f-build">
     <exec 
 	executable="$(feature)" 
@@ -284,7 +304,7 @@
     <xmllogger />
     <statistics />
   </cb:define>
-
+  
   <!-- Added for 7.6 builds -->
   
   <cb:define name="msbuild-configure">
@@ -327,7 +347,7 @@
     </conditional>
   </cb:define>
   
-<cb:define name="msbuild-bootstrap">
+  <cb:define name="msbuild-bootstrap">
     <msbuild description="bootstrap">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
@@ -380,104 +400,104 @@
       <baseDirectory>$(project-folder)</baseDirectory>
     </exec>
   </cb:define>
-
+  
   <cb:define name="setup-unittests">
-	<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
-	<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
-	<!-- <exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' /> -->
-	<exec executable="$(powershell)" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
-
+    <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' />
+    <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' />
+    <!-- <exec executable="$(powershell)" buildArgs='-c "&amp; {kill -name nunit-agent}"' /> -->
+    <exec executable="$(powershell)" buildArgs='-c "&amp; {rm Coverage\*coverage*.xml;rm TestResult\*.xml}' />
+    
   </cb:define>
-
+  
   <cb:define name="run-unittests">
-	<conditional>
-	  <conditions>
-	    <compareCondition>
-	      <value1>$(unit-test)</value1>
-	      <value2>true</value2>
-	      <evaluation>equal</evaluation>
-	      <ignoreCase>true</ignoreCase>
-	    </compareCondition>
-	  </conditions>
-	  <tasks>
-	    <cb:copy-dlls-to-privatebuild />
-	    <cb:run-ncover assembly="j6.Core.UnitTest" />
-	    <cb:run-ncover assembly="j6.Communication.UnitTest" />
-	    <cb:run-ncover assembly="j6.CommunicationSalesOrder.UnitTest" />
-	    <cb:run-ncover assembly="j6.Core.UnitTest" />
-	    <cb:run-ncover assembly="j6.Earning.UnitTest" />
-	    <!--
-		<cb:run-ncover assembly="J6.Event.UnitTests" />
-	    -->
-	    <cb:run-ncover assembly="j6.Genealogy.UnitTest" />
-	    <cb:run-ncover assembly="j6.Payment.UnitTest" />
-	    <cb:run-ncover assembly="j6.SalesOrder.UnitTest" />
-	    <!--
-		<cb:run-ncover assembly="j6.Web.UnitTest" />
-	    -->
-	  </tasks>
-	</conditional>
-
+    <conditional>
+      <conditions>
+	<compareCondition>
+	  <value1>$(unit-test)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
+	<cb:copy-dlls-to-privatebuild />
+	<cb:run-ncover assembly="j6.Core.UnitTest" />
+	<cb:run-ncover assembly="j6.Communication.UnitTest" />
+	<cb:run-ncover assembly="j6.CommunicationSalesOrder.UnitTest" />
+	<cb:run-ncover assembly="j6.Core.UnitTest" />
+	<cb:run-ncover assembly="j6.Earning.UnitTest" />
+	<!--
+	    <cb:run-ncover assembly="J6.Event.UnitTests" />
+	-->
+	<cb:run-ncover assembly="j6.Genealogy.UnitTest" />
+	<cb:run-ncover assembly="j6.Payment.UnitTest" />
+	<cb:run-ncover assembly="j6.SalesOrder.UnitTest" />
+	<!--
+	    <cb:run-ncover assembly="j6.Web.UnitTest" />
+	-->
+      </tasks>
+    </conditional>
+    
   </cb:define>
-
-<cb:define name="run-datatests">
-	<conditional>
-	  <conditions>
-	    <compareCondition>
-	      <value1>$(data-test)</value1>
-	      <value2>true</value2>
-	      <evaluation>equal</evaluation>
-	      <ignoreCase>true</ignoreCase>
-	    </compareCondition>
-	  </conditions>
-	  <tasks>
-	    <cb:copy-dlls-to-privatebuild />
-	    <cb:run-ncover assembly='j6.Communication.DataTest' />        
-	    <cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
-	    <cb:run-ncover assembly='j6.Core.DataTest' />                   
-	    <cb:run-ncover assembly='j6.Earning.DataTest' />                
-	    <cb:run-ncover assembly='j6.Engine.DataTest' />                 
-	    <cb:run-ncover assembly='j6.Event.DataTest' />                  
-	    <cb:run-ncover assembly='j6.Genealogy.DataTest' />              
-	    <cb:run-ncover assembly='j6.Payment.DataTest' />                
-	    <cb:run-ncover assembly='j6.SalesOrder.DataTest' />             
-	    <!--
-		<exec>
-		<description>Run FxCop</description>
-		<executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
-		<baseDirectory>$(project-folder)</baseDirectory>
-		<buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
-		<buildTimeoutSeconds>600</buildTimeoutSeconds>
-		</exec>
-	    -->
-	  </tasks>
-	</conditional>
-</cb:define>
-
-<cb:define name="get-reports">
-	<exec>
-	  <description>Generate coverage report</description>
-	  <executable>$(ncoverReportingExe)</executable>
-	  <buildTimeoutSeconds>600</buildTimeoutSeconds>
-	  <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
-	  <baseDirectory>$(project-folder)\Coverage</baseDirectory>
-	</exec>
-	<exec executable="$(powershell)" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
-	<ndepend>
-	  <project>j6.ndproj</project>
-	  <executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
-	  <description>Run the NDepend analysis.</description>
-	  <emitXml>true</emitXml>
-	  <outputDir>NDepend</outputDir>
-	  <inputDirs>
-	    <inputDir>Build</inputDir>
-	  </inputDirs>
-	  <silent>false</silent>
-	  <reportXslt>custom-report.xsl</reportXslt>
-	  <timeout>600</timeout>
-	  <baseDir>$(project-folder)</baseDir>
-	  <publish>true</publish>
-	</ndepend>
-</cb:define>
-
+  
+  <cb:define name="run-datatests">
+    <conditional>
+      <conditions>
+	<compareCondition>
+	  <value1>$(data-test)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
+	<cb:copy-dlls-to-privatebuild />
+	<cb:run-ncover assembly='j6.Communication.DataTest' />        
+	<cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
+	<cb:run-ncover assembly='j6.Core.DataTest' />                   
+	<cb:run-ncover assembly='j6.Earning.DataTest' />                
+	<cb:run-ncover assembly='j6.Engine.DataTest' />                 
+	<cb:run-ncover assembly='j6.Event.DataTest' />                  
+	<cb:run-ncover assembly='j6.Genealogy.DataTest' />              
+	<cb:run-ncover assembly='j6.Payment.DataTest' />                
+	<cb:run-ncover assembly='j6.SalesOrder.DataTest' />             
+	<!--
+	    <exec>
+	    <description>Run FxCop</description>
+	    <executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
+	    <baseDirectory>$(project-folder)</baseDirectory>
+	    <buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
+	    <buildTimeoutSeconds>600</buildTimeoutSeconds>
+	    </exec>
+	-->
+      </tasks>
+    </conditional>
+  </cb:define>
+  
+  <cb:define name="get-reports">
+    <exec>
+      <description>Generate coverage report</description>
+      <executable>$(ncoverReportingExe)</executable>
+      <buildTimeoutSeconds>600</buildTimeoutSeconds>
+      <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+      <baseDirectory>$(project-folder)\Coverage</baseDirectory>
+    </exec>
+    <exec executable="$(powershell)" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
+    <ndepend>
+      <project>j6.ndproj</project>
+      <executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
+      <description>Run the NDepend analysis.</description>
+      <emitXml>true</emitXml>
+      <outputDir>NDepend</outputDir>
+      <inputDirs>
+	<inputDir>Build</inputDir>
+      </inputDirs>
+      <silent>false</silent>
+      <reportXslt>custom-report.xsl</reportXslt>
+      <timeout>600</timeout>
+      <baseDir>$(project-folder)</baseDir>
+      <publish>true</publish>
+    </ndepend>
+  </cb:define>
+  
 </cb:config-template>
