@@ -206,6 +206,9 @@
 	buildTimeoutSeconds = '$(f-build-timeout)' 
 	baseDirectory="$(project-folder)"
 	description = "Feature Build (timeout $(f-build-timeout) seconds)">
+      <environment>
+	<variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
+      </environment>
       <buildArgs>build /p:Platform=$(platform) /p:Configuration=$(configuration)</buildArgs>
     </exec>
   </cb:define>

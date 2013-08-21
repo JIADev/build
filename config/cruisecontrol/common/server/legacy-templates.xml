@@ -25,6 +25,9 @@
 <!--	<cb:recreate-database /> -->
 	<cb:f-setup f-setup-timeout="600" />
 <!--	<cb:f-install-patches f-install-patches-timeout="2700" /> -->
+	<cb:f-build />
+	<cb:f-unit-tests />
+	<cb:f-package />
       </tasks>
       <publishers>
 	<cb:standard-publishers />
