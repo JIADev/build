@@ -16,14 +16,14 @@
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
       <prebuild>
-<!--	<cb:update-source />
+	<cb:update-source />
 	<cb:force-clean />
--->      </prebuild>
+     </prebuild>
       <tasks description="Bootstrap setup">
-<!--	<cb:copy-logger-local /> -->
-<!--	<cb:create-settings /> -->
+	<cb:copy-logger-local />
+	<cb:create-settings />
 <!--	<cb:recreate-database /> -->
-<!--	<cb:f-setup f-setup-timeout="600" /> -->
+	<cb:f-setup f-setup-timeout="600" />
 <!--	<cb:f-install-patches f-install-patches-timeout="2700" /> -->
 	<cb:f-build dotNetFrameworkPath="$(dotNet35Path);$(dotNet2Path)" />
 	<cb:f-unit-tests />
