@@ -7,6 +7,18 @@
 
 <!-- release branches -->
 
+<!-- CUST077 -->
+  
+  <cb:customerbuild
+      project-name="CUST077-7.2.11"
+      branch = 'default'
+      driver = 'CUST077'
+      db-server="dev-sql1"
+      exclude-files="false"
+      package="false"
+      unit-test="false"
+      />
+	
 <!-- CUST2090 -->
   
   <cb:customerbuild
