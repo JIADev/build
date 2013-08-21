@@ -22,7 +22,7 @@
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
-	<cb:configure-db />
+	<cb:legacy-configure-db />
 
       </tasks>
       <publishers>
