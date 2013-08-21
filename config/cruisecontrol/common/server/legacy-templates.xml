@@ -34,4 +34,13 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
+
+  <cb:define name="legacy-configure-db">
+	<exec executable="$(feature)" 
+	      description="Configure DB"
+	      workingDirectory="$(project-folder)"
+	      buildTimeoutSeconds="1200"
+	      buildArgs='config sql $(db-server) $(db-name) $(db-user) $(db-password)' />
+  </cb:define>
+
 </cb:config-template>
