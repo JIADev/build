@@ -9,7 +9,7 @@
 
 <!-- CUST077 -->
   
-  <cb:customerbuild
+  <cb:legacybuild
       project-name="CUST077-7.2.11"
       branch = 'default'
       driver = 'CUST077'

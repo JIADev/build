@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <!-- 7.2.x build project -->
+  <cb:define msbuild2 = "C:\Windows\Microsoft.NET\Framework\v2.0.50727\msbuild.exe" />
+  <cb:define buildFeature = "$(ccnetSourceWorkingDir)\Feature.exe" />
+
+  <cb:define name="legacybuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <cb:define feature="$(commonfeature)" />
+
+    <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
+      <triggers>
+	<intervalTrigger seconds = "$(sourceCheckInterval)" />
+      </triggers>
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
+      <cb:sourcecontrol />
+      <prebuild>
+	<cb:update-source />
+	<cb:force-clean />
+      </prebuild>
+      <tasks description="Bootstrap setup">
+	<cb:copy-logger-local />
+	<cb:configure-db />
+	<cb:create-settings />
+	<cb:f-setup />
+	<cb:f-install-patches />
+	<cb:f-build />
+	<cb:f-unit-tests />
+	<cb:f-package />
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+</cb:config-template>
