@@ -84,13 +84,7 @@
       <buildArgs>/C copy "$(ccserver)\ThoughtWorks.CruiseControl.MSBuild.dll" $(project-folder)</buildArgs>
     </exec>
   </cb:define>
-  <cb:define name="legacy-configure-db">
-	<exec executable="$(feature)" 
-	      description="Configure DB"
-	      workingDirectory="$(project-folder)"
-	      buildTimeoutSeconds="1200"
-	      buildArgs='config sql $(DatabaseServer) $(DatabaseName) $(DatabaseUser) $(DatabasePassword)' />
-  </cb:define>
+
   <cb:define name="configure-db">
     <msbuild description="configure database (timeout 20 mins)"
 	     executable="$(msbuild)"
