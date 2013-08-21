@@ -24,7 +24,7 @@
 	<cb:copy-logger-local />
 	<cb:create-settings />
 	<cb:recreate-database />
-	<cb:f-install-patches />
+	<cb:f-setup />
       </tasks>
       <publishers>
 	<cb:standard-publishers />

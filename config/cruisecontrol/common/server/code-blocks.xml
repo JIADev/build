@@ -192,11 +192,10 @@
 	executable="$(feature)" 
 	description = "feature setup (timeout 10 mins)" 
 	baseDirectory="$(project-folder)"
-	buildTimeoutSeconds = '600'>
-      <buildArgs>setup</buildArgs>
-    </exec>
+	buildArgs = 'setup' 
+	buildTimeoutSeconds = '600' />
   </cb:define>
-  
+
   <cb:define name="f-build">
     <exec 
 	executable="$(feature)" 
