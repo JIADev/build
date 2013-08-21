@@ -22,9 +22,9 @@
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
 	<cb:create-settings />
-	<cb:recreate-database />
+<!--	<cb:recreate-database /> -->
 	<cb:f-setup f-setup-timeout="600" />
-	<cb:f-install-patches f-install-patches-timeout="2700" />
+<!--	<cb:f-install-patches f-install-patches-timeout="2700" /> -->
       </tasks>
       <publishers>
 	<cb:standard-publishers />
