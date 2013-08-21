@@ -3,7 +3,7 @@
     <sourcecontrol type="hg">
       <autoGetSource>false</autoGetSource>
       <workingDirectory>$(source-folder)</workingDirectory>
-      <timeout>120000</timeout>
+      <timeout>$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
       <multipleHeadsFail>false</multipleHeadsFail>
       <tagOnSuccess>false</tagOnSuccess>
@@ -64,15 +64,15 @@
 	
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
-	      description="Copy source (timeout 20 min)"
-	      buildTimeoutSeconds="1200"
+	      description="Copy source (timeout $(copy-source-timeout) seconds)"
+	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(source-folder)\excludeFiles.config "$(source-folder)" "$(project-folder)"' />
       </tasks>
       <elseTasks description="Copy source including all files">
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
-	      description="Copy source (timeout 20 min)"
-	      buildTimeoutSeconds="1200"
+	      description="Copy source (timeout $(copy-source-timeout) seconds)"
+	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
       </elseTasks>
     </conditional>
@@ -86,23 +86,23 @@
   </cb:define>
 
   <cb:define name="configure-db">
-    <msbuild description="configure database (timeout 20 mins)"
+    <msbuild description="configure database (timeout $(configure-db-timeout) seconds)"
 	     executable="$(msbuild)"
 	     workingDirectory="$(project-folder)"
 	     projectFile="j6.proj"
 	     targets="Configure"
-	     timeout="1200">
+	     timeout="$(configure-db-timeout)">
       <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark);hgBranch=$(hgBranch)</buildArgs>
     </msbuild>
   </cb:define>
   
   <cb:define name="build-feature-exe">
-    <msbuild description="build feature.exe (timeout 5 mins)"
+    <msbuild description="build feature.exe (timeout $(build-feature-exe-timeout) seconds)"
 	     executable="$(msbuild)"
 	     workingDirectory="$(project-folder)"
 	     projectFile="j6.proj"
 	     targets="Bootstrap"
-	     timeout="300">
+	     timeout="$(build-feature-exe-timeout)">
       <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark)</buildArgs>
     </msbuild>
   </cb:define>
@@ -164,10 +164,10 @@
 	</conditional>
 	<exec 
 	    executable="$(feature)" 
-	    description = "install patches (timeout 15 mins)" 
+	    description = "install patches (timeout $(f-install-patches-timeout) seconds)" 
 	    buildArgs = 'install --patch' 
 	    baseDirectory="$(project-folder)"
-	    buildTimeoutSeconds = '900' />
+	    buildTimeoutSeconds = '$(f-install-patches-timeout)' />
       </tasks>
     </conditional>
   </cb:define>
@@ -190,18 +190,22 @@
   <cb:define name="f-setup">
     <exec 
 	executable="$(feature)" 
-	description = "feature setup (timeout 10 mins)" 
+	description = "feature setup (timeout $(f-setup-timeout) seconds)" 
 	baseDirectory="$(project-folder)"
 	buildArgs = 'setup' 
-	buildTimeoutSeconds = '600' />
+	buildTimeoutSeconds = '$(f-setup-timeout)'>
+      <environment>
+	<variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
+      </environment>
+    </exec>
   </cb:define>
 
   <cb:define name="f-build">
     <exec 
 	executable="$(feature)" 
-	buildTimeoutSeconds = '1500' 
+	buildTimeoutSeconds = '$(f-build-timeout)' 
 	baseDirectory="$(project-folder)"
-	description = "Feature Build (timeout 25 mins)">
+	description = "Feature Build (timeout $(f-build-timeout) seconds)">
       <buildArgs>build /p:Platform=$(platform) /p:Configuration=$(configuration)</buildArgs>
     </exec>
   </cb:define>
@@ -223,12 +227,11 @@
   </cb:define>
   
   <cb:define name="feature-test-unit">
-    <!-- 14400 seconds = 4 hours -->
     <exec 
 	description="test pattern UnitTest"
 	executable="$(feature)"
 	baseDirectory="$(project-folder)"
-	buildTimeoutSeconds = "14400"> 
+	buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
       <buildArgs>test --pattern UnitTest</buildArgs>
     </exec>
   </cb:define>
@@ -263,12 +266,12 @@
       <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(project-folder)\$(driver)\REVISION.txt"</buildArgs>
     </exec>
     
-    <msbuild description="package build (timeout 25 mins)"
+    <msbuild description="package build (timeout $(msbuild-package-timeout) seconds)"
 	     executable="$(msbuild)"
 	     projectFile="j6.proj"
 	     targets="Package"
 	     workingDirectory="$(project-folder)"
-	     timeout="1500">
+	     timeout="$(msbuild-package-timeout)">
       <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
     </msbuild>
     <exec 
@@ -313,14 +316,14 @@
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(source-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)"</buildArgs>
       <targets>Configure</targets>
-      <timeout>120000</timeout>
+      <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
     <msbuild description="showconfig">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
       <targets>ShowConfig</targets>
-      <timeout>120000</timeout>
+      <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
   </cb:define>
   
@@ -340,7 +343,7 @@
 	  <projectFile>j6.proj</projectFile>
 	  <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
 	  <targets>Build</targets>
-	  <timeout>120000</timeout>
+	  <timeout>$(msbuild-build-timeout)</timeout>
 	</msbuild>
       </tasks>
     </conditional>
@@ -352,7 +355,7 @@
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
       <targets>Bootstrap</targets>
-      <timeout>120000</timeout>
+      <timeout>$(msbuild-bootstrap-timeout)</timeout>
     </msbuild>
   </cb:define>
   
@@ -362,7 +365,7 @@
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
       <targets>Setup</targets>
-      <timeout>120000</timeout>
+      <timeout>$(msbuild-setup-timeout)</timeout>
     </msbuild>
   </cb:define>
   
@@ -372,7 +375,9 @@
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
       <targets>RecreateDb</targets>
-      <timeout>120000</timeout>
+      <timeout>$(msbuild-recreatedb-timeout)
+
+</timeout>
     </msbuild>
   </cb:define>
   
@@ -382,7 +387,7 @@
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
       <targets>Patch</targets>
-      <timeout>120000</timeout>
+      <timeout>$(msbuild-patch-timeout)</timeout>
     </msbuild>
   </cb:define>
   
@@ -394,7 +399,7 @@
     <exec>
       <description>Run unit tests for $(assembly)</description>
       <executable>ncover.console.exe</executable>
-      <buildTimeoutSeconds>57600</buildTimeoutSeconds>
+      <buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
       <buildArgs>$(project-folder)\Core\Private\Lib\nunit-console.exe /nologo /framework=4.0.30319 "/xml=TestResult\$(assembly)-test.xml" //x Coverage\$(assembly)-coverage.xml //at Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
       <baseDirectory>$(project-folder)</baseDirectory>
     </exec>
@@ -477,7 +482,7 @@
     <exec>
       <description>Generate coverage report</description>
       <executable>$(ncoverReportingExe)</executable>
-      <buildTimeoutSeconds>600</buildTimeoutSeconds>
+      <buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
       <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
       <baseDirectory>$(project-folder)\Coverage</baseDirectory>
     </exec>
@@ -493,7 +498,7 @@
       </inputDirs>
       <silent>false</silent>
       <reportXslt>custom-report.xsl</reportXslt>
-      <timeout>600</timeout>
+      <timeout>$(get-reports-timeout)</timeout>
       <baseDir>$(project-folder)</baseDir>
       <publish>true</publish>
     </ndepend>
