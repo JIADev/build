@@ -22,8 +22,10 @@
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
-	<cb:legacy-configure-db />
-
+	<cb:create-settings />
+	<cb:recreate-database />
+	<cb:f-setup />
+	<cb:f-install-patches />
       </tasks>
       <publishers>
 	<cb:standard-publishers />
