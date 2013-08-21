@@ -22,10 +22,7 @@
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
-	<exec executable="$(powershell)" 
-	      description = "j6 featurerelease"
-	      buildArgs = '-c "$(j6cmd) featurerelease $(driver) -2008 --verbose"' 
-	      baseDirectory="$(source-folder)" />
+	<cb:configure-db />
 
       </tasks>
       <publishers>
