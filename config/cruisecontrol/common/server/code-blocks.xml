@@ -99,11 +99,11 @@
   <cb:define name="build-feature-exe">
     <msbuild description="build feature.exe (timeout $(build-feature-exe-timeout) seconds)"
 	     executable="$(msbuild)"
-	     workingDirectory="$(project-folder)"
+	     workingDirectory="$(project-folder)\Core"
 	     projectFile="j6.proj"
 	     targets="Bootstrap"
 	     timeout="$(build-feature-exe-timeout)">
-      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark)</buildArgs>
+      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark) /p:Configuration /p:Platform=AnyCPU</buildArgs>
     </msbuild>
   </cb:define>
   

@@ -7,7 +7,7 @@
   <cb:define name="legacybuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="$(project-name)-DEV" />
-    <cb:define feature="$(commonfeature)" />
+    <cb:define feature="$(relativefeature)" />
     <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
       <triggers>
 	<intervalTrigger seconds = "$(sourceCheckInterval)" />
@@ -16,18 +16,19 @@
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
       <prebuild>
-	<cb:update-source />
+<!--	<cb:update-source />
 	<cb:force-clean />
-     </prebuild>
+-->     </prebuild>
       <tasks description="Bootstrap setup">
-	<cb:copy-logger-local />
-	<cb:create-settings />
+<!--	<cb:copy-logger-local />
+-->	<cb:build-feature-exe />
+<!--	<cb:create-settings />
 	<cb:recreate-database />
 	<cb:f-setup f-setup-timeout="600" />
 	<cb:f-install-patches f-install-patches-timeout="2700" />
 	<cb:f-build />
 	<cb:f-unit-tests />
-	<cb:f-package />
+-->	<cb:f-package />
       </tasks>
       <publishers>
 	<cb:standard-publishers />
