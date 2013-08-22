@@ -249,8 +249,11 @@
 	<exec executable="$(feature)"
 	      description = "Package for deployment"
 	      baseDirectory="$(project-folder)"
-	      buildArgs = 'package Package $(driver) --sourcepath=$(source-folder)' />
-	
+	      buildArgs = 'package Package $(driver) --sourcepath=$(source-folder)'>
+	  <environment>
+	    <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
+	  </environment>
+	</exec>
       </tasks>    
     </conditional>
   </cb:define>
