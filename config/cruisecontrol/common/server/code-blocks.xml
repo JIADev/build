@@ -246,6 +246,7 @@
 	</compareCondition>
       </conditions>
       <tasks description="Package">
+	<cb:package-cleanup />
 	<exec executable="$(feature)"
 	      description = "Package for deployment"
 	      baseDirectory="$(project-folder)"
@@ -254,21 +255,12 @@
 	    <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
 	  </environment>
 	</exec>
+	<cb:publish-package />
       </tasks>    
     </conditional>
   </cb:define>
   
-  <cb:define name="msbuild-package">
-    <conditional description="Package">
-      <conditions>
-	<compareCondition>
-	  <value1>$(package)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks description="Package">
+<cb:define name="package-cleanup">
 	<exec 
 	    executable="$(powershell)"
 	    baseDirectory="$(project-folder)"
@@ -281,15 +273,9 @@
 	    description = "create $(driver)/REVISION.txt">
 	  <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(project-folder)\$(driver)\REVISION.txt"</buildArgs>
 	</exec>
-	
-	<msbuild description="package build (timeout $(msbuild-package-timeout) seconds)"
-		 executable="$(msbuild)"
-		 projectFile="j6.proj"
-		 targets="Package"
-		 workingDirectory="$(project-folder)"
-		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
-	</msbuild>
+</cb:define>
+
+<cb:define name="publish-package">
 	<exec 
 	    executable="$(powershell)" 
 	    baseDirectory="$(project-folder)"
@@ -308,6 +294,29 @@
 	    description="move releases to the package folder">
 	  <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
 	</exec>
+</cb:define>
+
+  <cb:define name="msbuild-package">
+    <conditional description="Package">
+      <conditions>
+	<compareCondition>
+	  <value1>$(package)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks description="Package">
+	<cb:package-cleanup />
+	<msbuild description="package build (timeout $(msbuild-package-timeout) seconds)"
+		 executable="$(msbuild)"
+		 projectFile="j6.proj"
+		 targets="Package"
+		 workingDirectory="$(project-folder)"
+		 timeout="$(msbuild-package-timeout)">
+	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
+	</msbuild>
+      <cb:publish-package />
       </tasks>
     </conditional>
   </cb:define>
