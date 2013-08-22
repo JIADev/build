@@ -18,7 +18,19 @@
       db-server="dev-sql1"
       exclude-files="false"
       package="true"
-      unit-test="true"
+      unit-test="false"
+      recreate-db="false"
+      />
+
+  <cb:legacybuild
+      project-name="CUST077-7.2.11-full"
+      branch = 'default'
+      driver = 'CUST077'
+      db-server="dev-sql1"
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      sourceCheckInterval="86400"
       />
 	
 <!-- CUST2090 -->
