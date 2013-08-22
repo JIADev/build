@@ -21,7 +21,7 @@
 -->     </prebuild>
       <tasks description="Bootstrap setup">
 <!--	<cb:copy-logger-local />
--->	<cb:build-feature-exe />
+-->	<cb:legacy-build-feature-exe />
 <!--	<cb:create-settings />
 	<cb:recreate-database />
 	<cb:f-setup f-setup-timeout="600" />
@@ -39,5 +39,17 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
+
+  <cb:define name="legacy-build-feature-exe">
+    <msbuild description="build feature.exe (timeout $(build-feature-exe-timeout) seconds)"
+	     executable="$(msbuild)"
+	     workingDirectory="$(project-folder)\Core"
+	     projectFile="Feature.proj"
+	     targets="Bootstrap"
+	     timeout="$(build-feature-exe-timeout)">
+      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark) /p:Configuration /p:Platform=AnyCPU</buildArgs>
+    </msbuild>
+  </cb:define>
+  
 
 </cb:config-template>
