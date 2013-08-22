@@ -246,12 +246,25 @@
 	</compareCondition>
       </conditions>
       <tasks description="Package">
-	<cb:msbuild-package />
-      </tasks>
-    </conditional>
+	    <exec executable="$(feature)"
+	  description = "Package for deployment"
+	  baseDirectory="$(project-folder)"
+	  buildArgs = 'package Package $(driver) --sourcepath=$(source-folder)' />
+
+      </tasks>    
   </cb:define>
   
   <cb:define name="msbuild-package">
+    <conditional description="Package">
+      <conditions>
+	<compareCondition>
+	  <value1>$(package)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks description="Package">
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
@@ -291,6 +304,8 @@
 	description="move releases to the package folder">
       <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
     </exec>
+      </tasks>
+    </conditional>
   </cb:define>
   
   <cb:define name="standard-publishers">

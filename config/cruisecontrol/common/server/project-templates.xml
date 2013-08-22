@@ -29,7 +29,7 @@
 	<cb:f-install-patches />
 	<cb:f-build />
 	<cb:f-unit-tests />
-	<cb:f-package />
+	<cb:msbuild-package />
       </tasks>
       <publishers>
 	<cb:standard-publishers />
