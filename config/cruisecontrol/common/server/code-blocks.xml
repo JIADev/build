@@ -252,7 +252,7 @@
 	      baseDirectory="$(project-folder)"
 	      buildArgs = 'package Package $(driver) --verbose --sourcepath=$(source-folder)'>
 	  <environment>
-	    <variable name="PATH" value="$(codeVeilPath);$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
+	    <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	  </environment>
 	</exec>
 	<cb:publish-package />
