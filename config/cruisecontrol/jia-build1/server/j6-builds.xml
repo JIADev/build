@@ -19,8 +19,8 @@
       exclude-files="false"
       package="true"
       unit-test="false"
-      recreate-db="false"
-      install-patches="false"
+      recreate-db="true"
+      install-patches="true"
       />
 
   <cb:legacybuild
