@@ -17,8 +17,8 @@
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
-      package="false"
-      unit-test="false"
+      package="true"
+      unit-test="true"
       />
 	
 <!-- CUST2090 -->
