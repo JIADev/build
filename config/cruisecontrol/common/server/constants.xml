@@ -18,7 +18,6 @@
       msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
       powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
       cliSecurePath="C:\Program Files (x86)\SecureTeam"
-      codeVeilPath="C:\Program Files (x86)\XHEO\CodeVeil\v1.0"
       ncoverReportingExe="C:\Program Files\NCover\NCover.Reporting.exe"
       deploy-root-local="C:\j6\QA_Sites"
       cmdExe="C:\WINDOWS\system32\cmd.exe"
