@@ -47,7 +47,7 @@
 	     projectFile="Feature.proj"
 	     targets="Bootstrap"
 	     timeout="$(build-feature-exe-timeout)">
-      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark) /p:Configuration /p:Platform=AnyCPU</buildArgs>
+      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark) /p:Configuration=Release /p:Platform=AnyCPU</buildArgs>
     </msbuild>
   </cb:define>
   
