@@ -20,6 +20,7 @@
       package="true"
       unit-test="false"
       recreate-db="false"
+      install-patches="false"
       />
 
   <cb:legacybuild
