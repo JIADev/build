@@ -61,7 +61,7 @@
       recreate-db="true"
       install-patches="true"
       buildVariationLabel=""
-      project-name="$(project-root)"
+      project-name="CUST$(branch)"
       queue-priority="2"
       dotNet2Path = "C:\Windows\Microsoft.NET\Framework64\v2.0.50727"
       dotNet35Path = "C:\Windows\Microsoft.NET\Framework64\v3.5"

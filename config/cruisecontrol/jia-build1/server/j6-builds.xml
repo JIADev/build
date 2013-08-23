@@ -26,7 +26,6 @@
 <!-- CUST2090 -->
   
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2090_R2'
       driver = 'CUST2090'
       db-server="dev-sql1"
@@ -36,7 +35,6 @@
 <!-- CUST2092 -->
 
    <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092_REL1'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -44,7 +42,6 @@
       />
 
    <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092_R2'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -56,7 +53,6 @@
 <!-- CUST2090 -->
 
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2090-REQ17'
       driver = 'CUST2090'
       db-server="dev-sql1"
@@ -65,7 +61,6 @@
       />
   
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2090-REQ21'
       driver = 'CUST2090'
       db-server="dev-sql1"
@@ -76,7 +71,6 @@
 <!-- CUST2092 -->
 
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092-REQ6'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -85,7 +79,6 @@
       />
   
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092-REQ10'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -94,7 +87,6 @@
       />
   
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092-REQ11'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -104,7 +96,6 @@
       />
   
    <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092_REQ12'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -113,7 +104,6 @@
       />
 
    <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092_REQ13'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -122,7 +112,6 @@
       />
 
    <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2092_REQ17'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -135,6 +124,7 @@
 <!-- CUST000 -->
 
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.5.2'
       driver = 'CUST000'
       db-server="dev-sql1"
@@ -143,6 +133,7 @@
       />
   
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.5.3'
       driver = 'CUST000'
       db-server="dev-sql1"
@@ -150,6 +141,7 @@
       />
 
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.5.4'
       driver = 'CUST000'
       db-server="dev-sql1"
@@ -159,6 +151,7 @@
 <!-- CUST001 -->
 
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.5.2'
       driver = 'CUST001'
       db-server="dev-sql1"
@@ -168,7 +161,6 @@
 <!-- CUST065 -->
 
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '065_7.5.0'
       driver = 'CUST065'
       db-server="dev-sql1"
@@ -178,6 +170,7 @@
 <!-- CUST069 -->
   
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.4.4'
       driver = 'CUST069'
       db-server="dev-sql1"
@@ -186,6 +179,7 @@
 <!-- CUST2069 -->
 
 <cb:customerbuild
+      project-name="$(project-root)"
       branch = '2069_7.5.3'
       driver = 'CUST2069'
       db-server="dev-sql1"
@@ -196,6 +190,7 @@
 <!-- CUST2083 -->
   
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.4.1'
       driver = 'CUST2083'
       db-server="dev-sql1"
@@ -204,7 +199,6 @@
 <!-- CUST2086 -->
 
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2086_7.5.0'
       driver = 'CUST2086'
       db-server="dev-sql1"
@@ -214,6 +208,7 @@
 <!-- CUST2088 -->
  
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.5.2'
       driver = 'CUST2088'
       db-server="dev-sql1"
@@ -222,6 +217,7 @@
 <!-- CUST2089 -->
 
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.4.5'
       driver = 'CUST2089'
       db-server="dev-sql1"
@@ -231,7 +227,6 @@
 <!-- CUST2091 -->
 
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2091-7.5.2'
       driver = 'CUST2091'
       db-server="dev-sql1"
@@ -240,6 +235,7 @@
 <!-- CUST2092 -->
 
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.5.4'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -250,7 +246,6 @@
 <!-- CUST2093 -->
 
   <cb:customerbuild
-      project-name="CUST$(branch)"
       branch = '2093_7.5.2'
       driver = 'CUST2093'
       db-server="dev-sql1"
@@ -270,6 +265,7 @@
 -->  
 
   <cb:customerbuild
+      project-name="$(project-root)"
       branch = 'default'
       driver = 'CUST2082'
       db-server="dev-sql1"
