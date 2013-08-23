@@ -194,6 +194,16 @@
       db-server="dev-sql1"
       />
 
+<!-- CUST2069 -->
+
+<cb:customerbuild
+      branch = '2069_7.5.3'
+      driver = 'CUST2069'
+      db-server="dev-sql1"
+      exclude-files="true"
+      />
+
+
 <!-- CUST2083 -->
   
   <cb:customerbuild
