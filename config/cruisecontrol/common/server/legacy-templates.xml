@@ -16,11 +16,11 @@
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
       <prebuild>
-	<cb:update-source />
-	<cb:force-clean />
+<!--	<cb:update-source />
+	<cb:force-clean /> -->
       </prebuild>
       <tasks description="Bootstrap setup">
-	<cb:copy-logger-local />
+<!--	<cb:copy-logger-local />
 	<cb:legacy-build-feature-exe />
 	<cb:create-settings />
 	<cb:recreate-database />
@@ -28,7 +28,7 @@
 	<cb:f-install-patches f-install-patches-timeout="2700" />
 	<cb:f-build />
 	<cb:f-unit-tests />
-	<cb:f-package feature="$(relativefeature)" />
+-->	<cb:f-package feature="$(relativefeature)" />
       </tasks>
       <publishers>
 	<cb:standard-publishers />
