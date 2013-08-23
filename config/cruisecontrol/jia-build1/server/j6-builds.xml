@@ -179,7 +179,6 @@
 <!-- CUST2069 -->
 
 <cb:customerbuild
-      project-name="$(project-root)"
       branch = '2069_7.5.3'
       driver = 'CUST2069'
       db-server="dev-sql1"
