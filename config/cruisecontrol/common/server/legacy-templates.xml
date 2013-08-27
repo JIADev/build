@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <!-- 7.2.x build project -->
+  <cb:define msbuild2 = "$(dotNet2Path)\msbuild.exe" />
+  <cb:define j6cmd = "$(ccnetSourceWorkingDir)\j6.cmd" />
+  
+  <cb:define name="legacybuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
+    <cb:define db-name="$(project-name)-DEV" />
+    <cb:define feature="$(commonfeature)" />
+    <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
+      <triggers>
+	<intervalTrigger seconds = "$(sourceCheckInterval)" />
+      </triggers>
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
+      <cb:sourcecontrol />
+      <prebuild>
+	<cb:update-source />
+	<cb:force-clean />
+      </prebuild>
+      <tasks description="Bootstrap setup">
+	<cb:copy-logger-local />
+	<cb:legacy-build-feature-exe />
+	<cb:create-settings />
+	<cb:recreate-database />
+	<cb:f-setup f-setup-timeout="600" />
+	<cb:f-install-patches f-install-patches-timeout="2700" />
+	<cb:f-build />
+	<cb:f-unit-tests />
+	<cb:f-package feature="$(relativefeature)" />
+      </tasks>
+      <publishers>
+	<cb:standard-publishers />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+
+  <cb:define name="legacy-build-feature-exe">
+    <msbuild description="build feature.exe (timeout $(build-feature-exe-timeout) seconds)"
+	     executable="$(msbuild)"
+	     workingDirectory="$(project-folder)\Core"
+	     projectFile="Feature.proj"
+	     targets="Bootstrap"
+	     timeout="$(build-feature-exe-timeout)">
+      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark) /p:Configuration=Release /p:Platform=AnyCPU</buildArgs>
+    </msbuild>
+  </cb:define>
+  
+
+</cb:config-template>
