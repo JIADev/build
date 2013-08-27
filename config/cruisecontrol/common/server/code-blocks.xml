@@ -368,7 +368,7 @@
 	<msbuild description="build">
 	  <executable>$(msbuild)</executable>
 	  <projectFile>j6.proj</projectFile>
-	  <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+	  <buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:PLatform="$(platform)"</buildArgs>
 	  <targets>Build</targets>
 	  <timeout>$(msbuild-build-timeout)</timeout>
 	</msbuild>
