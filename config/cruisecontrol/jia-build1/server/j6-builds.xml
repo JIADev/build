@@ -137,6 +137,15 @@
 
   <cb:customerbuild
       project-name="$(project-root)"
+      branch = '7.5.0'
+      driver = 'CUST000'
+      db-server="dev-sql1"
+      exclude-files="true"
+      package="false"
+      />
+  
+  <cb:customerbuild
+      project-name="$(project-root)"
       branch = '7.5.2'
       driver = 'CUST000'
       db-server="dev-sql1"
