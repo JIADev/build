@@ -24,7 +24,7 @@
       />
 
   <cb:legacybuild
-      project-name="CUST077-7.2.11"
+      project-name="CUST077-solar"
       branch = 'solar'
       driver = 'CUST077'
       db-server="dev-sql1"
