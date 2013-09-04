@@ -36,9 +36,9 @@ get-pssnapin -Registered |
 
 function load-vcvars {
 	param(
-		$vsver = "8",
+		$vsver = "11.0",
 		$vscpu = "",
-		$vsfolder = "Microsoft Visual Studio {0}",
+		$vsfolder = "Microsoft Visual Studio {0}\VC",
 		$vsparent = "Program Files{0}",
 		$vsdrive = "C:\",
 		$vsargs = "x86"
@@ -46,22 +46,37 @@ function load-vcvars {
 	$vsfolder = ($vsfolder -f $vsver)
 	$vsparent = ($vsparent -f $vscpu)
 	$vs = join-path (join-path $vsdrive $vsparent) $vsfolder
-	$vc = join-path $vs "VC\vcvarsall.bat"
-	if(test-path $vc) { set-env -Command $vc -Arguments $vsargs }
+	$vc = join-path $vs "\vcvarsall.bat"
+	if(test-path $vc) { 
+		#Set environment variables for Visual Studio Command Prompt
+		pushd $vs
+		cmd /c "vcvarsall.bat&set" |
+			foreach {
+			  if ($_ -match "=") {
+				$v = $_.split("="); set-item -force -path "ENV:\$($v[0])"  -value "$($v[1])"
+			  }
+			}
+		popd
+		write-host ("`nVisual Studio {0} Command Prompt variables set." -f $vsver) -ForegroundColor Cyan
+	}
 }
 function load-visualstudio {
-	param($vsver = "8")
+	param($vsver = "11.0")
 	[System.IO.DriveInfo]::GetDrives() | ?{ $_.DriveType -eq "Fixed" } | %{
 		$drive = $_.Name
 		""," (x86)" | %{ load-vcvars -vsver $vsver -vscpu $_ -vsdrive $drive }
 	}
 }
+function load-vs2012 { load-visualstudio -vsver "11.0" }
+function load-vs2010 { load-visualstudio -vsver "10.0" }
 function load-vs2008 { load-visualstudio -vsver "9.0" }
 function load-vs2005 { load-visualstudio -vsver "8" }
 
 
-
-if ($args -contains "-2008") { load-vs2008 } else { load-vs2005 }
+if ($args -contains "-2005") { load-vs2005 } 
+elseif ($args -contains "-2008") { load-vs2008 } 
+elseif ($args -contains "-2010") { load-vs2010 } 
+else { load-vs2012 }
 
 
 ## function in jenkon PSSnapIn for cleaning up $env:Path
