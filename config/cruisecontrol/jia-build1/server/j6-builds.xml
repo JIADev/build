@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-
+  
   <!-- Source control projects -->
   
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
-
-<!-- release branches -->
-
+  
+  <!-- release branches -->
+  
   <cb:include href="legacy-templates.xml" xmlns:cb="urn:ccnet.config.builder" />
-
-<!-- CUST077 -->
+  
+  <!-- CUST077 -->
   
   <cb:legacybuild
       project-name="CUST077-7.2.11"
@@ -22,7 +22,7 @@
       recreate-db="true"
       install-patches="true"
       />
-
+  
   <cb:legacybuild
       project-name="CUST077-solar"
       branch = 'solar'
@@ -34,8 +34,8 @@
       recreate-db="true"
       install-patches="true"
       />
-
-<!-- CUST2090 -->
+  
+  <!-- CUST2090 -->
   
   <cb:customerbuild
       branch = '2090_R2'
@@ -43,27 +43,27 @@
       db-server="dev-sql1"
       exclude-files="true"
       />
-	
-<!-- CUST2092 -->
-
-   <cb:customerbuild
+  
+  <!-- CUST2092 -->
+  
+  <cb:customerbuild
       branch = '2092_REL1'
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
       />
-
-   <cb:customerbuild
+  
+  <cb:customerbuild
       branch = '2092_R2'
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
       />
-
-<!-- req branches -->
-
-<!-- CUST2090 -->
-
+  
+  <!-- req branches -->
+  
+  <!-- CUST2090 -->
+  
   <cb:customerbuild
       branch = '2090-REQ17'
       driver = 'CUST2090'
@@ -79,9 +79,9 @@
       exclude-files="true"
       package="false"
       />
-
-<!-- CUST2092 -->
-
+  
+  <!-- CUST2092 -->
+  
   <cb:customerbuild
       branch = '2092-REQ6'
       driver = 'CUST2092'
@@ -107,34 +107,35 @@
       package="false"
       />
   
-   <cb:customerbuild
-      branch = '2092_REQ12'
+  <cb:customerbuild
+      project-name="CUST2092_REQ12"
+      branch = '2092_REQ12.B'
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
-
-   <cb:customerbuild
+  
+  <cb:customerbuild
       branch = '2092_REQ13'
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
-
-   <cb:customerbuild
+  
+  <cb:customerbuild
       branch = '2092_REQ17'
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
       package="true"
       />
-
-<!-- version branches -->  
-
-<!-- CUST000 -->
-
+  
+  <!-- version branches -->  
+  
+  <!-- CUST000 -->
+  
   <cb:customerbuild
       project-name="$(project-root)"
       branch = '7.5.0'
@@ -160,7 +161,7 @@
       db-server="dev-sql1"
       exclude-files="true"
       />
-
+  
   <cb:customerbuild
       project-name="$(project-root)"
       branch = '7.5.4'
@@ -168,9 +169,9 @@
       db-server="dev-sql1"
       exclude-files="true"
       />
-
-<!-- CUST001 -->
-
+  
+  <!-- CUST001 -->
+  
   <cb:customerbuild
       project-name="$(project-root)"
       branch = '7.5.2'
@@ -178,17 +179,17 @@
       db-server="dev-sql1"
       exclude-files="true"
       />
-
-<!-- CUST065 -->
-
+  
+  <!-- CUST065 -->
+  
   <cb:customerbuild
       branch = '065_7.5.0'
       driver = 'CUST065'
       db-server="dev-sql1"
       exclude-files="true"
       />
-
-<!-- CUST069 -->
+  
+  <!-- CUST069 -->
   
   <cb:customerbuild
       project-name="$(project-root)"
@@ -196,18 +197,18 @@
       driver = 'CUST069'
       db-server="dev-sql1"
       />
-
-<!-- CUST2069 -->
-
-<cb:customerbuild
+  
+  <!-- CUST2069 -->
+  
+  <cb:customerbuild
       branch = '2069_7.5.3'
       driver = 'CUST2069'
       db-server="dev-sql1"
       exclude-files="true"
       />
-
-
-<!-- CUST2083 -->
+  
+  
+  <!-- CUST2083 -->
   
   <cb:customerbuild
       project-name="$(project-root)"
@@ -216,8 +217,8 @@
       db-server="dev-sql1"
       />
   
-<!-- CUST2086 -->
-
+  <!-- CUST2086 -->
+  
   <cb:customerbuild
       branch = '2086_7.5.0'
       driver = 'CUST2086'
@@ -225,8 +226,8 @@
       exclude-files="true"
       />
   
-<!-- CUST2088 -->
- 
+  <!-- CUST2088 -->
+  
   <cb:customerbuild
       project-name="$(project-root)"
       branch = '7.5.2'
@@ -234,8 +235,8 @@
       db-server="dev-sql1"
       />
   
-<!-- CUST2089 -->
-
+  <!-- CUST2089 -->
+  
   <cb:customerbuild
       project-name="$(project-root)"
       branch = '7.4.5'
@@ -243,17 +244,17 @@
       db-server="dev-sql1"
       exclude-files="true"
       />
-
-<!-- CUST2091 -->
-
+  
+  <!-- CUST2091 -->
+  
   <cb:customerbuild
       branch = '2091-7.5.2'
       driver = 'CUST2091'
       db-server="dev-sql1"
       />
   
-<!-- CUST2092 -->
-
+  <!-- CUST2092 -->
+  
   <cb:customerbuild
       project-name="$(project-root)"
       branch = '7.5.4'
@@ -262,9 +263,9 @@
       exclude-files="true"
       package="false"
       />
-
-<!-- CUST2093 -->
-
+  
+  <!-- CUST2093 -->
+  
   <cb:customerbuild
       branch = '2093_7.5.2'
       driver = 'CUST2093'
@@ -272,18 +273,18 @@
       exclude-files = "true"
       />
   
-<!-- "default" branches -->
-
-<!--  Requires msbuild for .NET 2.0  No longer configured correctly
-  <cb:customerbuild
-      branch = 'default'
-      driver = 'CUST043'
-      db-server="dev-sql1"
-      configuration="Debug"
-      protect="True"
-      />
--->  
-
+  <!-- "default" branches -->
+  
+  <!--  Requires msbuild for .NET 2.0  No longer configured correctly
+       <cb:customerbuild
+       branch = 'default'
+       driver = 'CUST043'
+       db-server="dev-sql1"
+       configuration="Debug"
+       protect="True"
+       />
+  -->  
+  
   <cb:customerbuild
       project-name="$(project-root)"
       branch = 'default'
@@ -292,15 +293,15 @@
       configuration="Debug"
       protect="false"
       />
-
-<!-- bbd-dev bookmark gone
-  <cb:customerbuild
-      branch = 'default'
-      bookmark = 'bbd-dev'
-      driver = 'CUST2087'
-      db-server="dev-sql1"
-      include-source = 'true'
-      />
--->
-
+  
+  <!-- bbd-dev bookmark gone
+       <cb:customerbuild
+       branch = 'default'
+       bookmark = 'bbd-dev'
+       driver = 'CUST2087'
+       db-server="dev-sql1"
+       include-source = 'true'
+       />
+  -->
+  
 </cb:config-template>
