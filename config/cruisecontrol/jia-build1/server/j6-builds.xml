@@ -33,6 +33,7 @@
       unit-test="false"
       recreate-db="true"
       install-patches="true"
+      dotNetFrameworkPath="$(dotNet4x86Path)"
       />
   
   <!-- CUST2090 -->
