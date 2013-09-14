@@ -32,7 +32,7 @@
       package="true"
       unit-test="false"
       recreate-db="true"
-      install-patches="false"
+      install-patches="true"
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
   
