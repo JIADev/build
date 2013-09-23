@@ -50,7 +50,6 @@
   <!-- Other defaults -->
     <!-- 14400 seconds = 4 hours -->
   <cb:define
-      queueSuffix = ""
       sourceCheckInterval = "300"
       bookmark=""
       hgBranch="default"
