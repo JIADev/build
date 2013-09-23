@@ -36,20 +36,6 @@
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
   
-  <cb:legacybuild
-      project-name="CUST077-solar-nopatches"
-      branch = 'solar'
-      driver = 'CUST077'
-      db-server="dev-sql1"
-      exclude-files="false"
-      package="true"
-      unit-test="false"
-      recreate-db="true"
-      queueSuffix="-nopatches"
-      install-patches="false"
-      dotNetFrameworkPath="$(dotNet4x86Path)"
-      />
-  
   <!-- CUST2090 -->
   
   <cb:customerbuild
