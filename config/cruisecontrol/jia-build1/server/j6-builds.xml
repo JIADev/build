@@ -55,6 +55,13 @@
       />
   
   <cb:customerbuild
+      branch = '2092_SalesOrderPerf'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      exclude-files="true"
+      />
+  
+  <cb:customerbuild
       branch = '2092_R2'
       driver = 'CUST2092'
       db-server="dev-sql1"
