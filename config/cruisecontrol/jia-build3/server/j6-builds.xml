@@ -1,14 +1,5 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-
-<!-- Temp build for 2092 -->
-  <cb:customerbuild
-      branch = '2092_SalesOrderPerf'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      exclude-files="true"
-      />
-  
   
   <!-- Source control projects -->
   
