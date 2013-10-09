@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+
+<!-- Temp build for 2092 -->
+  <cb:customerbuild
+      branch = '2092_SalesOrderPerf'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      exclude-files="true"
+      />
+  
+  
+  <!-- Source control projects -->
+  
+  <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
+  
+  <!-- release branches -->
+  
+  <cb:v76build
+      project-name="$(project-root)"
+      branch = '7.6.0'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      redis-db="14"
+      platform="AnyCpu"
+      />
+  
+  <cb:v76build
+      project-name="$(project-root)"
+      branch = '760_QA'
+      driver = 'CUST000'
+      clean="true"
+      build="true"	
+      unit-test="true"
+      data-test="false"
+      redis-db="16"
+      platform="AnyCpu"
+      modules="AUTOSHIP"
+      />
+  
+</cb:config-template>
