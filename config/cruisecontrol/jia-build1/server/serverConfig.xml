@@ -4,7 +4,7 @@
   <!-- Common definitions for all projects, edit to suit your system -->
   <cb:define 
       sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
-      ndepend="C:\ndepend\NDepend.Console.exe"
+      ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
       ccroot="f:\cc"
       pkgroot="f:\pkg"
       srcroot="f:\cc\src"
