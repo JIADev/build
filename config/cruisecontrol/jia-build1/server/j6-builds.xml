@@ -96,6 +96,14 @@
       />
   
   <cb:customerbuild
+      project-name="CUST2092_QuickFix"
+      branch = '21031017_2092_QuickFix'
+      driver = 'CUST2092'
+      db-server="dev-sql1"
+      exclude-files="true"
+      />
+  
+  <cb:customerbuild
       branch = '2092_R2'
       driver = 'CUST2092'
       db-server="dev-sql1"
