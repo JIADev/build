@@ -96,14 +96,6 @@
       />
   
   <cb:customerbuild
-      project-name="CUST2092_RM45681"
-      branch = 'RM45681'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      exclude-files="true"
-      />
-  
-  <cb:customerbuild
       branch = '2092_R2'
       driver = 'CUST2092'
       db-server="dev-sql1"
@@ -131,31 +123,6 @@
       />
   
   <!-- CUST2092 -->
-  
-  <cb:customerbuild
-      branch = '2092-REQ6'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      exclude-files="true"
-      package="false"
-      />
-  
-  <cb:customerbuild
-      branch = '2092-REQ10'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      exclude-files="true"
-      package="false"
-      />
-  
-  <cb:customerbuild
-      branch = '2092-REQ11'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      exclude-files="true"
-      unit-test="true"
-      package="false"
-      />
   
   <cb:customerbuild
       project-name="CUST2092_REQ12"
