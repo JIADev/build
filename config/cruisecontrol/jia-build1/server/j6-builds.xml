@@ -220,6 +220,14 @@
       exclude-files="true"
       />
   
+  <cb:customerbuild
+      project-name="CUST000_2092_REL1"
+      branch = '2092_REL1'
+      driver = 'CUST000'
+      db-server="dev-sql1"
+      exclude-files="true"
+      />
+  
   <!-- CUST001 -->
   
   <cb:customerbuild
