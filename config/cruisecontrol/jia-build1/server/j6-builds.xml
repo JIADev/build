@@ -13,7 +13,7 @@
   
   <cb:legacybuild
       project-name="CUST077-7.2.11"
-      branch = 'default'
+      branch = '7.2.11_STABLE'
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
@@ -25,20 +25,7 @@
   
   <cb:legacybuild
       project-name="CUST077-solar"
-      branch = 'solar'
-      driver = 'CUST077'
-      db-server="dev-sql1"
-      exclude-files="false"
-      package="true"
-      unit-test="false"
-      recreate-db="true"
-      install-patches="true"
-      dotNetFrameworkPath="$(dotNet4x86Path)"
-      />
-  
-  <cb:legacybuild
-      project-name="CUST077-solar2"
-      branch = 'solar2'
+      branch = '077_solar'
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
@@ -51,21 +38,7 @@
   
   <cb:legacybuild
       project-name="CUST077-solar-nopatches"
-      branch = 'solar'
-      driver = 'CUST077'
-      db-server="dev-sql1"
-      exclude-files="false"
-      package="true"
-      unit-test="false"
-      recreate-db="true"
-      queueSuffix="-nopatches"
-      install-patches="false"
-      dotNetFrameworkPath="$(dotNet4x86Path)"
-      />
-  
-  <cb:legacybuild
-      project-name="CUST077-solar2-nopatches"
-      branch = 'solar2'
+      branch = '077_solar'
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
@@ -209,6 +182,13 @@
   
   <cb:customerbuild
       branch = '065_7.5.0'
+      driver = 'CUST065'
+      db-server="dev-sql1"
+      exclude-files="true"
+      />
+  
+  <cb:customerbuild
+      branch = '065_7.5.0.B'
       driver = 'CUST065'
       db-server="dev-sql1"
       exclude-files="true"
