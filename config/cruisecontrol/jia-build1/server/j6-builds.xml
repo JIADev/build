@@ -289,7 +289,7 @@
   <!-- CUST2094 -->
   
   <cb:customerbuild
-      branch = '2094_7.5.2'
+      branch = '7.5.2'
       driver = 'CUST2094'
       db-server="dev-sql1"
       exclude-files = "true"
