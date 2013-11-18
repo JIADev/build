@@ -24,8 +24,33 @@
       />
   
   <cb:legacybuild
-      project-name="CUST077-solar"
-      branch = '077_solar'
+      project-name="CUST077-7.2.11-nopatches"
+      branch = '7.2.11_STABLE'
+      driver = 'CUST077'
+      db-server="dev-sql1"
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="false"
+      queueSuffix="-nopatches"
+      install-patches="false"
+      />
+  
+  <cb:legacybuild
+      project-name="CUST077-7.2.11_UAT"
+      branch = '077_UAT'
+      driver = 'CUST077'
+      db-server="dev-sql1"
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      />
+  
+  <cb:legacybuild
+      project-name="CUST077-UAT"
+      branch = '077_UAT'
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
@@ -37,14 +62,14 @@
       />
   
   <cb:legacybuild
-      project-name="CUST077-solar-nopatches"
-      branch = '077_solar'
+      project-name="CUST077-UAT-nopatches"
+      branch = '077_UAT'
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
       package="true"
       unit-test="false"
-      recreate-db="true"
+      recreate-db="false"
       queueSuffix="-nopatches"
       install-patches="false"
       dotNetFrameworkPath="$(dotNet4x86Path)"
@@ -63,14 +88,6 @@
   
   <cb:customerbuild
       branch = '2092_REL1'
-      driver = 'CUST2092'
-      db-server="dev-sql1"
-      exclude-files="true"
-      />
-  
-  <cb:customerbuild
-      project-name="CUST2092_RM45853"
-      branch = 'RM45853'
       driver = 'CUST2092'
       db-server="dev-sql1"
       exclude-files="true"
