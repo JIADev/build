@@ -97,7 +97,24 @@
 	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
       </elseTasks>
     </conditional>
+    
+    <conditional description="Update back branch">
+      <conditions>
+	<compareCondition 
+	    value1="$(tag)" 
+	    value2="" 
+	    evaluation="NotEqual"
+	    ignoreCase="true" />
+      </conditions>
+      <tasks>
+	<exec executable="$(powershell)" 
+	      description = "hg update to branch"
+	      buildArgs = '-c "hg update $(branch)"' 
+	      baseDirectory="$(source-folder)" />
+      </tasks>
+    </conditional>
   </cb:define>
+  
   
   <cb:define name="copy-logger-local">
     <exec executable = "$(cmdExe)"
