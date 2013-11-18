@@ -46,6 +46,7 @@
       unit-test="false"
       recreate-db="true"
       install-patches="true"
+      sourceCheckInterval="0"
       />
   
   <cb:legacybuild
@@ -59,6 +60,7 @@
       recreate-db="false"
       queueSuffix="-nopatches"
       install-patches="false"
+      sourceCheckInterval="0"
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
   
