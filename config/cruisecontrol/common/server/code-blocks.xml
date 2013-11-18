@@ -47,6 +47,11 @@
       </conditions>
       <tasks>
 	<exec executable="$(powershell)" 
+	      description = "hg pull all changes"
+	      buildArgs = '-c "hg pull"' 
+	      baseDirectory="$(source-folder)" />
+	
+	<exec executable="$(powershell)" 
 	      description = "hg update to tag"
 	      buildArgs = '-c "hg update $(tag)"' 
 	      baseDirectory="$(source-folder)" />
