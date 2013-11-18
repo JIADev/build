@@ -36,7 +36,7 @@
       install-patches="false"
       />
   
-  <cb:legacybuild
+  <cb:legacybuild-ondemand
       project-name="CUST077_UAT"
       tag="077_UAT"
       driver = 'CUST077'
@@ -49,7 +49,7 @@
       sourceCheckInterval="0"
       />
   
-  <cb:legacybuild
+  <cb:legacybuild-ondemand
       project-name="CUST077_UAT-nopatches"
       tag = '077_UAT'
       driver = 'CUST077'
