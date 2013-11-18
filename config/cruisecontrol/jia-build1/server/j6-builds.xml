@@ -37,7 +37,7 @@
       />
   
   <cb:legacybuild
-      branch = '077_UAT'
+      tag="077_UAT"
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
@@ -49,7 +49,7 @@
   
   <cb:legacybuild
       project-name="CUST077_UAT-nopatches"
-      branch = '077_UAT'
+      tag = '077_UAT'
       driver = 'CUST077'
       db-server="dev-sql1"
       exclude-files="false"
