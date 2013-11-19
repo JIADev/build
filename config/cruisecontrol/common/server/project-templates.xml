@@ -5,7 +5,7 @@
   
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
-    <cb:define db-name="$(project-name)-DEV" />
+    <cb:define db-name="ccnet-$(project-name)-DEV" />
     <cb:define feature="$(relativefeature)" />
 
     <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
@@ -45,7 +45,7 @@
   
   <cb:define name="v76build">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
-    <cb:define db-name="$(project-name)-DEV" />
+    <cb:define db-name="ccnet-$(project-name)-DEV" />
     <cb:define feature="$(relativefeature)" />
     
     <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
