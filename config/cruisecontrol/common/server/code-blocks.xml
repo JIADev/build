@@ -36,27 +36,6 @@
 	  description = "hg update to branch"
 	  buildArgs = '-c "hg update $(branch)"' 
 	  baseDirectory="$(source-folder)" />
-    
-    <conditional description="Update to tag">
-      <conditions>
-	<compareCondition 
-	    value1="$(tag)" 
-	    value2="" 
-	    evaluation="NotEqual"
-	    ignoreCase="true" />
-      </conditions>
-      <tasks>
-	<exec executable="$(powershell)" 
-	      description = "hg pull all changes"
-	      buildArgs = '-c "hg pull"' 
-	      baseDirectory="$(source-folder)" />
-	
-	<exec executable="$(powershell)" 
-	      description = "hg update to tag"
-	      buildArgs = '-c "hg update $(tag)"' 
-	      baseDirectory="$(source-folder)" />
-      </tasks>
-    </conditional>
   </cb:define>
   
   <cb:define name="force-clean">
@@ -72,7 +51,7 @@
 	  <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
 	</exec>
       </tasks>
-    </conditional> 
+    </conditional>
     <conditional description="Copy source">
       <conditions>
 	<compareCondition 
@@ -97,24 +76,7 @@
 	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(project-folder)"' />
       </elseTasks>
     </conditional>
-    
-    <conditional description="Update back branch">
-      <conditions>
-	<compareCondition 
-	    value1="$(tag)" 
-	    value2="" 
-	    evaluation="NotEqual"
-	    ignoreCase="true" />
-      </conditions>
-      <tasks>
-	<exec executable="$(powershell)" 
-	      description = "hg update to branch"
-	      buildArgs = '-c "hg update $(branch)"' 
-	      baseDirectory="$(source-folder)" />
-      </tasks>
-    </conditional>
   </cb:define>
-  
   
   <cb:define name="copy-logger-local">
     <exec executable = "$(cmdExe)"
@@ -298,42 +260,42 @@
     </conditional>
   </cb:define>
   
-  <cb:define name="package-cleanup">
-    <exec 
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE-*"</buildArgs>
-    </exec>
-    <exec
-	executable="$(powershell)" 
-	baseDirectory="$(source-folder)"
-	description = "create $(driver)/REVISION.txt">
-      <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(project-folder)\$(driver)\REVISION.txt"</buildArgs>
-    </exec>
-  </cb:define>
-  
-  <cb:define name="publish-package">
-    <exec 
-	executable="$(powershell)" 
-	baseDirectory="$(project-folder)"
-	description="Create package folder if needed">
-      <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
-    </exec>
-    <exec
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"</buildArgs>
-    </exec>
-    <exec 
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description="move releases to the package folder">
-      <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
-    </exec>
-  </cb:define>
-  
+<cb:define name="package-cleanup">
+	<exec 
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description = "remove old releases">
+	  <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE-*"</buildArgs>
+	</exec>
+	<exec
+	    executable="$(powershell)" 
+	    baseDirectory="$(source-folder)"
+	    description = "create $(driver)/REVISION.txt">
+	  <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(project-folder)\$(driver)\REVISION.txt"</buildArgs>
+	</exec>
+</cb:define>
+
+<cb:define name="publish-package">
+	<exec 
+	    executable="$(powershell)" 
+	    baseDirectory="$(project-folder)"
+	    description="Create package folder if needed">
+	  <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+	</exec>
+	<exec
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description = "remove old releases">
+	  <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"</buildArgs>
+	</exec>
+	<exec 
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description="move releases to the package folder">
+	  <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
+	</exec>
+</cb:define>
+
   <cb:define name="msbuild-package">
     <conditional description="Package">
       <conditions>
@@ -354,7 +316,7 @@
 		 timeout="$(msbuild-package-timeout)">
 	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
 	</msbuild>
-	<cb:publish-package />
+      <cb:publish-package />
       </tasks>
     </conditional>
   </cb:define>
