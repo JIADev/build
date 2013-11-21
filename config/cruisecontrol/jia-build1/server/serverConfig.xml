@@ -20,8 +20,6 @@
 
   <!-- Credentials -->
   <cb:define
-      db-user=""
-      db-password=""
       />
 
   <!-- Misc -->
