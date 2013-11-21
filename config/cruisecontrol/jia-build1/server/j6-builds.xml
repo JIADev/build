@@ -15,7 +15,6 @@
       project-name="CUST077-7.2.11"
       branch = '7.2.11_STABLE'
       driver = 'CUST077'
-      db-server="dev-sql1"
       exclude-files="false"
       package="true"
       unit-test="false"
@@ -27,7 +26,6 @@
       project-name="CUST077-7.2.11-nopatches"
       branch = '7.2.11_STABLE'
       driver = 'CUST077'
-      db-server="dev-sql1"
       exclude-files="false"
       package="true"
       unit-test="false"
@@ -41,7 +39,6 @@
       branch="Build_20131118_1430"
       tag="077_UAT"
       driver = 'CUST077'
-      db-server="dev-sql1"
       exclude-files="false"
       package="true"
       unit-test="false"
@@ -54,7 +51,6 @@
       project-name="CUST077_UAT-nopatches"
       branch="Build_20131118_1430"
       driver = 'CUST077'
-      db-server="dev-sql1"
       exclude-files="false"
       package="true"
       unit-test="false"
@@ -70,7 +66,6 @@
   <cb:customerbuild
       branch = '2090_R2'
       driver = 'CUST2090'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -79,14 +74,12 @@
   <cb:customerbuild
       branch = '2092_REL1'
       driver = 'CUST2092'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
   <cb:customerbuild
       branch = '2092_R2'
       driver = 'CUST2092'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -97,7 +90,6 @@
   <cb:customerbuild
       branch = '2090-REQ17'
       driver = 'CUST2090'
-      db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
@@ -105,7 +97,6 @@
   <cb:customerbuild
       branch = '2090-REQ21'
       driver = 'CUST2090'
-      db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
@@ -116,7 +107,6 @@
       project-name="CUST2092_REQ12"
       branch = '2092_REQ12.B'
       driver = 'CUST2092'
-      db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
@@ -124,7 +114,6 @@
   <cb:customerbuild
       branch = '2092_REQ13'
       driver = 'CUST2092'
-      db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
@@ -132,7 +121,6 @@
   <cb:customerbuild
       branch = '2092_REQ17'
       driver = 'CUST2092'
-      db-server="dev-sql1"
       exclude-files="true"
       package="true"
       />
@@ -145,7 +133,6 @@
       project-name="$(project-root)"
       branch = '7.5.0'
       driver = 'CUST000'
-      db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
@@ -154,7 +141,6 @@
       project-name="$(project-root)"
       branch = '7.5.2'
       driver = 'CUST000'
-      db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
@@ -163,7 +149,6 @@
       project-name="$(project-root)"
       branch = '7.5.3'
       driver = 'CUST000'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -171,7 +156,6 @@
       project-name="$(project-root)"
       branch = '7.5.4'
       driver = 'CUST000'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -179,7 +163,6 @@
       project-name="CUST000_2092_REL1"
       branch = '2092_REL1'
       driver = 'CUST000'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -189,7 +172,6 @@
       project-name="$(project-root)"
       branch = '7.5.2'
       driver = 'CUST001'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -198,14 +180,12 @@
   <cb:customerbuild
       branch = '065_7.5.0'
       driver = 'CUST065'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
   <cb:customerbuild
       branch = '065_7.5.0.B'
       driver = 'CUST065'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -215,7 +195,6 @@
       project-name="$(project-root)"
       branch = '7.4.4'
       driver = 'CUST069'
-      db-server="dev-sql1"
       />
   
   <!-- CUST2069 -->
@@ -223,7 +202,6 @@
   <cb:customerbuild
       branch = '2069_7.5.3'
       driver = 'CUST2069'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -234,7 +212,6 @@
       project-name="$(project-root)"
       branch = '7.4.1'
       driver = 'CUST2083'
-      db-server="dev-sql1"
       />
   
   <!-- CUST2086 -->
@@ -242,7 +219,6 @@
   <cb:customerbuild
       branch = '2086_7.5.0'
       driver = 'CUST2086'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -252,7 +228,6 @@
       project-name="$(project-root)"
       branch = '7.5.2'
       driver = 'CUST2088'
-      db-server="dev-sql1"
       />
   
   <!-- CUST2089 -->
@@ -261,7 +236,6 @@
       project-name="$(project-root)"
       branch = '7.4.5'
       driver = 'CUST2089'
-      db-server="dev-sql1"
       exclude-files="true"
       />
   
@@ -270,7 +244,6 @@
   <cb:customerbuild
       branch = '2091-7.5.2'
       driver = 'CUST2091'
-      db-server="dev-sql1"
       />
   
   <!-- CUST2092 -->
@@ -279,7 +252,6 @@
       project-name="$(project-root)"
       branch = '7.5.4'
       driver = 'CUST2092'
-      db-server="dev-sql1"
       exclude-files="true"
       package="false"
       />
@@ -289,7 +261,6 @@
   <cb:customerbuild
       branch = '2093_7.5.2'
       driver = 'CUST2093'
-      db-server="dev-sql1"
       exclude-files = "true"
       />
   
@@ -298,7 +269,6 @@
   <cb:customerbuild
       branch = '2094_7.5.2'
       driver = 'CUST2094'
-      db-server="dev-sql1"
       exclude-files = "true"
       />
   
@@ -308,7 +278,6 @@
        <cb:customerbuild
        branch = 'default'
        driver = 'CUST043'
-       db-server="dev-sql1"
        configuration="Debug"
        protect="True"
        />
@@ -318,7 +287,6 @@
       project-name="$(project-root)"
       branch = 'default'
       driver = 'CUST2082'
-      db-server="dev-sql1"
       configuration="Debug"
       protect="false"
       />
@@ -328,7 +296,6 @@
        branch = 'default'
        bookmark = 'bbd-dev'
        driver = 'CUST2087'
-       db-server="dev-sql1"
        include-source = 'true'
        />
   -->
