@@ -14,7 +14,7 @@
 
   <!-- Network Urls and Servers -->
   <cb:define
-      db-server="dev-sql1"
+      db-server="jia-sql12"
       ccBuildServer="jia-build1"
       />
 
