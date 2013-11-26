@@ -160,8 +160,8 @@
       />
   
   <cb:customerbuild
-      project-name="CUST000_2092_REL1"
-      branch = '2092_REL1'
+      project-name="$(project-root)"
+      branch = '000_2092_REL1'
       driver = 'CUST000'
       exclude-files="true"
       />
