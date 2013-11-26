@@ -36,7 +36,6 @@
   
   <cb:legacybuild-ondemand
       project-name="CUST077_UAT"
-      branch="Build_20131118_1430"
       tag="077_UAT"
       driver = 'CUST077'
       exclude-files="false"
@@ -49,7 +48,7 @@
   
   <cb:legacybuild-ondemand
       project-name="CUST077_UAT-nopatches"
-      branch="Build_20131118_1430"
+      tag="077_UAT"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
