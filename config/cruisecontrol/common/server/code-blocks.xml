@@ -37,35 +37,35 @@
 	  buildArgs = '-c "hg update $(branch)"' 
 	  baseDirectory="$(source-folder)" />
     
-    <conditional description="Delete entire tag folder">
-      <conditions>
-	<folderExistsCondition folder="$(tag-folder)" />>
-      </conditions>
-      <tasks>
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)" 
-	      description="Delete entire tag folder" 
-	      successExitCodes="0"> 
-	  <buildArgs>/c "rmdir /s/q $(tag-folder)"</buildArgs>
-	</exec>
-      </tasks>
-    </conditional>
-    
-    <exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)"
-	  description="Copy source (timeout $(copy-source-timeout) seconds)"
-	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
-    
     <conditional description="Update to tag">
       <conditions>
 	<compareCondition 
-	    value1="$(tag)" 
-	    value2="" 
+	    value1="$(source-folder)" 
+	    value2="$(tag-folder)" 
 	    evaluation="NotEqual"
 	    ignoreCase="true" />
       </conditions>
       <tasks>
+	<conditional description="Delete entire tag folder">
+	  <conditions>
+	    <folderExistsCondition folder="$(tag-folder)" />>
+	  </conditions>
+	  <tasks>
+	    <exec executable="$(cmdExe)" 
+		  baseDirectory="$(ccroot)" 
+		  description="Delete entire tag folder" 
+		  successExitCodes="0"> 
+	      <buildArgs>/c "rmdir /s/q $(tag-folder)"</buildArgs>
+	    </exec>
+	  </tasks>
+	</conditional>
+	
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy source (timeout $(copy-source-timeout) seconds)"
+	      buildTimeoutSeconds="$(copy-source-timeout)"
+	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
+	
 	<exec executable="$(powershell)" 
 	      description = "hg pull all changes"
 	      buildArgs = '-c "hg pull"' 
