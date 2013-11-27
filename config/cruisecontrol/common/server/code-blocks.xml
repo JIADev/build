@@ -68,7 +68,7 @@
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
-	      buildArgs = '-c "hg pull -r (tag)"' 
+	      buildArgs = '-c "hg pull -r $(tag)"' 
 	      baseDirectory="$(tag-folder)" />
 	
 	<exec executable="$(powershell)" 
