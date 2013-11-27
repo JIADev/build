@@ -7,11 +7,13 @@
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="ccnet-$(project-name)-DEV" />
     <cb:define feature="$(relativefeature)" />
-
+    
     <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
-      <triggers>
-	<intervalTrigger seconds = "$(sourceCheckInterval)" />
-      </triggers>
+      <cb:if expr="'$(sourceCheckInterval)'!=''">
+	<triggers>
+	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
+	</triggers>
+      </cb:if>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
@@ -49,9 +51,11 @@
     <cb:define feature="$(relativefeature)" />
     
     <project name="$(project-name)" category="$(driver)" queue="$(driver)" queuePriority="$(queue-priority)">
-      <triggers>
-	<intervalTrigger seconds = "$(sourceCheckInterval)" />
-      </triggers>
+      <cb:if expr="'$(sourceCheckInterval)'!=''">
+	<triggers>
+	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
+	</triggers>
+      </cb:if>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
