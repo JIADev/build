@@ -40,8 +40,8 @@
     <conditional description="Update to tag">
       <conditions>
 	<compareCondition 
-	    value1="$(tag)" 
-	    value2="" 
+	    value1="$(tag-folder)" 
+	    value2="$(source-folder)" 
 	    evaluation="NotEqual"
 	    ignoreCase="true" />
       </conditions>
