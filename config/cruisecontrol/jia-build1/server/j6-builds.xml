@@ -34,7 +34,7 @@
       install-patches="false"
       />
   
-  <cb:legacybuild-ondemand
+  <cb:legacybuild
       project-name="CUST077_UAT"
       tag="077_UAT"
       driver = 'CUST077'
@@ -43,10 +43,10 @@
       unit-test="false"
       recreate-db="true"
       install-patches="true"
-      sourceCheckInterval="0"
+      sourceCheckInterval=""
       />
   
-  <cb:legacybuild-ondemand
+  <cb:legacybuild
       project-name="CUST077_UAT-nopatches"
       tag="077_UAT"
       driver = 'CUST077'
@@ -56,7 +56,7 @@
       recreate-db="false"
       queueSuffix="-nopatches"
       install-patches="false"
-      sourceCheckInterval="0"
+      sourceCheckInterval=""
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
   
