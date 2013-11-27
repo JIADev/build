@@ -237,13 +237,6 @@
       exclude-files="true"
       />
   
-  <!-- CUST2091 -->
-  
-  <cb:customerbuild
-      branch = '2091-7.5.2'
-      driver = 'CUST2091'
-      />
-  
   <!-- CUST2092 -->
   
   <cb:customerbuild
