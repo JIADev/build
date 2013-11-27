@@ -67,8 +67,8 @@
 	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
 	
 	<exec executable="$(powershell)" 
-	      description = "hg pull all changes"
-	      buildArgs = '-c "hg pull"' 
+	      description = "hg pull tag changes"
+	      buildArgs = '-c "hg pull -r (tag)"' 
 	      baseDirectory="$(tag-folder)" />
 	
 	<exec executable="$(powershell)" 
