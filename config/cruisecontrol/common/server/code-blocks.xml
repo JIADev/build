@@ -60,21 +60,10 @@
 	  </tasks>
 	</conditional>
 	
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)"
-	      description="Copy source (timeout $(copy-source-timeout) seconds)"
-	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
-	
 	<exec executable="$(powershell)" 
-	      description = "hg pull all changes"
-	      buildArgs = '-c "hg pull"' 
-	      baseDirectory="$(tag-folder)" />
-	
-	<exec executable="$(powershell)" 
-	      description = "hg update to tag"
-	      buildArgs = '-c "hg update $(tag)"' 
-	      baseDirectory="$(tag-folder)" />
+	      description = "Pull tag (despite consumer warning)"
+	      buildArgs = '-c "hg clone $(source) $(tag-folder) -r $(tag)"' 
+	      baseDirectory="$(source-folder)" />
       </tasks>
     </conditional>
     
