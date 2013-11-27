@@ -17,7 +17,8 @@
       redis-db="14"
       platform="AnyCpu"
       />
-  
+
+<!-- Disabled until dev gets going  
   <cb:v76build
       project-name="$(project-root)"
       branch = '760_B2'
@@ -30,7 +31,8 @@
       platform="AnyCpu"
       modules="AUTOSHIP"
       />
-  
+  -->
+
   <cb:v76build
       project-name="$(project-root)"
       branch = '760_QA'
