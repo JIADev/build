@@ -37,13 +37,13 @@
   <cb:legacybuild
       project-name="CUST077_UAT"
       tag="077_UAT"
+      branch="077_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="true"
       install-patches="true"
-      sourceCheckInterval=""
       />
   
   <cb:legacybuild
@@ -59,7 +59,8 @@
       install-patches="false"
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
-  
+
+<!--  
   <cb:legacybuild
       project-name="cvs_CUST077_UAT-nopatches"
       tag="077_cvsUAT"
@@ -72,7 +73,7 @@
       install-patches="false"
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
-  
+  -->
   <!-- CUST2090 -->
   
   <cb:customerbuild
