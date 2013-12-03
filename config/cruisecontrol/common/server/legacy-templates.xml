@@ -22,6 +22,7 @@
       <cb:force-clean />
     </prebuild>
     <tasks description="Bootstrap setup">
+      <cb:legacy-bootstrap />
       <cb:copy-logger-local />
       <cb:legacy-build-feature-exe />
       <cb:create-settings />
@@ -40,7 +41,22 @@
     <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
-  
+
+  <cb:define name="legacy-bootstrap">
+    <conditional>
+      <conditions>
+	<folderExistsCondition folder="$(tag-folder)/customers/$(driver)" />
+      </conditions>
+      <tasks>
+	<msbuild description="Junction baseline features"
+		 executable="$(msbuild)"
+		 workingDirectory="$(project-folder)"
+		 projectFile="j6.proj"
+		 targets="Bootstrap" />
+      </tasks>
+    </conditional>
+  </cb:define>
+
   <cb:define name="legacy-build-feature-exe">
     <msbuild description="build feature.exe (timeout $(build-feature-exe-timeout) seconds)"
 	     executable="$(msbuild)"

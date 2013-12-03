@@ -60,6 +60,19 @@
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
   
+  <cb:legacybuild
+      project-name="cvs_CUST077_UAT-nopatches"
+      tag="077_cvsUAT"
+      branch="077_tags"
+      driver = 'CUST077'
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="false"
+      install-patches="false"
+      dotNetFrameworkPath="$(dotNet4x86Path)"
+      />
+  
   <!-- CUST2090 -->
   
   <cb:customerbuild
