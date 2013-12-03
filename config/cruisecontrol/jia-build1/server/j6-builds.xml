@@ -49,6 +49,7 @@
   <cb:legacybuild
       project-name="CUST077_UAT-nopatches"
       tag="077_UAT"
+      branch="077_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
@@ -56,7 +57,6 @@
       recreate-db="false"
       queueSuffix="-nopatches"
       install-patches="false"
-      sourceCheckInterval=""
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
   
