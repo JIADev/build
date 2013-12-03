@@ -80,6 +80,24 @@
     
   </cb:define>
   
+  <cb:define name="set-customer">
+    <conditional>
+      <conditions>
+	<folderExistsCondition folder="$(tag-folder)/customers/$(driver)" />
+      </conditions>
+      <tasks>
+	<msbuild description="Set Customer"
+		 executable="$(msbuild)"
+		 workingDirectory="$(project-folder)"
+		 projectFile="j6.proj"
+		 targets="SetCustomer">
+	  <buildArgs>/p:Customer=$(driver)</buildArgs>
+	</msbuild>
+      </tasks>
+    </conditional>
+
+  </cb:define>  
+  
   <cb:define name="force-clean">
     <conditional description="Delete entire project folder">
       <conditions>
@@ -119,6 +137,7 @@
 	      buildArgs='/c xcopy /s/e/y/q/i "$(tag-folder)" "$(project-folder)"' />
       </elseTasks>
     </conditional>
+    <cb:set-customer />
   </cb:define>
   
   <cb:define name="copy-logger-local">
