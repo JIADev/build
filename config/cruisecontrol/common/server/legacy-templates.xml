@@ -51,7 +51,7 @@
 	<msbuild description="Junction baseline features"
 		 executable="$(msbuild)"
 		 workingDirectory="$(project-folder)"
-		 projectFile="j6.proj"
+		 projectFile="bootstrap.proj"
 		 targets="Bootstrap" />
       </tasks>
     </conditional>

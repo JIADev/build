@@ -89,7 +89,7 @@
 	<msbuild description="Set Customer"
 		 executable="$(msbuild)"
 		 workingDirectory="$(project-folder)"
-		 projectFile="j6.proj"
+		 projectFile="bootstrap.proj"
 		 targets="SetCustomer">
 	  <buildArgs>/p:Customer=$(driver)</buildArgs>
 	</msbuild>
