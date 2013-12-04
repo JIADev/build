@@ -20,6 +20,7 @@
       unit-test="false"
       recreate-db="true"
       install-patches="true"
+      repo-name="master"
       />
   
   <cb:legacybuild
@@ -31,6 +32,7 @@
       unit-test="false"
       recreate-db="false"
       queueSuffix="-nopatches"
+      repo-name="master"
       install-patches="false"
       />
   
@@ -39,7 +41,7 @@
       branch = '000_7.3.3'
       driver = 'CUST000'
       configuration="Debug"
-      repo-name="CUST077"
+      repo-name="master"
       />
   
   <cb:legacybuild
@@ -52,6 +54,7 @@
       unit-test="false"
       recreate-db="true"
       install-patches="true"
+      repo-name="master"
       />
   
   <cb:legacybuild
@@ -65,6 +68,7 @@
       recreate-db="false"
       queueSuffix="-nopatches"
       install-patches="false"
+      repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
 
