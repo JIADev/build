@@ -89,7 +89,7 @@
 	<msbuild description="Set Customer"
 		 executable="$(msbuild)"
 		 workingDirectory="$(project-folder)"
-		 projectFile="bootstrap.proj"
+		 projectFile="j6.proj"
 		 targets="SetCustomer">
 	  <buildArgs>/p:Customer=$(driver)</buildArgs>
 	</msbuild>
@@ -106,7 +106,7 @@
 	<msbuild description="Junction baseline features"
 		 executable="$(msbuild)"
 		 workingDirectory="$(project-folder)"
-		 projectFile="bootstrap.proj"
+		 projectFile="j6.proj"
 		 targets="Bootstrap" />
       </tasks>
     </conditional>

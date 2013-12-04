@@ -43,6 +43,19 @@
       />
   
   <cb:legacybuild
+      project-name="cvs_CUST077_UAT-nopatches"
+      branch="2013.12.02.PrepareMultipleCustomers"
+      driver = 'CUST077'
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="false"
+      queueSuffix="-nopatches"
+      install-patches="false"
+      dotNetFrameworkPath="$(dotNet4x86Path)"
+      />
+
+  <cb:legacybuild
       project-name="CUST077_UAT"
       tag="077_UAT"
       branch="077_tags"
