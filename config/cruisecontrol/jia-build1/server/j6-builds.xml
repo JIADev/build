@@ -34,6 +34,15 @@
       install-patches="false"
       />
   
+  <cb:customerbuild
+      project-name="cvs_CUST2082_7.3.3"
+      branch = '2082_tags'
+      tag='2082_build'
+      driver = 'CUST2082'
+      configuration="Debug"
+      protect="false"
+      />
+  
   <cb:legacybuild
       project-name="CUST077_UAT"
       tag="077_UAT"
@@ -60,20 +69,6 @@
       dotNetFrameworkPath="$(dotNet4x86Path)"
       />
 
-<!--  
-  <cb:legacybuild
-      project-name="cvs_CUST077_UAT-nopatches"
-      tag="077_cvsUAT"
-      branch="077_tags"
-      driver = 'CUST077'
-      exclude-files="false"
-      package="true"
-      unit-test="false"
-      recreate-db="false"
-      install-patches="false"
-      dotNetFrameworkPath="$(dotNet4x86Path)"
-      />
-  -->
   <!-- CUST2090 -->
   
   <cb:customerbuild
