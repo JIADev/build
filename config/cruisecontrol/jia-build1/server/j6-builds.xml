@@ -35,26 +35,13 @@
       />
   
   <cb:customerbuild
-      project-name="cvs_CUST2082_7.3.3"
-      branch = '2082_7.3.3'
-      driver = 'CUST2082'
+      project-name="cvs_Test"
+      branch = '000_7.3.3'
+      driver = 'CUST000'
       configuration="Debug"
       repo-name="CUST077"
       />
   
-  <cb:legacybuild
-      project-name="cvs_CUST077_UAT-nopatches"
-      branch="2013.12.02.PrepareMultipleCustomers"
-      driver = 'CUST077'
-      exclude-files="false"
-      package="true"
-      unit-test="false"
-      recreate-db="false"
-      queueSuffix="-nopatches"
-      install-patches="false"
-      dotNetFrameworkPath="$(dotNet4x86Path)"
-      />
-
   <cb:legacybuild
       project-name="CUST077_UAT"
       tag="077_UAT"
