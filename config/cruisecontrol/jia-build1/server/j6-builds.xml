@@ -36,8 +36,7 @@
   
   <cb:customerbuild
       project-name="cvs_CUST2082_7.3.3"
-      branch = '2082_tags'
-      tag='2082_build'
+      branch = '2082_7.3.3'
       driver = 'CUST2082'
       configuration="Debug"
       protect="false"
