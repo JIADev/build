@@ -22,7 +22,7 @@
       <cb:force-clean />
     </prebuild>
     <tasks description="Bootstrap setup">
-      <cb:legacy-bootstrap />
+      <cb:junction-features />
       <cb:copy-logger-local />
       <cb:legacy-build-feature-exe />
       <cb:create-settings />

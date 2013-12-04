@@ -97,7 +97,7 @@
     </conditional>
   </cb:define>  
   
-  <cb:define name="legacy-bootstrap">
+  <cb:define name="junction-features">
     <conditional>
       <conditions>
 	<folderExistsCondition folder="$(tag-folder)/customers/$(driver)" />
@@ -107,7 +107,7 @@
 		 executable="$(msbuild)"
 		 workingDirectory="$(project-folder)"
 		 projectFile="j6.proj"
-		 targets="Bootstrap" />
+		 targets="JunctionFeatures" />
       </tasks>
     </conditional>
   </cb:define>
