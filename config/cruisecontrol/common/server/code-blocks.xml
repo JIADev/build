@@ -26,7 +26,7 @@
     
     <exec executable="$(cmdExe)" 
 	  description="Configure hgrc"
-	  buildArgs='/c echo $(driver)/ >> $(source-folder)\.hg\hgrc' />
+	  buildArgs='/c echo $(repo-name)/ >> $(source-folder)\.hg\hgrc' />
     
     <exec executable="$(cmdExe)" 
 	  description="Copy exclude file to source folder"

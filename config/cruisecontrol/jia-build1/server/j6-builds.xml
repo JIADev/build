@@ -41,7 +41,7 @@
       driver = 'CUST2082'
       configuration="Debug"
       protect="false"
-      source="$(repo-source-root)/customers/CUST077"
+      repo-name="CUST077"
       />
   
   <cb:legacybuild

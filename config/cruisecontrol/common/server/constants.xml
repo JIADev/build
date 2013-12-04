@@ -30,12 +30,13 @@
       source-folder="$(srcroot)\$(project-name)"
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
+      repo-name="$(driver)"
       />
 
   <!-- Network Urls and Servers -->
   <cb:define
       repo-source-root="http://source.jenkon.com/hg/hgwebdir.cgi/feature"
-      source="$(repo-source-root)/customers/$(driver)"
+      source="$(repo-source-root)/customers/$(repo-name)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://$(ccBuildServer)/ccnet/"
       />
