@@ -39,7 +39,6 @@
       branch = '2082_7.3.3'
       driver = 'CUST2082'
       configuration="Debug"
-      protect="false"
       repo-name="CUST077"
       />
   
@@ -288,7 +287,6 @@
       branch = 'default'
       driver = 'CUST2082'
       configuration="Debug"
-      protect="false"
       />
   
   <!-- bbd-dev bookmark gone
