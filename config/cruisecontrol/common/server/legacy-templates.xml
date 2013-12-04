@@ -42,21 +42,6 @@
     </project>
   </cb:define>
 
-  <cb:define name="legacy-bootstrap">
-    <conditional>
-      <conditions>
-	<folderExistsCondition folder="$(tag-folder)/customers/$(driver)" />
-      </conditions>
-      <tasks>
-	<msbuild description="Junction baseline features"
-		 executable="$(msbuild)"
-		 workingDirectory="$(project-folder)"
-		 projectFile="bootstrap.proj"
-		 targets="Bootstrap" />
-      </tasks>
-    </conditional>
-  </cb:define>
-
   <cb:define name="legacy-build-feature-exe">
     <msbuild description="build feature.exe (timeout $(build-feature-exe-timeout) seconds)"
 	     executable="$(msbuild)"
