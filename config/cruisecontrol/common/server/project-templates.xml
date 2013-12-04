@@ -23,7 +23,7 @@
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:set-customer />
-	<cb:legacy-bootstrap />
+	<cb:junction-features />
 	<cb:copy-logger-local />
 	<cb:configure-db />
 	<cb:build-feature-exe />
