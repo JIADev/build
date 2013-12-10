@@ -293,6 +293,7 @@
       branch = '2082_tags'
       tag = "2082_PROD"
       driver = 'CUST2082'
+      repo-name="master"
       configuration="Debug"
       />
   
