@@ -289,8 +289,9 @@
   -->  
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = 'default'
+      project-name="CUST2082-7.3.3"
+      branch = '2082_tags'
+      tag = "2082_PROD"
       driver = 'CUST2082'
       configuration="Debug"
       />
