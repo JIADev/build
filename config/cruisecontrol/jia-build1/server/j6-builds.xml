@@ -14,12 +14,13 @@
   <cb:legacybuild
       project-name="CUST077-7.2.11"
       tag="077_PROD"
-      branch="077_tags"
+      branch="077_PROD_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="true"
+      queueSuffix="-PROD"
       install-patches="true"
       repo-name="master"
       />
@@ -27,48 +28,70 @@
   <cb:legacybuild
       project-name="CUST077-7.2.11-nopatches"
       tag="077_PROD"
-      branch="077_tags"
+      branch="077_PROD_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="false"
-      queueSuffix="-nopatches"
+      queueSuffix="-PROD-nopatches"
       repo-name="master"
       install-patches="false"
-      />
-  
-  <cb:customerbuild
-      project-name="cvs_Test"
-      branch = '000_7.3.3'
-      driver = 'CUST000'
-      configuration="Debug"
-      repo-name="master"
       />
   
   <cb:legacybuild
       project-name="CUST077_UAT"
       tag="077_UAT"
-      branch="077_tags"
+      branch="077_UAT_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="true"
       install-patches="true"
+      queueSuffix="-UAT"
       repo-name="master"
       />
   
   <cb:legacybuild
       project-name="CUST077_UAT-nopatches"
       tag="077_UAT"
-      branch="077_tags"
+      branch="077_UAT_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="false"
-      queueSuffix="-nopatches"
+      queueSuffix="-UAT-nopatches"
+      install-patches="false"
+      repo-name="master"
+      dotNetFrameworkPath="$(dotNet4x86Path)"
+      />
+
+  <cb:legacybuild
+      project-name="CUST077_DEC"
+      tag="077_DEC"
+      branch="077_DEC_tags"
+      driver = 'CUST077'
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      queueSuffix="-DEC"
+      repo-name="master"
+      />
+  
+  <cb:legacybuild
+      project-name="CUST077_DEC-nopatches"
+      tag="077_DEC"
+      branch="077_DEC_tags"
+      driver = 'CUST077'
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="false"
+      queueSuffix="-DEC-nopatches"
       install-patches="false"
       repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
