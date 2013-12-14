@@ -48,11 +48,12 @@
       package="true"
       unit-test="false"
       recreate-db="true"
-      install-patches="true"
       queueSuffix="-UAT"
+      install-patches="true"
       repo-name="master"
+      dotNetFrameworkPath="$(dotNet4x86Path)"
       />
-  
+
   <cb:legacybuild
       project-name="CUST077_UAT-nopatches"
       tag="077_UAT"
