@@ -85,6 +85,20 @@
       />
 
   <cb:legacybuild
+      project-name="CUST077_DEC"
+      tag="077_DEC"
+      branch="077_DEC_tags"
+      driver = 'CUST077'
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      queueSuffix="-DEC"
+      repo-name="master"
+      />
+  
+  <cb:legacybuild
       project-name="CUST077_DEV"
       tag="077_DEV"
       branch="077_DEV_tags"
