@@ -109,12 +109,6 @@
   <!-- CUST2092 -->
   
   <cb:customerbuild
-      branch = '2092_REL1'
-      driver = 'CUST2092'
-      exclude-files="true"
-      />
-  
-  <cb:customerbuild
       branch = '2092_R2'
       driver = 'CUST2092'
       exclude-files="true"
@@ -197,7 +191,8 @@
       />
   
   <cb:customerbuild
-      branch = '000_2092_REL1'
+      project-name="$(project-root)"
+      branch = '7.5.5'
       driver = 'CUST000'
       exclude-files="true"
       />
@@ -278,11 +273,9 @@
   <!-- CUST2092 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.5.4'
+      branch = '2092_7.5.5'
       driver = 'CUST2092'
       exclude-files="true"
-      package="false"
       />
   
   <!-- CUST2093 -->
