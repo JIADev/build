@@ -303,7 +303,7 @@
   <!-- CUST2094 -->
   
   <cb:customerbuild
-      branch = '2094_7.5.2'
+      branch = '2094_7.5.5'
       driver = 'CUST2094'
       exclude-files = "true"
       />
