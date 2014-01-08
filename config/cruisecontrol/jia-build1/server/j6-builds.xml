@@ -254,11 +254,14 @@
   <!-- CUST2083 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.4.1'
+      project-name="CUST2083-7.4.1"
+      branch = '2083_tags'
+      tag = "2083_PROD"
       driver = 'CUST2083'
+      repo-name="master"
+      configuration="Debug"
       />
-  
+
   <!-- CUST2086 -->
   
   <cb:customerbuild
