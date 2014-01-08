@@ -337,4 +337,13 @@
        />
   -->
   
+  <cb:customerbuild
+      project-name="CUST2085-7.4.0"
+      branch = '2085_tags'
+      tag = "2085_PROD"
+      driver = 'CUST2085'
+      repo-name="master"
+      configuration="Debug"
+      />
+  
 </cb:config-template>
