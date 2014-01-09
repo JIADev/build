@@ -237,6 +237,14 @@
   <!-- CUST069 -->
   
   <cb:customerbuild
+      project-name="CUST069-7.4.4"
+      branch = '069_tags'
+      tag = "069_PROD"
+      driver = 'CUST069'
+      repo-name="master"
+      />
+
+  <cb:customerbuild
       project-name="$(project-root)"
       branch = '7.4.4'
       driver = 'CUST069'
@@ -259,7 +267,6 @@
       tag = "2083_PROD"
       driver = 'CUST2083'
       repo-name="master"
-      configuration="Debug"
       />
 
   <!-- CUST2086 -->
@@ -328,7 +335,6 @@
       tag = "2082_PROD"
       driver = 'CUST2082'
       repo-name="master"
-      configuration="Debug"
       />
   
   <!-- bbd-dev bookmark gone
@@ -346,7 +352,6 @@
       tag = "2085_PROD"
       driver = 'CUST2085'
       repo-name="master"
-      configuration="Debug"
       />
   
 </cb:config-template>
