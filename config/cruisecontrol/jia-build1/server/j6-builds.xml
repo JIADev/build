@@ -13,28 +13,28 @@
   
   <cb:legacybuild
       project-name="CUST077-7.2.11"
-      tag="077_PROD"
-      branch="077_PROD_tags"
+      tag="077_PRD"
+      branch="077_PRD_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="true"
-      queueSuffix="-PROD"
+      queueSuffix="-PRD"
       install-patches="true"
       repo-name="master"
       />
   
   <cb:legacybuild
       project-name="CUST077-7.2.11-nopatches"
-      tag="077_PROD"
-      branch="077_PROD_tags"
+      tag="077_PRD"
+      branch="077_PRD_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="false"
-      queueSuffix="-PROD-nopatches"
+      queueSuffix="-PRD-nopatches"
       repo-name="master"
       install-patches="false"
       />
@@ -239,7 +239,7 @@
   <cb:customerbuild
       project-name="CUST069-7.4.4"
       branch = '069_tags'
-      tag = "069_PROD"
+      tag = "069_PRD"
       driver = 'CUST069'
       repo-name="master"
       />
@@ -258,7 +258,7 @@
   <cb:customerbuild
       project-name="CUST2083-7.4.1"
       branch = '2083_tags'
-      tag = "2083_PROD"
+      tag = "2083_PRD"
       driver = 'CUST2083'
       repo-name="master"
       />
@@ -268,7 +268,7 @@
   <cb:customerbuild
       project-name="CUST2085-7.4.0"
       branch = '2085_tags'
-      tag = "2085_PROD"
+      tag = "2085_PRD"
       driver = 'CUST2085'
       repo-name="master"
       />
@@ -286,7 +286,7 @@
   <cb:customerbuild
       project-name="CUST2087-7.4.4"
       branch = '2087_tags'
-      tag = "2087_PROD"
+      tag = "2087_PRD"
       driver = 'CUST2087'
       repo-name="master"
       />
@@ -304,7 +304,7 @@
   <cb:customerbuild
       project-name="CUST2089-7.4.5"
       branch = '2089_tags'
-      tag = "2089_PROD"
+      tag = "2089_PRD"
       driver = 'CUST2089'
       repo-name="master"
       />
@@ -347,7 +347,7 @@
   <cb:customerbuild
       project-name="CUST2082-7.3.3"
       branch = '2082_tags'
-      tag = "2082_PROD"
+      tag = "2082_PRD"
       driver = 'CUST2082'
       repo-name="master"
       />
