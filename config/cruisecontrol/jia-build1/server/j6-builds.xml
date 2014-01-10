@@ -244,12 +244,6 @@
       repo-name="master"
       />
 
-  <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.4.4'
-      driver = 'CUST069'
-      />
-  
   <!-- CUST2069 -->
   
   <cb:customerbuild
@@ -269,6 +263,16 @@
       repo-name="master"
       />
 
+  <!-- CUST2085 -->
+  
+  <cb:customerbuild
+      project-name="CUST2085-7.4.0"
+      branch = '2085_tags'
+      tag = "2085_PROD"
+      driver = 'CUST2085'
+      repo-name="master"
+      />
+  
   <!-- CUST2086 -->
   
   <cb:customerbuild
@@ -277,6 +281,16 @@
       exclude-files="true"
       />
   
+  <!-- CUST2087 -->
+  
+  <cb:customerbuild
+      project-name="CUST2087-7.4.4"
+      branch = '2087_tags'
+      tag = "2087_PROD"
+      driver = 'CUST2087'
+      repo-name="master"
+      />
+
   <!-- CUST2088 -->
   
   <cb:customerbuild
@@ -345,13 +359,5 @@
        include-source = 'true'
        />
   -->
-  
-  <cb:customerbuild
-      project-name="CUST2085-7.4.0"
-      branch = '2085_tags'
-      tag = "2085_PROD"
-      driver = 'CUST2085'
-      repo-name="master"
-      />
   
 </cb:config-template>
