@@ -302,12 +302,13 @@
   <!-- CUST2089 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.4.5'
+      project-name="CUST2089-7.4.5"
+      branch = '2089_tags'
+      tag = "2089_PROD"
       driver = 'CUST2089'
-      exclude-files="true"
+      repo-name="master"
       />
-  
+
   <!-- CUST2092 -->
   
   <cb:customerbuild
