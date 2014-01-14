@@ -276,8 +276,11 @@
   <!-- CUST2086 -->
   
   <cb:customerbuild
-      branch = '2086_7.5.0'
+      project-name="CUST2086-7.5.0"
+      branch = '2086_tags'
+      tag = "2086_PRD"
       driver = 'CUST2086'
+      repo-name="master"
       exclude-files="true"
       />
   
