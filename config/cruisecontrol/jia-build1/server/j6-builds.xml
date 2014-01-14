@@ -281,7 +281,6 @@
       tag = "2086_PRD"
       driver = 'CUST2086'
       repo-name="master"
-      exclude-files="true"
       />
   
   <!-- CUST2087 -->
