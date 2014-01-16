@@ -223,15 +223,11 @@
   <!-- CUST065 -->
   
   <cb:customerbuild
-      branch = '065_7.5.0'
+      project-name="CUST065-7.5.0"
+      branch = '065_tags'
+      tag = "065_PRD"
       driver = 'CUST065'
-      exclude-files="true"
-      />
-  
-  <cb:customerbuild
-      branch = '065_7.5.0.B'
-      driver = 'CUST065'
-      exclude-files="true"
+      repo-name="master"
       />
   
   <!-- CUST069 -->
