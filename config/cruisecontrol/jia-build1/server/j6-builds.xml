@@ -175,10 +175,10 @@
   <!-- CUST000 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST000-7.5.0"
       branch = '7.5.0'
       driver = 'CUST000'
-      exclude-files="true"
+      repo-name="master"
       package="false"
       />
   
