@@ -46,7 +46,7 @@
 	    ignoreCase="true" />
       </conditions>
       <tasks>
-	<conditional description="Delete entire tag folder">
+	<conditional description="Update tag folder">
 	  <conditions>
 	    <folderExistsCondition folder="$(tag-folder)" />>
 	  </conditions>
@@ -59,6 +59,11 @@
 		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
 	  </elseTasks>
 	</conditional>
+	
+	<exec executable="$(powershell)" 
+	      description = "hg pull updates from source-folder"
+	      buildArgs = '-c "hg pull $(source-folder)"' 
+	      baseDirectory="$(tag-folder)" />
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
