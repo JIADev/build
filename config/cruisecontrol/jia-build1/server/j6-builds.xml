@@ -52,6 +52,7 @@
       install-patches="true"
       repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
+      sourceCheckInterval=""
       />
 
   <cb:legacybuild
@@ -67,6 +68,7 @@
       install-patches="false"
       repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
+      sourceCheckInterval=""
       />
 
   <cb:legacybuild
@@ -82,6 +84,7 @@
       install-patches="false"
       repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
+      sourceCheckInterval=""
       />
 
   <cb:legacybuild
@@ -96,8 +99,10 @@
       install-patches="true"
       queueSuffix="-DEC"
       repo-name="master"
+      sourceCheckInterval=""
       />
   
+<!--
   <cb:legacybuild
       project-name="CUST077_DEV"
       tag="077_DEV"
@@ -110,8 +115,9 @@
       install-patches="true"
       queueSuffix="-DEV"
       repo-name="master"
+      sourceCheckInterval=""
       />
-  
+  -->
   <!-- CUST2090 -->
   
   <cb:customerbuild
@@ -229,6 +235,7 @@
       tag = "065_PRD"
       driver = 'CUST065'
       repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- CUST069 -->
@@ -239,6 +246,7 @@
       tag = "069_PRD"
       driver = 'CUST069'
       repo-name="master"
+      sourceCheckInterval=""
       />
 
   <!-- CUST2069 -->
@@ -249,6 +257,7 @@
       tag = "2069_PRD"
       driver = 'CUST2069'
       repo-name="master"
+      sourceCheckInterval=""
       />
 
   <!-- CUST2083 -->
@@ -259,6 +268,7 @@
       tag = "2083_PRD"
       driver = 'CUST2083'
       repo-name="master"
+      sourceCheckInterval=""
       />
 
   <!-- CUST2085 -->
@@ -269,6 +279,7 @@
       tag = "2085_PRD"
       driver = 'CUST2085'
       repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- CUST2086 -->
@@ -279,6 +290,7 @@
       tag = "2086_PRD"
       driver = 'CUST2086'
       repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- CUST2087 -->
@@ -289,6 +301,7 @@
       tag = "2087_PRD"
       driver = 'CUST2087'
       repo-name="master"
+      sourceCheckInterval=""
       />
 
   <!-- CUST2088 -->
@@ -299,6 +312,7 @@
       tag = "2088_PRD"
       driver = 'CUST2088'
       repo-name="master"
+      sourceCheckInterval=""
       />
 
   <!-- CUST2089 -->
@@ -309,6 +323,7 @@
       tag = "2089_PRD"
       driver = 'CUST2089'
       repo-name="master"
+      sourceCheckInterval=""
       />
 
   <!-- CUST2092 -->
@@ -327,6 +342,7 @@
       tag = "2093_PRD"
       driver = 'CUST2093'
       repo-name="master"
+      sourceCheckInterval=""
       />
 
   <!-- CUST2094 -->
@@ -354,6 +370,7 @@
       tag = "2082_PRD"
       driver = 'CUST2082'
       repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- bbd-dev bookmark gone
