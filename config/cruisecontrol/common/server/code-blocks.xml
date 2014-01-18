@@ -384,7 +384,7 @@
 		 targets="Package"
 		 workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
+	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
 	</msbuild>
 	<cb:publish-package />
       </tasks>
