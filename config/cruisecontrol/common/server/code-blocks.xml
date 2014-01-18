@@ -51,13 +51,13 @@
 	    <folderExistsCondition folder="$(tag-folder)" />>
 	  </conditions>
 	  <tasks />
-	  <else>
+	  <elseTasks>
 	    <exec executable="$(cmdExe)" 
 		  baseDirectory="$(ccroot)"
 		  description="Copy source (timeout $(copy-source-timeout) seconds)"
 		  buildTimeoutSeconds="$(copy-source-timeout)"
 		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
-	  </else>
+	  </elseTasks>
 	</conditional>
 	
 	<exec executable="$(powershell)" 
