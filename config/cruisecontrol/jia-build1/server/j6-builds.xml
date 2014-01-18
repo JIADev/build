@@ -244,12 +244,13 @@
   <!-- CUST2069 -->
   
   <cb:customerbuild
-      branch = '2069_7.5.3'
+      project-name="CUST2069-7.5.3"
+      branch = '2069_tags'
+      tag = "2069_PRD"
       driver = 'CUST2069'
-      exclude-files="true"
+      repo-name="master"
       />
-  
-  
+
   <!-- CUST2083 -->
   
   <cb:customerbuild
