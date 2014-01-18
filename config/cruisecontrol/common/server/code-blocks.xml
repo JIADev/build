@@ -50,21 +50,15 @@
 	  <conditions>
 	    <folderExistsCondition folder="$(tag-folder)" />>
 	  </conditions>
-	  <tasks>
+	  <tasks />
+	  <else>
 	    <exec executable="$(cmdExe)" 
-		  baseDirectory="$(ccroot)" 
-		  description="Delete entire tag folder" 
-		  successExitCodes="0"> 
-	      <buildArgs>/c "rmdir /s/q $(tag-folder)"</buildArgs>
-	    </exec>
-	  </tasks>
+		  baseDirectory="$(ccroot)"
+		  description="Copy source (timeout $(copy-source-timeout) seconds)"
+		  buildTimeoutSeconds="$(copy-source-timeout)"
+		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
+	  </else>
 	</conditional>
-	
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)"
-	      description="Copy source (timeout $(copy-source-timeout) seconds)"
-	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
