@@ -183,10 +183,10 @@
       />
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST000-7.5.2"
       branch = '7.5.2'
       driver = 'CUST000'
-      exclude-files="true"
+      repo-name="master"
       package="false"
       />
   
@@ -214,10 +214,11 @@
   <!-- CUST001 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST001-7.5.2"
       branch = '7.5.2'
       driver = 'CUST001'
-      exclude-files="true"
+      repo-name="master"
+      package="false"
       />
   
   <!-- CUST065 -->
