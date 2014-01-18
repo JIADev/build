@@ -40,7 +40,7 @@
       />
   
   <cb:legacybuild
-      project-name="CUST077_UAT"
+      project-name="CUST077-UAT"
       tag="077_UAT"
       branch="077_UAT_tags"
       driver = 'CUST077'
