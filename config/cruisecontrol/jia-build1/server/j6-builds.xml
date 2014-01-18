@@ -292,11 +292,13 @@
   <!-- CUST2088 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.5.2'
+      project-name="CUST2088-7.5.2"
+      branch = '2088_tags'
+      tag = "2088_PRD"
       driver = 'CUST2088'
+      repo-name="master"
       />
-  
+
   <!-- CUST2089 -->
   
   <cb:customerbuild
