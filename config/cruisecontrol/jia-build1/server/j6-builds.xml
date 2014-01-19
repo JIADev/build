@@ -205,10 +205,11 @@
       />
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST000-7.5.4"
       branch = '7.5.4'
       driver = 'CUST000'
-      exclude-files="true"
+      repo-name="master"
+      package="false"
       />
   
   <cb:customerbuild
