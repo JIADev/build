@@ -197,10 +197,11 @@
       />
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST000-7.5.3"
       branch = '7.5.3'
       driver = 'CUST000'
-      exclude-files="true"
+      repo-name="master"
+      package="false"
       />
   
   <cb:customerbuild
