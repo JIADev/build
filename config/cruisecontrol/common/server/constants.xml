@@ -39,6 +39,7 @@
       source="$(repo-source-root)/customers/$(repo-name)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://$(ccBuildServer)/ccnet/"
+      deployment-webserver="DEV-8900WEB1"
       />
 
   <!-- Build Switches -->
