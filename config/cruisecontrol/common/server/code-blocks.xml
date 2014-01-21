@@ -404,7 +404,7 @@
 	     projectFile="deployment.proj"
 	     targets="InstallSite"
 	     workingDirectory="$(project-folder)\Package">
-      <buildArgs>/p:SiteName="$(project-name)" /p:WebServer="$(deployment-webserver)"</buildArgs>
+      <buildArgs>/p:SiteName="ccnet-$(project-name)" /p:WebServer="$(deployment-webserver)"</buildArgs>
     </msbuild>
   </cb:define>
 
