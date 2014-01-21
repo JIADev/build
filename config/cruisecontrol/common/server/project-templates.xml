@@ -110,7 +110,6 @@
       <cb:sourcecontrol />
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
-	<cb:msbuild-package />
 	<cb:msdeploy />
       </tasks>
       <publishers>
