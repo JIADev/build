@@ -40,9 +40,17 @@
 		  baseDirectory="$(tag-folder)" />
 	  </tasks>
 	  <elseTasks>
-	    <exec executable="$(cmdExe)" 
+	    <exec 
+		executable="$(powershell)" 
+		baseDirectory="$(project-folder)"
+		description="Create tag folder if needed">
+	      <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+	    </exec>
+	    <exec executable="$(powershell)" 
 		  description = "hg clone source-folder into tag folder"
-		  buildArgs='/c hg clone "$(source-folder)" "$(tag-folder)"' />
+		  buildArgs = '-c "hg clone $(source-folder) $(tag-folder)"' 
+		  baseDirectory="$(source-folder)"
+		  buildTimeoutSeconds="$(copy-source-timeout)" />
 	  </elseTasks>
 	</conditional>
 	
