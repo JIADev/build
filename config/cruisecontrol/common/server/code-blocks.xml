@@ -396,6 +396,18 @@
     </conditional>
   </cb:define>
   
+  <cb:define name="msdeploy">
+    <exec executable="$(cmdExe)" buildArgs= '/C copy $(project-folder)\deployment.proj $(project-folder)\Package' />
+
+    <msbuild description="deploy build"
+	     executable="$(msbuild)"
+	     projectFile="deployment.proj"
+	     targets="InstallSite"
+	     workingDirectory="$(project-folder)\Package">
+      <buildArgs>/p:SiteName="$(project-name)" /p:WebServer="$(deployment-webserver)"</buildArgs>
+    </msbuild>
+  </cb:define>
+
   <cb:define name="standard-publishers">
     <!--
 	<merge>
@@ -449,10 +461,6 @@
 	</msbuild>
       </tasks>
     </conditional>
-  </cb:define>
-
-  <cb:define name="msdeploy">
-
   </cb:define>
 
   <cb:define name="msbuild-bootstrap">
