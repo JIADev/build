@@ -46,4 +46,17 @@
       modules="AUTOSHIP"
       />
   
+  <cb:v76testdeploy
+      project-name="$(project-root)-DeployTest"
+      branch = '760_QA'
+      driver = 'CUST000'
+      clean="true"
+      build="true"	
+      unit-test="true"
+      data-test="false"
+      redis-db="16"
+      platform="AnyCpu"
+      modules="AUTOSHIP"
+      />
+  
 </cb:config-template>

@@ -440,7 +440,11 @@
       </tasks>
     </conditional>
   </cb:define>
-  
+
+  <cb:define name="msdeploy">
+
+  </cb:define>
+
   <cb:define name="msbuild-bootstrap">
     <msbuild description="bootstrap">
       <executable>$(msbuild)</executable>
