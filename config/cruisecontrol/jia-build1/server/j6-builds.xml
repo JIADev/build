@@ -329,7 +329,7 @@
       />
 
   <cb:customerbuild
-      project-name="CUST2089-7.4.5"
+      project-name="CUST2089-UAT-7.4.5"
       branch = '2089_tags'
       tag = "2089_UAT"
       driver = 'CUST2089'
