@@ -20,6 +20,23 @@
   </cb:define>
   
   <cb:define name="update-source">
+    <exec executable="$(cmdExe)" 
+	  description="Copy default.hgrc file to .hg\hgrc"
+	  buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
+    
+    <exec executable="$(cmdExe)" 
+	  description="Configure hgrc"
+	  buildArgs='/c echo $(repo-name)/ >> $(source-folder)\.hg\hgrc' />
+    
+    <exec executable="$(cmdExe)" 
+	  description="Copy exclude file to source folder"
+	  buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
+    
+    <exec executable="$(powershell)" 
+	  description = "hg update to branch"
+	  buildArgs = '-c "hg update $(branch)"' 
+	  baseDirectory="$(source-folder)" />
+    
     <conditional description="Update to tag">
       <conditions>
 	<compareCondition 
@@ -33,42 +50,33 @@
 	  <conditions>
 	    <folderExistsCondition folder="$(tag-folder)" />>
 	  </conditions>
-	  <tasks>
-	    <exec executable="$(powershell)" 
-		  description = "hg pull updates from source-folder into tag-folder"
-		  buildArgs = '-c "hg pull $(source-folder)"' 
-		  baseDirectory="$(tag-folder)" />
-	  </tasks>
+	  <tasks />
 	  <elseTasks>
-	    <exec executable="$(powershell)" 
-		  description = "hg clone source-folder into tag folder"
-		  buildArgs = '-c "hg clone $(source-folder) $(tag-folder)"' 
-		  baseDirectory="$(source-folder)"
-		  buildTimeoutSeconds="$(copy-source-timeout)" />
+	    <exec executable="$(cmdExe)" 
+		  baseDirectory="$(ccroot)"
+		  description="Copy source (timeout $(copy-source-timeout) seconds)"
+		  buildTimeoutSeconds="$(copy-source-timeout)"
+		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
 	  </elseTasks>
 	</conditional>
 	
 	<exec executable="$(powershell)" 
+	      description = "hg pull updates from source-folder"
+	      buildArgs = '-c "hg pull $(source-folder)"' 
+	      baseDirectory="$(tag-folder)" />
+	
+	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
-	      buildArgs = '-c "hg pull -r $(tag) $(source)"' 
+	      buildArgs = '-c "hg pull -r $(tag)"' 
 	      baseDirectory="$(tag-folder)" />
 	
 	<exec executable="$(powershell)" 
 	      description = "hg update to tag"
-	      buildArgs = '-c "hg update $(tag) -C"' 
+	      buildArgs = '-c "hg update $(tag)"' 
 	      baseDirectory="$(tag-folder)" />
       </tasks>
-      <elseTasks>
-	<exec executable="$(powershell)" 
-	      description = "hg update to branch"
-	      buildArgs = '-c "hg update $(branch)"' 
-	      baseDirectory="$(source-folder)" />
-      </elseTasks>
     </conditional>
     
-    <exec executable="$(cmdExe)" 
-	  description="Copy exclude file to source folder"
-	  buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
   </cb:define>
   
   <cb:define name="set-customer">
