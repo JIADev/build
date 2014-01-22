@@ -53,6 +53,7 @@
       clean="true"
       build="true"	
       unit-test="true"
+      web-test="true"
       data-test="false"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_760_QA" 
