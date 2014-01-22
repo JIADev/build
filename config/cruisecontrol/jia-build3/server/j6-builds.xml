@@ -56,7 +56,7 @@
       web-test="true"
       data-test="false"
       deployment-webserver="DEV-8900WEB1"
-      deployment-sitename="DEV_8900_760_QA" 
+      deployment-sitename="DEV_8900_760_CA" 
       redis-db="16"
       platform="AnyCpu"
       modules="AUTOSHIP"
