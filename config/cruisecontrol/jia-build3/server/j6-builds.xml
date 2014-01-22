@@ -61,6 +61,7 @@
       modules="AUTOSHIP"
       queueSuffix="-WebTest"
       sourceCheckInterval=""
+      db-server="DEV-8900sql1"
       />
   
 </cb:config-template>
