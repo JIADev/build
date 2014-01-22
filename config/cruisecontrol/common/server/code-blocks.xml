@@ -404,10 +404,19 @@
 	     projectFile="deployment.proj"
 	     targets="InstallSite"
 	     workingDirectory="$(project-folder)\Package">
-      <buildArgs>/p:SiteName="ccnet-$(project-name)" /p:WebServer="$(deployment-webserver)"</buildArgs>
+      <buildArgs>/p:SiteName="DEV_8900_760_QA" /p:WebServer="$(deployment-webserver)"</buildArgs>
     </msbuild>
   </cb:define>
 
+  <cb:define name="run-webtests">
+   <exec>
+      <description>Run unit tests for $(assembly)</description>
+      <executable>ncover.console.exe</executable>
+      <buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
+      <buildArgs>$(project-folder)\Core\Private\Lib\nunit-console.exe /nologo /runlist:testlist.txt *.WebTest.xml /out:$(pkgroot)\$(projectName)_WebTestResults.txt</buildArgs>
+      <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
+    </exec>
+  </cb:define>
   <cb:define name="standard-publishers">
     <!--
 	<merge>
