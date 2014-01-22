@@ -46,7 +46,7 @@
       modules="AUTOSHIP"
       />
   
-  <cb:v76testdeploy
+  <cb:v76build
       project-name="$(project-root)-DeployTest"
       branch = '760_QA'
       driver = 'CUST000'
@@ -54,9 +54,13 @@
       build="true"	
       unit-test="true"
       data-test="false"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_760_QA" 
       redis-db="16"
       platform="AnyCpu"
       modules="AUTOSHIP"
+      queueSuffix="-WebTest"
+      sourceCheckInterval=""
       />
   
 </cb:config-template>

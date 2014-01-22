@@ -397,26 +397,81 @@
   </cb:define>
   
   <cb:define name="msdeploy">
-    <exec executable="$(cmdExe)" buildArgs= '/C copy $(project-folder)\deployment.proj $(project-folder)\Package' />
-
-    <msbuild description="deploy build"
-	     executable="$(msbuild)"
-	     projectFile="deployment.proj"
-	     targets="InstallSite"
-	     workingDirectory="$(project-folder)\Package">
-      <buildArgs>/p:SiteName="DEV_8900_760_QA" /p:WebServer="$(deployment-webserver)"</buildArgs>
-    </msbuild>
+    <conditional description="Deploy">
+      <conditions>
+	<compareCondition>
+	  <value1>$(package)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-webserver)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-sitename)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
+	<exec executable="$(cmdExe)" buildArgs= '/C copy $(project-folder)\deployment.proj $(project-folder)\Package' />
+	
+	<msbuild description="deploy build"
+		 executable="$(msbuild)"
+		 projectFile="deployment.proj"
+		 targets="InstallSite"
+		 workingDirectory="$(project-folder)\Package">
+	  <buildArgs>/p:SiteName=$(deployment-sitename) /p:WebServer="$(deployment-webserver)"</buildArgs>
+	</msbuild>
+      </tasks>
+    </conditional>
   </cb:define>
 
   <cb:define name="run-webtests">
+    <conditional description="Run WebTests">
+      <conditions>
+	<compareCondition>
+	  <value1>$(web-test)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(package)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-webserver)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-sitename)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
    <exec>
-      <description>Run unit tests for $(assembly)</description>
-      <executable>ncover.console.exe</executable>
-      <buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
-      <buildArgs>$(project-folder)\Core\Private\Lib\nunit-console.exe /nologo /runlist:testlist.txt *.WebTest.xml /out:$(pkgroot)\$(projectName)_WebTestResults.txt</buildArgs>
+      <description>Run web tests for deployed site</description>
+      <executable>$(project-folder)\Core\Private\Lib\nunit-console.exe</executable>
+      <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
+      <buildArgs>/nologo /runlist:testlist.txt *.WebTest.xml /out:$(pkgroot)\$(projectName)_WebTestResults.txt</buildArgs>
       <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
     </exec>
+      </tasks>
+    </conditional>
   </cb:define>
+
   <cb:define name="standard-publishers">
     <!--
 	<merge>
