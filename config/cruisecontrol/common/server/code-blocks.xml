@@ -465,7 +465,7 @@
       <description>Run web tests for deployed site</description>
       <executable>$(project-folder)\Core\Private\Lib\nunit-console.exe</executable>
       <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
-      <buildArgs>/nologo /runlist:testlist.txt *.WebTest.xml /out:$(pkgroot)\$(projectName)_WebTestResults.txt</buildArgs>
+      <buildArgs>/nologo /runlist:testlist.txt *.WebTest.xml /out:$(pkgroot)\$(project-name)_WebTestResults.txt</buildArgs>
       <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
     </exec>
       </tasks>
