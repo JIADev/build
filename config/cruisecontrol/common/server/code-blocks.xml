@@ -553,7 +553,7 @@
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
-      <targets>RecreateDb</targets>
+      <targets>ForceRecreateDb</targets>
       <timeout>$(msbuild-recreatedb-timeout)
       
       </timeout>
