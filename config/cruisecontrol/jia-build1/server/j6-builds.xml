@@ -287,6 +287,15 @@
   <!-- CUST2086 -->
   
   <cb:customerbuild
+      project-name="CUST2086-QA-7.5.0"
+      branch = '2086_tags'
+      tag = "2086_QA"
+      driver = 'CUST2086'
+      repo-name="master"
+      sourceCheckInterval=""
+      />
+  
+  <cb:customerbuild
       project-name="CUST2086-7.5.0"
       branch = '2086_tags'
       tag = "2086_PRD"
