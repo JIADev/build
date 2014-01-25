@@ -32,7 +32,7 @@ function activatePart(p) {
     return el;
 }
 
-function saveForm() {    
+function saveForm() {
     saveFormToPrefs(document.getElementById("database_test"));
 }
 

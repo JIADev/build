@@ -130,20 +130,30 @@ function mkdir_r(dirOrig) {
 	}
 }
 
-var ie_writeFile = function (fname, data) {
+var ie_writeFile = function (fname, data, useUnicode) {
 	"use strict";
+	useUnicode = !!useUnicode;
+
+	alert(fname);
+
 	var fso, fileHandle;
 	fso = new ActiveXObject("Scripting.FileSystemObject");
-	fileHandle = fso.CreateTextFile(fname, true);
+	fileHandle = fso.CreateTextFile(fname, true, useUnicode);
 	fileHandle.write(data);
 	fileHandle.close();
 };
 
-var ie_readFile = function (fname) {
+var ie_readFile = function (fname, useUnicode) {
 	"use strict";
+	var triState = 0; // Default to Ascii
+	if (useUnicode) {
+		triState = -1; // Use Unicode
+	}
+
+
 	try {
 		var fso = new ActiveXObject("Scripting.FileSystemObject"),
-            filehandle = fso.OpenTextFile(fname, 1),
+            filehandle = fso.OpenTextFile(fname, 1, false, triState),  // ReadOnly, no create, open as unicode
             contents = filehandle.ReadAll();
 		filehandle.Close();
 		return contents;
