@@ -44,6 +44,7 @@
     <Content Include="Script\jsbeautifier\beautify-html.js" />
     <Content Include="Script\jsbeautifier\beautify.js" />
     <Content Include="Script\mdn_shims.js" />
+    <Content Include="Script\resource_editor.js" />
     <Content Include="Script\unmin_files.js" />
   </ItemGroup>
   <ItemGroup>
