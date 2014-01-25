@@ -340,7 +340,7 @@
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE-*"</buildArgs>
+      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE*"</buildArgs>
     </exec>
     <exec
 	executable="$(powershell)" 
@@ -361,13 +361,13 @@
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"</buildArgs>
+      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE*"</buildArgs>
     </exec>
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description="move releases to the package folder">
-      <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
+      <buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
     </exec>
   </cb:define>
   
