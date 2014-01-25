@@ -46,25 +46,24 @@
 	    ignoreCase="true" />
       </conditions>
       <tasks>
-	<conditional description="Delete entire tag folder">
+	<conditional description="Update tag folder">
 	  <conditions>
 	    <folderExistsCondition folder="$(tag-folder)" />>
 	  </conditions>
-	  <tasks>
+	  <tasks />
+	  <elseTasks>
 	    <exec executable="$(cmdExe)" 
-		  baseDirectory="$(ccroot)" 
-		  description="Delete entire tag folder" 
-		  successExitCodes="0"> 
-	      <buildArgs>/c "rmdir /s/q $(tag-folder)"</buildArgs>
-	    </exec>
-	  </tasks>
+		  baseDirectory="$(ccroot)"
+		  description="Copy source (timeout $(copy-source-timeout) seconds)"
+		  buildTimeoutSeconds="$(copy-source-timeout)"
+		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
+	  </elseTasks>
 	</conditional>
 	
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)"
-	      description="Copy source (timeout $(copy-source-timeout) seconds)"
-	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
+	<exec executable="$(powershell)" 
+	      description = "hg pull updates from source-folder"
+	      buildArgs = '-c "hg pull $(source-folder)"' 
+	      baseDirectory="$(tag-folder)" />
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
@@ -341,7 +340,7 @@
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE-*"</buildArgs>
+      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE*"</buildArgs>
     </exec>
     <exec
 	executable="$(powershell)" 
@@ -362,13 +361,13 @@
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"</buildArgs>
+      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE*"</buildArgs>
     </exec>
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description="move releases to the package folder">
-      <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
+      <buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
     </exec>
   </cb:define>
   
@@ -390,13 +389,90 @@
 		 targets="Package"
 		 workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(source-folder)</buildArgs>
+	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
 	</msbuild>
 	<cb:publish-package />
       </tasks>
     </conditional>
   </cb:define>
   
+  <cb:define name="msdeploy">
+    <conditional description="Deploy">
+      <conditions>
+	<compareCondition>
+	  <value1>$(package)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-webserver)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-sitename)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
+	<exec executable="$(cmdExe)" buildArgs= '/C copy $(project-folder)\deployment.proj $(project-folder)\Package' />
+	
+	<msbuild description="deploy build"
+		 executable="$(msbuild)"
+		 projectFile="deployment.proj"
+		 targets="InstallSite"
+		 workingDirectory="$(project-folder)\Package">
+	  <buildArgs>/p:SiteName=$(deployment-sitename) /p:WebServer="$(deployment-webserver)"</buildArgs>
+	</msbuild>
+      </tasks>
+    </conditional>
+  </cb:define>
+
+  <cb:define name="run-webtests">
+    <conditional description="Run WebTests">
+      <conditions>
+	<compareCondition>
+	  <value1>$(web-test)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(package)</value1>
+	  <value2>true</value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-webserver)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<compareCondition>
+	  <value1>$(deployment-sitename)</value1>
+	  <value2></value2>
+	  <evaluation>NotEqual</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+	<fileExistsCondition file="$(project-folder)\PrivateBuild\$(driver).WebTest.dll" />
+      </conditions>
+      <tasks>
+   <exec>
+      <description>Run web tests for deployed site</description>
+      <executable>$(project-folder)\Core\Private\Lib\nunit-console.exe</executable>
+      <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
+      <buildArgs>/nologo /runlist:testlist.txt $(driver).WebTest.dll /out:$(pkgroot)\$(project-name)_WebTestResults.txt</buildArgs>
+      <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
+    </exec>
+      </tasks>
+    </conditional>
+  </cb:define>
+
   <cb:define name="standard-publishers">
     <!--
 	<merge>
@@ -451,7 +527,7 @@
       </tasks>
     </conditional>
   </cb:define>
-  
+
   <cb:define name="msbuild-bootstrap">
     <msbuild description="bootstrap">
       <executable>$(msbuild)</executable>
@@ -477,7 +553,7 @@
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
-      <targets>RecreateDb</targets>
+      <targets>ForceRecreateDb</targets>
       <timeout>$(msbuild-recreatedb-timeout)
       
       </timeout>

@@ -39,7 +39,8 @@
       source="$(repo-source-root)/customers/$(repo-name)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://$(ccBuildServer)/ccnet/"
-      />
+      deployment-webserver=""
+      deployment-sitename="" />
 
   <!-- Build Switches -->
   <cb:define
@@ -59,6 +60,7 @@
       pull-options=""
       tag = ""
       unit-test="true"
+      web-test="false"
       package="true"
       forceclean="true"
       recreate-db="true"
@@ -89,6 +91,7 @@
       msbuild-recreatedb-timeout="300"
       msbuild-patch-timeout="900"
       ncover-timeout="57600"
+      webtest-timeout="57600"
       get-reports-timeout="600"
       sourcecontrol-timeout="120000"
       />

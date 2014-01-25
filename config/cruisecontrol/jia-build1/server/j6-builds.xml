@@ -13,34 +13,34 @@
   
   <cb:legacybuild
       project-name="CUST077-7.2.11"
-      tag="077_PROD"
-      branch="077_PROD_tags"
+      tag="077_PRD"
+      branch="077_PRD_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="true"
-      queueSuffix="-PROD"
+      queueSuffix="-PRD"
       install-patches="true"
       repo-name="master"
       />
   
   <cb:legacybuild
       project-name="CUST077-7.2.11-nopatches"
-      tag="077_PROD"
-      branch="077_PROD_tags"
+      tag="077_PRD"
+      branch="077_PRD_tags"
       driver = 'CUST077'
       exclude-files="false"
       package="true"
       unit-test="false"
       recreate-db="false"
-      queueSuffix="-PROD-nopatches"
+      queueSuffix="-PRD-nopatches"
       repo-name="master"
       install-patches="false"
       />
   
   <cb:legacybuild
-      project-name="CUST077_UAT"
+      project-name="CUST077-UAT"
       tag="077_UAT"
       branch="077_UAT_tags"
       driver = 'CUST077'
@@ -52,6 +52,7 @@
       install-patches="true"
       repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
+      sourceCheckInterval=""
       />
 
   <cb:legacybuild
@@ -67,6 +68,7 @@
       install-patches="false"
       repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
+      sourceCheckInterval=""
       />
 
   <cb:legacybuild
@@ -82,8 +84,25 @@
       install-patches="false"
       repo-name="master"
       dotNetFrameworkPath="$(dotNet4x86Path)"
+      sourceCheckInterval=""
       />
 
+  <cb:legacybuild
+      project-name="CUST077_DEC"
+      tag="077_DEC"
+      branch="077_DEC_tags"
+      driver = 'CUST077'
+      exclude-files="false"
+      package="true"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      queueSuffix="-DEC"
+      repo-name="master"
+      sourceCheckInterval=""
+      />
+  
+<!--
   <cb:legacybuild
       project-name="CUST077_DEV"
       tag="077_DEV"
@@ -96,8 +115,9 @@
       install-patches="true"
       queueSuffix="-DEV"
       repo-name="master"
+      sourceCheckInterval=""
       />
-  
+  -->
   <!-- CUST2090 -->
   
   <cb:customerbuild
@@ -107,12 +127,6 @@
       />
   
   <!-- CUST2092 -->
-  
-  <cb:customerbuild
-      branch = '2092_REL1'
-      driver = 'CUST2092'
-      exclude-files="true"
-      />
   
   <cb:customerbuild
       branch = '2092_R2'
@@ -167,37 +181,40 @@
   <!-- CUST000 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST000-7.5.0"
       branch = '7.5.0'
       driver = 'CUST000'
-      exclude-files="true"
+      repo-name="master"
       package="false"
       />
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST000-7.5.2"
       branch = '7.5.2'
       driver = 'CUST000'
-      exclude-files="true"
+      repo-name="master"
+      package="false"
+      />
+  
+  <cb:customerbuild
+      project-name="CUST000-7.5.3"
+      branch = '7.5.3'
+      driver = 'CUST000'
+      repo-name="master"
+      package="false"
+      />
+  
+  <cb:customerbuild
+      project-name="CUST000-7.5.4"
+      branch = '7.5.4'
+      driver = 'CUST000'
+      repo-name="master"
       package="false"
       />
   
   <cb:customerbuild
       project-name="$(project-root)"
-      branch = '7.5.3'
-      driver = 'CUST000'
-      exclude-files="true"
-      />
-  
-  <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.5.4'
-      driver = 'CUST000'
-      exclude-files="true"
-      />
-  
-  <cb:customerbuild
-      branch = '000_2092_REL1'
+      branch = '7.5.5'
       driver = 'CUST000'
       exclude-files="true"
       />
@@ -205,98 +222,153 @@
   <!-- CUST001 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
+      project-name="CUST001-7.5.2"
       branch = '7.5.2'
       driver = 'CUST001'
-      exclude-files="true"
+      repo-name="master"
+      package="false"
       />
   
   <!-- CUST065 -->
   
   <cb:customerbuild
-      branch = '065_7.5.0'
+      project-name="CUST065-7.5.0"
+      branch = '065_tags'
+      tag = "065_PRD"
       driver = 'CUST065'
-      exclude-files="true"
-      />
-  
-  <cb:customerbuild
-      branch = '065_7.5.0.B'
-      driver = 'CUST065'
-      exclude-files="true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- CUST069 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.4.4'
+      project-name="CUST069-7.4.4"
+      branch = '069_tags'
+      tag = "069_PRD"
       driver = 'CUST069'
+      repo-name="master"
+      sourceCheckInterval=""
       />
-  
+
   <!-- CUST2069 -->
   
   <cb:customerbuild
-      branch = '2069_7.5.3'
+      project-name="CUST2069-7.5.3"
+      branch = '2069_tags'
+      tag = "2069_PRD"
       driver = 'CUST2069'
-      exclude-files="true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
-  
-  
+
   <!-- CUST2083 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.4.1'
+      project-name="CUST2083-7.4.1"
+      branch = '2083_tags'
+      tag = "2083_PRD"
       driver = 'CUST2083'
+      repo-name="master"
+      sourceCheckInterval=""
+      />
+
+  <!-- CUST2085 -->
+  
+  <cb:customerbuild
+      project-name="CUST2085-7.4.0"
+      branch = '2085_tags'
+      tag = "2085_PRD"
+      driver = 'CUST2085'
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- CUST2086 -->
   
   <cb:customerbuild
-      branch = '2086_7.5.0'
+      project-name="CUST2086-QA-7.5.0"
+      branch = '2086_tags'
+      tag = "2086_QA"
       driver = 'CUST2086'
-      exclude-files="true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
+  <cb:customerbuild
+      project-name="CUST2086-7.5.0"
+      branch = '2086_tags'
+      tag = "2086_PRD"
+      driver = 'CUST2086'
+      repo-name="master"
+      sourceCheckInterval=""
+      />
+  
+  <!-- CUST2087 -->
+  
+  <cb:customerbuild
+      project-name="CUST2087-7.4.4"
+      branch = '2087_tags'
+      tag = "2087_PRD"
+      driver = 'CUST2087'
+      repo-name="master"
+      sourceCheckInterval=""
+      />
+
   <!-- CUST2088 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.5.2'
+      project-name="CUST2088-7.5.2"
+      branch = '2088_tags'
+      tag = "2088_PRD"
       driver = 'CUST2088'
+      repo-name="master"
+      sourceCheckInterval=""
       />
-  
+
   <!-- CUST2089 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.4.5'
+      project-name="CUST2089-7.4.5"
+      branch = '2089_tags'
+      tag = "2089_PRD"
       driver = 'CUST2089'
-      exclude-files="true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
-  
+
+  <cb:customerbuild
+      project-name="CUST2089-UAT-7.4.5"
+      branch = '2089_tags'
+      tag = "2089_UAT"
+      driver = 'CUST2089'
+      repo-name="master"
+      sourceCheckInterval=""
+      />
+
   <!-- CUST2092 -->
   
   <cb:customerbuild
-      project-name="$(project-root)"
-      branch = '7.5.4'
+      branch = '2092_7.5.5'
       driver = 'CUST2092'
       exclude-files="true"
-      package="false"
       />
   
   <!-- CUST2093 -->
   
   <cb:customerbuild
-      branch = '2093_7.5.2'
+      project-name="CUST2093-7.5.2"
+      branch = '2093_tags'
+      tag = "2093_PRD"
       driver = 'CUST2093'
-      exclude-files = "true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
-  
+
   <!-- CUST2094 -->
   
   <cb:customerbuild
-      branch = '2094_7.5.2'
+      branch = '2094_7.5.5'
       driver = 'CUST2094'
       exclude-files = "true"
       />
@@ -315,10 +387,10 @@
   <cb:customerbuild
       project-name="CUST2082-7.3.3"
       branch = '2082_tags'
-      tag = "2082_PROD"
+      tag = "2082_PRD"
       driver = 'CUST2082'
       repo-name="master"
-      configuration="Debug"
+      sourceCheckInterval=""
       />
   
   <!-- bbd-dev bookmark gone
