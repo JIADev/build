@@ -35,6 +35,7 @@
     <Content Include="css\layout.css" />
     <Content Include="html\database_tests.hta" />
     <Content Include="html\Index.hta" />
+    <Content Include="html\resource_editor.hta" />
     <Content Include="html\unmin_files.hta" />
     <Content Include="Script\common.js" />
     <Content Include="Script\database_control.js" />
