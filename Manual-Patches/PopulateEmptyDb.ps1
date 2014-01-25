@@ -112,7 +112,7 @@ en "insert into [Security].[RoleAccountClass] ([AccountClass], [Role]) VALUES (1
 en "insert into [Security].[RoleAccountClass] ([AccountClass], [Role]) VALUES (18, 16)"
 en "insert into [Security].[RoleAccountClass] ([AccountClass], [Role]) VALUES (18, 17)"
 
-$l = "insert into [Genealogy].[ActivityCenter] ([Code], [Account], [Number], [JoinDate], [RenewalDate], [ModifiedDate], [PlaceHolder]) VALUES (###, ---, 1, '2007-01-30 00:00:00.000', '2008-01-23 00:00:00.000', '2013-01-29 16:09:36.367', 0)"
+$l = "insert into [Genealogy].[ActivityCenter] ([Code], [Account], [Number], [JoinDate], [RenewalDate], [ModifiedDate], [PlaceHolder]) VALUES (###, ---, 1, '2007-01-30 00:00:00.000', '2008-01-23 00:00:00.000', '2013-01-29 16:09:36.367', 1)"
 $l = $l -replace "###","$secUserId"
 $l = $l -replace "---","$accountId"
 write-host $l
