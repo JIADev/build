@@ -340,7 +340,7 @@
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE*"</buildArgs>
+      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE-*"</buildArgs>
     </exec>
     <exec
 	executable="$(powershell)" 
@@ -361,13 +361,13 @@
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE*"</buildArgs>
+      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE-*"</buildArgs>
     </exec>
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description="move releases to the package folder">
-      <buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
+      <buildArgs>-c "mv $(project-folder)\RELEASE-* $(pkgroot)\$(project-name)"</buildArgs>
     </exec>
   </cb:define>
   
@@ -395,7 +395,7 @@
       </tasks>
     </conditional>
   </cb:define>
-
+  
   <cb:define name="msdeploy">
     <conditional description="Deploy">
       <conditions>
@@ -432,46 +432,6 @@
     </conditional>
   </cb:define>
 
-  <cb:define name="msdeploy2">
-    <conditional description="Deploy">
-      <conditions>
-	<compareCondition>
-	  <value1>$(deployment-webserver)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<compareCondition>
-	  <value1>$(deployment-sitename)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
-	<exec executable="$(cmdExe)" 
-		  baseDirectory="$(ccroot)"
-		  description="Copy deployment package to project folder"
-		  buildTimeoutSeconds="$(copy-source-timeout)"
-		  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)" "$(project-folder)"' />
-
-	<exec executable="$(cmdExe)" 
-		  baseDirectory="$(ccroot)"
-		  description="Copy deployment package to project folder"
-		  buildTimeoutSeconds="$(copy-source-timeout)"
-		  buildArgs='/c xcopy /s/e/y/q/i "$(private-build-root)\$(project-to-deploy)" "$(project-folder)"' />
-
-	<msbuild description="deploy build"
-		 executable="$(msbuild)"
-		 projectFile="deployment.proj"
-		 targets="InstallSite"
-		 workingDirectory="$(project-folder)\Release">
-	  <buildArgs>/p:SiteName=$(deployment-sitename) /p:WebServer="$(deployment-webserver)"</buildArgs>
-	</msbuild>
-      </tasks>
-    </conditional>
-  </cb:define>
-
   <cb:define name="run-webtests">
     <conditional description="Run WebTests">
       <conditions>
@@ -483,41 +443,6 @@
 	</compareCondition>
 	<compareCondition>
 	  <value1>$(package)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<compareCondition>
-	  <value1>$(deployment-webserver)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<compareCondition>
-	  <value1>$(deployment-sitename)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<fileExistsCondition file="$(project-folder)\PrivateBuild\$(driver).WebTest.dll" />
-      </conditions>
-      <tasks>
-   <exec>
-      <description>Run web tests for deployed site</description>
-      <executable>$(project-folder)\Core\Private\Lib\nunit-console.exe</executable>
-      <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
-      <buildArgs>/nologo /runlist:testlist.txt $(driver).WebTest.dll /out:$(pkgroot)\$(project-name)_WebTestResults.txt</buildArgs>
-      <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
-    </exec>
-      </tasks>
-    </conditional>
-  </cb:define>
-
-  <cb:define name="run-webtests2">
-    <conditional description="Run WebTests">
-      <conditions>
-	<compareCondition>
-	  <value1>$(web-test)</value1>
 	  <value2>true</value2>
 	  <evaluation>equal</evaluation>
 	  <ignoreCase>true</ignoreCase>

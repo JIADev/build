@@ -64,16 +64,5 @@
       sourceCheckInterval=""
       db-server="DEV-8900sql1"
       />
-
-  <cb:v76deployment
-      project-name="$(project-root)-CVS"
-      project-to-deploy="CUST000-7.6.0"
-      deployment-webserver="DEV-8900WEB1"
-      deployment-sitename="DEV_8900_760_CVS"
-      redis-db="16"
-      driver = 'CUST000'
-      queueSuffix="-CVS"
-      db-Server="DEV-8900sql1"
-      />
-
+  
 </cb:config-template>
