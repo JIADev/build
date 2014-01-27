@@ -349,10 +349,14 @@
   <!-- CUST2092 -->
   
   <cb:customerbuild
-      branch = '2092_7.5.5'
+      project-name="CUST2092-7.5.5"
+      branch = '2092_tags'
+      tag = "2092_PRD"
       driver = 'CUST2092'
-      exclude-files="true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
+
   
   <!-- CUST2093 -->
   
