@@ -65,7 +65,7 @@
       db-server="DEV-8900sql1"
       />
   
-  <cb:v76deployment
+  <cb:v76build
       project-name="$(project-root)-CVS2"
       branch = '760_QA'
       driver = 'CUST000'
