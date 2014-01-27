@@ -426,12 +426,6 @@
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
-	description="copy corelib to the privatebuild folder"
-	buildArgs='/c xcopy /s/e/y/q/i "$(project-folder)\Core\Private\Lib" "$(project-folder)\PrivateBuild\CoreLib"' />
-
-    <exec 
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
 	description="copy settings files to the privatebuild folder"
 	buildArgs='/c xcopy /s/e/y/q/i "$(project-folder)\*-settings.xml" "$(project-folder)\PrivateBuild"' />
 
