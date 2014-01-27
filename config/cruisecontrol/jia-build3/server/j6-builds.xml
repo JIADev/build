@@ -66,7 +66,7 @@
       />
   
   <cb:v76deployment
-      project-name="$(project-root)-CVS"
+      project-name="$(project-root)-CVS2"
       branch = '760_QA'
       driver = 'CUST000'
       clean="true"
