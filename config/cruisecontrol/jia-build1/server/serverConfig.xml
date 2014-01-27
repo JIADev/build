@@ -7,6 +7,7 @@
       ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
       ccroot="f:\cc"
       pkgroot="f:\pkg"
+      private-build-root="f:\cc\pb"
       srcroot="f:\cc\src"
       artifactroot="f:\cc\artifacts"
       ccNetLogDir="f:\ccnet.log" 
