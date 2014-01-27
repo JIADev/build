@@ -59,6 +59,7 @@
       hgBranch="default"
       pull-options=""
       tag = ""
+      build="false"
       unit-test="true"
       web-test="false"
       package="true"
