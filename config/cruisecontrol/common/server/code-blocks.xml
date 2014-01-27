@@ -517,7 +517,7 @@
       <tasks>
 	<exec>
 	  <description>Run web tests for deployed site</description>
-	  <executable>$(project-folder)\PrivateBuild\CoreLib\nunit-console.exe</executable>
+	  <executable>$(nunit)\nunit-console.exe</executable>
 	  <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
 	  <buildArgs>/nologo /runlist:testlist.txt $(driver).WebTest.dll /out:$(pkgroot)\$(project-name)_WebTestResults.txt</buildArgs>
 	  <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
@@ -632,7 +632,7 @@
       <description>Run unit tests for $(assembly)</description>
       <executable>ncover.console.exe</executable>
       <buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
-      <buildArgs>$(project-folder)\Core\Private\Lib\nunit-console.exe /nologo /framework=4.0.30319 "/xml=TestResult\$(assembly)-test.xml" //x Coverage\$(assembly)-coverage.xml //at Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
+      <buildArgs>$(nunit)\nunit-console.exe /nologo /framework=4.0.30319 "/xml=TestResult\$(assembly)-test.xml" //x Coverage\$(assembly)-coverage.xml //at Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
       <baseDirectory>$(project-folder)</baseDirectory>
     </exec>
   </cb:define>
