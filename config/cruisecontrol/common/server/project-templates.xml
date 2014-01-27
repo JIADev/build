@@ -104,7 +104,7 @@
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <tasks description="Deployment">
-	<cb:msdeploy2 />
+	<cb:run-webtests2 />
      </tasks>
       <publishers>
 	<merge>
