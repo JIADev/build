@@ -96,16 +96,37 @@
     </project>
   </cb:define>
 
-<cb:define name="v76deployment">
+  <cb:define name="v76deployment">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="ccnet-$(project-name)-DEV" />
     <cb:define feature="$(relativefeature)" />
+    
     <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
+      <cb:if expr="'$(sourceCheckInterval)'!=''">
+	<triggers>
+	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
+	</triggers>
+      </cb:if>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <tasks description="Deployment">
-	<cb:run-webtests2 />
-     </tasks>
+      <cb:sourcecontrol />
+      <prebuild>
+	<cb:update-source />
+	<cb:force-clean />
+      </prebuild>
+      <tasks description="Bootstrap setup">
+	<cb:copy-logger-local />
+	<cb:msbuild-configure />
+	<cb:msbuild-bootstrap />
+	<cb:msbuild-setup />
+	<cb:msbuild-install-patches />
+	<cb:msbuild-build />
+	<cb:setup-unittests />
+	<cb:get-reports />
+	<cb:msbuild-package />
+	<cb:msdeploy />
+	<cb:run-webtests />
+      </tasks>
       <publishers>
 	<merge>
 	  <files>
@@ -123,6 +144,6 @@
       </externalLinks>
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
-</cb:define>
-  
+  </cb:define>
+
 </cb:config-template>
