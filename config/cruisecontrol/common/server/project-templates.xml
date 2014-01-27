@@ -102,11 +102,6 @@
     <cb:define feature="$(relativefeature)" />
     
     <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
-      <cb:if expr="'$(sourceCheckInterval)'!=''">
-	<triggers>
-	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
-	</triggers>
-      </cb:if>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
@@ -115,15 +110,6 @@
 	<cb:force-clean />
       </prebuild>
       <tasks description="Bootstrap setup">
-	<cb:copy-logger-local />
-	<cb:msbuild-configure />
-	<cb:msbuild-bootstrap />
-	<cb:msbuild-setup />
-	<cb:msbuild-install-patches />
-	<cb:msbuild-build />
-	<cb:setup-unittests />
-	<cb:get-reports />
-	<cb:msbuild-package />
 	<cb:msdeploy />
 	<cb:run-webtests />
       </tasks>
