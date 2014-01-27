@@ -369,12 +369,19 @@
   </cb:define>
   
   <cb:define name="package-cleanup">
-    <exec 
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE*"</buildArgs>
-    </exec>
+    <conditional>
+      <conditions>
+	<folderExistsCondition folder="$(project-folder)" />>
+      </conditions>
+      <tasks>
+	<exec 
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description = "remove old releases">
+	  <buildArgs>-c "rm -r -fo $(project-folder)\RELEASE*"</buildArgs>
+	</exec>
+      </tasks>
+    </conditional>
     <exec
 	executable="$(powershell)" 
 	baseDirectory="$(source-folder)"
@@ -390,12 +397,19 @@
 	description="Create package folder if needed">
       <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
     </exec>
-    <exec
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE*"</buildArgs>
-    </exec>
+    <conditional>
+      <conditions>
+	<folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
+      </conditions>
+      <tasks>
+	<exec
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description = "remove old releases">
+	  <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE*"</buildArgs>
+	</exec>
+      </tasks>
+    </conditional>
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
@@ -411,12 +425,19 @@
 	description="Create package folder if needed">
       <buildArgs>/c "md -F $(private-build-root)\$(project-name)"</buildArgs>
     </exec>
-    <exec
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description = "remove old releases">
-      <buildArgs>-c "rm -r -fo $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
-    </exec>
+    <conditional>
+      <conditions>
+	<folderExistsCondition folder="$(private-build-root)\$(project-name)\PrivateBuild" />>
+      </conditions>
+      <tasks>
+	<exec
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description = "remove old PrivateBuild">
+	  <buildArgs>-c "rm -r -fo $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
+	</exec>
+      </tasks>
+    </conditional>
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
