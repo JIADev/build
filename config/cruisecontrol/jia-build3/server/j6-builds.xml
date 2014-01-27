@@ -66,22 +66,14 @@
       />
   
   <cb:v76build
-      project-name="$(project-root)-CVS2"
-      branch = '760_QA'
+      project-name="$(project-root)-CVS"
+      branch = '7.6.0'
       driver = 'CUST000'
       clean="true"
-      build="true"	
-      unit-test="true"
-      web-test="true"
-      data-test="false"
-      deployment-webserver="DEV-8900WEB1"
-      deployment-sitename="DEV_8900_760_CA" 
-      redis-db="16"
+      build="true"
+      data-test="true"
+      redis-db="14"
       platform="AnyCpu"
-      modules="AUTOSHIP"
-      queueSuffix="-WebTest"
-      sourceCheckInterval=""
-      db-server="DEV-8900sql1"
       />
   
 </cb:config-template>
