@@ -95,5 +95,35 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
+
+<cb:define name="v76deployment">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
+    <cb:define db-name="ccnet-$(project-name)-DEV" />
+    <cb:define feature="$(relativefeature)" />
+    <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
+      <tasks description="Deployment">
+	<cb:msdeploy2 />
+	<cb:run-webtests2 />
+     </tasks>
+      <publishers>
+	<merge>
+	  <files>
+	    <file>TestResult\*.xml</file>
+	    <file>Coverage\SymbolModule.xml</file>
+	    <file>TestResult\FxCop-results.xml</file>
+	    <file action="Copy">NDepend\*</file>
+	  </files>
+	</merge>
+	<xmllogger />
+	<statistics />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+</cb:define>
   
 </cb:config-template>
