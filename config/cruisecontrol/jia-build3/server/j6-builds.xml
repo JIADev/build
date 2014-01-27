@@ -47,7 +47,7 @@
       />
   
   <cb:v76deployment
-      project-name="$(project-root)-DeployTest"
+      project-name="CUST000-760_QA-DeployTest"
       driver = 'CUST000'
       web-test="true"
       project-to-deploy="CUST000-760_QA"
