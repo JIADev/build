@@ -372,9 +372,11 @@
   <!-- CUST2094 -->
   
   <cb:customerbuild
-      branch = '2094_7.5.5'
+      project-name="CUST2094-7.5.5"
+      branch = '7.5.5'
       driver = 'CUST2094'
-      exclude-files = "true"
+      repo-name="master"
+      package="true"
       />
   
   <!-- "default" branches -->
