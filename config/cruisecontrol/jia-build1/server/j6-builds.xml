@@ -121,9 +121,12 @@
   <!-- CUST2090 -->
   
   <cb:customerbuild
-      branch = '2090_R2'
+      project-name="CUST2090-7.5.4"
+      branch = '2090_tags'
+      tag = "2090_STG"
       driver = 'CUST2090'
-      exclude-files="true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- CUST2092 -->
