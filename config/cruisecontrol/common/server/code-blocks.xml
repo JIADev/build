@@ -448,7 +448,7 @@
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description="copy settings files to the privatebuild folder"
-	buildArgs='/c xcopy /s/e/y/q/i "$(project-folder)\*-settings.xml" "$(private-build-root)\PrivateBuild"' />
+	buildArgs='/c copy "$(project-folder)\*-settings.xml" "$(private-build-root)\PrivateBuild"' />
 
   </cb:define>
   
