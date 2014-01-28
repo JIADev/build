@@ -108,6 +108,7 @@
 	<cb:force-clean-deployment-project />
       </prebuild>
       <tasks description="Deploy and test">
+	<cb:msbuild-deploy-configure />
 	<cb:msbuild-install-patches />
 	<cb:msdeploy />
 	<cb:run-webtests />
