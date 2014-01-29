@@ -22,6 +22,7 @@
       recreate-db="true"
       queueSuffix="-PRD"
       install-patches="true"
+      sourceCheckInterval=""
       repo-name="master"
       />
   
@@ -35,6 +36,7 @@
       unit-test="false"
       recreate-db="false"
       queueSuffix="-PRD-nopatches"
+      sourceCheckInterval=""
       repo-name="master"
       install-patches="false"
       />
