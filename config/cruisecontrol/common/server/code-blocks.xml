@@ -554,6 +554,11 @@
 	<fileExistsCondition file="$(project-folder)\PrivateBuild\$(driver).WebTest.dll" />
       </conditions>
       <tasks>
+	<exec executable="$(cmdExe)" 
+	      description="Copy sql-settings file into PrivateBuild"
+	      buildArgs='/c copy /y "$(project-folder)\Release\sql-settings.xml" "$(project-folder)\PrivateBuild"' />
+    
+
 	<exec>
 	  <description>Run web tests for deployed site</description>
 	  <executable>$(nunit)\nunit-console.exe</executable>
