@@ -140,7 +140,6 @@
       branch = '2090_REQ17'
       driver = 'CUST2090'
       repo-name="master"
-      sourceCheckInterval=""
       />
   
   <cb:customerbuild
@@ -148,7 +147,6 @@
       branch = '2090_REQ21'
       driver = 'CUST2090'
       repo-name="master"
-      sourceCheckInterval=""
       />
   
   <!-- CUST2092 -->
