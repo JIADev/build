@@ -495,7 +495,7 @@
 	</compareCondition>
       </conditions>
       <tasks>
-	<msbuild description="deploy build"
+	<msbuild description="Configure sql-settings"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="Configure"
@@ -503,7 +503,7 @@
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)</buildArgs>
 	</msbuild>
 
-	<msbuild description="deploy build"
+	<msbuild description="Reinstalling Database"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
@@ -511,7 +511,7 @@
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer="$(db-server) /p:Cust=$(driver)"</buildArgs>
 	</msbuild>
 
-	<msbuild description="deploy build"
+	<msbuild description="Deploying Sites"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="InstallSite"
