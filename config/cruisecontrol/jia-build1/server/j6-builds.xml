@@ -142,17 +142,19 @@
   <!-- CUST2090 -->
   
   <cb:customerbuild
-      branch = '2090-REQ17'
+      project-name="CUST2090-REQ17"
+      branch = '2090_REQ17'
       driver = 'CUST2090'
-      exclude-files="true"
-      package="false"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <cb:customerbuild
-      branch = '2090-REQ21'
+      project-name="CUST2090-REQ21"
+      branch = '2090_REQ21'
       driver = 'CUST2090'
-      exclude-files="true"
-      package="false"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- CUST2092 -->
@@ -385,15 +387,6 @@
   
   <!-- "default" branches -->
   
-  <!--  Requires msbuild for .NET 2.0  No longer configured correctly
-       <cb:customerbuild
-       branch = 'default'
-       driver = 'CUST043'
-       configuration="Debug"
-       protect="True"
-       />
-  -->  
-  
   <cb:customerbuild
       project-name="CUST2082-7.3.3"
       branch = '2082_tags'
@@ -402,14 +395,5 @@
       repo-name="master"
       sourceCheckInterval=""
       />
-  
-  <!-- bbd-dev bookmark gone
-       <cb:customerbuild
-       branch = 'default'
-       bookmark = 'bbd-dev'
-       driver = 'CUST2087'
-       include-source = 'true'
-       />
-  -->
   
 </cb:config-template>
