@@ -177,7 +177,7 @@
 	  baseDirectory="$(ccroot)"
 	  description="Copy deployment package to project folder"
 	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)" "$(project-folder)"' />
+	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE" "$(project-folder)\RELEASE"' />
     
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
@@ -500,7 +500,7 @@
 		 projectFile="deployment.proj"
 		 targets="Configure"
 		 workingDirectory="$(project-folder)\Release">
-	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer="$(db-server) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)"</buildArgs>
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)</buildArgs>
 	</msbuild>
 
 	<msbuild description="deploy build"
