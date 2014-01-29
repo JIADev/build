@@ -55,7 +55,7 @@
       deployment-sitename="DEV_8900_760_CA" 
       db-server="DEV-8900sql1"
       redis-server="qas-redis1"
-      redis-db="10"
+      redis-db="12"
       />
   
 </cb:config-template>
