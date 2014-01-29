@@ -96,6 +96,7 @@
       webtest-timeout="57600"
       get-reports-timeout="600"
       sourcecontrol-timeout="120000"
+      triggerTime="20:00"
       />
   
 </cb:config-template>
