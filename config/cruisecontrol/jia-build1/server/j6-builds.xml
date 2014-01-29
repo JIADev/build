@@ -131,14 +131,6 @@
       sourceCheckInterval=""
       />
   
-  <!-- CUST2092 -->
-  
-  <cb:customerbuild
-      branch = '2092_R2'
-      driver = 'CUST2092'
-      exclude-files="true"
-      />
-  
   <!-- req branches -->
   
   <!-- CUST2090 -->
@@ -162,25 +154,27 @@
   <!-- CUST2092 -->
   
   <cb:customerbuild
-      project-name="CUST2092_REQ12"
-      branch = '2092_REQ12.B'
+      project-name="CUST2092-REQ12"
+      branch = '2090_REQ12'
       driver = 'CUST2092'
-      exclude-files="true"
-      package="false"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <cb:customerbuild
-      branch = '2092_REQ13'
+      project-name="CUST2092-REQ13"
+      branch = '2090_REQ13'
       driver = 'CUST2092'
-      exclude-files="true"
-      package="false"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <cb:customerbuild
-      branch = '2092_REQ17'
+      project-name="CUST2092-REQ17"
+      branch = '2090_REQ17'
       driver = 'CUST2092'
-      exclude-files="true"
-      package="true"
+      repo-name="master"
+      sourceCheckInterval=""
       />
   
   <!-- version branches -->  
