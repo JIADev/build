@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   
-  <!-- 7.4.x and 7.5.x build project (maybe works with 7.3.x?) -->
+  <!-- 7.3.x, 7.4.x, and 7.5.x build project -->
   
   <cb:define name="customerbuild">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
@@ -108,8 +108,6 @@
 	<cb:force-clean-deployment-project />
       </prebuild>
       <tasks description="Deploy and test">
-	<cb:msbuild-deploy-configure />
-	<cb:msbuild-install-patches />
 	<cb:msdeploy />
 	<cb:run-webtests />
       </tasks>

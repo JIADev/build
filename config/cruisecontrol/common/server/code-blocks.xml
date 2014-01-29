@@ -498,6 +498,22 @@
 	<msbuild description="deploy build"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
+		 targets="Configure"
+		 workingDirectory="$(project-folder)\Release">
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer="$(db-server) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)"</buildArgs>
+	</msbuild>
+
+	<msbuild description="deploy build"
+		 executable="$(msbuild)"
+		 projectFile="deployment.proj"
+		 targets="ForceReinstallDatabase"
+		 workingDirectory="$(project-folder)\Release">
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer="$(db-server) /p:Cust=$(driver)"</buildArgs>
+	</msbuild>
+
+	<msbuild description="deploy build"
+		 executable="$(msbuild)"
+		 projectFile="deployment.proj"
 		 targets="InstallSite"
 		 workingDirectory="$(project-folder)\Release">
 	  <buildArgs>/p:SiteName=$(deployment-sitename) /p:WebServer="$(deployment-webserver)"</buildArgs>
@@ -570,17 +586,6 @@
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
       <targets>ShowConfig</targets>
-      <timeout>$(msbuild-configure-timeout)</timeout>
-    </msbuild>
-  </cb:define>
-  
-  <cb:define name="msbuild-deploy-configure">
-    <exec executable="$(powershell)" description = "Clear old config" buildArgs = '-c "rm -force Config.targets*"' />
-    <msbuild description="configure">
-      <executable>$(msbuild)</executable>
-      <projectFile>deployment.proj</projectFile>
-      <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(source-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)"</buildArgs>
-      <targets>Configure</targets>
       <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
   </cb:define>
