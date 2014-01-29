@@ -508,7 +508,15 @@
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
 		 workingDirectory="$(project-folder)\Release">
-	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer="$(db-server) /p:Cust=$(driver)"</buildArgs>
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver)</buildArgs>
+	</msbuild>
+
+	<msbuild description="Flushing RedisCache"
+		 executable="$(msbuild)"
+		 projectFile="deployment.proj"
+		 targets="FlushRedis"
+		 workingDirectory="$(project-folder)\Release">
+	  <buildArgs>/p:CacheDatabase=$(redis-db) /p:CacheServer=$(redis-server) /p:Cust=$(driver)</buildArgs>
 	</msbuild>
 
 	<msbuild description="Deploying Sites"
@@ -516,7 +524,7 @@
 		 projectFile="deployment.proj"
 		 targets="InstallSite"
 		 workingDirectory="$(project-folder)\Release">
-	  <buildArgs>/p:SiteName=$(deployment-sitename) /p:WebServer="$(deployment-webserver)"</buildArgs>
+	  <buildArgs>/p:SiteName="$(deployment-sitename)" /p:WebServer=$(deployment-webserver)</buildArgs>
 	</msbuild>
       </tasks>
     </conditional>
