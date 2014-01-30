@@ -16,7 +16,7 @@
       tag="077_PRD"
       branch="077_PRD_tags"
       driver = 'CUST077'
-      exclude-files="false"
+      exclude-files="true"
       package="true"
       unit-test="false"
       recreate-db="true"
@@ -31,7 +31,7 @@
       tag="077_PRD"
       branch="077_PRD_tags"
       driver = 'CUST077'
-      exclude-files="false"
+      exclude-files="true"
       package="true"
       unit-test="false"
       recreate-db="false"
@@ -60,7 +60,7 @@
       tag="077_UAT"
       branch="077_UAT_tags"
       driver = 'CUST077'
-      exclude-files="false"
+      exclude-files="true"
       package="true"
       unit-test="false"
       recreate-db="true"
@@ -76,7 +76,7 @@
       tag="077_UAT"
       branch="077_UAT_tags"
       driver = 'CUST077'
-      exclude-files="false"
+      exclude-files="true"
       package="true"
       unit-test="false"
       recreate-db="false"
