@@ -53,6 +53,7 @@
       sourceCheckInterval=""
       repo-name="master"
       install-patches="false"
+      exclude-files="true"
       />
   
   <cb:legacybuild
