@@ -33,6 +33,8 @@
 	<cb:f-build />
 	<cb:f-unit-tests />
 	<cb:msbuild-package />
+	<cb:publish-package />
+	<cb:publish-privatebuild />
       </tasks>
       <publishers>
 	<cb:standard-publishers />
@@ -74,8 +76,8 @@
 	<cb:setup-unittests />
 	<cb:get-reports />
 	<cb:msbuild-package />
-	<cb:msdeploy />
-	<cb:run-webtests />
+	<cb:publish-package />
+	<cb:publish-privatebuild />
       </tasks>
       <publishers>
 	<merge>
