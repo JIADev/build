@@ -363,7 +363,6 @@
 	    <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	  </environment>
 	</exec>
-	<cb:publish-package />
       </tasks>    
     </conditional>
   </cb:define>
@@ -472,8 +471,6 @@
 		 timeout="$(msbuild-package-timeout)">
 	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
 	</msbuild>
-	<cb:publish-package />
-	<cb:publish-privatebuild />
       </tasks>
     </conditional>
   </cb:define>
