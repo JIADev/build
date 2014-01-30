@@ -231,7 +231,7 @@
   <cb:customerbuild
       project-name="CUST065-7.5.0"
       branch = '065_tags'
-      tag = "065_PRD"
+      tag = "065_STG"
       driver = 'CUST065'
       repo-name="master"
       sourceCheckInterval=""
