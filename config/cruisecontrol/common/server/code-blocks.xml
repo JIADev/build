@@ -3,7 +3,7 @@
     <sourcecontrol type="hg">
       <autoGetSource>false</autoGetSource>
       <workingDirectory>$(source-folder)</workingDirectory>
-      <timeout>$(sourcecontrol-timeout)</timeout>
+      <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
       <multipleHeadsFail>false</multipleHeadsFail>
       <tagOnSuccess>false</tagOnSuccess>
