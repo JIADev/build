@@ -358,7 +358,7 @@
 	<exec executable="$(feature)"
 	      description = "Package for deployment"
 	      baseDirectory="$(project-folder)"
-	      buildArgs = 'package Package $(driver) --verbose --sourcepath=$(source-folder)'>
+	      buildArgs = 'package Package $(driver) --verbose --sourcepath=$(tag-folder)'>
 	  <environment>
 	    <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	  </environment>
