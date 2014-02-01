@@ -14,8 +14,8 @@
   <cb:legacybuild
       project-name="CUST077-7.2.11"
       tag="077_PRD"
-      branch="077_PRD_tags"
-      driver = 'CUST077'
+      branch="tags"
+      driver = "CUST077"
       exclude-files="true"
       package="true"
       unit-test="false"
@@ -29,8 +29,8 @@
   <cb:legacybuild
       project-name="CUST077-7.2.11-nopatches"
       tag="077_PRD"
-      branch="077_PRD_tags"
-      driver = 'CUST077'
+      branch="tags"
+      driver = "CUST077"
       exclude-files="true"
       package="true"
       unit-test="false"
@@ -44,7 +44,7 @@
   <cb:legacybuild
       project-name="CUST077-7.2.11-cvsTest"
       branch="2014.01.29.077_FeatureExeStandardization"
-      driver = 'CUST077'
+      driver = "CUST077"
       exclude-files="true"
       package="true"
       unit-test="false"
@@ -58,8 +58,8 @@
   <cb:legacybuild
       project-name="CUST077-UAT"
       tag="077_UAT"
-      branch="077_UAT_tags"
-      driver = 'CUST077'
+      branch="tags"
+      driver = "CUST077"
       exclude-files="true"
       package="true"
       unit-test="false"
@@ -74,8 +74,8 @@
   <cb:legacybuild
       project-name="CUST077_UAT-nopatches"
       tag="077_UAT"
-      branch="077_UAT_tags"
-      driver = 'CUST077'
+      branch="tags"
+      driver = "CUST077"
       exclude-files="true"
       package="true"
       unit-test="false"
@@ -90,8 +90,8 @@
   <cb:legacybuild
       project-name="CUST077_DEC-nopatches"
       tag="077_DEC"
-      branch="077_DEC_tags"
-      driver = 'CUST077'
+      branch="tags"
+      driver = "CUST077"
       exclude-files="false"
       package="true"
       unit-test="false"
@@ -106,8 +106,8 @@
   <cb:legacybuild
       project-name="CUST077_DEC"
       tag="077_DEC"
-      branch="077_DEC_tags"
-      driver = 'CUST077'
+      branch="tags"
+      driver = "CUST077"
       exclude-files="false"
       package="true"
       unit-test="false"
@@ -122,8 +122,8 @@
   <cb:legacybuild
       project-name="CUST077_DEV"
       tag="077_DEV"
-      branch="077_DEV_tags"
-      driver = 'CUST077'
+      branch="tags"
+      driver = "CUST077"
       exclude-files="false"
       package="true"
       unit-test="false"
@@ -138,9 +138,9 @@
   
   <cb:customerbuild
       project-name="CUST2090-7.5.4"
-      branch = '2090_tags'
+      branch = "tags"
       tag = "2090_STG"
-      driver = 'CUST2090'
+      driver = "CUST2090"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -151,15 +151,15 @@
   
   <cb:customerbuild
       project-name="CUST2090-REQ17"
-      branch = '2090_REQ17'
-      driver = 'CUST2090'
+      branch = "2090_REQ17"
+      driver = "CUST2090"
       repo-name="master"
       />
   
   <cb:customerbuild
       project-name="CUST2090-REQ21"
-      branch = '2090_REQ21'
-      driver = 'CUST2090'
+      branch = "2090_REQ21"
+      driver = "CUST2090"
       repo-name="master"
       />
   
@@ -167,22 +167,22 @@
   
   <cb:customerbuild
       project-name="CUST2092-REQ12"
-      branch = '2092_REQ12'
-      driver = 'CUST2092'
+      branch = "2092_REQ12"
+      driver = "CUST2092"
       repo-name="master"
       />
   
   <cb:customerbuild
       project-name="CUST2092-REQ13"
-      branch = '2092_REQ13'
-      driver = 'CUST2092'
+      branch = "2092_REQ13"
+      driver = "CUST2092"
       repo-name="master"
       />
   
   <cb:customerbuild
       project-name="CUST2092-REQ17"
-      branch = '2092_REQ17'
-      driver = 'CUST2092'
+      branch = "2092_REQ17"
+      driver = "CUST2092"
       repo-name="master"
       />
   
@@ -192,40 +192,40 @@
   
   <cb:customerbuild
       project-name="CUST000-7.5.0"
-      branch = '7.5.0'
-      driver = 'CUST000'
+      branch = "7.5.0"
+      driver = "CUST000"
       repo-name="master"
       package="false"
       />
   
   <cb:customerbuild
       project-name="CUST000-7.5.2"
-      branch = '7.5.2'
-      driver = 'CUST000'
+      branch = "7.5.2"
+      driver = "CUST000"
       repo-name="master"
       package="false"
       />
   
   <cb:customerbuild
       project-name="CUST000-7.5.3"
-      branch = '7.5.3'
-      driver = 'CUST000'
+      branch = "7.5.3"
+      driver = "CUST000"
       repo-name="master"
       package="false"
       />
   
   <cb:customerbuild
       project-name="CUST000-7.5.4"
-      branch = '7.5.4'
-      driver = 'CUST000'
+      branch = "7.5.4"
+      driver = "CUST000"
       repo-name="master"
       package="false"
       />
   
   <cb:customerbuild
       project-name="CUST000-7.5.5"
-      branch = '7.5.5'
-      driver = 'CUST000'
+      branch = "7.5.5"
+      driver = "CUST000"
       repo-name="master"
       package="false"
       />
@@ -234,8 +234,8 @@
   
   <cb:customerbuild
       project-name="CUST001-7.5.2"
-      branch = '7.5.2'
-      driver = 'CUST001'
+      branch = "7.5.2"
+      driver = "CUST001"
       repo-name="master"
       package="false"
       />
@@ -244,9 +244,9 @@
   
   <cb:customerbuild
       project-name="CUST065-7.5.0"
-      branch = '065_tags'
+      branch = "tags"
       tag = "065_STG"
-      driver = 'CUST065'
+      driver = "CUST065"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -255,9 +255,9 @@
   
   <cb:customerbuild
       project-name="CUST069-7.4.4"
-      branch = '069_tags'
+      branch = "tags"
       tag = "069_STG"
-      driver = 'CUST069'
+      driver = "CUST069"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -266,9 +266,9 @@
   
   <cb:customerbuild
       project-name="CUST2069-7.5.3"
-      branch = '2069_tags'
+      branch = "tags"
       tag = "2069_PRD"
-      driver = 'CUST2069'
+      driver = "CUST2069"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -277,9 +277,9 @@
   
   <cb:customerbuild
       project-name="CUST2083-7.4.1"
-      branch = '2083_tags'
+      branch = "tags"
       tag = "2083_PRD"
-      driver = 'CUST2083'
+      driver = "CUST2083"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -288,9 +288,9 @@
   
   <cb:customerbuild
       project-name="CUST2085-7.4.0"
-      branch = '2085_tags'
+      branch = "tags"
       tag = "2085_PRD"
-      driver = 'CUST2085'
+      driver = "CUST2085"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -299,18 +299,18 @@
   
   <cb:customerbuild
       project-name="CUST2086-QA-7.5.0"
-      branch = '2086_tags'
+      branch = "tags"
       tag = "2086_QA"
-      driver = 'CUST2086'
+      driver = "CUST2086"
       repo-name="master"
       sourceCheckInterval=""
       />
   
   <cb:customerbuild
       project-name="CUST2086-7.5.0"
-      branch = '2086_tags'
+      branch = "tags"
       tag = "2086_PRD"
-      driver = 'CUST2086'
+      driver = "CUST2086"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -319,9 +319,9 @@
   
   <cb:customerbuild
       project-name="CUST2087-7.4.4"
-      branch = '2087_tags'
+      branch = "tags"
       tag = "2087_PRD"
-      driver = 'CUST2087'
+      driver = "CUST2087"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -330,9 +330,9 @@
   
   <cb:customerbuild
       project-name="CUST2088-7.5.2"
-      branch = '2088_tags'
+      branch = "tags"
       tag = "2088_PRD"
-      driver = 'CUST2088'
+      driver = "CUST2088"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -341,18 +341,18 @@
   
   <cb:customerbuild
       project-name="CUST2089-7.4.5"
-      branch = '2089_tags'
+      branch = "tags"
       tag = "2089_PRD"
-      driver = 'CUST2089'
+      driver = "CUST2089"
       repo-name="master"
       sourceCheckInterval=""
       />
 
   <cb:customerbuild
       project-name="CUST2089-UAT-7.4.5"
-      branch = '2089_tags'
+      branch = "tags"
       tag = "2089_UAT"
-      driver = 'CUST2089'
+      driver = "CUST2089"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -361,9 +361,9 @@
   
   <cb:customerbuild
       project-name="CUST2092-7.5.5"
-      branch = '2092_tags'
+      branch = "tags"
       tag = "2092_PRD"
-      driver = 'CUST2092'
+      driver = "CUST2092"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -373,9 +373,9 @@
   
   <cb:customerbuild
       project-name="CUST2093-7.5.2"
-      branch = '2093_tags'
+      branch = "tags"
       tag = "2093_PRD"
-      driver = 'CUST2093'
+      driver = "CUST2093"
       repo-name="master"
       sourceCheckInterval=""
       />
@@ -384,8 +384,8 @@
   
   <cb:customerbuild
       project-name="CUST2094-7.5.5"
-      branch = '7.5.5'
-      driver = 'CUST2094'
+      branch = "7.5.5"
+      driver = "CUST2094"
       repo-name="master"
       package="true"
       />
@@ -394,9 +394,9 @@
   
   <cb:customerbuild
       project-name="CUST2082-7.3.3"
-      branch = '2082_tags'
+      branch = "tags"
       tag = "2082_PRD"
-      driver = 'CUST2082'
+      driver = "CUST2082"
       repo-name="master"
       sourceCheckInterval=""
       />
