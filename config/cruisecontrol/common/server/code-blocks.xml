@@ -552,13 +552,25 @@
 	<exec executable="$(cmdExe)" 
 	      description="Copy sql-settings file into PrivateBuild"
 	      buildArgs='/c copy /y "$(project-folder)\Release\sql-settings.xml" "$(project-folder)\PrivateBuild"' />
-	
-	
+	<conditional description="Create output folder if needed">
+	  <conditions>
+	    <folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
+	  </conditions>
+	  <tasks />
+	  <elseTasks>
+	    <exec 
+		executable="$(powershell)" 
+		baseDirectory="$(pkgroot)"
+		description="Create output folder">
+	      <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+	    </exec>
+	  </elseTasks>
+	</conditional>
 	<exec>
 	  <description>Run web tests for deployed site</description>
 	  <executable>$(nunit)\nunit-console.exe</executable>
 	  <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
-	  <buildArgs>/nologo /runlist:testlist.txt $(driver).WebTest.dll /out:$(pkgroot)\$(project-name)_WebTestResults.txt</buildArgs>
+	  <buildArgs>/nologo /runlist:testlist.txt $(driver).WebTest.dll /result:$(pkgroot)\$(project-name\WebTestResults.txt /out:$(pkgroot)\$(project-name)\WebTestOutput.txt</buildArgs>
 	  <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
 	</exec>
       </tasks>
