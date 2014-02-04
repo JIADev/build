@@ -56,6 +56,7 @@
       db-server="DEV-8900sql1"
       redis-server="qas-redis1"
       redis-db="12"
+      queueSuffix="-WebTests"
       />
   
 </cb:config-template>
