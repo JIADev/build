@@ -570,7 +570,7 @@
 	  <description>Run web tests for deployed site</description>
 	  <executable>$(nunit)\nunit-console.exe</executable>
 	  <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
-	  <buildArgs>/nologo /runlist:testlist.txt $(driver).WebTest.dll /result:$(pkgroot)\$(project-name\WebTestResults.txt /out:$(pkgroot)\$(project-name)\WebTestOutput.txt</buildArgs>
+	  <buildArgs>/nologo /runlist:testlist.txt $(driver).WebTest.dll /result:$(pkgroot)\$(project-name)\WebTestResults.txt /out:$(pkgroot)\$(project-name)\WebTestOutput.txt</buildArgs>
 	  <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
 	</exec>
       </tasks>
