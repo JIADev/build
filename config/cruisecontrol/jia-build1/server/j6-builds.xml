@@ -399,6 +399,7 @@
       driver = "CUST2082"
       repo-name="master"
       sourceCheckInterval=""
+      exclude-files="true"
       />
   
 </cb:config-template>
