@@ -289,7 +289,15 @@
   <cb:customerbuild
       project-name="CUST2085-7.4.0"
       branch = "tags"
-      tag = "2085_BUILD"
+      tag = "2085_PRD"
+      driver = "CUST2085"
+      repo-name="master"
+      sourceCheckInterval=""
+      />
+
+  <cb:customerbuild
+      project-name="CUST2085-7.4.0-pkg"
+      branch = "2014.02.05.FeatureExeStandardization"
       driver = "CUST2085"
       repo-name="master"
       exclude-files="true"
