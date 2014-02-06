@@ -281,6 +281,7 @@
       tag = "2083_PRD"
       driver = "CUST2083"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
@@ -292,6 +293,7 @@
       tag = "2085_PRD"
       driver = "CUST2085"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
