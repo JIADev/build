@@ -303,6 +303,7 @@
       exclude-files="true"
       recreate-db="false"
       install-patches="false"
+      unit-test="false"
       />
   
   <!-- CUST2086 -->
