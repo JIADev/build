@@ -259,6 +259,7 @@
       tag = "069_STG"
       driver = "CUST069"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
