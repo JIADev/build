@@ -295,6 +295,7 @@
       sourceCheckInterval=""
       />
 
+<!--
   <cb:customerbuild
       project-name="CUST2085-7.4.0-pkg"
       branch = "2014.02.05.FeatureExeStandardization"
@@ -305,7 +306,7 @@
       install-patches="false"
       unit-test="false"
       />
-  
+-->  
   <!-- CUST2086 -->
   
   <cb:customerbuild
