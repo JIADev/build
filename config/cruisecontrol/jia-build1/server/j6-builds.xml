@@ -35,10 +35,10 @@
       package="true"
       unit-test="false"
       recreate-db="false"
+      install-patches="false"
       queueSuffix="-PRD-nopatches"
       sourceCheckInterval=""
       repo-name="master"
-      install-patches="false"
       />
   
   <cb:legacybuild
@@ -301,7 +301,8 @@
       driver = "CUST2085"
       repo-name="master"
       exclude-files="true"
-      sourceCheckInterval=""
+      recreate-db="false"
+      install-patches="false"
       />
   
   <!-- CUST2086 -->
