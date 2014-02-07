@@ -341,6 +341,7 @@
       tag = "2087_PRD"
       driver = "CUST2087"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
