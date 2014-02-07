@@ -203,7 +203,7 @@
       branch = "7.5.2"
       driver = "CUST000"
       repo-name="master"
-      package="false"
+      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -211,7 +211,7 @@
       branch = "7.5.3"
       driver = "CUST000"
       repo-name="master"
-      package="false"
+      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -219,7 +219,7 @@
       branch = "7.5.4"
       driver = "CUST000"
       repo-name="master"
-      package="false"
+      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -227,7 +227,7 @@
       branch = "7.5.5"
       driver = "CUST000"
       repo-name="master"
-      package="false"
+      exclude-files="true"
       />
   
   <!-- CUST001 -->
