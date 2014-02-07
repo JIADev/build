@@ -319,6 +319,7 @@
       tag = "2086_QA"
       driver = "CUST2086"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
   
