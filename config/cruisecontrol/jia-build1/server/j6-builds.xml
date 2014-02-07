@@ -237,7 +237,7 @@
       branch = "7.5.2"
       driver = "CUST001"
       repo-name="master"
-      package="false"
+      exclude-files="true"
       />
   
   <!-- CUST065 -->
