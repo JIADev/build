@@ -370,6 +370,7 @@
       tag = "2089_UAT"
       driver = "CUST2089"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
