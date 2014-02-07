@@ -142,6 +142,7 @@
       tag = "2090_STG"
       driver = "CUST2090"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
   
@@ -154,6 +155,7 @@
       branch = "2090_REQ17"
       driver = "CUST2090"
       repo-name="master"
+      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -161,6 +163,7 @@
       branch = "2090_REQ21"
       driver = "CUST2090"
       repo-name="master"
+      exclude-files="true"
       />
   
   <!-- CUST2092 -->
@@ -170,6 +173,7 @@
       branch = "2092_REQ12"
       driver = "CUST2092"
       repo-name="master"
+      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -177,6 +181,7 @@
       branch = "2092_REQ13"
       driver = "CUST2092"
       repo-name="master"
+      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -184,6 +189,7 @@
       branch = "2092_REQ17"
       driver = "CUST2092"
       repo-name="master"
+      exclude-files="true"
       />
   
   <!-- version branches -->  
@@ -272,6 +278,7 @@
       tag = "2069_PRD"
       driver = "CUST2069"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
@@ -353,6 +360,7 @@
       tag = "2088_PRD"
       driver = "CUST2088"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
@@ -386,6 +394,7 @@
       tag = "2092_PRD"
       driver = "CUST2092"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
@@ -409,6 +418,7 @@
       branch = "7.5.5"
       driver = "CUST2094"
       repo-name="master"
+      exclude-files="true"
       package="true"
       />
   
