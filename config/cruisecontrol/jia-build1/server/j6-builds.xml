@@ -360,6 +360,7 @@
       tag = "2089_PRD"
       driver = "CUST2089"
       repo-name="master"
+      exclude-files="true"
       sourceCheckInterval=""
       />
 
