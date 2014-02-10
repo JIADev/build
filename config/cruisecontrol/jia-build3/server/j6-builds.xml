@@ -8,7 +8,7 @@
   <!-- release branches -->
   
   <cb:v76build
-      project-name="$(project-root)"
+      project-name="CUST000-7.6.0"
       branch = '7.6.0'
       driver = 'CUST000'
       clean="true"
@@ -16,6 +16,7 @@
       data-test="true"
       redis-db="14"
       platform="AnyCpu"
+      repo-name="master"
       />
 
 <!-- Disabled until dev gets going  
@@ -34,7 +35,7 @@
   -->
 
   <cb:v76build
-      project-name="$(project-root)"
+      project-name="CUST000-7.6.0-DEV"
       branch = '760_QA'
       driver = 'CUST000'
       clean="true"
@@ -43,6 +44,7 @@
       data-test="false"
       redis-db="16"
       platform="AnyCpu"
+      repo-name="master"
       modules="AUTOSHIP"
       />
   
@@ -50,7 +52,7 @@
       project-name="CUST000-760_QA-DeployTest"
       driver = 'CUST000'
       web-test="true"
-      project-to-deploy="CUST000-760_QA"
+      project-to-deploy="CUST000-7.6.0-DEV"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_760_CA" 
       db-server="DEV-8900sql1"
