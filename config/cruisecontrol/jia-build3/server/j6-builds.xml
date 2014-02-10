@@ -36,7 +36,7 @@
 
   <cb:v76build
       project-name="CUST000-7.6.0-DEV"
-      branch = '760_QA'
+      branch = '000_7.6.0'
       driver = 'CUST000'
       clean="true"
       build="true"	
@@ -49,7 +49,7 @@
       />
   
   <cb:v76deployment
-      project-name="CUST000-760_QA-DeployTest"
+      project-name="CUST000-7.6.0-DEV-WebTest"
       driver = 'CUST000'
       web-test="true"
       project-to-deploy="CUST000-7.6.0-DEV"
