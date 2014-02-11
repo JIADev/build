@@ -398,11 +398,17 @@
 	    <folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
 	  </conditions>
 	  <tasks>
-	    <exec
+	    <exec 
+		executable="$(powershell)" 
+		baseDirectory="$(project-folder)"
+		description="Create package folder if needed">
+	      <buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	    </exec>
+	    <exec 
 		executable="$(powershell)"
 		baseDirectory="$(project-folder)"
-		description = "remove old releases">
-	      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\RELEASE*"</buildArgs>
+		description="move releases to the package folder">
+	      <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
 	    </exec>
 	  </tasks>
 	</conditional>
@@ -412,6 +418,19 @@
 	    description="move releases to the package folder">
 	  <buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
 	</exec>
+	<conditional>
+	  <conditions>
+	    <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
+	  </conditions>
+	  <tasks>
+	    <exec
+		executable="$(powershell)"
+		baseDirectory="$(project-folder)"
+		description = "remove old releases">
+	      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	    </exec>
+	  </tasks>
+	</conditional>
       </tasks>
     </conditional>    
   </cb:define>
