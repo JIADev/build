@@ -411,15 +411,6 @@
       sourceCheckInterval=""
       />
 
-  <cb:customerbuild
-      project-name="CUST2093-RM46540"
-       branch = "RM46540"
-       driver = "CUST2093"
-      repo-name="master"
-      exclude-files="true"
-      sourceCheckInterval=""
-      />
-
   <!-- CUST2094 -->
   
   <cb:customerbuild
