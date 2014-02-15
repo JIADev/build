@@ -668,7 +668,7 @@
     <msbuild description="bootstrap">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform) /p:SourceDir=$(tag-folder)"</buildArgs>
       <targets>Bootstrap</targets>
       <timeout>$(msbuild-bootstrap-timeout)</timeout>
     </msbuild>
