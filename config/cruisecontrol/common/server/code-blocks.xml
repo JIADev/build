@@ -656,7 +656,7 @@
 	<msbuild description="build">
 	  <executable>$(msbuild)</executable>
 	  <projectFile>j6.proj</projectFile>
-	  <buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:PLatform="$(platform)"</buildArgs>
+	  <buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform)"</buildArgs>
 	  <targets>Build</targets>
 	  <timeout>$(msbuild-build-timeout)</timeout>
 	</msbuild>
@@ -668,7 +668,7 @@
     <msbuild description="bootstrap">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform) /p:SourceDir=$(tag-folder)"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(tag-folder)</buildArgs>
       <targets>Bootstrap</targets>
       <timeout>$(msbuild-bootstrap-timeout)</timeout>
     </msbuild>
@@ -678,7 +678,7 @@
     <msbuild description="setup">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
       <targets>Setup</targets>
       <timeout>$(msbuild-setup-timeout)</timeout>
     </msbuild>
@@ -688,7 +688,7 @@
     <msbuild description="recreatedb">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
       <targets>ForceRecreateDb</targets>
       <timeout>$(msbuild-recreatedb-timeout)
       
@@ -700,7 +700,7 @@
     <msbuild description="patch">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:PLatform="$(platform)"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
       <targets>Patch</targets>
       <timeout>$(msbuild-patch-timeout)</timeout>
     </msbuild>
