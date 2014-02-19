@@ -83,10 +83,10 @@
       <publishers>
 	<merge>
 	  <files>
-	    <file>TestResult\*.xml</file>
-	    <file>Coverage\SymbolModule.xml</file>
-	    <file>TestResult\FxCop-results.xml</file>
-	    <file action="Copy">NDepend\*</file>
+	    <file>$(project-folder)\TestResult\*.xml</file>
+	    <file>$(project-folder)\Coverage\SymbolModule.xml</file>
+	    <file>$(project-folder)\TestResult\FxCop-results.xml</file>
+	    <file action="Copy">$(project-folder)\NDepend\*</file>
 	  </files>
 	</merge>
 	<xmllogger />
