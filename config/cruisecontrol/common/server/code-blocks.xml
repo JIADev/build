@@ -526,7 +526,7 @@
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="Configure"
-		 workingDirectory="$(project-folder)\Release">
+		 workingDirectory="$(project-folder)\RELEASE">
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)</buildArgs>
 	</msbuild>
 	
@@ -534,7 +534,7 @@
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
-		 workingDirectory="$(project-folder)\Release">
+		 workingDirectory="$(project-folder)\RELEASE">
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver)</buildArgs>
 	</msbuild>
 	

@@ -63,7 +63,7 @@
   
   <cb:v76build
       project-name="CUST2094-7.6.0"
-      branch = '7.6.0'
+      branch = '2094_7.6.0'
       driver = 'CUST2094'
       clean="true"
       build="true"
