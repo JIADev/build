@@ -49,6 +49,7 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up tags" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(BuildTag) $(DatedBuildTag) -m "Triggering build for $(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' />
   </Target>
 
   <Target Name="InitRepos" DependsOnTargets="InitMasterRepo">
