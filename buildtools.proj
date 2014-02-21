@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <PropertyGroup>
+    <WorkingDirectory>$([MSBuild]::ValueOrDefault(`$(WorkingDirectory)`, 'c:\dev\repos'))</WorkingDirectory>
+    <MasterRepo>$(WorkingDirectory)\master</MasterRepo>
+    <BuildRepo>$(WorkingDirectory)\buildRepo</BuildRepo>
+    <TagRepo>$(WorkingDirectory)\tagRepo</TagRepo>
+    <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(MasterRepo)'))</SourceRepo>
+    <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
+  </PropertyGroup>
+  
+  <Target Name="GetTipChangeset" Outputs="$(Changeset)">
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg tip &gt; $(BuildRepo)\tip.txt" />
+    <ReadLinesFromFile File="$(BuildRepo)\tip.txt">
+      <Output TaskParameter="Lines" PropertyName="Tip" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <ChangesetLine>$([System.Text.RegularExpressions.Regex]::Match(`$(Tip)`, 'changeset:[^;]*').Value)</ChangesetLine>
+      <ChangesetPosition>$([MSBuild]::ValueOrDefault(`$(ChangesetLine)`, ':').LastIndexOf(':'))</ChangesetPosition>
+      <Changeset>$([MSBuild]::ValueOrDefault(`$(ChangesetLine)`, '').Substring($(ChangesetPosition)).Trim(':'))</Changeset>
+    </PropertyGroup>
+</Target>
+
+  <Target Name="ShowMessage">
+    <Message Text="$(MyMessage)" />
+  </Target>
+
+  <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
+    <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
+    <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
+    <PropertyGroup>
+      <BuildTag>$([MSBuild]::ValueOrDefault(`$(BuildTag)`, '$(CustomerNumber)_BLD'))</BuildTag>
+      <DatedBuildTag>$(BuildTag)_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</DatedBuildTag>
+    </PropertyGroup>
+    <ItemGroup>
+      <BranchesToMerge Include="$(Branches)" />
+    </ItemGroup>
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(CustomerNumber)_PRD -C" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg branch $(BuildBranchName)" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Creating build branch @ignore"' />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerNumber)_;SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(BuildBranchName);DoMerge=true;DoCommit=true;DoPush=false" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Closing $(BuildBranchName)" --close-branch' />
+    <CallTarget Targets="GetTipChangeset">
+      <Output TaskParameter="TargetOutputs" PropertyName="Changeset" />
+    </CallTarget>
+    <Message Text="Changeset = $(Changeset)" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg up tags" />
+    <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(BuildTag) $(DatedBuildTag) -m "Triggering build for $(BuildTag)"' />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
+  </Target>
+
+  <Target Name="InitRepos" DependsOnTargets="InitMasterRepo">
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.2.11" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.3.3" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.4.0" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.4.1" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.4.2" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.4.4" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.4.5" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.5.0" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.5.2" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.5.3" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.5.4" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.5.5" Targets="InitRepo" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.6.0" Targets="InitRepo" />
+  </Target>
+
+  <Target Name="InitBuildRepo">
+    <MakeDir Directories="$(WorkingDirectory)" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(BuildRepo)" Condition="!Exists('$(BuildRepo)')" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone $(BuildRepo) $(TagRepo)" Condition="!Exists('$(TagRepo)')" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
+  </Target>
+
+  <Target Name="InitMasterRepo">
+    <MakeDir Directories="$(WorkingDirectory)" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(MasterRepo)" Condition="!Exists('$(MasterRepo)')" />
+    <Exec WorkingDirectory="$(MasterRepo)" Command="hg pull" />
+  </Target>
+
+  <Target Name="InitRepo" Condition="!Exists('$(TargetRepo)')">
+    <MakeDir Directories="$(WorkingDirectory)" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command = "hg init $(TargetRepo)" />
+  </Target>
+
+  <Target Name="MergeBranches">
+    <PropertyGroup>
+      <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
+    </PropertyGroup>
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch) -C" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --preview" Condition="'$(Preview)' != 'false'" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch)" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "@merge $(SourceBranch)"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
+  </Target>
+
+  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge7_2;ForwardMerge7_3;ForwardMerge7_4;ForwardMerge7_5;ForwardMerge7_6" />
+  <Target Name="ForwardMerge7_4" DependsOnTargets="ForwardMerge7_4_0;ForwardMerge7_4_1;ForwardMerge7_4_4;ForwardMerge7_4_5" />
+  <Target Name="ForwardMerge7_5" DependsOnTargets="ForwardMerge7_5_0;ForwardMerge7_5_2;ForwardMerge7_5_3;ForwardMerge7_5_4;ForwardMerge7_5_5" />
+  <Target Name="ForwardMerge7_6" DependsOnTargets="ForwardMerge7_6_0" />
+
+  <Target Name="ForwardMerge7_2">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.2.11</TargetRepo>
+      <TargetBranch>7.2.11</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=077_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_3">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.3.3</TargetRepo>
+      <TargetBranch>7.3.3</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2082_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_4_0">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.0</TargetRepo>
+      <TargetBranch>7.4.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2085_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_4_1">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.1</TargetRepo>
+      <TargetBranch>7.4.1</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.4.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2083_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_4_4">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.4</TargetRepo>
+      <TargetBranch>7.4.4</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.4.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2087_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_4_5">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.5</TargetRepo>
+      <TargetBranch>7.4.5</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.4.4;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2089_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_5_0">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.0</TargetRepo>
+      <TargetBranch>7.5.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=065_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2086_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_5_2">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.2</TargetRepo>
+      <TargetBranch>7.5.2</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_5_3">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.3</TargetRepo>
+      <TargetBranch>7.5.3</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.2;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2069_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_5_4">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.4</TargetRepo>
+      <TargetBranch>7.5.4</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.3;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_5_5">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.5</TargetRepo>
+      <TargetBranch>7.5.5</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.4;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2092_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge7_6_0">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.6.0</TargetRepo>
+      <TargetBranch>7.6.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=000_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  
+</Project>
