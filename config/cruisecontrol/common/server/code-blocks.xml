@@ -6,7 +6,7 @@
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
       <multipleHeadsFail>false</multipleHeadsFail>
-      <tagOnSuccess>false</tagOnSuccess>
+      <tagOnSuccess>$(tagSuccessfulBuild)</tagOnSuccess>
       <commitModifications>false</commitModifications>
       <commitUntracked>false</commitUntracked>
       <purgeModifications>true</purgeModifications>
