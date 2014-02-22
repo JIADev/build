@@ -60,6 +60,7 @@
       hgBranch="default"
       pull-options=""
       tag = ""
+      tagSuccessfulBuild="false"
       build="false"
       unit-test="true"
       web-test="false"
