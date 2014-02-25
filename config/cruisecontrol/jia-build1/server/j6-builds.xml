@@ -131,6 +131,7 @@
       repo-name="master"
       unit-test="false"
       recreate-db="false"
+      package="false"
       exclude-files="true"
       sourceCheckInterval=""
       />
