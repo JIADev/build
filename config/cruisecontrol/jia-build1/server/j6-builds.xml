@@ -129,6 +129,8 @@
       prodTag="065_PRD"
       driver = "CUST065"
       repo-name="master"
+      unit-test="false"
+      recreate-db="false"
       exclude-files="true"
       sourceCheckInterval=""
       />
