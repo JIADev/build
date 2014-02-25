@@ -60,6 +60,7 @@
       hgBranch="default"
       pull-options=""
       tag = ""
+      prodTag = ""
       build="false"
       unit-test="true"
       web-test="false"
