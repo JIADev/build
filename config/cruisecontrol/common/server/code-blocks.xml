@@ -64,7 +64,14 @@
 	      description = "hg pull updates from source-folder"
 	      buildArgs = '-c "hg pull $(source-folder)"' 
 	      baseDirectory="$(tag-folder)" />
-	
+
+	<cb:if expr="'$(prodTag)'==''">
+	  <exec executable="$(powershell)" 
+		description = "hg pull prod tag changes"
+		buildArgs = '-c "hg pull -r $(prodTag)"' 
+		baseDirectory="$(tag-folder)" />
+	</cb:if>
+
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
 	      buildArgs = '-c "hg pull -r $(tag)"' 
