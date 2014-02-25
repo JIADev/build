@@ -22,7 +22,7 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="GetLastModifiedArtifactFile" Outputs="$(LastModified)">
+  <Target Name="GetLastModifiedArtifactFile" Outputs="$(LastModified)" DependsOnTargets="BuildGetLastModifiedFile">
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\GetLastModifiedFile.exe $(CCNetArtifactDirectory)\buildlogs &gt; $(RepoDirectory)\LastModifiedFile.txt" />
     <ReadLinesFromFile File="$(RepoDirectory)\LastModifiedFile.txt">
       <Output TaskParameter="Lines" PropertyName="Files" />
