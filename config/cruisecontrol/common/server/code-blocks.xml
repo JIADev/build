@@ -6,7 +6,7 @@
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
       <multipleHeadsFail>false</multipleHeadsFail>
-      <tagOnSuccess>$(tagSuccessfulBuild)</tagOnSuccess>
+      <tagOnSuccess>false</tagOnSuccess>
       <commitModifications>false</commitModifications>
       <commitUntracked>false</commitUntracked>
       <purgeModifications>true</purgeModifications>
@@ -389,6 +389,42 @@
     </exec>
   </cb:define>
   
+  <cb:define name="tag-build">
+    <conditional>
+      <conditions>
+	<compareCondition>
+	  <value1>$(sourceCheckInterval)</value1>
+	  <value2></value2>
+	  <evaluation>equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
+	<conditional>
+	  <conditions>
+	    <folderExistsCondition folder="$(tagsRepo)" />
+	  </conditions>
+	  <elseTasks>
+	    <exec executable="$(powershell)" 
+		  description = "hg start tags repo"
+		  buildArgs = '-c "hg clone $(source) $(tagsRepo)"' 
+		  baseDirectory="$(tag-folder)" />
+	  </elseTasks>
+	</conditional>
+	
+	<exec executable="$(powershell)"
+	      description = "hg pull changes to tags repo"
+	      buildArgs = '-c "hg pull"' 
+	      baseDirectory="$(tagsRepo)" />
+	
+	<exec executable="$(powershell)"
+	      description = "hg update to tags branch"
+	      buildArgs = '-c "hg update tags"' 
+	      baseDirectory="$(tagsRepo)" />
+      </tasks>
+    </conditional>
+  </cb:define>
+
   <cb:define name="publish-package">
     <conditional description="Publish Package">
       <conditions>
@@ -400,6 +436,7 @@
 	</compareCondition>
       </conditions>
       <tasks description="Publish Package">
+	<cb:tag-build />
 	<exec 
 	    executable="$(powershell)" 
 	    baseDirectory="$(project-folder)"

@@ -20,10 +20,26 @@
       <ChangesetPosition>$([MSBuild]::ValueOrDefault(`$(ChangesetLine)`, ':').LastIndexOf(':'))</ChangesetPosition>
       <Changeset>$([MSBuild]::ValueOrDefault(`$(ChangesetLine)`, '').Substring($(ChangesetPosition)).Trim(':'))</Changeset>
     </PropertyGroup>
-</Target>
+  </Target>
+
+  <Target Name="GetMergedChangesets" DependsOnTargets="BuildExtractChangesets">
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up 065_PRD" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg merge 065_STG --preview &gt; $(BuildRepo)\mergedRevisions.txt" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="$(BuildRepo)\ExtractChangesets.exe $(BuildRepo)\mergedRevisions.txt &gt; RevisionLog.xml" />
+  </Target>
+
+  <Target Name="BuildExtractChangesets">
+    <Csc Sources="$(MSBuildProjectDirectory)\Code\ExtractChangesets.cs" OutputAssembly="$(BuildRepo)\ExtractChangesets.exe" />
+  </Target>
 
   <Target Name="ShowMessage">
     <Message Text="$(MyMessage)" />
+  </Target>
+
+  <Target Name="MarkBuildDeployed" DependsOnTargets="InitBuildRepo">
+    <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -r $(ReleaseNumber) $(CustomerNumber)_$(Environment) $(CustomerNumber)_$(Environment)_$(DeployedDate) -f -m "Deployed $(ReleaseNumber) to $(CustomerNumber) $(Environment) at $DeployedDate)"' />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
   </Target>
 
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
