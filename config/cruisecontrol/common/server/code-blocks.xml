@@ -663,6 +663,16 @@
   </cb:define>
   
   <cb:define name="standard-publishers">
+    <!--
+	<merge>
+	<files>
+	<file>TestResult\j6-test.xml</file>
+	<file>Coverage\UnitTest-coverage.xml</file>
+	</files>
+	</merge>
+    -->
+    <xmllogger />
+    <statistics />
     <conditional>
       <conditions>
 	<compareCondition>
@@ -678,16 +688,6 @@
 	</msbuild>
       </tasks>
     </conditional>
-    <!--
-	<merge>
-	<files>
-	<file>TestResult\j6-test.xml</file>
-	<file>Coverage\UnitTest-coverage.xml</file>
-	</files>
-	</merge>
-    -->
-    <xmllogger />
-    <statistics />
   </cb:define>
   
   <!-- Added for 7.6 builds -->
