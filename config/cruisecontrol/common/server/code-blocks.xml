@@ -64,14 +64,23 @@
 	      description = "hg pull updates from source-folder"
 	      buildArgs = '-c "hg pull $(source-folder)"' 
 	      baseDirectory="$(tag-folder)" />
-
-	<cb:if expr="'$(prodTag)'==''">
-	  <exec executable="$(powershell)" 
-		description = "hg pull prod tag changes"
-		buildArgs = '-c "hg pull -r $(prodTag)"' 
-		baseDirectory="$(tag-folder)" />
-	</cb:if>
-
+	
+	<conditional>
+	  <conditions>
+	    <compareCondition 
+		value1="$(prodTag)" 
+		value2="" 
+		evaluation="NotEqual"
+		ignoreCase="true" />
+	  </conditions>
+	  <tasks>
+	    <exec executable="$(powershell)" 
+		  description = "hg pull prod tag changes"
+		  buildArgs = '-c "hg pull -r $(prodTag)"' 
+		  baseDirectory="$(tag-folder)" />
+	  </tasks>
+	</conditional>
+	
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
 	      buildArgs = '-c "hg pull -r $(tag)"' 
@@ -654,11 +663,21 @@
   </cb:define>
   
   <cb:define name="standard-publishers">
-      <cb:if expr="'$(sourceCheckInterval)'==''">
+    <conditional>
+      <conditions>
+	<compareCondition>
+	  <value1>$(sourceCheckInterval)</value1>
+	  <value2></value2>
+	  <evaluation>Equal</evaluation>
+	  <ignoreCase>true</ignoreCase>
+	</compareCondition>
+      </conditions>
+      <tasks>
 	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
 	</msbuild>
-	</cb:if>
+      </tasks>
+    </conditional>
     <!--
 	<merge>
 	<files>
