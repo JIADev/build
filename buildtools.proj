@@ -11,8 +11,8 @@
   </PropertyGroup>
   
   <Target Name="GetTipChangeset" Outputs="$(Changeset)">
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg tip &gt; $(BuildRepo)\tip.txt" />
-    <ReadLinesFromFile File="$(BuildRepo)\tip.txt">
+    <Exec Command="hg tip &gt; tip.txt" />
+    <ReadLinesFromFile File="tip.txt">
       <Output TaskParameter="Lines" PropertyName="Tip" />
     </ReadLinesFromFile>
     <PropertyGroup>
@@ -22,14 +22,36 @@
     </PropertyGroup>
   </Target>
 
+  <Target Name="GetLastModifiedArtifactFile" Outputs="$(LastModified)">
+    <Exec Command="GetLastModifiedFile.exe $(CCNetArtifactDirectory)\buildlogs &gt; LastModifiedFile.txt" />
+    <ReadLinesFromFile File="LastModifiedFilel.txt">
+      <Output TaskParameter="Lines" PropertyName="Files" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <LastModified>$(Files)</LastModified>
+    </PropertyGroup>
+  </Target>
+
   <Target Name="GetMergedChangesets" DependsOnTargets="BuildExtractChangesets">
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up 065_PRD" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg merge 065_STG --preview &gt; $(BuildRepo)\mergedRevisions.txt" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="$(BuildRepo)\ExtractChangesets.exe $(BuildRepo)\mergedRevisions.txt &gt; RevisionLog.xml" />
+    <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
+    <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
+    <Error Text="Missing CCNetArtifactDirectory" Condition="'$(CCNetArtifactDirectory)' == ''" />
+    <Exec Command="hg up $(OriginalChangeset)" />
+    <Exec Command="hg merge $(NewChangeset) --preview &gt; mergedRevisions.txt" />
+    <Exec Command="hg up $(NewChangeset)" />
+    <CallTarget Targets="GetLastModifiedArtifactFile">
+      <Output TaskParameter="TargetOutputs" PropertyName="CCNetLogFile" />
+    </CallTarget>
+
+    <Exec Command="ExtractChangesets.exe mergedRevisions.txt RevisionLog.xml $(LastModified)" />
   </Target>
 
   <Target Name="BuildExtractChangesets">
-    <Csc Sources="$(MSBuildProjectDirectory)\Code\ExtractChangesets.cs" OutputAssembly="$(BuildRepo)\ExtractChangesets.exe" />
+    <Csc Sources="c:\Build\Code\ExtractChangesets.cs" OutputAssembly="ExtractChangesets.exe" />
+  </Target>
+
+  <Target Name="BuildGetLastModifiedFile">
+    <Csc Sources="c:\Build\Code\GetLastModifiedFile.cs" OutputAssembly="GetLastModifiedFile.exe" />
   </Target>
 
   <Target Name="ShowMessage">
@@ -37,7 +59,7 @@
   </Target>
 
   <Target Name="MarkBuildDeployed" DependsOnTargets="InitBuildRepo">
-    <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -r $(ReleaseNumber) $(CustomerNumber)_$(Environment) $(CustomerNumber)_$(Environment)_$(DeployedDate) -f -m "Deployed $(ReleaseNumber) to $(CustomerNumber) $(Environment) at $DeployedDate)"' />
+    <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -r $(ReleaseNumber) $(CustomerNumber)_$(Environment) $(CustomerNumber)_$(Environment)_$(DeployedDate) -f -m "Deployed $(ReleaseNumber) to $(CustomerNumber) $(Environment) at $(DeployedDate)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
   </Target>
