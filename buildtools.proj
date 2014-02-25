@@ -23,8 +23,8 @@
   </Target>
 
   <Target Name="GetLastModifiedArtifactFile" Outputs="$(LastModified)">
-    <Exec Command="GetLastModifiedFile.exe $(CCNetArtifactDirectory)\buildlogs &gt; LastModifiedFile.txt" />
-    <ReadLinesFromFile File="LastModifiedFilel.txt">
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="GetLastModifiedFile.exe $(CCNetArtifactDirectory)\buildlogs &gt; LastModifiedFile.txt" />
+    <ReadLinesFromFile File="$(RepoDirectory)\LastModifiedFile.txt">
       <Output TaskParameter="Lines" PropertyName="Files" />
     </ReadLinesFromFile>
     <PropertyGroup>
@@ -36,14 +36,15 @@
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
     <Error Text="Missing CCNetArtifactDirectory" Condition="'$(CCNetArtifactDirectory)' == ''" />
-    <Exec Command="hg up $(OriginalChangeset)" />
-    <Exec Command="hg merge $(NewChangeset) --preview &gt; mergedRevisions.txt" />
-    <Exec Command="hg up $(NewChangeset)" />
+    <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(OriginalChangeset)" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg merge $(NewChangeset) --preview &gt; mergedRevisions.txt" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(NewChangeset)" />
     <CallTarget Targets="GetLastModifiedArtifactFile">
       <Output TaskParameter="TargetOutputs" PropertyName="CCNetLogFile" />
     </CallTarget>
 
-    <Exec Command="ExtractChangesets.exe mergedRevisions.txt RevisionLog.xml $(LastModified)" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="ExtractChangesets.exe mergedRevisions.txt RevisionLog.xml $(LastModified)" />
   </Target>
 
   <Target Name="BuildExtractChangesets">
