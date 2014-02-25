@@ -43,9 +43,9 @@
 	  <buildArgs>/c "mkdir $(project-folder)"</buildArgs>
 	</exec>
       <exec executable="$(cmdExe)"
-	    description="Update c:\build"
-	    buildArgs='/c  hg pull -u'
-	    workingDirectory="C:\build" />
+	    description="Update $(global_feature_dir)"
+	    buildArgs="/c  hg pull -u"
+	    baseDirectory="$(global_feature_dir)" />
 
       <exec executable="$(cmdExe)"
 	    description="Copy common config files to working folder"
