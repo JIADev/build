@@ -62,6 +62,8 @@
       tag = ""
       prodTag = ""
       build="false"
+      updateSource="true"
+      buildCode="true"
       unit-test="true"
       web-test="false"
       package="true"
