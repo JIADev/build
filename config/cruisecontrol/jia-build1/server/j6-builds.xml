@@ -130,6 +130,8 @@
       driver = "CUST065"
       repo-name="master"
       unit-test="false"
+      updateSource="false"
+      buildCode="false"
       recreate-db="false"
       package="false"
       exclude-files="true"
