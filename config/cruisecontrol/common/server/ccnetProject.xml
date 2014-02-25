@@ -43,6 +43,11 @@
 	  <buildArgs>/c "mkdir $(project-folder)"</buildArgs>
 	</exec>
       <exec executable="$(cmdExe)"
+	    description="Update c:\build"
+	    buildArgs='/c  hg pull -u'
+	    workingDirectory="C:\build" />
+
+      <exec executable="$(cmdExe)"
 	    description="Copy common config files to working folder"
 	    buildArgs='/c copy "$(ccnetConfigSource)\common\server\*" "$(project-folder)"' />
       <exec executable="$(cmdExe)" 
