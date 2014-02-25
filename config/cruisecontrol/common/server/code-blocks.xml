@@ -647,6 +647,11 @@
   </cb:define>
   
   <cb:define name="standard-publishers">
+      <cb:if expr="'$(sourceCheckInterval)'==''">
+	<msbuild description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
+	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
+	</msbuild>
+	</cb:if>
     <!--
 	<merge>
 	<files>
