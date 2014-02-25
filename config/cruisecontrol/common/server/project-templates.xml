@@ -18,10 +18,19 @@
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
       <prebuild>
-	<cb:if expr="'$(updateSource)' != 'false'">
+	<conditional>
+	  <conditions>
+	    <compareCondition 
+		value1="$(updateSource)" 
+		value2="false" 
+		evaluation="NotEqual"
+		ignoreCase="true" />
+	  </conditions>
+	  <tasks>
 	  <cb:update-source />
 	  <cb:force-clean />
-	</cb:if>
+	  </tasks>
+	</conditional>
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:set-customer />
@@ -30,13 +39,31 @@
 	<cb:configure-db />
 	<cb:build-feature-exe />
 	<cb:create-settings />
-	<cb:if expr="'$(updateSource)' != 'false'">
-	  <cb:f-setup />
-	</cb:if>
+	<conditional>
+	  <conditions>
+	    <compareCondition 
+		value1="$(updateSource)" 
+		value2="false" 
+		evaluation="NotEqual"
+		ignoreCase="true" />
+	  </conditions>
+	  <tasks>
+	    <cb:f-setup />
+	  </tasks>
+	</conditional>
 	<cb:f-install-patches />
-	<cb:if expr="'$(buildCode)' != 'false'">
-	  <cb:f-build />
-	</cb:if>
+	<conditional>
+	  <conditions>
+	    <compareCondition 
+		value1="$(updateSource)" 
+		value2="false" 
+		evaluation="NotEqual"
+		ignoreCase="true" />
+	  </conditions>
+	  <tasks>
+	    <cb:f-build />
+	  </tasks>
+	</conditional>
 	<cb:f-unit-tests />
 	<cb:msbuild-package />
 	<cb:publish-package />
