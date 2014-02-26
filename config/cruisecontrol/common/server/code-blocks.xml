@@ -448,13 +448,19 @@
       <buildArgs>/c "md -F $(private-build-root)\$(project-name)"</buildArgs>
     </exec>
     
+      <conditional>
+	<conditions>
+	  <folderExistsCondition folder="$(private-build-root)\$(project-name)\PrivateBuild" />>
+	</conditions>
+	<tasks Description="Remove old PrivateBuild">
     <exec
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old PrivateBuild">
       <buildArgs>-c "rm -r -fo $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
     </exec>
-    
+	</tasks>
+      </conditional>    
     <exec 
 	executable="$(powershell)" 
 	baseDirectory="$(project-folder)"
