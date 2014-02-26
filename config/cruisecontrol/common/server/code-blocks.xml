@@ -431,12 +431,19 @@
 	  </exec>
 	</tasks>
       </conditional>
-      <exec 
-	  executable="$(powershell)"
-	  baseDirectory="$(project-folder)"
-	  description="copy changeset log to the package folder">
-	<buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(pkgroot)\$(project-name)"</buildArgs>
-      </exec>
+      <conditional>
+	<conditions>
+	  <fileExistsCondition file="$(tag-folder)\ChangesetLog.xml" />
+	</conditions>
+	<tasks>
+	  <exec 
+	      executable="$(powershell)"
+	      baseDirectory="$(project-folder)"
+	      description="copy changeset log to the package folder">
+	    <buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(pkgroot)\$(project-name)"</buildArgs>
+	  </exec>
+	</tasks>
+      </conditional>
     </cb:if>
   </cb:define>
   
