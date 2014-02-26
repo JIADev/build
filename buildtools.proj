@@ -8,6 +8,7 @@
     <TagRepo>$(WorkingDirectory)\tagRepo</TagRepo>
     <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(MasterRepo)'))</SourceRepo>
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
+    <BuildTools>C:\Build</BuildTools>
   </PropertyGroup>
   
   <Target Name="GetTipChangeset" Outputs="$(Changeset)">
@@ -35,24 +36,32 @@
   <Target Name="GetMergedChangesets" DependsOnTargets="BuildExtractChangesets">
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
-    <Error Text="Missing CCNetArtifactDirectory" Condition="'$(CCNetArtifactDirectory)' == ''" />
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(OriginalChangeset)" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="hg merge $(NewChangeset) --preview &gt; $(RepoDirectory)\mergedRevisions.txt" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(NewChangeset)" />
+
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\ChangesetLog.xml" />
+  </Target>
+
+  <Target Name="MergeChangesetLog" DependsOnTargets="BuildMergeLog">
+    <Error Text="Missing CCNetArtifactDirectory" Condition="'$(CCNetArtifactDirectory)' == ''" />
+    <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <CallTarget Targets="GetLastModifiedArtifactFile">
       <Output TaskParameter="TargetOutputs" PropertyName="CCNetLogFile" />
     </CallTarget>
-
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" />
+  </Target>
+  <Target Name="BuildExtractChangesets">
+    <Csc Sources="$(BuildTools)\Code\ExtractChangesets.cs;$(BuildTools)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
   </Target>
 
-  <Target Name="BuildExtractChangesets">
-    <Csc Sources="c:\Build\Code\ExtractChangesets.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
+  <Target Name="BuildMergeLog">
+    <Csc Sources="$(BuildTools)\Code\MergeLog.cs;$(BuildTools)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
   </Target>
 
   <Target Name="BuildGetLastModifiedFile">
-    <Csc Sources="c:\Build\Code\GetLastModifiedFile.cs" OutputAssembly="$(RepoDirectory)\GetLastModifiedFile.exe" />
+    <Csc Sources="$(BuildTools)\Code\GetLastModifiedFile.cs" OutputAssembly="$(RepoDirectory)\GetLastModifiedFile.exe" />
   </Target>
 
   <Target Name="ShowMessage">

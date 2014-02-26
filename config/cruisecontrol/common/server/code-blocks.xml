@@ -72,6 +72,11 @@
 	      buildArgs = '-c "hg pull -r $(tag)"' 
 	      baseDirectory="$(tag-folder)" />
 	
+	
+	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
+	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder)</buildArgs>
+	</msbuild>
+	
 	<exec executable="$(powershell)" 
 	      description = "hg update to tag"
 	      buildArgs = '-c "hg update $(tag)"' 
@@ -371,7 +376,7 @@
 	  description="Create Release Package folder if needed">
 	<buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
-
+      
       <conditional>
 	<conditions>
 	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
@@ -391,28 +396,28 @@
 	  description="Make delete.me folder">
 	<buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
       </exec>
-
+      
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  description="move old release to the delete.me folder">
 	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
       </exec>
-
+      
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  description="move old changeset log to the delete.me folder">
 	<buildArgs>-c "mv $(pkgroot)\$(project-name)\ChangesetLog.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
       </exec>
-
+      
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  description="move new release to the package folder">
 	<buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
-
+      
       <conditional>
 	<conditions>
 	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
@@ -426,6 +431,12 @@
 	  </exec>
 	</tasks>
       </conditional>
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="copy changeset log to the package folder">
+	<buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(pkgroot)\$(project-name)"</buildArgs>
+      </exec>
     </cb:if>
   </cb:define>
   
@@ -436,21 +447,21 @@
 	description="Create PrivateBuild Root Folder if needed">
       <buildArgs>/c "md -F $(private-build-root)\$(project-name)"</buildArgs>
     </exec>
-
+    
     <exec
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
 	description = "remove old PrivateBuild">
       <buildArgs>-c "rm -r -fo $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
     </exec>
-
+    
     <exec 
 	executable="$(powershell)" 
 	baseDirectory="$(project-folder)"
 	description="Create PrivateBuild SubFolder if needed">
       <buildArgs>/c "md -F $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
     </exec>
-
+    
     <exec 
 	executable="$(powershell)"
 	baseDirectory="$(project-folder)"
@@ -555,18 +566,9 @@
     <xmllogger />
     <statistics />
     <cb:if expr="'$(sourceCheckInterval)' == ''">
-      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
-	<buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
+      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
+	<buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
       </msbuild>
-      <cb:if expr="'$(package)' == 'true'">
-      <exec 
-	  executable="$(powershell)"
-	  baseDirectory="$(project-folder)"
-	  description="copy changeset log to the package folder">
-	<buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(pkgroot)\$(project-name)"</buildArgs>
-      </exec>
-	  
-      </cb:if>
     </cb:if>
   </cb:define>
   
@@ -735,5 +737,5 @@
       <publish>true</publish>
     </ndepend>
   </cb:define>
-
+  
 </cb:config-template>
