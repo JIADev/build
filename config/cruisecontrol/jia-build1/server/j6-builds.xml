@@ -122,22 +122,6 @@
       sourceCheckInterval=""
       />
   
-  <cb:customerbuild
-      project-name="CUST065-cvs"
-      branch = "tags"
-      tag = "065_BLD"
-      prodTag="065_PRD"
-      driver = "CUST065"
-      repo-name="master"
-      unit-test="false"
-      build="false"
-      install-patches="false"
-      recreate-db="false"
-      package="true"
-      exclude-files="true"
-      sourceCheckInterval=""
-      />
-  
   <!-- CUST069 -->
   
   <cb:customerbuild
