@@ -402,6 +402,13 @@
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
+	  description="move old changeset log to the delete.me folder">
+	<buildArgs>-c "mv $(pkgroot)\$(project-name)\ChangesetLog.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+      </exec>
+
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
 	  description="move new release to the package folder">
 	<buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
