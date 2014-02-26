@@ -64,8 +64,8 @@ namespace ExtractChangesets
 			var xmlInput = RunProcess(hgExe, args, Environment.CurrentDirectory);
 			var xDoc = XDocument.Parse(xmlInput);
 			var remove = xDoc.XPathSelectElements("/log/logentry")
-				.Select(le => new {logEntry = le, msg = le == null ? null : le.XPathSelectElement("msg")})
-				.Where(m => !string.IsNullOrWhiteSpace(m.msg.Value) && m.msg.Value.Contains("@buildProcess")).Select(e => e.logEntry);
+				.Select(le => new {logEntry = le, msg = le == null ? string.Empty : (le.XPathSelectElement("msg") ?? string.Empty)})
+				.Where(m => m.msg.Value.Contains("@build")).Select(e => e.logEntry);
 			foreach (var entry in remove)
 			{
 				entry.Remove();

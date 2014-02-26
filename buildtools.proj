@@ -86,9 +86,9 @@
     </ItemGroup>
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(CustomerNumber)_PRD -C" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg branch $(BuildBranchName)" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Creating build branch @ignore @buildProcess"' />
+    <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Creating build branch @ignore @build"' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerNumber)_;SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(BuildBranchName);DoMerge=true;DoCommit=true;DoPush=false" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Closing $(BuildBranchName) @ignore @buildProcess" --close-branch' />
+    <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Closing $(BuildBranchName) @ignore @build" --close-branch' />
     <CallTarget Targets="GetTipChangeset">
       <Output TaskParameter="TargetOutputs" PropertyName="Changeset" />
     </CallTarget>
