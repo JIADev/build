@@ -61,7 +61,7 @@
       pull-options=""
       tag = ""
       prodTag = ""
-      build="false"
+      build="true"
       updateSource="true"
       unit-test="true"
       web-test="false"

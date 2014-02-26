@@ -30,13 +30,9 @@
 	<cb:configure-db />
 	<cb:build-feature-exe />
 	<cb:create-settings />
-	<cb:if expr="'$(updateSource)' != 'false'">
-	    <cb:f-setup />
-	</cb:if>
+	<cb:f-setup />
 	<cb:f-install-patches />
-	<cb:if expr="'$(build)' == 'true'">
-	    <cb:f-build />
-	</cb:if>
+	<cb:f-build />
 	<cb:f-unit-tests />
 	<cb:msbuild-package />
 	<cb:publish-package />
