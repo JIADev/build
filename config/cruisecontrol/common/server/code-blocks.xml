@@ -406,13 +406,6 @@
 	<buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
 
-      <exec 
-	  executable="$(powershell)"
-	  baseDirectory="$(project-folder)"
-	  description="copy changeset log to the package folder">
-	<buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(pkgroot)\$(project-name)"</buildArgs>
-      </exec>
-	  
       <conditional>
 	<conditions>
 	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
@@ -558,6 +551,15 @@
       <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
 	<buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
       </msbuild>
+      <cb:if expr="'$(package)' == 'true'">
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="copy changeset log to the package folder">
+	<buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(pkgroot)\$(project-name)"</buildArgs>
+      </exec>
+	  
+      </cb:if>
     </cb:if>
   </cb:define>
   
