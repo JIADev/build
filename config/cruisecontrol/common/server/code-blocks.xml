@@ -372,6 +372,19 @@
 	<buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
 
+      <conditional>
+	<conditions>
+	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
+	</conditions>
+	<tasks Description="Remove delete.me">
+	  <exec
+	      executable="$(powershell)"
+	      baseDirectory="$(project-folder)"
+	      description = "remove old release">
+	    <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	  </exec>
+	</tasks>
+      </conditional>
       <exec 
 	  executable="$(powershell)" 
 	  baseDirectory="$(project-folder)"
