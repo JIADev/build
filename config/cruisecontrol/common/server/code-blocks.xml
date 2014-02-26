@@ -20,24 +20,25 @@
   </cb:define>
   
   <cb:define name="update-source">
-    <exec executable="$(cmdExe)" 
-	  description="Copy default.hgrc file to .hg\hgrc"
-	  buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
-    
-    <exec executable="$(cmdExe)" 
-	  description="Configure hgrc"
-	  buildArgs='/c echo $(repo-name)/ >> $(source-folder)\.hg\hgrc' />
-    
-    <exec executable="$(cmdExe)" 
-	  description="Copy exclude file to source folder"
-	  buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
-    
-    <exec executable="$(powershell)" 
-	  description = "hg update to branch"
-	  buildArgs = '-c "hg update $(branch)"' 
-	  baseDirectory="$(source-folder)" />
-    
-    <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
+    <cb:if expr="'$(updateSource)' != 'false'">
+      <exec executable="$(cmdExe)" 
+	    description="Copy default.hgrc file to .hg\hgrc"
+	    buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
+      
+      <exec executable="$(cmdExe)" 
+	    description="Configure hgrc"
+	    buildArgs='/c echo $(repo-name)/ >> $(source-folder)\.hg\hgrc' />
+      
+      <exec executable="$(cmdExe)" 
+	    description="Copy exclude file to source folder"
+	    buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
+      
+      <exec executable="$(powershell)" 
+	    description = "hg update to branch"
+	    buildArgs = '-c "hg update $(branch)"' 
+	    baseDirectory="$(source-folder)" />
+      
+      <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
 	<conditional description="Update tag folder">
 	  <conditions>
 	    <folderExistsCondition folder="$(tag-folder)" />>
@@ -51,19 +52,19 @@
 		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
 	  </elseTasks>
 	</conditional>
-    </cb:if>
-
-    <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
+      </cb:if>
+      
+      <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
 	<exec executable="$(powershell)" 
 	      description = "hg pull updates from source-folder"
 	      buildArgs = '-c "hg pull $(source-folder)"' 
 	      baseDirectory="$(tag-folder)" />
-
+	
 	<cb:if expr="'$(prodTag)' != ''">
-	    <exec executable="$(powershell)" 
-		  description = "hg pull prod tag changes"
-		  buildArgs = '-c "hg pull -r $(prodTag)"' 
-		  baseDirectory="$(tag-folder)" />
+	  <exec executable="$(powershell)" 
+		description = "hg pull prod tag changes"
+		buildArgs = '-c "hg pull -r $(prodTag)"' 
+		baseDirectory="$(tag-folder)" />
 	</cb:if>
 	
 	<exec executable="$(powershell)" 
@@ -75,8 +76,8 @@
 	      description = "hg update to tag"
 	      buildArgs = '-c "hg update $(tag)"' 
 	      baseDirectory="$(tag-folder)" />
-    </cb:if>
-    
+      </cb:if>
+    </cb:if>    
   </cb:define>
   
   <cb:define name="set-customer">
@@ -112,35 +113,37 @@
   </cb:define>
   
   <cb:define name="force-clean">
-    <conditional description="Delete entire project folder">
-      <conditions>
-	<folderExistsCondition folder="$(project-folder)" />>
-      </conditions>
-      <tasks>
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)" 
-	      description="Delete entire project folder" 
-	      successExitCodes="0"> 
-	  <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
-	</exec>
-      </tasks>
-    </conditional>
-    
-    <cb:if expr="'$(exclude-files)' == 'true'">
+    <cb:if expr="'$(updateSource)' != 'false'">
+      <conditional description="Delete entire project folder">
+	<conditions>
+	  <folderExistsCondition folder="$(project-folder)" />>
+	</conditions>
+	<tasks>
+	  <exec executable="$(cmdExe)" 
+		baseDirectory="$(ccroot)" 
+		description="Delete entire project folder" 
+		successExitCodes="0"> 
+	    <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
+	  </exec>
+	</tasks>
+      </conditional>
+      
+      <cb:if expr="'$(exclude-files)' == 'true'">
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
 	      description="Copy source (timeout $(copy-source-timeout) seconds)"
 	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(tag-folder)\excludeFiles.config "$(tag-folder)" "$(project-folder)"' />
-    </cb:if>
-    <cb:else>
+      </cb:if>
+      <cb:else>
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
 	      description="Copy source (timeout $(copy-source-timeout) seconds)"
 	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i "$(tag-folder)" "$(project-folder)"' />
-    </cb:else>
-    <cb:set-customer />
+      </cb:else>
+      <cb:set-customer />
+    </cb:if>
   </cb:define>
   
   <cb:define name="force-clean-deployment-project">
@@ -235,8 +238,8 @@
   
   <cb:define name="msbuild-install-patches">
     <cb:if expr="'$(install-patches)' == 'true'">
-	<cb:msbuild-recreatedb />
-	<cb:msbuild-patch />
+      <cb:msbuild-recreatedb />
+      <cb:msbuild-patch />
     </cb:if>
   </cb:define>
   <cb:define name="f-install-patches">
@@ -244,12 +247,12 @@
       <cb:if expr="'$(recreate-db)' == 'true'">
 	<cb:recreate-database />
       </cb:if>
-	<exec 
-	    executable="$(feature)" 
-	    description = "install patches (timeout $(f-install-patches-timeout) seconds)" 
-	    buildArgs = 'install --patch' 
-	    baseDirectory="$(project-folder)"
-	    buildTimeoutSeconds = '$(f-install-patches-timeout)' />
+      <exec 
+	  executable="$(feature)" 
+	  description = "install patches (timeout $(f-install-patches-timeout) seconds)" 
+	  buildArgs = 'install --patch' 
+	  baseDirectory="$(project-folder)"
+	  buildTimeoutSeconds = '$(f-install-patches-timeout)' />
     </cb:if>
   </cb:define>
   
@@ -269,54 +272,58 @@
   </cb:define>
   
   <cb:define name="f-setup">
-    <exec 
-	executable="$(feature)" 
-	description = "feature setup (timeout $(f-setup-timeout) seconds)" 
-	baseDirectory="$(project-folder)"
-	buildArgs = 'setup' 
-	buildTimeoutSeconds = '$(f-setup-timeout)'>
-      <environment>
-	<variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
-      </environment>
-    </exec>
+    <cb:if expr="'$(updateSource)' != 'false'">
+      <exec 
+	  executable="$(feature)" 
+	  description = "feature setup (timeout $(f-setup-timeout) seconds)" 
+	  baseDirectory="$(project-folder)"
+	  buildArgs = 'setup' 
+	  buildTimeoutSeconds = '$(f-setup-timeout)'>
+	<environment>
+	  <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
+	</environment>
+      </exec>
+    </cb:if>
   </cb:define>
   
   <cb:define name="f-build">
-    <exec 
-	executable="$(feature)" 
-	buildTimeoutSeconds = '$(f-build-timeout)' 
-	baseDirectory="$(project-folder)"
-	description = "Feature Build (timeout $(f-build-timeout) seconds)">
-      <environment>
-	<variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
-      </environment>
-      <buildArgs>build /p:Platform=$(platform) /p:Configuration=$(configuration)</buildArgs>
-    </exec>
+    <cb:if expr="'$(build)' == 'true'">
+      <exec 
+	  executable="$(feature)" 
+	  buildTimeoutSeconds = '$(f-build-timeout)' 
+	  baseDirectory="$(project-folder)"
+	  description = "Feature Build (timeout $(f-build-timeout) seconds)">
+	<environment>
+	  <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
+	</environment>
+	<buildArgs>build /p:Platform=$(platform) /p:Configuration=$(configuration)</buildArgs>
+      </exec>
+    </cb:if>
   </cb:define>
   
   <cb:define name="f-unit-tests">
     <cb:if expr="'$(unit-test)' == 'true'">
-	<exec 
-	    description="test pattern UnitTest"
-	    executable="$(feature)"
-	    baseDirectory="$(project-folder)"
-	    buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
-	  <buildArgs>test --pattern UnitTest</buildArgs>
-	</exec>
+      <exec 
+	  description="test pattern UnitTest"
+	  executable="$(feature)"
+	  baseDirectory="$(project-folder)"
+	  buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
+	<buildArgs>test --pattern UnitTest</buildArgs>
+      </exec>
     </cb:if>
   </cb:define>
   
   <cb:define name="f-package">
     <cb:if expr="'$(package)' == 'true'">
-	<cb:create-revision-txt />
-	<exec executable="$(feature)"
-	      description = "Package for deployment"
-	      baseDirectory="$(project-folder)"
-	      buildArgs = 'package Package $(driver) --verbose --sourcepath=$(tag-folder)'>
-	  <environment>
-	    <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
-	  </environment>
-	</exec>
+      <cb:create-revision-txt />
+      <exec executable="$(feature)"
+	    description = "Package for deployment"
+	    baseDirectory="$(project-folder)"
+	    buildArgs = 'package Package $(driver) --verbose --sourcepath=$(tag-folder)'>
+	<environment>
+	  <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
+	</environment>
+      </exec>
     </cb:if>
   </cb:define>
   
@@ -331,77 +338,77 @@
   
   <cb:define name="tag-build">
     <cb:if expr="'$(sourceCheckInterval)' == ''">
-	<conditional>
-	  <conditions>
-	    <folderExistsCondition folder="$(tagsRepo)" />
-	  </conditions>
-	  <elseTasks>
-	    <exec executable="$(powershell)" 
-		  description = "hg start tags repo"
-		  buildArgs = '-c "hg clone $(source) $(tagsRepo)"' 
-		  baseDirectory="$(tag-folder)" />
-	  </elseTasks>
-	</conditional>
-	
-	<exec executable="$(powershell)"
-	      description = "hg pull changes to tags repo"
-	      buildArgs = '-c "hg pull"' 
-	      baseDirectory="$(tagsRepo)" />
-	
-	<exec executable="$(powershell)"
-	      description = "hg update to tags branch"
-	      buildArgs = '-c "hg update tags"' 
-	      baseDirectory="$(tagsRepo)" />
+      <conditional>
+	<conditions>
+	  <folderExistsCondition folder="$(tagsRepo)" />
+	</conditions>
+	<elseTasks>
+	  <exec executable="$(powershell)" 
+		description = "hg start tags repo"
+		buildArgs = '-c "hg clone $(source) $(tagsRepo)"' 
+		baseDirectory="$(tag-folder)" />
+	</elseTasks>
+      </conditional>
+      
+      <exec executable="$(powershell)"
+	    description = "hg pull changes to tags repo"
+	    buildArgs = '-c "hg pull"' 
+	    baseDirectory="$(tagsRepo)" />
+      
+      <exec executable="$(powershell)"
+	    description = "hg update to tags branch"
+	    buildArgs = '-c "hg update tags"' 
+	    baseDirectory="$(tagsRepo)" />
     </cb:if>
   </cb:define>
-
+  
   <cb:define name="publish-package">
     <cb:if expr="'$(package)' == 'true'">
-	<cb:tag-build />
-	<exec 
-	    executable="$(powershell)" 
-	    baseDirectory="$(project-folder)"
-	    description="Create package folder if needed">
-	  <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
-	</exec>
-	<conditional>
-	  <conditions>
-	    <folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
-	  </conditions>
-	  <tasks>
-	    <exec 
-		executable="$(powershell)" 
-		baseDirectory="$(project-folder)"
-		description="Create package folder if needed">
-	      <buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-	    </exec>
-	    <exec 
-		executable="$(powershell)"
-		baseDirectory="$(project-folder)"
-		description="move releases to the package folder">
-	      <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-	    </exec>
-	  </tasks>
-	</conditional>
-	<exec 
-	    executable="$(powershell)"
-	    baseDirectory="$(project-folder)"
-	    description="move releases to the package folder">
-	  <buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
-	</exec>
-	<conditional>
-	  <conditions>
-	    <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
-	  </conditions>
-	  <tasks>
-	    <exec
-		executable="$(powershell)"
-		baseDirectory="$(project-folder)"
-		description = "remove old releases">
-	      <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-	    </exec>
-	  </tasks>
-	</conditional>
+      <cb:tag-build />
+      <exec 
+	  executable="$(powershell)" 
+	  baseDirectory="$(project-folder)"
+	  description="Create package folder if needed">
+	<buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+      </exec>
+      <conditional>
+	<conditions>
+	  <folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
+	</conditions>
+	<tasks>
+	  <exec 
+	      executable="$(powershell)" 
+	      baseDirectory="$(project-folder)"
+	      description="Create package folder if needed">
+	    <buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	  </exec>
+	  <exec 
+	      executable="$(powershell)"
+	      baseDirectory="$(project-folder)"
+	      description="move releases to the package folder">
+	    <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	  </exec>
+	</tasks>
+      </conditional>
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="move releases to the package folder">
+	<buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
+      </exec>
+      <conditional>
+	<conditions>
+	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
+	</conditions>
+	<tasks>
+	  <exec
+	      executable="$(powershell)"
+	      baseDirectory="$(project-folder)"
+	      description = "remove old releases">
+	    <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	  </exec>
+	</tasks>
+      </conditional>
     </cb:if>
   </cb:define>
   
@@ -440,15 +447,15 @@
   
   <cb:define name="msbuild-package">
     <cb:if expr="'$(package)' == 'true'">
-	<cb:create-revision-txt />
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="package build (timeout $(msbuild-package-timeout) seconds)"
-		 executable="$(msbuild)"
-		 projectFile="j6.proj"
-		 targets="Package"
-		 workingDirectory="$(project-folder)"
-		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
-	</msbuild>
+      <cb:create-revision-txt />
+      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="package build (timeout $(msbuild-package-timeout) seconds)"
+	       executable="$(msbuild)"
+	       projectFile="j6.proj"
+	       targets="Package"
+	       workingDirectory="$(project-folder)"
+	       timeout="$(msbuild-package-timeout)">
+	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
+      </msbuild>
     </cb:if>
   </cb:define>
   
@@ -494,30 +501,30 @@
     <cb:if expr="'$(web-test)' == 'true'">
       <cb:if expr="'$(deployment-webserver)' != ''">
 	<cb:if expr="'$(deployment-sitename)' != ''">
-	<exec executable="$(cmdExe)" 
-	      description="Copy sql-settings file into PrivateBuild"
-	      buildArgs='/c copy /y "$(project-folder)\Release\sql-settings.xml" "$(project-folder)\PrivateBuild"' />
-	<conditional description="Create output folder if needed">
-	  <conditions>
-	    <folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
-	  </conditions>
-	  <tasks />
-	  <elseTasks>
-	    <exec 
-		executable="$(powershell)" 
-		baseDirectory="$(pkgroot)"
-		description="Create output folder">
-	      <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
-	    </exec>
-	  </elseTasks>
-	</conditional>
-	<exec>
-	  <description>Run web tests for deployed site</description>
-	  <executable>$(nunit)\nunit-console.exe</executable>
-	  <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
-	  <buildArgs>/nologo /labels /runlist:testlist.txt $(driver).WebTest.dll /result=$(pkgroot)\$(project-name)\WebTestResults.xml /out=$(pkgroot)\$(project-name)\WebTestOutput.txt /err=$(pkgroot)\$(project-name)\WebTestErrorOutput.txt</buildArgs>
-	  <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
-	</exec>
+	  <exec executable="$(cmdExe)" 
+		description="Copy sql-settings file into PrivateBuild"
+		buildArgs='/c copy /y "$(project-folder)\Release\sql-settings.xml" "$(project-folder)\PrivateBuild"' />
+	  <conditional description="Create output folder if needed">
+	    <conditions>
+	      <folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
+	    </conditions>
+	    <tasks />
+	    <elseTasks>
+	      <exec 
+		  executable="$(powershell)" 
+		  baseDirectory="$(pkgroot)"
+		  description="Create output folder">
+		<buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+	      </exec>
+	    </elseTasks>
+	  </conditional>
+	  <exec>
+	    <description>Run web tests for deployed site</description>
+	    <executable>$(nunit)\nunit-console.exe</executable>
+	    <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
+	    <buildArgs>/nologo /labels /runlist:testlist.txt $(driver).WebTest.dll /result=$(pkgroot)\$(project-name)\WebTestResults.xml /out=$(pkgroot)\$(project-name)\WebTestOutput.txt /err=$(pkgroot)\$(project-name)\WebTestErrorOutput.txt</buildArgs>
+	    <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
+	  </exec>
 	</cb:if>
       </cb:if>
     </cb:if>
@@ -535,9 +542,9 @@
     <xmllogger />
     <statistics />
     <cb:if expr="'$(sourceCheckInterval)' == ''">
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
-	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
-	</msbuild>
+      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
+	<buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
+      </msbuild>
     </cb:if>
   </cb:define>
   
@@ -563,13 +570,13 @@
   
   <cb:define name="msbuild-build">
     <cb:if expr="'$(build)' == 'true'">
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="build">
-	  <executable>$(msbuild)</executable>
-	  <projectFile>j6.proj</projectFile>
-	  <buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform)"</buildArgs>
-	  <targets>Build</targets>
-	  <timeout>$(msbuild-build-timeout)</timeout>
-	</msbuild>
+      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="build">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform)"</buildArgs>
+	<targets>Build</targets>
+	<timeout>$(msbuild-build-timeout)</timeout>
+      </msbuild>
     </cb:if>
   </cb:define>
   
@@ -639,45 +646,45 @@
   
   <cb:define name="run-unittests">
     <cb:if expr="'$(unit-test)' == 'true'">
-	<cb:copy-dlls-to-privatebuild />
-	<cb:run-ncover assembly="j6.Core.UnitTest" />
-	<cb:run-ncover assembly="j6.Communication.UnitTest" />
-	<cb:run-ncover assembly="j6.CommunicationSalesOrder.UnitTest" />
-	<cb:run-ncover assembly="j6.Core.UnitTest" />
-	<cb:run-ncover assembly="j6.Earning.UnitTest" />
-	<!--
-	    <cb:run-ncover assembly="J6.Event.UnitTests" />
-	-->
-	<cb:run-ncover assembly="j6.Genealogy.UnitTest" />
-	<cb:run-ncover assembly="j6.Payment.UnitTest" />
-	<cb:run-ncover assembly="j6.SalesOrder.UnitTest" />
-	<!--
-	    <cb:run-ncover assembly="j6.Web.UnitTest" />
-	-->
+      <cb:copy-dlls-to-privatebuild />
+      <cb:run-ncover assembly="j6.Core.UnitTest" />
+      <cb:run-ncover assembly="j6.Communication.UnitTest" />
+      <cb:run-ncover assembly="j6.CommunicationSalesOrder.UnitTest" />
+      <cb:run-ncover assembly="j6.Core.UnitTest" />
+      <cb:run-ncover assembly="j6.Earning.UnitTest" />
+      <!--
+	  <cb:run-ncover assembly="J6.Event.UnitTests" />
+      -->
+      <cb:run-ncover assembly="j6.Genealogy.UnitTest" />
+      <cb:run-ncover assembly="j6.Payment.UnitTest" />
+      <cb:run-ncover assembly="j6.SalesOrder.UnitTest" />
+      <!--
+	  <cb:run-ncover assembly="j6.Web.UnitTest" />
+      -->
     </cb:if>
   </cb:define>
   
   <cb:define name="run-datatests">
     <cb:if expr="'$(data-test)' == 'true'">
-	<cb:copy-dlls-to-privatebuild />
-	<cb:run-ncover assembly='j6.Communication.DataTest' />        
-	<cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
-	<cb:run-ncover assembly='j6.Core.DataTest' />                   
-	<cb:run-ncover assembly='j6.Earning.DataTest' />                
-	<cb:run-ncover assembly='j6.Engine.DataTest' />                 
-	<cb:run-ncover assembly='j6.Event.DataTest' />                  
-	<cb:run-ncover assembly='j6.Genealogy.DataTest' />              
-	<cb:run-ncover assembly='j6.Payment.DataTest' />                
-	<cb:run-ncover assembly='j6.SalesOrder.DataTest' />             
-	<!--
-	    <exec>
-	    <description>Run FxCop</description>
-	    <executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
-	    <baseDirectory>$(project-folder)</baseDirectory>
-	    <buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
-	    <buildTimeoutSeconds>600</buildTimeoutSeconds>
-	    </exec>
-	-->
+      <cb:copy-dlls-to-privatebuild />
+      <cb:run-ncover assembly='j6.Communication.DataTest' />        
+      <cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
+      <cb:run-ncover assembly='j6.Core.DataTest' />                   
+      <cb:run-ncover assembly='j6.Earning.DataTest' />                
+      <cb:run-ncover assembly='j6.Engine.DataTest' />                 
+      <cb:run-ncover assembly='j6.Event.DataTest' />                  
+      <cb:run-ncover assembly='j6.Genealogy.DataTest' />              
+      <cb:run-ncover assembly='j6.Payment.DataTest' />                
+      <cb:run-ncover assembly='j6.SalesOrder.DataTest' />             
+      <!--
+	  <exec>
+	  <description>Run FxCop</description>
+	  <executable>C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe</executable>
+	  <baseDirectory>$(project-folder)</baseDirectory>
+	  <buildArgs>/p:"FxCop_Targets.FxCop" /out:"TestResult\FxCop-results.xml" /gac</buildArgs>
+	  <buildTimeoutSeconds>600</buildTimeoutSeconds>
+	  </exec>
+      -->
     </cb:if>
   </cb:define>
   
@@ -706,5 +713,5 @@
       <publish>true</publish>
     </ndepend>
   </cb:define>
-  
+
 </cb:config-template>
