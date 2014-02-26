@@ -11,8 +11,8 @@
   </PropertyGroup>
   
   <Target Name="GetTipChangeset" Outputs="$(Changeset)">
-    <Exec Command="hg tip &gt; tip.txt" />
-    <ReadLinesFromFile File="tip.txt">
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg tip &gt; $(BuildRepo)\tip.txt" />
+    <ReadLinesFromFile File="$(BuildRepo)\tip.txt">
       <Output TaskParameter="Lines" PropertyName="Tip" />
     </ReadLinesFromFile>
     <PropertyGroup>
@@ -44,7 +44,7 @@
       <Output TaskParameter="TargetOutputs" PropertyName="CCNetLogFile" />
     </CallTarget>
 
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\RevisionLog.xml $(CCNetLogFile)" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" />
   </Target>
 
   <Target Name="BuildExtractChangesets">
