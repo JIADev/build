@@ -63,7 +63,7 @@ namespace ExtractChangesets
 
 			var xmlInput = RunProcess(hgExe, args, Environment.CurrentDirectory);
 			var xDoc = XDocument.Parse(xmlInput);
-			var remove = xDoc.XPathSelectElements("/log/logentry")
+			var remove = xDoc.XPathSelectElements("/log/logentry").ToArray()
 				.Select(le => 
 				new 
 				{
