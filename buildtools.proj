@@ -44,7 +44,7 @@
       <Output TaskParameter="TargetOutputs" PropertyName="CCNetLogFile" />
     </CallTarget>
 
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\RevisionLog.xml $(LastModified)" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\RevisionLog.xml $(CCNetLogFile)" />
   </Target>
 
   <Target Name="BuildExtractChangesets">
