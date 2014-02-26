@@ -8,15 +8,25 @@ using System.Xml.XPath;
 
 namespace ExtractChangesets
 {
-	class NewProgram
+	class Program
 	{
-		private static int NewMain(string[] args)
+		private static int Main(string[] args)
 		{
-			var inputFile = args[0];
-			var buildLogFile = args[1];
-			
-			var xml = ReadXml(inputFile);
-			MergeXml(buildLogFile, xml);
+			try
+			{
+
+				var inputFile = args[0];
+				var buildLogFile = args[1];
+
+				var xml = ReadXml(inputFile);
+				MergeXml(buildLogFile, xml);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				return 1;
+			}
+			return 0;
 		}
 
 		private static XDocument ReadXml(string inputFile)
