@@ -37,15 +37,7 @@
 	  buildArgs = '-c "hg update $(branch)"' 
 	  baseDirectory="$(source-folder)" />
     
-    <conditional description="Update to tag">
-      <conditions>
-	<compareCondition 
-	    value1="$(tag-folder)" 
-	    value2="$(source-folder)" 
-	    evaluation="NotEqual"
-	    ignoreCase="true" />
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
 	<conditional description="Update tag folder">
 	  <conditions>
 	    <folderExistsCondition folder="$(tag-folder)" />>
@@ -59,27 +51,20 @@
 		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
 	  </elseTasks>
 	</conditional>
-	
+    </cb:if>
+
+    <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
 	<exec executable="$(powershell)" 
 	      description = "hg pull updates from source-folder"
 	      buildArgs = '-c "hg pull $(source-folder)"' 
 	      baseDirectory="$(tag-folder)" />
-	
-	<conditional>
-	  <conditions>
-	    <compareCondition 
-		value1="$(prodTag)" 
-		value2="" 
-		evaluation="NotEqual"
-		ignoreCase="true" />
-	  </conditions>
-	  <tasks>
+
+	<cb:if expr="'$(prodTag)' != ''">
 	    <exec executable="$(powershell)" 
 		  description = "hg pull prod tag changes"
 		  buildArgs = '-c "hg pull -r $(prodTag)"' 
 		  baseDirectory="$(tag-folder)" />
-	  </tasks>
-	</conditional>
+	</cb:if>
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
@@ -90,8 +75,7 @@
 	      description = "hg update to tag"
 	      buildArgs = '-c "hg update $(tag)"' 
 	      baseDirectory="$(tag-folder)" />
-      </tasks>
-    </conditional>
+    </cb:if>
     
   </cb:define>
   
@@ -142,30 +126,20 @@
       </tasks>
     </conditional>
     
-    <conditional description="Copy source">
-      <conditions>
-	<compareCondition 
-	    value1="$(exclude-files)" 
-	    value2="true" 
-	    evaluation="equal"
-	    ignoreCase="true" />
-      </conditions>
-      <tasks description="Copy source excluding hg files">
-	
+    <cb:if expr="'$(exclude-files)' == 'true'">
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
 	      description="Copy source (timeout $(copy-source-timeout) seconds)"
 	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(tag-folder)\excludeFiles.config "$(tag-folder)" "$(project-folder)"' />
-      </tasks>
-      <elseTasks description="Copy source including all files">
+    </cb:if>
+    <cb:else>
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
 	      description="Copy source (timeout $(copy-source-timeout) seconds)"
 	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i "$(tag-folder)" "$(project-folder)"' />
-      </elseTasks>
-    </conditional>
+    </cb:else>
     <cb:set-customer />
   </cb:define>
   
@@ -260,53 +234,23 @@
   </cb:define>
   
   <cb:define name="msbuild-install-patches">
-    <conditional>
-      <conditions>
-	<compareCondition>
-	  <value1>$(install-patches)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(install-patches)' == 'true'">
 	<cb:msbuild-recreatedb />
 	<cb:msbuild-patch />
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
   <cb:define name="f-install-patches">
-    <conditional description="Setup Database">
-      <conditions>
-	<compareCondition>
-	  <value1>$(install-patches)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks description="Setup Database">
-	<conditional description="Recreate database">
-	  <conditions>
-	    <compareCondition>
-	      <value1>$(recreate-db)</value1>
-	      <value2>true</value2>
-	      <evaluation>equal</evaluation>
-	      <ignoreCase>true</ignoreCase>
-	    </compareCondition>
-	  </conditions>
-	  <tasks description="Recreate Database">
-	    <cb:recreate-database />
-	  </tasks>
-	</conditional>
+    <cb:if expr="'$(install-patches)' == 'true'">
+      <cb:if expr="'$(recreate-db)' == 'true'">
+	<cb:recreate-database />
+      </cb:if>
 	<exec 
 	    executable="$(feature)" 
 	    description = "install patches (timeout $(f-install-patches-timeout) seconds)" 
 	    buildArgs = 'install --patch' 
 	    baseDirectory="$(project-folder)"
 	    buildTimeoutSeconds = '$(f-install-patches-timeout)' />
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
   
   <cb:define name="recreate-database">
@@ -351,16 +295,7 @@
   </cb:define>
   
   <cb:define name="f-unit-tests">
-    <conditional description="Run unit tests">
-      <conditions>
-	<compareCondition>
-	  <value1>$(unit-test)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks description="Run unit tests">
+    <cb:if expr="'$(unit-test)' == 'true'">
 	<exec 
 	    description="test pattern UnitTest"
 	    executable="$(feature)"
@@ -368,21 +303,11 @@
 	    buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
 	  <buildArgs>test --pattern UnitTest</buildArgs>
 	</exec>
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
   
   <cb:define name="f-package">
-    <conditional description="Package">
-      <conditions>
-	<compareCondition>
-	  <value1>$(package)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks description="Package">
+    <cb:if expr="'$(package)' == 'true'">
 	<cb:create-revision-txt />
 	<exec executable="$(feature)"
 	      description = "Package for deployment"
@@ -392,8 +317,7 @@
 	    <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	  </environment>
 	</exec>
-      </tasks>    
-    </conditional>
+    </cb:if>
   </cb:define>
   
   <cb:define name="create-revision-txt">
@@ -406,16 +330,7 @@
   </cb:define>
   
   <cb:define name="tag-build">
-    <conditional>
-      <conditions>
-	<compareCondition>
-	  <value1>$(sourceCheckInterval)</value1>
-	  <value2></value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(sourceCheckInterval)' == ''">
 	<conditional>
 	  <conditions>
 	    <folderExistsCondition folder="$(tagsRepo)" />
@@ -437,21 +352,11 @@
 	      description = "hg update to tags branch"
 	      buildArgs = '-c "hg update tags"' 
 	      baseDirectory="$(tagsRepo)" />
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
 
   <cb:define name="publish-package">
-    <conditional description="Publish Package">
-      <conditions>
-	<compareCondition>
-	  <value1>$(package)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks description="Publish Package">
+    <cb:if expr="'$(package)' == 'true'">
 	<cb:tag-build />
 	<exec 
 	    executable="$(powershell)" 
@@ -497,8 +402,7 @@
 	    </exec>
 	  </tasks>
 	</conditional>
-      </tasks>
-    </conditional>    
+    </cb:if>
   </cb:define>
   
   <cb:define name="publish-privatebuild">
@@ -535,16 +439,7 @@
   </cb:define>
   
   <cb:define name="msbuild-package">
-    <conditional description="Create Package">
-      <conditions>
-	<compareCondition>
-	  <value1>$(package)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks description="Create Package">
+    <cb:if expr="'$(package)' == 'true'">
 	<cb:create-revision-txt />
 	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="package build (timeout $(msbuild-package-timeout) seconds)"
 		 executable="$(msbuild)"
@@ -554,27 +449,12 @@
 		 timeout="$(msbuild-package-timeout)">
 	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
 	</msbuild>
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
   
   <cb:define name="msdeploy">
-    <conditional description="Deploy">
-      <conditions>
-	<compareCondition>
-	  <value1>$(deployment-webserver)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<compareCondition>
-	  <value1>$(deployment-sitename)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(deployment-webserver)' != ''">
+      <cb:if expr="'$(deployment-sitename)' != ''">
 	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Configure sql-settings"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
@@ -606,34 +486,14 @@
 		 workingDirectory="$(project-folder)\Release">
 	  <buildArgs>/p:SiteName="$(deployment-sitename)" /p:WebServer=$(deployment-webserver)</buildArgs>
 	</msbuild>
-      </tasks>
-    </conditional>
+      </cb:if>
+    </cb:if>
   </cb:define>
   
   <cb:define name="run-webtests">
-    <conditional description="Run WebTests">
-      <conditions>
-	<compareCondition>
-	  <value1>$(web-test)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<compareCondition>
-	  <value1>$(deployment-webserver)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<compareCondition>
-	  <value1>$(deployment-sitename)</value1>
-	  <value2></value2>
-	  <evaluation>NotEqual</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-	<fileExistsCondition file="$(project-folder)\PrivateBuild\$(driver).WebTest.dll" />
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(web-test)' == 'true'">
+      <cb:if expr="'$(deployment-webserver)' != ''">
+	<cb:if expr="'$(deployment-sitename)' != ''">
 	<exec executable="$(cmdExe)" 
 	      description="Copy sql-settings file into PrivateBuild"
 	      buildArgs='/c copy /y "$(project-folder)\Release\sql-settings.xml" "$(project-folder)\PrivateBuild"' />
@@ -658,8 +518,9 @@
 	  <buildArgs>/nologo /labels /runlist:testlist.txt $(driver).WebTest.dll /result=$(pkgroot)\$(project-name)\WebTestResults.xml /out=$(pkgroot)\$(project-name)\WebTestOutput.txt /err=$(pkgroot)\$(project-name)\WebTestErrorOutput.txt</buildArgs>
 	  <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
 	</exec>
-      </tasks>
-    </conditional>
+	</cb:if>
+      </cb:if>
+    </cb:if>
   </cb:define>
   
   <cb:define name="standard-publishers">
@@ -673,21 +534,11 @@
     -->
     <xmllogger />
     <statistics />
-    <conditional>
-      <conditions>
-	<compareCondition>
-	  <value1>$(sourceCheckInterval)</value1>
-	  <value2></value2>
-	  <evaluation>Equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(sourceCheckInterval)' == ''">
 	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
 	</msbuild>
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
   
   <!-- Added for 7.6 builds -->
@@ -711,16 +562,7 @@
   </cb:define>
   
   <cb:define name="msbuild-build">
-    <conditional>
-      <conditions>
-	<compareCondition>
-	  <value1>$(build)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(build)' == 'true'">
 	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="build">
 	  <executable>$(msbuild)</executable>
 	  <projectFile>j6.proj</projectFile>
@@ -728,8 +570,7 @@
 	  <targets>Build</targets>
 	  <timeout>$(msbuild-build-timeout)</timeout>
 	</msbuild>
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
   
   <cb:define name="msbuild-bootstrap">
@@ -797,16 +638,7 @@
   </cb:define>
   
   <cb:define name="run-unittests">
-    <conditional>
-      <conditions>
-	<compareCondition>
-	  <value1>$(unit-test)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(unit-test)' == 'true'">
 	<cb:copy-dlls-to-privatebuild />
 	<cb:run-ncover assembly="j6.Core.UnitTest" />
 	<cb:run-ncover assembly="j6.Communication.UnitTest" />
@@ -822,22 +654,11 @@
 	<!--
 	    <cb:run-ncover assembly="j6.Web.UnitTest" />
 	-->
-      </tasks>
-    </conditional>
-    
+    </cb:if>
   </cb:define>
   
   <cb:define name="run-datatests">
-    <conditional>
-      <conditions>
-	<compareCondition>
-	  <value1>$(data-test)</value1>
-	  <value2>true</value2>
-	  <evaluation>equal</evaluation>
-	  <ignoreCase>true</ignoreCase>
-	</compareCondition>
-      </conditions>
-      <tasks>
+    <cb:if expr="'$(data-test)' == 'true'">
 	<cb:copy-dlls-to-privatebuild />
 	<cb:run-ncover assembly='j6.Communication.DataTest' />        
 	<cb:run-ncover assembly='j6.CommunicationSalesOrder.DataTest' />
@@ -857,8 +678,7 @@
 	    <buildTimeoutSeconds>600</buildTimeoutSeconds>
 	    </exec>
 	-->
-      </tasks>
-    </conditional>
+    </cb:if>
   </cb:define>
   
   <cb:define name="get-reports">

@@ -30,31 +30,13 @@
 	<cb:configure-db />
 	<cb:build-feature-exe />
 	<cb:create-settings />
-	<conditional>
-	  <conditions>
-	    <compareCondition 
-		value1="$(updateSource)" 
-		value2="false" 
-		evaluation="NotEqual"
-		ignoreCase="true" />
-	  </conditions>
-	  <tasks>
+	<cb:if expr="'$(updateSource)' != 'false'">
 	    <cb:f-setup />
-	  </tasks>
-	</conditional>
+	</cb:if>
 	<cb:f-install-patches />
-	<conditional>
-	  <conditions>
-	    <compareCondition 
-		value1="$(updateSource)" 
-		value2="false" 
-		evaluation="NotEqual"
-		ignoreCase="true" />
-	  </conditions>
-	  <tasks>
+	<cb:if expr="'$(build)' == 'true'">
 	    <cb:f-build />
-	  </tasks>
-	</conditional>
+	</cb:if>
 	<cb:f-unit-tests />
 	<cb:msbuild-package />
 	<cb:publish-package />
