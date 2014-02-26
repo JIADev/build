@@ -172,19 +172,24 @@ namespace ExtractChangesets
 		{
 			var args = CreateArgs(changesets);
 
-			var xmlInput = RunProcess(hgExe, args, Environment.CurrentDirectory, true, outputFile);
+			var xmlInput = RunProcess(hgExe, args, Environment.CurrentDirectory);
 			var xDoc = XDocument.Parse(xmlInput);
+			var remove = xDoc.XPathSelectElements("/log/logentry")
+				.Select(le => new {logEntry = le, msg = le == null ? null : le.XPathSelectElement("msg")})
+				.Where(m => !string.IsNullOrWhiteSpace(m.msg.Value) && m.msg.Value.Contains("@buildProcess")).Select(e => e.logEntry);
+			foreach (var entry in remove)
+			{
+				entry.Remove();
+			}
+			xDoc.Save(outputFile);
 			return xDoc;
 		}
 
 		private static string RunProcess(string process,
 			string args,
 			string workingDirectory,
-			bool waitForExit,
-			string outputFileName = null,
 			Dictionary<string, string> extraEnvVariables = null)
 		{
-			waitForExit = waitForExit || outputFileName != null;
 			var startInfo =
 				new ProcessStartInfo
 				{
@@ -205,60 +210,44 @@ namespace ExtractChangesets
 			{
 				StartInfo = startInfo
 			};
-			var outputFile = (outputFileName == null
-				? null
-				: new FileStream(outputFileName, FileMode.Create, FileAccess.Write, FileShare.Read));
-			
-			var outputTextWriter = (outputFile == null ? Console.Out : new StreamWriter(outputFile));
-			var outputString = new StringWriter();
-			try
-			{
-				proc.Start();
-				var errorBuilder = new StringBuilder();
 
-				var outputWriter = new Thread(() =>
-				{
-					string line;
-					lock (proc)
-						while ((line = proc.StandardOutput.ReadLine()) != null)
-						{
-							outputTextWriter.WriteLine(line);
-							outputString.WriteLine(line);
-						}
-				});
-				var errorWriter = new Thread(() =>
-				{
-					string line;
-					lock (proc)
-						while ((line = proc.StandardError.ReadLine()) != null)
-						{
-							Console.Error.WriteLine(line);
-							errorBuilder.AppendLine(line);
-						}
-				});
-				outputWriter.Start();
-				errorWriter.Start();
-				if (!string.IsNullOrEmpty(errorBuilder.ToString()))
-					throw new Exception(errorBuilder.ToString());
-				if (waitForExit)
-				{
-					proc.WaitForExit();
-					outputWriter.Join();
-					errorWriter.Join();
-				}
-				if (proc.ExitCode != 0)
-					throw new Exception(
-						string.Format("{0} {1}: {2}", process, args, proc.ExitCode));
-			}
-			finally
+			var outputString = new StringWriter();
+			proc.Start();
+			var errorBuilder = new StringBuilder();
+
+			var outputWriter = new Thread(() =>
 			{
-				outputTextWriter.Flush();
-				if (outputFile != null)
-				{
-					outputFile.Flush();
-					outputFile.Dispose();
-				}
-			}
+				string line;
+				lock (proc)
+					while ((line = proc.StandardOutput.ReadLine()) != null)
+					{
+						Console.WriteLine(line);
+						outputString.WriteLine(line);
+					}
+			});
+			var errorWriter = new Thread(() =>
+			{
+				string line;
+				lock (proc)
+					while ((line = proc.StandardError.ReadLine()) != null)
+					{
+						Console.Error.WriteLine(line);
+						errorBuilder.AppendLine(line);
+					}
+			});
+			outputWriter.Start();
+			errorWriter.Start();
+			if (!string.IsNullOrEmpty(errorBuilder.ToString()))
+				throw new Exception(errorBuilder.ToString());
+
+			proc.WaitForExit();
+			outputWriter.Join();
+			errorWriter.Join();
+
+			if (proc.ExitCode != 0)
+				throw new Exception(
+					string.Format("{0} {1}: {2}", process, args, proc.ExitCode));
+
 			return outputString.ToString();
 		}
 
