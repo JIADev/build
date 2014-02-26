@@ -400,11 +400,11 @@
 	<buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
 	  
-      <conditional Description="Remove delete.me">
+      <conditional>
 	<conditions>
 	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
 	</conditions>
-	<tasks>
+	<tasks Description="Remove delete.me">
 	  <exec
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"

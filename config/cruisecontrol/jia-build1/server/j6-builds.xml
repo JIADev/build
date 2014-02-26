@@ -134,7 +134,7 @@
       build="false"
       install-patches="false"
       recreate-db="false"
-      package="false"
+      package="true"
       exclude-files="true"
       sourceCheckInterval=""
       />
