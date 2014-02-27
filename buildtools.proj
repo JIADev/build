@@ -8,9 +8,12 @@
     <TagRepo>$(WorkingDirectory)\tagRepo</TagRepo>
     <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(MasterRepo)'))</SourceRepo>
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
-    <BuildTools>C:\Build</BuildTools>
+    <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
   </PropertyGroup>
   
+  <Target Name="Test">
+    <Message Text="$(MSBuildStartupDirectory)" />
+  </Target>
   <Target Name="GetTipChangeset" Outputs="$(Changeset)">
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg tip &gt; $(BuildRepo)\tip.txt" />
     <ReadLinesFromFile File="$(BuildRepo)\tip.txt">
@@ -52,16 +55,25 @@
     </CallTarget>
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" />
   </Target>
+
+  <Target Name="CleanJunctions" DependsOnTargets="BuildPurgeJunctionsExe">
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
+  </Target>
+
   <Target Name="BuildExtractChangesets">
-    <Csc Sources="$(BuildTools)\Code\ExtractChangesets.cs;$(BuildTools)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
   </Target>
 
   <Target Name="BuildMergeLog">
-    <Csc Sources="$(BuildTools)\Code\MergeLog.cs;$(BuildTools)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
   </Target>
 
   <Target Name="BuildGetLastModifiedFile">
-    <Csc Sources="$(BuildTools)\Code\GetLastModifiedFile.cs" OutputAssembly="$(RepoDirectory)\GetLastModifiedFile.exe" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\GetLastModifiedFile.cs" OutputAssembly="$(RepoDirectory)\GetLastModifiedFile.exe" />
+  </Target>
+
+  <Target Name="BuildPurgeJunctionsExe">
+    <Csc Sources="$(BuildToolsDirectory)\Code\PurgeJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
 
   <Target Name="ShowMessage">
