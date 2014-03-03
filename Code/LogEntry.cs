@@ -48,6 +48,9 @@ namespace ExtractChangesets
 			if (!string.IsNullOrWhiteSpace(Email))
 				returnValue.Add(CreateElement("email", Email));
 
+			if (!string.IsNullOrWhiteSpace(Branch))
+				returnValue.Add(new XAttribute("branch", Branch));
+
 			return returnValue;
 		}
 
