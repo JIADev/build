@@ -315,13 +315,20 @@
 
   <!-- CUST2094 -->
   
-  <cb:customerbuild
-      project-name="CUST2094-7.5.5"
-      branch = "7.5.5"
-      driver = "CUST2094"
+  <cb:v76build
+      project-name="CUST2094-7.6.0"
+      branch = '2094_7.6.0'
+      driver = 'CUST2094'
+      clean="true"
+      build="true"
+      data-test="true"
+      redis-db="15"
+      platform="AnyCpu"
       repo-name="master"
-      exclude-files="true"
-      package="true"
+      db-user=""
+      db-password=""
+      redis-server="localhost"
+      db-server="jia-sql12"
       />
-  
+
 </cb:config-template>

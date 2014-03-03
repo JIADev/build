@@ -159,33 +159,33 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
 
-  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge7_2;ForwardMerge7_3;ForwardMerge7_4;ForwardMerge7_5;ForwardMerge7_6" />
-  <Target Name="ForwardMerge7_4" DependsOnTargets="ForwardMerge7_4_0;ForwardMerge7_4_1;ForwardMerge7_4_4;ForwardMerge7_4_5" />
-  <Target Name="ForwardMerge7_5" DependsOnTargets="ForwardMerge7_5_0;ForwardMerge7_5_2;ForwardMerge7_5_3;ForwardMerge7_5_4;ForwardMerge7_5_5" />
-  <Target Name="ForwardMerge7_6" DependsOnTargets="ForwardMerge7_6_0" />
+  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge_72;ForwardMerge_73;ForwardMerge_74;ForwardMerge_75;ForwardMerge_76" />
+  <Target Name="ForwardMerge_74" DependsOnTargets="ForwardMerge_740;ForwardMerge_741;ForwardMerge_744;ForwardMerge_745" />
+  <Target Name="ForwardMerge_75" DependsOnTargets="ForwardMerge_750;ForwardMerge_752;ForwardMerge_753;ForwardMerge_754;ForwardMerge_755" />
+  <Target Name="ForwardMerge_76" DependsOnTargets="ForwardMerge_760;OutwardMerge_000_760;OutwardMerge_2094_760" />
 
-  <Target Name="ForwardMerge7_2">
+  <Target Name="ForwardMerge_72">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.2.11</TargetRepo>
       <TargetBranch>7.2.11</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=077_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_3">
+  <Target Name="ForwardMerge_73">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.3.3</TargetRepo>
       <TargetBranch>7.3.3</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2082_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_4_0">
+  <Target Name="ForwardMerge_740">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.4.0</TargetRepo>
       <TargetBranch>7.4.0</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2085_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_4_1">
+  <Target Name="ForwardMerge_741">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.4.1</TargetRepo>
       <TargetBranch>7.4.1</TargetBranch>
@@ -193,7 +193,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.4.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2083_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_4_4">
+  <Target Name="ForwardMerge_744">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.4.4</TargetRepo>
       <TargetBranch>7.4.4</TargetBranch>
@@ -201,7 +201,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.4.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2087_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_4_5">
+  <Target Name="ForwardMerge_745">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.4.5</TargetRepo>
       <TargetBranch>7.4.5</TargetBranch>
@@ -209,7 +209,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.4.4;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2089_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_5_0">
+  <Target Name="ForwardMerge_750">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.5.0</TargetRepo>
       <TargetBranch>7.5.0</TargetBranch>
@@ -217,14 +217,14 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=065_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2086_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_5_2">
+  <Target Name="ForwardMerge_752">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.5.2</TargetRepo>
       <TargetBranch>7.5.2</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_5_3">
+  <Target Name="ForwardMerge_753">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.5.3</TargetRepo>
       <TargetBranch>7.5.3</TargetBranch>
@@ -232,14 +232,14 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.2;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2069_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_5_4">
+  <Target Name="ForwardMerge_754">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.5.4</TargetRepo>
       <TargetBranch>7.5.4</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.3;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_5_5">
+  <Target Name="ForwardMerge_755">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.5.5</TargetRepo>
       <TargetBranch>7.5.5</TargetBranch>
@@ -247,7 +247,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.5.4;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2092_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  <Target Name="ForwardMerge7_6_0">
+  <Target Name="ForwardMerge_760">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.6.0</TargetRepo>
       <TargetBranch>7.6.0</TargetBranch>
@@ -255,5 +255,18 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=000_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
-  
+  <Target Name="OutwardMerge_000_760">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.6.0</TargetRepo>
+      <TargetBranch>000_7.6.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>    
+  <Target Name="OutwardMerge_2094_760">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.6.0</TargetRepo>
+      <TargetBranch>2094_7.6.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>    
 </Project>
