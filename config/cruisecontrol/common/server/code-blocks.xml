@@ -736,7 +736,7 @@
     <exec executable="$(powershell)" description = "copy j6.ndproj from core\private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
     <ndepend>
       <project>j6.ndproj</project>
-      <executable>C:\Program Files (x86)\NDepend\NDepend.Console.exe</executable>
+      <executable>$(ndepend)</executable>
       <description>Run the NDepend analysis.</description>
       <emitXml>true</emitXml>
       <outputDir>NDepend</outputDir>
