@@ -9,5 +9,4 @@ $args | foreach { if($customernumber -eq ''){
 $branches = $branches + '"'
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $msbuild = (get-item env:"FrameworkDir").Value + "\v4.0.30319\msbuild.exe"
-echo $msbuild
 & $msbuild /t:CreateBuild $customernumber$branches $scriptPath\buildtools.proj
