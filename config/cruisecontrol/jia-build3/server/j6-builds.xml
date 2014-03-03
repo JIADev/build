@@ -48,6 +48,20 @@
       modules="AUTOSHIP"
       />
   
+  <cb:v76build
+      project-name="CUST000-IntegrationGenerator-7.6.0"
+      branch = '000_IntegrationGenerator_7.6.0'
+      driver = 'CUST000'
+      clean="true"
+      build="true"	
+      unit-test="true"
+      data-test="false"
+      redis-db="16"
+      platform="AnyCpu"
+      repo-name="master"
+      modules="AUTOSHIP"
+      />
+  
   <cb:v76deployment
       project-name="CUST000-7.6.0-DEV-WebTest"
       driver = 'CUST000'
