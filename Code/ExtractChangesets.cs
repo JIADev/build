@@ -9,7 +9,7 @@ using System.Threading;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace ExtractChangesets
+namespace j6.BuildTools
 {
 	class Program
 	{
@@ -85,72 +85,6 @@ namespace ExtractChangesets
 				entry.Remove();
 			}
 			xDoc.Save(outputFile);
-		}
-
-		private static string RunProcess(string process,
-			string args,
-			string workingDirectory,
-			Dictionary<string, string> extraEnvVariables = null)
-		{
-			var startInfo =
-				new ProcessStartInfo
-				{
-					FileName = process,
-					UseShellExecute = false,
-					RedirectStandardError = true,
-					RedirectStandardOutput = true,
-					Arguments = args,
-					WorkingDirectory = workingDirectory,
-					StandardErrorEncoding = Encoding.UTF8,
-					StandardOutputEncoding = Encoding.UTF8,
-				};
-			foreach (var extraEnvVariable in extraEnvVariables ?? new Dictionary<string, string>())
-			{
-				startInfo.EnvironmentVariables[extraEnvVariable.Key] = extraEnvVariable.Value;
-			}
-			var proc = new Process
-			{
-				StartInfo = startInfo
-			};
-
-			var outputString = new StringWriter();
-			proc.Start();
-			var errorBuilder = new StringBuilder();
-
-			var outputWriter = new Thread(() =>
-			{
-				string line;
-				lock (proc)
-					while ((line = proc.StandardOutput.ReadLine()) != null)
-					{
-						Console.WriteLine(line);
-						outputString.WriteLine(line);
-					}
-			});
-			var errorWriter = new Thread(() =>
-			{
-				string line;
-				lock (proc)
-					while ((line = proc.StandardError.ReadLine()) != null)
-					{
-						Console.Error.WriteLine(line);
-						errorBuilder.AppendLine(line);
-					}
-			});
-			outputWriter.Start();
-			errorWriter.Start();
-			if (!string.IsNullOrEmpty(errorBuilder.ToString()))
-				throw new Exception(errorBuilder.ToString());
-
-			proc.WaitForExit();
-			outputWriter.Join();
-			errorWriter.Join();
-
-			if (proc.ExitCode != 0)
-				throw new Exception(
-					string.Format("{0} {1}: {2}", process, args, proc.ExitCode));
-
-			return outputString.ToString();
 		}
 
 		private static string CreateArgs(IEnumerable<string> changesets)

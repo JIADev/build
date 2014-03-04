@@ -56,16 +56,33 @@
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" />
   </Target>
 
+  <Target Name="Protect" DependsOnTargets="BuildProtect">
+    <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
+    <Error Text="Missing Directory" Condition="'$(Directory)' == ''" />
+    <Exec WorkingDirectory="$(Directory)" Command="$(BuildToolsDirectory)\Code\Protect.exe $(Directory) $(Customer)" /> 
+  </Target>
+
   <Target Name="CleanJunctions" DependsOnTargets="BuildPurgeJunctionsExe">
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
 
   <Target Name="BuildExtractChangesets">
-    <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
   </Target>
 
   <Target Name="BuildMergeLog">
     <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
+  </Target>
+
+  <Target Name="BuildProtect">
+    <ItemGroup>
+      <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
+    </ItemGroup>
+    <PropertyGroup>
+      <OutputDir>$(BuildToolsDirectory)\Code</OutputDir>
+    </PropertyGroup>
+    <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(OutputDir)" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\Protect.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(OutputDir)\Protect.exe" References="@(ReferenceFiles)" />
   </Target>
 
   <Target Name="BuildGetLastModifiedFile">
@@ -105,6 +122,7 @@
       <Output TaskParameter="TargetOutputs" PropertyName="Changeset" />
     </CallTarget>
     <Message Text="Changeset = $(Changeset)" />
+    <Message Text="Working directory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up tags" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(BuildTag) $(DatedBuildTag) -m "Triggering build for $(BuildTag)"' />
@@ -131,14 +149,18 @@
   <Target Name="InitBuildRepo">
     <MakeDir Directories="$(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(BuildRepo)" Condition="!Exists('$(BuildRepo)')" />
+    <Message Text="WorkingDirectory = $(BuildRepo)" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg pull" />
+    <Message Text="WorkingDirectory = $(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone $(BuildRepo) $(TagRepo)" Condition="!Exists('$(TagRepo)')" />
+    <Message Text="WorkingDirectory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
   </Target>
 
   <Target Name="InitMasterRepo">
     <MakeDir Directories="$(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(MasterRepo)" Condition="!Exists('$(MasterRepo)')" />
+    <Message Text="WorkingDirectory = $(MasterRepo)" />
     <Exec WorkingDirectory="$(MasterRepo)" Command="hg pull" />
   </Target>
 
@@ -151,6 +173,7 @@
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
     </PropertyGroup>
+    <Message Text="WorkingDirectory = $(TargetRepo)" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch) -C" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --preview" Condition="'$(Preview)' != 'false'" />

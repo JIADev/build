@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace ExtractChangesets
+namespace j6.BuildTools
 {
 	class Program
 	{
