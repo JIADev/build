@@ -147,7 +147,6 @@
 	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i "$(tag-folder)" "$(project-folder)"' />
       </cb:else>
-      <cb:set-customer />
     </cb:if>
   </cb:define>
   

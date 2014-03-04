@@ -71,10 +71,10 @@
       <prebuild>
 	<cb:update-source />
 	<cb:force-clean />
+	<cb:set-customer />
       </prebuild>
       <tasks description="Bootstrap setup">
 	<cb:copy-logger-local />
-	<cb:set-customer />
 	<cb:msbuild-configure />
 	<cb:msbuild-bootstrap />
 	<cb:msbuild-setup />

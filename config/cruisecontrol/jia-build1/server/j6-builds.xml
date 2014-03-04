@@ -319,9 +319,12 @@
       project-name="CUST2094-7.6.0-1"
       branch = '2094_7.6.0'
       driver = 'CUST2094'
-      clean="true"
-      build="true"
-      data-test="true"
+      clean="false"
+      updateSource="false"
+      install-patches="false"
+      unit-test="false"
+      build="false"
+      data-test="false"
       redis-db="15"
       platform="AnyCpu"
       repo-name="master"
