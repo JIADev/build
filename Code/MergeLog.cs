@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace ExtractChangesets
+namespace j6.BuildTools
 {
 	class Program
 	{
