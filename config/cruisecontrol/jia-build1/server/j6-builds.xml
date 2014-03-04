@@ -325,10 +325,6 @@
       redis-db="15"
       platform="AnyCpu"
       repo-name="master"
-      db-user=""
-      db-password=""
-      redis-server="localhost"
-      db-server="jia-sql12"
       />
 
 </cb:config-template>

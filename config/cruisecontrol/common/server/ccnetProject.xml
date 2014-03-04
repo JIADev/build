@@ -4,6 +4,10 @@
     project-root="ccnet-$(ccBuildServer)"
     />
   <project name="$(project-root)" category="ccnet" queue="ccnet">
+    <cb:define db-server="" />
+    <cb:define db-user="" />
+    <cb:define db-password="" />
+
     <triggers>
       <intervalTrigger seconds="60" />
     </triggers>
