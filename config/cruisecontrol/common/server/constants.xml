@@ -54,6 +54,8 @@
   <!-- Other defaults -->
     <!-- 14400 seconds = 4 hours -->
   <cb:define
+      redis-server="localhost"
+      redis-db="10"
       queueSuffix = ""
       sourceCheckInterval = "300"
       bookmark=""

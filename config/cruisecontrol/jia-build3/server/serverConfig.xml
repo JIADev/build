@@ -15,16 +15,17 @@
 
   <!-- Network Urls and Servers -->
   <cb:define
-      redis-server="localhost"
-      redis-db="10"
-      db-server="jia-sql12"
+      db-server-2008="dev-sql1"
+      db-server-2012="jia-sql12"
       ccBuildServer="jia-build3"
       />
 
   <!-- Credentials -->
   <cb:define
-      db-user=""
-      db-password=""
+      db-user-2008="sqluser"
+      db-password-2008="j0l-6-web"
+      db-user-2012=""
+      db-password-2012=""
       />
 
   <!-- Misc -->
