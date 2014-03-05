@@ -327,6 +327,7 @@
       redis-db="15"
       platform="AnyCpu"
       repo-name="master"
+      generate-reports="false"
       />
   <!--
   <cb:v76build

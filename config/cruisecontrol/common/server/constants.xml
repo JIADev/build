@@ -54,6 +54,7 @@
   <!-- Other defaults -->
     <!-- 14400 seconds = 4 hours -->
   <cb:define
+      generate-reports="true"
       redis-server="localhost"
       redis-db="10"
       queueSuffix = ""
