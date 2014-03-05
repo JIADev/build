@@ -59,7 +59,7 @@
   <Target Name="Protect" DependsOnTargets="BuildProtect">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing Directory" Condition="'$(Directory)' == ''" />
-    <Exec WorkingDirectory="$(Directory)" Command="$(BuildToolsDirectory)\Code\Protect.exe $(Directory) $(Customer)" /> 
+    <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\Protect.exe $(Directory) $(Customer)" /> 
   </Target>
 
   <Target Name="CleanJunctions" DependsOnTargets="BuildPurgeJunctionsExe">
@@ -78,11 +78,8 @@
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
     </ItemGroup>
-    <PropertyGroup>
-      <OutputDir>$(BuildToolsDirectory)\Code</OutputDir>
-    </PropertyGroup>
     <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(OutputDir)" />
-    <Csc Sources="$(BuildToolsDirectory)\Code\Protect.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(OutputDir)\Protect.exe" References="@(ReferenceFiles)" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\Protect.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(MSBuildStartupDirectory)\Protect.exe" References="@(ReferenceFiles)" />
   </Target>
 
   <Target Name="BuildGetLastModifiedFile">
