@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Ionic.Zip;
@@ -10,6 +11,8 @@ namespace j6.BuildTools
 	{
 		private static int Main(string[] args)
 		{
+			var tl = new ConsoleTraceListener();
+			Trace.Listeners.Add(tl);
 			try
 			{
 				if (args.Length < 2)
@@ -42,7 +45,8 @@ namespace j6.BuildTools
 					Directory.Delete(tempDir, true);
 
 				Directory.CreateDirectory(tempDir);
-			
+
+				Trace.WriteLine(string.Format("Reading: {0}", baseDir.FullName));
 				var zipFiles = ExtractZips(baseDir, tempDir);
 				var assembliesToVeil = GetAssembliesToVeil(driverFeature, baseDir);
 				var distinctFiles = GetDistinctFiles(assembliesToVeil, tempDir);
@@ -87,6 +91,7 @@ namespace j6.BuildTools
 			var extractedList = new Dictionary<FileInfo, DirectoryInfo>();
 			foreach (var zipFileInfo in zipFileInfos)
 			{
+				Trace.WriteLine(string.Format("Extracting: {0}", zipFileInfo.FullName));
 				var extractedDirectory = Path.Combine(tempDir, zipFileInfo.Name.Substring(0, zipFileInfo.Name.Length - ".zip".Length));
 				var zipFile = ZipFile.Read(zipFileInfo.FullName);
 				zipFile.ExtractAll(extractedDirectory);
@@ -134,6 +139,7 @@ namespace j6.BuildTools
 					firstFile.CopyTo(tempFile);
 				}
 			}
+			Trace.WriteLine(string.Format("{0} distinct files to secure: {1}", returnValue.Count, string.Join(", ", returnValue.Select(r => r.Key).ToArray())));
 			return returnValue;
 
 		}
