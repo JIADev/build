@@ -314,6 +314,7 @@
       />
 
   <!-- CUST2094 -->
+<!--
   <cb:v76build
       project-name="CUST2094-7.6.0-1"
       branch = '2094_7.6.0'
@@ -329,7 +330,7 @@
       repo-name="master"
       generate-reports="false"
       />
-  <!--
+-->
   <cb:v76build
       project-name="CUST2094-7.6.0-1"
       branch = '2094_7.6.0'
@@ -338,5 +339,4 @@
       platform="AnyCpu"
       repo-name="master"
       />
--->
 </cb:config-template>
