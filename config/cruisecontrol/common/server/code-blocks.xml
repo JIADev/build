@@ -709,6 +709,7 @@
   </cb:define>
   
   <cb:define name="get-reports">
+    <cb:if expr="'$(generate-reports)' == 'true'">
     <exec>
       <description>Generate coverage report</description>
       <executable>$(ncoverReportingExe)</executable>
@@ -732,6 +733,7 @@
       <baseDir>$(project-folder)</baseDir>
       <publish>true</publish>
     </ndepend>
+    </cb:if>
   </cb:define>
   
 </cb:config-template>
