@@ -36,6 +36,7 @@ namespace j6.BuildTools
 			};
 
 			var outputString = new StringWriter();
+			Trace.WriteLine(string.Format("Starting: {0} with arguments: {1}", startInfo.FileName, startInfo.Arguments));
 			proc.Start();
 			var errorBuilder = new StringBuilder();
 
