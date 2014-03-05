@@ -7,18 +7,6 @@
   
   <!-- release branches -->
   
-  <cb:v76build
-      project-name="CUST000-7.6.0"
-      branch = '7.6.0'
-      driver = 'CUST000'
-      clean="true"
-      build="true"
-      data-test="true"
-      redis-db="14"
-      platform="AnyCpu"
-      repo-name="master"
-      />
-
 <!-- Disabled until dev gets going  
   <cb:v76build
       project-name="$(project-root)"
@@ -75,16 +63,4 @@
       queueSuffix="-WebTests"
       />
   
-  <cb:v76build
-      project-name="CUST2094-7.6.0"
-      branch = '2094_7.6.0'
-      driver = 'CUST2094'
-      clean="true"
-      build="true"
-      data-test="true"
-      redis-db="15"
-      platform="AnyCpu"
-      repo-name="master"
-      />
-
 </cb:config-template>
