@@ -3235,7 +3235,6 @@ set _ArgLocalIISVersion=
 @rem Simple Parse the arguments
 @rem ---------------------------------------------------------------------------------
 :NextArgument
-set _ArgCurrentOriginal=%1
 set _ArgCurrent=%~1
 
 if /I &quot;%_ArgCurrent%&quot; == &quot;&quot; goto :GetStarted
@@ -3255,7 +3254,7 @@ if /I &quot;%_ArgFlag%&quot; == &quot;/A:&quot; set _ArgAuthType=%_ArgValue%&amp
 if /I &quot;%_ArgFlag%&quot; == &quot;/G:&quot; set _ArgtempAgent=%_ArgValue%&amp;goto :ArgumentOK
 
 @rem Any addition flags, pass through to the msdeploy
-set _ArgMsDeployAdditionalFlags=%_ArgMsDeployAdditionalFlags% %_ArgCurrentOriginal%
+set _ArgMsDeployAdditionalFlags=%_ArgMsDeployAdditionalFlags% %_ArgCurrent%
 
 :ArgumentOK
 shift
