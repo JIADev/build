@@ -78,7 +78,7 @@
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
     </ItemGroup>
-    <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(OutputDir)" />
+    <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
     <Csc Sources="$(BuildToolsDirectory)\Code\Protect.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(MSBuildStartupDirectory)\Protect.exe" References="@(ReferenceFiles)" />
   </Target>
 
