@@ -23,9 +23,9 @@
       <prebuild>
 	<cb:update-source />
 	<cb:force-clean />
-	<cb:set-customer />
       </prebuild>
-      <tasks description="Bootstrap setup">
+      <tasks>
+	<cb:set-customer />
 	<cb:junction-features />
 	<cb:copy-logger-local />
 	<cb:configure-db />
@@ -71,9 +71,9 @@
       <prebuild>
 	<cb:update-source />
 	<cb:force-clean />
-	<cb:set-customer />
       </prebuild>
-      <tasks description="Bootstrap setup">
+      <tasks>
+	<cb:set-customer />
 	<cb:copy-logger-local />
 	<cb:msbuild-configure />
 	<cb:msbuild-bootstrap />
