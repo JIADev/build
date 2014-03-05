@@ -314,7 +314,7 @@
       />
 
   <!-- CUST2094 -->
-  
+  <!--
   <cb:v76build
       project-name="CUST2094-7.6.0-1"
       branch = '2094_7.6.0'
@@ -329,5 +329,13 @@
       platform="AnyCpu"
       repo-name="master"
       />
-
+-->
+  <cb:v76build
+      project-name="CUST2094-7.6.0-1"
+      branch = '2094_7.6.0'
+      driver = 'CUST2094'
+      redis-db="15"
+      platform="AnyCpu"
+      repo-name="master"
+      />
 </cb:config-template>
