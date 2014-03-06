@@ -107,6 +107,8 @@
       redis-db="14"
       platform="AnyCpu"
       repo-name="master"
+      j6Version="7.6.0"
+      modules="AUTOSHIP"
       />
 
   <cb:v76build
@@ -120,6 +122,7 @@
       redis-db="16"
       platform="AnyCpu"
       repo-name="master"
+      j6Version="7.6.0"
       modules="AUTOSHIP"
       />
   
@@ -364,6 +367,7 @@
       redis-db="15"
       platform="AnyCpu"
       repo-name="master"
+      j6Version="7.6.0"
       />
 
 </cb:config-template>
