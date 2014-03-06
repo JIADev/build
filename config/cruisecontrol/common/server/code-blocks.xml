@@ -443,7 +443,7 @@
     
       <conditional>
 	<conditions>
-	  <folderExistsCondition folder="$(private-build-root)\$(project-name)\PrivateBuild" />>
+	  <folderExistsCondition folder="$(private-build-root)\$(project-name)\PrivateBuild" />
 	</conditions>
 	<tasks Description="Remove old PrivateBuild">
     <exec
@@ -478,6 +478,22 @@
 	       workingDirectory="$(project-folder)"
 	       timeout="$(msbuild-package-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
+      </msbuild>
+      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Protect Build"
+	       executable="$(msbuild)"
+	       projectFile="c:\build\buildtools.proj"
+	       targets="Protect"
+	       workingDirectory="$(project-folder)"
+	       timeout="$(msbuild-package-timeout)">
+	<buildArgs>/p:Directory="$(project-folder)\RELEASE-UNPROTECTED" /p:Customer=$(driver)</buildArgs>
+      </msbuild>
+      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Protect Build"
+	       executable="$(msbuild)"
+	       projectFile="c:\build\buildtools.proj"
+	       targets="CreateZip"
+	       workingDirectory="$(project-folder)"
+	       timeout="$(msbuild-package-timeout)">
+	<buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[CCNetBuildDate] $[CCNetBuildTime]"</buildArgs>
       </msbuild>
     </cb:if>
   </cb:define>

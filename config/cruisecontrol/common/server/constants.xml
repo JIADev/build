@@ -55,6 +55,7 @@
     <!-- 14400 seconds = 4 hours -->
   <cb:define
       generate-reports="true"
+      j6Version="7.0.0"
       redis-server="localhost"
       redis-db="10"
       queueSuffix = ""

@@ -37,6 +37,7 @@
       platform="AnyCpu"
       repo-name="master"
       modules="AUTOSHIP"
+      j6Version="7.6.0"
       />
   
   <cb:v76deployment
