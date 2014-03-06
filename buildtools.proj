@@ -59,7 +59,21 @@
   <Target Name="Protect" DependsOnTargets="BuildProtect">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing Directory" Condition="'$(Directory)' == ''" />
-    <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\Protect.exe $(Directory) $(Customer)" /> 
+    <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\Protect.exe $(Directory) $(Customer)" IgnoreExitCode="true" />
+  </Target>
+
+  <Target Name="CreateZip" DependsOnTargets="BuildZip">
+    <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
+    <Error Text="Missing j6Version" Condition="'$(j6Version)' == ''" />
+    <Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
+    <Error Text="Missing ZipDirectory" Condition="'$(ZipDirectory)' == ''" />
+    <PropertyGroup>
+      <ZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).zip</ZipFile>
+      <UnprotectedZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))-UNPROTECTED.zip</UnprotectedZipFile>
+    </PropertyGroup>
+
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(MSBuildStartupDirectory)\Zip.exe $(ZipDirectory) $(ZipFile)" Condition="Exists('$(ZipDirectory)')" /> 
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(MSBuildStartupDirectory)\Zip.exe $(ZipDirectory)-UNPROTECTED $(UnprotectedZipFile)" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
   </Target>
 
   <Target Name="CleanJunctions" DependsOnTargets="BuildPurgeJunctionsExe">
@@ -72,6 +86,14 @@
 
   <Target Name="BuildMergeLog">
     <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
+  </Target>
+
+  <Target Name="BuildZip">
+    <ItemGroup>
+      <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\Zip.cs" OutputAssembly="$(MSBuildStartupDirectory)\Zip.exe" References="@(ReferenceFiles)" />
   </Target>
 
   <Target Name="BuildProtect">

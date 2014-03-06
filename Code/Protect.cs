@@ -11,8 +11,6 @@ namespace j6.BuildTools
 	{
 		private static int Main(string[] args)
 		{
-			var tl = new ConsoleTraceListener();
-			Trace.Listeners.Add(tl);
 			try
 			{
 				if (args.Length < 2)
@@ -21,18 +19,25 @@ namespace j6.BuildTools
 					return 1;
 				}
 				Protect(args[0], args[1]);
+				
 				return 0;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("ERROR: " + ex.Message);
-				return 255;
+				return 0;
 			}
 		}
 
 		private static void Protect(string baseDir, string driverFeature)
 		{
-			ProtectAll(driverFeature, new DirectoryInfo(baseDir));
+			const string UNPROTECTED = "-UNPROTECTED";
+			var releaseDir = new DirectoryInfo(baseDir);
+			
+			ProtectAll(driverFeature, releaseDir);
+
+			if(releaseDir.FullName.EndsWith(UNPROTECTED, StringComparison.InvariantCultureIgnoreCase))
+				releaseDir.MoveTo(releaseDir.FullName.Substring(0, releaseDir.FullName.Length - UNPROTECTED.Length));
 		}
 
 		public static void ProtectAll(string driverFeature, DirectoryInfo baseDir)
@@ -42,11 +47,14 @@ namespace j6.BuildTools
 			try
 			{
 				if (Directory.Exists(tempDir))
+				{
+					Console.WriteLine(string.Format("Deleting: {0}", tempDir));
 					Directory.Delete(tempDir, true);
+				}
 
 				Directory.CreateDirectory(tempDir);
 
-				Trace.WriteLine(string.Format("Reading: {0}", baseDir.FullName));
+				Console.WriteLine(string.Format("Reading: {0}", baseDir.FullName));
 				var zipFiles = ExtractZips(baseDir, tempDir);
 				var assembliesToVeil = GetAssembliesToVeil(driverFeature, baseDir);
 				var distinctFiles = GetDistinctFiles(assembliesToVeil, tempDir);
@@ -65,7 +73,10 @@ namespace j6.BuildTools
 			finally
 			{
 				if (Directory.Exists(tempDir))
+				{
+					Console.WriteLine(string.Format("Deleting: {0}", tempDir));
 					Directory.Delete(tempDir, true);
+				}
 			}
 		}
 
@@ -91,8 +102,8 @@ namespace j6.BuildTools
 			var extractedList = new Dictionary<FileInfo, DirectoryInfo>();
 			foreach (var zipFileInfo in zipFileInfos)
 			{
-				Trace.WriteLine(string.Format("Extracting: {0}", zipFileInfo.FullName));
 				var extractedDirectory = Path.Combine(tempDir, zipFileInfo.Name.Substring(0, zipFileInfo.Name.Length - ".zip".Length));
+				Console.WriteLine(string.Format("Extracting: {0} to {1}", zipFileInfo.FullName, extractedDirectory));
 				var zipFile = ZipFile.Read(zipFileInfo.FullName);
 				zipFile.ExtractAll(extractedDirectory);
 				extractedList.Add(zipFileInfo, new DirectoryInfo(extractedDirectory));
@@ -139,7 +150,7 @@ namespace j6.BuildTools
 					firstFile.CopyTo(tempFile);
 				}
 			}
-			Trace.WriteLine(string.Format("{0} distinct files to secure: {1}", returnValue.Count, string.Join(", ", returnValue.Select(r => r.Key).ToArray())));
+			Console.WriteLine(string.Format("{0} distinct files to secure: {1}", returnValue.Count, string.Join(", ", returnValue.Select(r => r.Key).ToArray())));
 			return returnValue;
 
 		}
