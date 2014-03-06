@@ -25,6 +25,21 @@
       project-name="CUST000-7.6.0-DEV"
       branch = '000_7.6.0'
       driver = 'CUST000'
+      unit-test="false"
+      data-test="false"
+      generate-reports="false"
+      redis-db="16"
+      platform="AnyCpu"
+      repo-name="master"
+      modules="AUTOSHIP"
+      j6Version="7.6.0"
+      />
+  
+-->
+  <cb:v76build
+      project-name="CUST000-7.6.0-DEV"
+      branch = '000_7.6.0'
+      driver = 'CUST000'
       clean="false"
       updateSource="false"
       install-patches="false"
@@ -38,23 +53,6 @@
       modules="AUTOSHIP"
       j6Version="7.6.0"
       />
-  
-
-  -->
-  <cb:v76build
-      project-name="CUST000-7.6.0-DEV"
-      branch = '000_7.6.0'
-      driver = 'CUST000'
-      unit-test="false"
-      data-test="false"
-      generate-reports="false"
-      redis-db="16"
-      platform="AnyCpu"
-      repo-name="master"
-      modules="AUTOSHIP"
-      j6Version="7.6.0"
-      />
-  
 
   <cb:v76deployment
       project-name="CUST000-7.6.0-DEV-WebTest"
