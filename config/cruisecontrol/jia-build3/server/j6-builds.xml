@@ -32,6 +32,7 @@
       build="false"	
       unit-test="false"
       data-test="false"
+      generate-reports="false"
       redis-db="16"
       platform="AnyCpu"
       repo-name="master"
