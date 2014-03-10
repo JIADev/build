@@ -726,29 +726,31 @@
   
   <cb:define name="get-reports">
     <cb:if expr="'$(generate-reports)' == 'true'">
-    <exec>
-      <description>Generate coverage report</description>
-      <executable>$(ncoverReportingExe)</executable>
-      <buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
-      <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
-      <baseDirectory>$(project-folder)\Coverage</baseDirectory>
-    </exec>
-    <exec executable="$(powershell)" description = "copy j6.ndproj from core/private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
-    <ndepend>
-      <project>j6.ndproj</project>
-      <executable>$(ndepend)</executable>
-      <description>Run the NDepend analysis</description>
-      <emitXml>true</emitXml>
-      <outputDir>NDepend</outputDir>
-      <inputDirs>
-	<inputDir>Build</inputDir>
-      </inputDirs>
-      <silent>false</silent>
-      <reportXslt>custom-report.xsl</reportXslt>
-      <timeout>$(get-reports-timeout)</timeout>
-      <baseDir>$(project-folder)</baseDir>
-      <publish>true</publish>
-    </ndepend>
+      <exec>
+	<description>Generate coverage report</description>
+	<executable>$(ncoverReportingExe)</executable>
+	<buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
+	<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+	<baseDirectory>$(project-folder)\Coverage</baseDirectory>
+      </exec>
+      <exec executable="$(powershell)" description = "copy j6.ndproj from core/private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
+      <cb:if expr="'$(run-ndepend)' == 'true'">
+	<ndepend>
+	  <project>j6.ndproj</project>
+	  <executable>$(ndepend)</executable>
+	  <description>Run the NDepend analysis</description>
+	  <emitXml>true</emitXml>
+	  <outputDir>NDepend</outputDir>
+	  <inputDirs>
+	    <inputDir>Build</inputDir>
+	  </inputDirs>
+	  <silent>false</silent>
+	  <reportXslt>custom-report.xsl</reportXslt>
+	  <timeout>$(get-reports-timeout)</timeout>
+	  <baseDir>$(project-folder)</baseDir>
+	  <publish>true</publish>
+	</ndepend>
+      </cb:if>
     </cb:if>
   </cb:define>
   
