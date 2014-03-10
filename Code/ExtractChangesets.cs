@@ -61,7 +61,7 @@ namespace j6.BuildTools
 		{
 			var args = CreateArgs(changesets);
 
-			var xmlInput = RunProcess(hgExe, args, Environment.CurrentDirectory);
+			var xmlInput = BuildSystem.RunProcess(hgExe, args, Environment.CurrentDirectory);
 			var xDoc = XDocument.Parse(xmlInput);
 			var remove = xDoc.XPathSelectElements("/log/logentry").ToArray()
 				.Select(le => 
