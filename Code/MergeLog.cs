@@ -53,7 +53,7 @@ namespace j6.BuildTools
 
 			var newRevisions = revisionLog.XPathSelectElements("/log/logentry");
 
-			foreach (var logEntry in newRevisions.Select(LogEntry.CreateNew))
+			foreach (var logEntry in newRevisions.Select(LogEntry.CreateNew).Where(r => r.FilesModified != null && r.FilesModified.Any()))
 			{
 				modificationsElement.Add(logEntry.ToXElement());
 			}

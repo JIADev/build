@@ -89,7 +89,7 @@ namespace j6.BuildTools
 
 		private static string CreateArgs(IEnumerable<string> changesets)
 		{
-			return string.Format("log {0} --no-merges --style xml", string.Join(" ", changesets.Select(c => string.Format("-r {0}", c))));
+			return string.Format("log {0} -v --no-merges --style xml", string.Join(" ", changesets.Select(c => string.Format("-r {0}", c))));
 		}
 
 		private static IEnumerable<string> GetChangesets(string mergedRevisionFile)
