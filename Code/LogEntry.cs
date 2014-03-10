@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -17,6 +18,8 @@ namespace j6.BuildTools
 		public string Email { get; set; }
 		public DateTime? Date { get; set; }
 		public string Msg { get; set; }
+		public string[] FilesModified { get; set; }
+
 		// ReSharper restore MemberCanBePrivate.Local
 		// ReSharper restore UnusedAutoPropertyAccessor.Local
 
@@ -72,6 +75,8 @@ namespace j6.BuildTools
 			var node = logEntryElement.Attribute("node");
 			var branch = logEntryElement.XPathSelectElement("branch");
 			var date = logEntryElement.XPathSelectElement("date");
+			var pathsElement = logEntryElement.XPathSelectElement("paths");
+			var paths = pathsElement == null ? null : pathsElement.XPathSelectElements("path").ToArray();
 
 			var returnValue = new LogEntry
 			{
@@ -83,7 +88,8 @@ namespace j6.BuildTools
 				Author = author == null ? null : author.Value,
 				Email = email == null ? null : email.Value,
 				Date = date == null ? null : (DateTime?)DateTime.Parse(date.Value),
-				Msg = logEntryElement.XPathSelectElement("msg").Value
+				Msg = logEntryElement.XPathSelectElement("msg").Value,
+				FilesModified = paths == null ? null : paths.Select(p => p.Value).ToArray()
 			};
 			return returnValue;
 		}
