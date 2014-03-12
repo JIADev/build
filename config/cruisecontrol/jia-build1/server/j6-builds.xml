@@ -234,6 +234,8 @@
       driver = "CUST2083"
       repo-name="master"
       exclude-files="true"
+      external-protect="false"
+      external-zip="false"
       sourceCheckInterval=""
       />
 

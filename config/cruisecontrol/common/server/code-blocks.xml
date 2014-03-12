@@ -479,6 +479,7 @@
 	       timeout="$(msbuild-package-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
       </msbuild>
+   <cb:if expr="'$(external-protect)' == 'true'">
       <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Protect Build"
 	       executable="$(msbuild)"
 	       projectFile="c:\build\buildtools.proj"
@@ -487,6 +488,8 @@
 	       timeout="$(msbuild-package-timeout)">
 	<buildArgs>/p:Directory="$(project-folder)\RELEASE-UNPROTECTED" /p:Customer=$(driver)</buildArgs>
       </msbuild>
+    </cb:if>
+   <cb:if expr="'$(external-zip)' == 'true'">
       <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Create Zip File"
 	       executable="$(msbuild)"
 	       projectFile="c:\build\buildtools.proj"
@@ -495,6 +498,7 @@
 	       timeout="$(msbuild-package-timeout)">
 	<buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
       </msbuild>
+    </cb:if>
     </cb:if>
   </cb:define>
   
