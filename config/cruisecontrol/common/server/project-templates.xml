@@ -114,6 +114,7 @@
 	repo-name="master"
 	package="false"
 	j6Version="7.6.0"
+	queueSuffix="-Track$(track)"
 	/>
   </cb:define>
 
