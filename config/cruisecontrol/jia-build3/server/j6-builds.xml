@@ -41,6 +41,19 @@
 
 -->
 
+  <cb:v76build
+      project-name="CUST000-7.6.0-DEV"
+      branch = '000_7.6.0'
+      driver = 'CUST000'
+      redis-db="16"
+      platform="AnyCpu"
+      repo-name="master"
+      modules="AUTOSHIP"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.0"
+      />
+  
   <cb:v76deployment
       project-name="CUST000-7.6.0-DEV-WebTest"
       driver = 'CUST000'

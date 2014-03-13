@@ -114,7 +114,7 @@
       />
 
   <cb:v76build
-      project-name="CUST000-7.6.0-DEV"
+      project-name="CUST000-7.6.0-DEV-1"
       branch = '000_7.6.0'
       driver = 'CUST000'
       redis-db="16"
@@ -127,10 +127,10 @@
       />
   
   <cb:v76deployment
-      project-name="CUST000-7.6.0-DEV-WebTest"
+      project-name="CUST000-7.6.0-DEV-WebTest-1"
       driver = 'CUST000'
       web-test="true"
-      project-to-deploy="CUST000-7.6.0-DEV"
+      project-to-deploy="CUST000-7.6.0-DEV-1"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_760_CA" 
       db-server="DEV-8900sql1"
