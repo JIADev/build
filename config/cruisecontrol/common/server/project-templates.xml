@@ -104,7 +104,19 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
-  
+
+  <cb:define name="reqBuild">
+    <cb:v76build
+	driver="CUST$(customer)"
+	project-name="$(driver)-$(req-number)"
+	branch = '$(customer)_$(req-number)'
+	platform="AnyCpu"
+	repo-name="master"
+	package="false"
+	j6Version="7.6.0"
+	/>
+  </cb:define>
+
   <cb:define name="v76deployment">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="ccnet-$(project-name)-DEV" />
