@@ -68,16 +68,6 @@
       />
   
   <cb:v76build
-      project-name="CUST2094-REQ49"
-      branch = '2094_REQ49'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
       project-name="CUST2094-2094_REQ038"
       branch = '2094_REQ038'
       driver = 'CUST2094'
