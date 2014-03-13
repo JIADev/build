@@ -385,16 +385,4 @@
       j6Version="7.6.0"
       />
 
-  <cb:v76build
-      project-name="CUST2094-REQ49"
-      branch = '2094_REQ49'
-      driver = 'CUST2094'
-      redis-db="15"
-      platform="AnyCpu"
-      repo-name="master"
-      external-protect="true"
-      external-zip="true"
-      j6Version="7.6.0"
-      />
-
 </cb:config-template>
