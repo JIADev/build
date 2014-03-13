@@ -66,417 +66,47 @@
       redis-db="12"
       queueSuffix="-WebTests"
       />
-  
-  <cb:v76build
-      project-name="CUST2094-REQ038"
-      branch = '2094_REQ038'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
 
-  <cb:v76build
-      project-name="CUST2094-REQ177"
-      branch = '2094_REQ177'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ009"
-      branch = '2094_REQ009'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ023"
-      branch = '2094_REQ023'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ016"
-      branch = '2094_REQ016'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ006"
-      branch = '2094_REQ006'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ060"
-      branch = '2094_REQ060'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ044"
-      branch = '2094_REQ044'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ193"
-      branch = '2094_REQ193'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ194"
-      branch = '2094_REQ194'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ022"
-      branch = '2094_REQ022'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ126"
-      branch = '2094_REQ126'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ132"
-      branch = '2094_REQ132'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ127"
-      branch = '2094_REQ127'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ128"
-      branch = '2094_REQ128'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ129"
-      branch = '2094_REQ129'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ141"
-      branch = '2094_REQ141'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ142"
-      branch = '2094_REQ142'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ143"
-      branch = '2094_REQ143'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ134"
-      branch = '2094_REQ134'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ011"
-      branch = '2094_REQ011'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ013"
-      branch = '2094_REQ013'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ020"
-      branch = '2094_REQ020'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ024"
-      branch = '2094_REQ024'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ064"
-      branch = '2094_REQ064'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ116"
-      branch = '2094_REQ116'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ121"
-      branch = '2094_REQ121'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ145"
-      branch = '2094_REQ145'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ146"
-      branch = '2094_REQ146'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ147"
-      branch = '2094_REQ147'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ035"
-      branch = '2094_REQ035'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ033"
-      branch = '2094_REQ033'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ036"
-      branch = '2094_REQ036'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ017"
-      branch = '2094_REQ017'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ039"
-      branch = '2094_REQ039'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ089"
-      branch = '2094_REQ089'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ091"
-      branch = '2094_REQ091'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ086"
-      branch = '2094_REQ086'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ051"
-      branch = '2094_REQ051'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ095"
-      branch = '2094_REQ095'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-  <cb:v76build
-      project-name="CUST2094-REQ049"
-      branch = '2094_REQ049'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      package="false"
-      j6Version="7.6.0"
-      />
-
-
+  <cb:reqBuild customer="2094" req-number="REQ038" />
+  <cb:reqBuild customer="2094" req-number="REQ177" />
+  <cb:reqBuild customer="2094" req-number="REQ009" />
+  <cb:reqBuild customer="2094" req-number="REQ023" />
+  <cb:reqBuild customer="2094" req-number="REQ016" />
+  <cb:reqBuild customer="2094" req-number="REQ006" />
+  <cb:reqBuild customer="2094" req-number="REQ060" />
+  <cb:reqBuild customer="2094" req-number="REQ044" />
+  <cb:reqBuild customer="2094" req-number="REQ193" />
+  <cb:reqBuild customer="2094" req-number="REQ194" />
+  <cb:reqBuild customer="2094" req-number="REQ022" />
+  <cb:reqBuild customer="2094" req-number="REQ126" />
+  <cb:reqBuild customer="2094" req-number="REQ132" />
+  <cb:reqBuild customer="2094" req-number="REQ127" />
+  <cb:reqBuild customer="2094" req-number="REQ128" />
+  <cb:reqBuild customer="2094" req-number="REQ129" />
+  <cb:reqBuild customer="2094" req-number="REQ141" />
+  <cb:reqBuild customer="2094" req-number="REQ142" />
+  <cb:reqBuild customer="2094" req-number="REQ143" />
+  <cb:reqBuild customer="2094" req-number="REQ134" />
+  <cb:reqBuild customer="2094" req-number="REQ011" />
+  <cb:reqBuild customer="2094" req-number="REQ013" />
+  <cb:reqBuild customer="2094" req-number="REQ020" />
+  <cb:reqBuild customer="2094" req-number="REQ024" />
+  <cb:reqBuild customer="2094" req-number="REQ064" />
+  <cb:reqBuild customer="2094" req-number="REQ116" />
+  <cb:reqBuild customer="2094" req-number="REQ121" />
+  <cb:reqBuild customer="2094" req-number="REQ145" />
+  <cb:reqBuild customer="2094" req-number="REQ146" />
+  <cb:reqBuild customer="2094" req-number="REQ147" />
+  <cb:reqBuild customer="2094" req-number="REQ035" />
+  <cb:reqBuild customer="2094" req-number="REQ033" />
+  <cb:reqBuild customer="2094" req-number="REQ036" />
+  <cb:reqBuild customer="2094" req-number="REQ017" />
+  <cb:reqBuild customer="2094" req-number="REQ039" />
+  <cb:reqBuild customer="2094" req-number="REQ089" />
+  <cb:reqBuild customer="2094" req-number="REQ091" />
+  <cb:reqBuild customer="2094" req-number="REQ086" />
+  <cb:reqBuild customer="2094" req-number="REQ051" />
+  <cb:reqBuild customer="2094" req-number="REQ095" />
+  <cb:reqBuild customer="2094" req-number="REQ049" />
 
 </cb:config-template>
