@@ -75,5 +75,16 @@ namespace j6.BuildTools
 
 			return outputString.ToString();
 		}
+
+		public static void PowerShell(string command, string workingDirectory = ".", bool encodeCommand = false)
+		{
+			if (encodeCommand)
+			{
+				command = Convert.ToBase64String(Encoding.Unicode.GetBytes(command));
+			}
+			RunProcess("powershell",
+				string.Format("-{1} \"{0}\"", command, encodeCommand ? "EncodedCommand" : "Command"),
+					workingDirectory);
+		}
 	}
 }
