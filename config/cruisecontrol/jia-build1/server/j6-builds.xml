@@ -107,6 +107,8 @@
       redis-db="14"
       platform="AnyCpu"
       repo-name="master"
+      external-protect="true"
+      external-zip="true"
       j6Version="7.6.0"
       modules="AUTOSHIP"
       />
@@ -119,6 +121,8 @@
       platform="AnyCpu"
       repo-name="master"
       modules="AUTOSHIP"
+      external-protect="true"
+      external-zip="true"
       j6Version="7.6.0"
       />
   
@@ -170,8 +174,6 @@
       driver = "CUST069"
       repo-name="master"
       exclude-files="true"
-      external-protect="false"
-      external-zip="false"
       sourceCheckInterval=""
       />
 
@@ -245,8 +247,6 @@
       driver = "CUST2083"
       repo-name="master"
       exclude-files="true"
-      external-protect="false"
-      external-zip="false"
       sourceCheckInterval=""
       />
 
@@ -380,6 +380,8 @@
       redis-db="15"
       platform="AnyCpu"
       repo-name="master"
+      external-protect="true"
+      external-zip="true"
       j6Version="7.6.0"
       />
 
@@ -390,6 +392,8 @@
       redis-db="15"
       platform="AnyCpu"
       repo-name="master"
+      external-protect="true"
+      external-zip="true"
       j6Version="7.6.0"
       />
 
