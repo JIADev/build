@@ -105,8 +105,8 @@
       sourcecontrol-timeout="3600"
       triggerTime="20:00"
       run-ndepend="false"
-      external-protect="true"
-      external-zip="true"
+      external-protect="false"
+      external-zip="false"
       />
   
 </cb:config-template>
