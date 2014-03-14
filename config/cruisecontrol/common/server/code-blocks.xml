@@ -561,13 +561,14 @@
 	      </exec>
 	    </elseTasks>
 	  </conditional>
-	  <exec>
-	    <description>Run web tests for deployed site</description>
-	    <executable>$(nunit)\nunit-console.exe</executable>
-	    <buildTimeoutSeconds>$(webtest-timeout)</buildTimeoutSeconds>
-	    <buildArgs>/nologo /labels /runlist:testlist.txt $(driver).WebTest.dll /result=$(pkgroot)\$(project-name)\WebTestResults.xml /out=$(pkgroot)\$(project-name)\WebTestOutput.txt /err=$(pkgroot)\$(project-name)\WebTestErrorOutput.txt</buildArgs>
-	    <baseDirectory>$(project-folder)\PrivateBuild</baseDirectory>
-	  </exec>
+	  <msbuild 
+	      logger="$(ccroot)\MSBuildListener.dll"
+	      description="Run Web Tests for deployed site"
+	      executable="$(msbuild)"
+	      projectFile="$(project-folder)\RELEASE\deployment.proj"
+	      targets="CCWebTest"
+	      workingDirectory="$(project-folder)\privateBuild"
+	      buildArgs="/p:Driver=$(driver) /p:OutputDir=$(pkgroot)\$(project-name) /p:NUnitConsole=$(nunit)\nunit-console.exe" />
 	</cb:if>
       </cb:if>
     </cb:if>
