@@ -391,6 +391,8 @@
 	platform="AnyCpu"
 	repo-name="master"
 	j6Version="7.6.0"
+	external-protect="true"
+	external-zip="true"
 	queueSuffix="-Track3"
 	/>
 
