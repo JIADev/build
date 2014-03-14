@@ -476,7 +476,7 @@
 	       projectFile="j6.proj"
 	       targets="Package"
 	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-package-timeout)">
+	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
       </msbuild>
    <cb:if expr="'$(external-protect)' == 'true'">
@@ -485,7 +485,7 @@
 	       projectFile="c:\build\buildtools.proj"
 	       targets="Protect"
 	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-package-timeout)">
+	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:Directory="$(project-folder)\RELEASE-UNPROTECTED" /p:Customer=$(driver)</buildArgs>
       </msbuild>
     </cb:if>
