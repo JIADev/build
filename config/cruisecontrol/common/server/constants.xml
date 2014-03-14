@@ -93,6 +93,7 @@
       f-build-timeout="1500"
       feature-test-unit-timeout="3600"
       msbuild-package-timeout="1500"
+      msbuild-protect-timeout="3600"
       msbuild-configure-timeout="300"
       msbuild-build-timeout="1500"
       msbuild-bootstrap-timeout="1500"
