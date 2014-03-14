@@ -58,9 +58,12 @@ namespace j6.BuildTools
 				var zipFiles = ExtractZips(baseDir, tempDir);
 				var assembliesToVeil = GetAssembliesToVeil(driverFeature, baseDir);
 				var distinctFiles = GetDistinctFiles(assembliesToVeil, tempDir);
-				var targets = string.Join(";", distinctFiles.Keys.ToArray());
-				var args = "/Secure /Target:" + targets;
-				BuildSystem.RunProcess("AgileDotNet.Console.exe", args, baseDir.FullName);
+				
+				var args = distinctFiles.Keys.Select(f => "/Secure /Target:" + f);
+				foreach (var arg in args)
+				{
+					BuildSystem.RunProcess("AgileDotNet.Console.exe", arg, baseDir.FullName);
+				}
 				foreach (var veiledFile in distinctFiles)
 				{
 					foreach (var targetFile in veiledFile.Value.Select(f => f.FullName).ToArray())
