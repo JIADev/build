@@ -569,7 +569,7 @@
 	      targets="CCWebTest"
 	      workingDirectory="$(project-folder)\privateBuild"
 	      buildArgs='/p:Driver=$(driver) /p:OutputDir="$(pkgroot)\$(project-name)" /p:NUnitConsole="$(nunit)\nunit-console.exe"'
-	      timeout="webtest-timeout" />
+	      timeout="$(webtest-timeout)" />
 	</cb:if>
       </cb:if>
     </cb:if>
