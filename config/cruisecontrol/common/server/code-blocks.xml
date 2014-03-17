@@ -568,7 +568,7 @@
 	      projectFile="$(project-folder)\RELEASE\deployment.proj"
 	      targets="CCWebTest"
 	      workingDirectory="$(project-folder)\privateBuild"
-	      buildArgs="/p:Driver=$(driver) /p:OutputDir=$(pkgroot)\$(project-name) /p:NUnitConsole=$(nunit)\nunit-console.exe" />
+	      buildArgs='/p:Driver=$(driver) /p:OutputDir="$(pkgroot)\$(project-name)" /p:NUnitConsole="$(nunit)\nunit-console.exe"' />
 	</cb:if>
       </cb:if>
     </cb:if>
