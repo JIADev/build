@@ -279,6 +279,7 @@
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.4.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2087_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=069_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
   <Target Name="ForwardMerge_745" DependsOnTargets="InitRepos">
     <PropertyGroup>
