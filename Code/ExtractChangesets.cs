@@ -59,9 +59,15 @@ namespace j6.BuildTools
 		
 		private static void GenerateXml(string hgExe, string outputFile, IEnumerable<string> changesets)
 		{
-			var args = CreateArgs(changesets);
+			var xmlInput = string.Empty;
+			if (changesets.Any())
+			{
+				var args = CreateArgs(changesets);
 
-			var xmlInput = BuildSystem.RunProcess(hgExe, args, Environment.CurrentDirectory);
+				xmlInput = BuildSystem.RunProcess(hgExe, args, Environment.CurrentDirectory);
+			}
+			if (string.IsNullOrEmpty(xmlInput))
+				xmlInput = "<log />";
 			var xDoc = XDocument.Parse(xmlInput);
 			var remove = xDoc.XPathSelectElements("/log/logentry").ToArray()
 				.Select(le => 
