@@ -674,7 +674,7 @@
   <cb:define name="run-ncover">
     <exec>
       <description>Run unit tests for $(assembly)</description>
-      <executable>"$(ncoverConsoleExe)"</executable>
+      <executable>$(ncoverConsoleExe)</executable>
       <buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
       <buildArgs>"$(nunit)\nunit-console.exe" /nologo /labels /framework=4.0.30319 "/result=$(project-folder)\TestResult\$(assembly)-test.xml" //x $(project-folder)\Coverage\$(assembly)-coverage.xml //at $(project-folder)\Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
       <baseDirectory>$(project-folder)</baseDirectory>
@@ -734,7 +734,7 @@
     <cb:if expr="'$(generate-reports)' == 'true'">
       <exec>
 	<description>Generate coverage report</description>
-	<executable>"$(ncoverReportingExe)"</executable>
+	<executable>$(ncoverReportingExe)</executable>
 	<buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
 	<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
 	<baseDirectory>$(project-folder)\Coverage</baseDirectory>
