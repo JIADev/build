@@ -384,6 +384,7 @@
       external-zip="true"
       j6Version="7.6.0"
       />
+
     <cb:v76build
 	driver="CUST2094"
 	project-name="CUST2094-Track3"
@@ -394,6 +395,18 @@
 	external-protect="true"
 	external-zip="true"
 	queueSuffix="-Track3"
+	/>
+
+    <cb:v76build
+	driver="CUST2094"
+	project-name="CUST2094-Track5"
+	branch = '2094_REQ044'
+	platform="AnyCpu"
+	repo-name="master"
+	j6Version="7.6.0"
+	external-protect="true"
+	external-zip="true"
+	queueSuffix="-Track5"
 	/>
 
 </cb:config-template>
