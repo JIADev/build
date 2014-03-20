@@ -81,7 +81,6 @@
 	<cb:msbuild-install-patches />
 	<cb:msbuild-build />
 	<cb:setup-unittests />
-	<cb:run-unittests />
 	<cb:get-reports />
 	<cb:msbuild-package />
 	<cb:publish-package />
