@@ -671,14 +671,27 @@
     <exec executable="$(cmdExe)" buildArgs= '/C copy $(project-folder)\Build\*.dll $(project-folder)\PrivateBuild' />
   </cb:define>
   
+  <cb:define name="run-ncover-f-unittests">
+    <cb:if expr="'$(unit-test)' == 'true'">
+      <exec 
+	  description="test pattern UnitTest"
+	  executable="$(feature)"
+	  baseDirectory="$(project-folder)"
+	  buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
+	<buildArgs>test --coverage --pattern UnitTest</buildArgs>
+      </exec>
+    </cb:if>
+  </cb:define>
   <cb:define name="run-ncover">
-    <exec>
-      <description>Run unit tests for $(assembly)</description>
-      <executable>$(ncoverConsoleExe)</executable>
-      <buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
-      <buildArgs>"$(nunit)\nunit-console.exe" /nologo /labels /framework=4.0.30319 "/result=$(project-folder)\TestResult\$(assembly)-test.xml" //x $(project-folder)\Coverage\$(assembly)-coverage.xml //at $(project-folder)\Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
-      <baseDirectory>$(project-folder)</baseDirectory>
-    </exec>
+    <cb:if expr="'$(unit-test)' == 'true'">
+      <exec>
+	<description>Run unit tests for $(assembly)</description>
+	<executable>$(ncoverConsoleExe)</executable>
+	<buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
+	<buildArgs>"$(nunit)\nunit-console.exe" /nologo /labels /framework=4.0.30319 "/result=$(project-folder)\TestResult\$(assembly)-test.xml" //x $(project-folder)\Coverage\$(assembly)-coverage.xml //at $(project-folder)\Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
+	<baseDirectory>$(project-folder)</baseDirectory>
+      </exec>
+    </cb:if>
   </cb:define>
   
   <cb:define name="setup-unittests">
