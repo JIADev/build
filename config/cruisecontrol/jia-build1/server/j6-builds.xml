@@ -399,6 +399,18 @@
 
     <cb:v76build
 	driver="CUST2094"
+	project-name="CUST2094-Track4"
+	branch = '2094_REQ002'
+	platform="AnyCpu"
+	repo-name="master"
+	j6Version="7.6.0"
+	external-protect="true"
+	external-zip="true"
+	queueSuffix="-Track2"
+	/>
+
+    <cb:v76build
+	driver="CUST2094"
 	project-name="CUST2094-Track5"
 	branch = '2094_REQ044'
 	platform="AnyCpu"
