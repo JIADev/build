@@ -395,5 +395,17 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ023;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ009;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ002;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_QA_WebTests1;DoMerge=true;DoCommit=true" />
+
+    <!-- Dependency branches -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="DependencyMerge_2094" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\2094_7.6.0</TargetRepo>
+    </PropertyGroup>
+    <!-- Dependency branches -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ044_pub;TargetBranch=2094_REQ049;DoMerge=true;DoCommit=true" />
   </Target>
 </Project>
