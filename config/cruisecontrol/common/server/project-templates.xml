@@ -154,4 +154,27 @@
     </project>
   </cb:define>
   
+  <cb:define name="createTaggedBuild">
+    <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
+      <cb:if expr="'$(triggerTime)'!=''">
+	<triggers>
+	  <scheduleTrigger time = "$(triggerTime)" buildCondition="ForceBuild" />
+	</triggers>
+      </cb:if>
+      <tasks>
+	<cb:createbuild />
+      </tasks>
+      <publishers>
+      <xmllogger />
+      <statistics />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+  
 </cb:config-template>

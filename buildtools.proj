@@ -150,12 +150,15 @@
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <PropertyGroup>
       <BuildTag>$([MSBuild]::ValueOrDefault(`$(BuildTag)`, '$(CustomerNumber)_BLD'))</BuildTag>
+      <BaseTag>$([MSBuild]::ValueOrDefault(`$(BaseTag)`, '$(CustomerNumber)_PRD'))</BaseTag>
       <DatedBuildTag>$(BuildTag)_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</DatedBuildTag>
+      <Interactive>$([MSBuild]::ValueOrDefault(`$(Interactive)`, 'true'))</Interactive>
+      <TagsBranch>$([MSBuild]::ValueOrDefault(`$(TagsBranch)`, 'tags'))</TagsBranch>
     </PropertyGroup>
     <ItemGroup>
       <BranchesToMerge Include="$(Branches)" />
     </ItemGroup>
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(CustomerNumber)_PRD -C" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(BaseTag) -C" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg branch $(BuildBranchName)" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Creating build branch @ignore @build"' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerNumber)_;SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(BuildBranchName);DoMerge=true;DoCommit=true;DoPush=false" />
@@ -166,10 +169,10 @@
     <Message Text="Changeset = $(Changeset)" />
     <Message Text="Working directory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
-    <Exec WorkingDirectory="$(TagRepo)" Command="hg up tags" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch)" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(BuildTag) $(DatedBuildTag) -m "Triggering build for $(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' />
+    <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
 
   <Target Name="InitRepos" DependsOnTargets="InitMasterRepo">
