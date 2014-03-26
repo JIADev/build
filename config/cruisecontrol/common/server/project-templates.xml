@@ -81,6 +81,7 @@
 	<cb:msbuild-install-patches />
 	<cb:msbuild-build />
 	<cb:setup-unittests />
+	<cb:run-ncover-f-unittests />
 	<cb:get-reports />
 	<cb:msbuild-package />
 	<cb:publish-package />
@@ -115,6 +116,7 @@
 	package="false"
 	j6Version="7.6.0"
 	queueSuffix="-Track$(track)"
+	unit-test="true"
 	/>
   </cb:define>
 
