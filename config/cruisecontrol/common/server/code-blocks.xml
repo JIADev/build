@@ -21,7 +21,7 @@
 
   <cb:define name="createbuild">
     	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Creating build" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
-	  <buildArgs>/p:Customer=$(driver) /p:Branches=$(branches) /p:WorkingDirectory=$(project-folder) /p:Interactive=false /p:BuildTag=$(buildTag) /p:BaseTag=$(baseTag) /p:TagsBranch=$(tagsBranch)</buildArgs>
+	  <buildArgs>/p:Customer="$(driver)" /p:Branches="$(branches)" /p:WorkingDirectory="$(project-folder)" /p:Interactive="false" /p:BuildTag="$(buildTag)" /p:BaseTag="$(baseTag)" /p:TagsBranch="$(tagsBranch)"</buildArgs>
 	</msbuild>
   </cb:define>
 
