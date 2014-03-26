@@ -158,11 +158,14 @@
     <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <cb:if expr="'$(triggerTime)'!=''">
 	<triggers>
+      <cb:if expr="'$(triggerTime)'!=''">
 	  <scheduleTrigger time = "$(triggerTime)" buildCondition="ForceBuild" />
-	</triggers>
       </cb:if>
+      <cb:if expr="'$(triggerTime2)'!=''">
+	  <scheduleTrigger time = "$(triggerTime2)" buildCondition="ForceBuild" />
+      </cb:if>
+	</triggers>
       <tasks>
 	<cb:createbuild />
       </tasks>
