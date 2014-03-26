@@ -96,7 +96,7 @@
       msbuild-package-timeout="1500"
       msbuild-protect-timeout="3600"
       msbuild-configure-timeout="300"
-      msbuild-build-timeout="1500"
+      msbuild-build-timeout="1800"
       msbuild-bootstrap-timeout="1500"
       msbuild-setup-timeout="1200"
       msbuild-recreatedb-timeout="300"
