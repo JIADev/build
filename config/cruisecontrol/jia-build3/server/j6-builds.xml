@@ -43,7 +43,8 @@
 
   <cb:define name="track1">
     <cb:define track="1" />
-    <cb:reqBuild req-number="REQ035" />
+	<cb:define unit-test="true" />
+    <cb:reqBuild req-number="REQ035" unit-test="true" />
     <cb:reqBuild req-number="REQ033" />
     <cb:reqBuild req-number="REQ036" />
     <cb:reqBuild req-number="REQ017" />
