@@ -422,11 +422,25 @@
 	/>
 
     <cb:createTaggedBuild
-	project-name="2094-Track3"
+	project-name="create-2094_Track3"
 	driver="2094"
-	branches="REQ038;REQ147"
+	branches="REQ038"
 	buildTag="2094_Track3"
 	baseTag="2094_7.6.0"
 	tagsBranch="2094_tags"
-/>
+	triggerTime="09:00"
+	triggerTime2="14:00"
+	/>
+
+    <cb:createTaggedBuild
+	project-name="create-2094-Track4"
+	driver="2094"
+	branches="REQ177;REQ060"
+	buildTag="2094_Track4"
+	baseTag="2094_7.6.0"
+	tagsBranch="2094_tags"
+	triggerTime="09:00"
+	triggerTime2="14:00"
+	/>
+
 </cb:config-template>
