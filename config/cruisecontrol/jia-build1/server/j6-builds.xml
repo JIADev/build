@@ -390,7 +390,7 @@
 	project-name="CUST2094-Track3"
 	tag="2094_TRK3"
 	prodTag="2094_7.6.0"
-	branch = '2094_REQ038'
+	branch = 'tags'
 	platform="AnyCpu"
 	repo-name="master"
 	j6Version="7.6.0"
@@ -403,7 +403,7 @@
     <cb:v76build
 	driver="CUST2094"
 	project-name="CUST2094-Track4"
-	branch = '2094_REQ002'
+	branch = 'tags'
 	tag="2094_TRK4"
 	prodTag="2094_7.6.0"
 	platform="AnyCpu"
@@ -418,7 +418,7 @@
     <cb:v76build
 	driver="CUST2094"
 	project-name="CUST2094-Track5"
-	branch = '2094_REQ044'
+	branch = 'tags'
 	tag="2094_TRK5"
 	prodTag="2094_7.6.0"
 	platform="AnyCpu"
