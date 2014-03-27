@@ -149,8 +149,8 @@
     <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <PropertyGroup>
-      <BuildTag>$([MSBuild]::ValueOrDefault(`$(BuildTag)`, '$(CustomerNumber)_BLD'))</BuildTag>
-      <BaseTag>$([MSBuild]::ValueOrDefault(`$(BaseTag)`, '$(CustomerNumber)_PRD'))</BaseTag>
+      <BuildTag>$([MSBuild]::ValueOrDefault(`$(BuildTag)`, 'BLD'))</BuildTag>
+      <BaseTag>$([MSBuild]::ValueOrDefault(`$(BaseTag)`, 'PRD'))</BaseTag>
       <DatedBuildTag>$(BuildTag)_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</DatedBuildTag>
       <Interactive>$([MSBuild]::ValueOrDefault(`$(Interactive)`, 'true'))</Interactive>
       <TagsBranch>$([MSBuild]::ValueOrDefault(`$(TagsBranch)`, 'tags'))</TagsBranch>
@@ -158,7 +158,7 @@
     <ItemGroup>
       <BranchesToMerge Include="$(Branches)" />
     </ItemGroup>
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(BaseTag) -C" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(CustomerNumber)_$(BaseTag) -C" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg branch $(BuildBranchName)" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Creating build branch @ignore @build"' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerNumber)_;SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(BuildBranchName);DoMerge=true;DoCommit=true;DoPush=false" />
@@ -170,7 +170,7 @@
     <Message Text="Working directory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch)" />
-    <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(BuildTag) $(DatedBuildTag) -m "Triggering build for $(BuildTag)"' />
+    <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(CustomerNumber)_$(BuildTag) $(CustomerNumber)_$(DatedBuildTag) -m "Triggering build for $(CustomerNumber)_$(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
@@ -399,9 +399,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ009;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ002;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_QA_WebTests1;DoMerge=true;DoCommit=true" />
-
-    <!-- Dependency branches -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
+    <CallTarget Targets="DependencyMerge_2094" />
   </Target>
   <Target Name="DependencyMerge_2094" DependsOnTargets="InitRepos">
     <PropertyGroup>
@@ -409,6 +407,8 @@
     </PropertyGroup>
     <!-- Dependency branches -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ064_pub;TargetBranch=2094_REQ147;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ147;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ044_pub;TargetBranch=2094_REQ049;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ060;DoMerge=true;DoCommit=true" />
   </Target>
