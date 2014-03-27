@@ -396,6 +396,7 @@
 	external-protect="true"
 	external-zip="true"
 	queueSuffix="-Track3"
+	sourceCheckInterval=""
 	/>
 
     <cb:v76build
