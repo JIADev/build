@@ -404,24 +404,30 @@
 	driver="CUST2094"
 	project-name="CUST2094-Track4"
 	branch = '2094_REQ002'
+	tag="2094_TRK4"
+	prodTag="2094_7.6.0"
 	platform="AnyCpu"
 	repo-name="master"
 	j6Version="7.6.0"
 	external-protect="true"
 	external-zip="true"
 	queueSuffix="-Track2"
+	sourceCheckInterval=""
 	/>
 
     <cb:v76build
 	driver="CUST2094"
 	project-name="CUST2094-Track5"
 	branch = '2094_REQ044'
+	tag="2094_TRK5"
+	prodTag="2094_7.6.0"
 	platform="AnyCpu"
 	repo-name="master"
 	j6Version="7.6.0"
 	external-protect="true"
 	external-zip="true"
 	queueSuffix="-Track5"
+	sourceCheckInterval=""
 	/>
 
 <!-- Experimental stuff (03-27-2014)
