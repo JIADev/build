@@ -388,6 +388,7 @@
     <cb:v76build
 	driver="CUST2094"
 	project-name="CUST2094-Track3"
+	tag="2094_TRK3"
 	branch = '2094_REQ038'
 	platform="AnyCpu"
 	repo-name="master"
@@ -421,6 +422,7 @@
 	queueSuffix="-Track5"
 	/>
 
+<!-- Experimental stuff (03-27-2014)
     <cb:createTaggedBuild
 	project-name="create-2094_Track3"
 	driver="2094"
@@ -442,5 +444,5 @@
 	triggerTime="09:00"
 	triggerTime2="14:00"
 	/>
-
+--> 
 </cb:config-template>
