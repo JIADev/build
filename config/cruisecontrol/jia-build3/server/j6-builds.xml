@@ -79,7 +79,7 @@
     <cb:reqBuild req-number="REQ064" />
     <cb:reqBuild req-number="REQ116" />
     <cb:reqBuild req-number="REQ121" />
-    <cb:reqBuild req-number="REQ145" package="true" />
+    <cb:reqBuild req-number="REQ145" queue-priority="1" />
     <cb:reqBuild req-number="REQ146" />
     <cb:reqBuild req-number="REQ147" />
   </cb:define>
