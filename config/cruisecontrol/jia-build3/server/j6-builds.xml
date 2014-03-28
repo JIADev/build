@@ -75,33 +75,33 @@
     <cb:reqBuild req-number="REQ013" />
     <cb:reqBuild req-number="REQ020" />
     <cb:reqBuild req-number="REQ024" />
-    <cb:reqBuild req-number="REQ038" />
+    <cb:reqBuild req-number="REQ038" queue-priority="1" />
     <cb:reqBuild req-number="REQ064" />
     <cb:reqBuild req-number="REQ116" />
     <cb:reqBuild req-number="REQ121" />
-    <cb:reqBuild req-number="REQ145" />
+    <cb:reqBuild req-number="REQ145" queue-priority="1" />
     <cb:reqBuild req-number="REQ146" />
     <cb:reqBuild req-number="REQ147" />
   </cb:define>
   
   <cb:define name="track4">
     <cb:define track="4" />
-    <cb:reqBuild req-number="REQ177" />
+    <cb:reqBuild req-number="REQ177" queue-priority="1" />
     <cb:reqBuild req-number="REQ009" />
     <cb:reqBuild req-number="REQ023" />
     <cb:reqBuild req-number="REQ016" />
     <cb:reqBuild req-number="REQ006" />
-    <cb:reqBuild req-number="REQ060" />
+    <cb:reqBuild req-number="REQ060" queue-priority="1" />
     <cb:reqBuild req-number="REQ193" />
     <cb:reqBuild req-number="REQ194" />
     <cb:reqBuild req-number="REQ022" />
-    <cb:reqBuild req-number="REQ002" />
+    <cb:reqBuild req-number="REQ002" queue-priority="1" />
   </cb:define>
   
   <cb:define name="track5">
     <cb:define track="5" />
-    <cb:reqBuild req-number="REQ044" />
-    <cb:reqBuild req-number="REQ049" />
+    <cb:reqBuild req-number="REQ044" queue-priority="1" />
+    <cb:reqBuild req-number="REQ049" queue-priority="1" />
   </cb:define>
 
   <cb:define name="tracks2094">
