@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <!-- Common definitions for all projects, edit to suit your system -->
+
+  <!-- Paths -->
+  <!-- Common feature used for legacy builds -->
+  <cb:define 
+      hg = "C:\progra~1\Mercurial\hg.exe"
+      nunit = "C:\Program Files (x86)\NUnit 2.6.3\bin"
+      relativefeature="Core\boot\feature.exe"
+      commonfeature = "$(ccnetSourceWorkingDir)\Feature.exe" 
+      global_feature_dir="c:\build" 
+      scripts_dir="c:\build\scripts"
+      global_feature="c:\build\feature.exe"
+      ccserver="C:\Program Files (x86)\CruiseControl.NET\server"
+      gendarme="C:\Program Files\Novell\Gendarme\gendarme.exe"
+      fxcop="C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCop.exe"
+      msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
+      powershell="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+      cliSecurePath="C:\Program Files (x86)\SecureTeam"
+      ncoverReportingExe="C:\Program Files\NCover\NCover.Reporting.exe"
+      ncoverConsoleExe="C:\Program Files\NCover\NCover.Console.exe"
+      deploy-root-local="C:\j6\QA_Sites"
+      cmdExe="C:\WINDOWS\system32\cmd.exe"
+      ccNetSourceWorkingDir="$(ccroot)\ccnet"
+      ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol"
+      ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
+      ccNetWebDashboard="C:\Program Files (x86)\CruiseControl.NET\webdashboard" 
+      ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
+      tag-folder="$(srcroot)\$(project-name)$(tag)"
+      source-folder="$(srcroot)\$(project-name)"
+      artifact-folder="$(artifactroot)\$(project-name)"
+      project-folder="$(ccroot)\$(project-name)"
+      repo-name="$(driver)"
+      />
+
+  <!-- Network Urls and Servers -->
+  <cb:define
+      repo-source-root="http://source.jenkon.com/hg/hgwebdir.cgi/feature"
+      source="$(repo-source-root)/customers/$(repo-name)"
+      mailhost="mail.jenkon.com"
+      ccwebroot="http://$(ccBuildServer)/ccnet/"
+      deployment-webserver=""
+      deployment-sitename="" />
+
+  <!-- Build Switches -->
+  <cb:define
+      modules="NONE" 
+      platform="AnyCpu"
+      configuration="Release"
+      include-source="false"
+      protect="true" />
+
+  <!-- Other defaults -->
+    <!-- 14400 seconds = 4 hours -->
+  <cb:define
+      generate-reports="true"
+      j6Version="7.0.0"
+      redis-server="localhost"
+      redis-db="10"
+      queueSuffix = ""
+      sourceCheckInterval = "300"
+      bookmark=""
+      hgBranch="default"
+      pull-options=""
+      tag = ""
+      prodTag = ""
+      build="true"
+      updateSource="true"
+      unit-test="true"
+      web-test="false"
+      package="true"
+      forceclean="true"
+      recreate-db="true"
+      install-patches="true"
+      buildVariationLabel=""
+      branch="default"
+      project-name="CUST$(branch)"
+      queue-priority="2"
+      tagsRepo="$(ccroot)\tagsRepos\$(repo-name)"
+      dotNet2Path = "C:\Windows\Microsoft.NET\Framework64\v2.0.50727"
+      dotNet2x86Path = "C:\Windows\Microsoft.NET\Framework\v2.0.50727"
+      dotNet35Path = "C:\Windows\Microsoft.NET\Framework64\v3.5"
+      dotNet35x86Path = "C:\Windows\Microsoft.NET\Framework\v3.5"
+      dotNet4Path = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319"
+      dotNet4x86Path = "C:\Windows\Microsoft.NET\Framework\v4.0.30319"
+      dotNetFrameworkPath="$(dotNet4Path)"
+      f-setup-timeout="600"
+      f-install-patches-timeout="900"
+      copy-source-timeout="1200"
+      configure-db-timeout="1200"
+      build-feature-exe-timeout="300"
+      f-build-timeout="1500"
+      feature-test-unit-timeout="3600"
+      msbuild-package-timeout="1500"
+      msbuild-protect-timeout="3600"
+      msbuild-configure-timeout="300"
+      msbuild-build-timeout="1800"
+      msbuild-bootstrap-timeout="1500"
+      msbuild-setup-timeout="1200"
+      msbuild-recreatedb-timeout="300"
+      msbuild-patch-timeout="1200"
+      ncover-timeout="900"
+      webtest-timeout="21600"
+      get-reports-timeout="600"
+      sourcecontrol-timeout="3600"
+      triggerTime="20:00"
+      triggerTime2=""
+      run-ndepend="false"
+      external-protect="false"
+      external-zip="false"
+      />
+  
+</cb:config-template>
