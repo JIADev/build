@@ -485,6 +485,7 @@
 	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
       </msbuild>
+   <cb:if expr="'$(protect)' == 'true'">
    <cb:if expr="'$(external-protect)' == 'true'">
       <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Protect Build"
 	       executable="$(msbuild)"
@@ -494,6 +495,7 @@
 	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:Directory="$(project-folder)\RELEASE-UNPROTECTED" /p:Customer=$(driver)</buildArgs>
       </msbuild>
+    </cb:if>
     </cb:if>
    <cb:if expr="'$(external-zip)' == 'true'">
       <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Create Zip File"
