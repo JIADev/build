@@ -681,13 +681,13 @@
   
   <cb:define name="run-ncover-f-unittests">
     <cb:if expr="'$(unit-test)' == 'true'">
-      <exec 
-	  description="test pattern UnitTest"
-	  executable="$(feature)"
-	  baseDirectory="$(project-folder)"
-	  buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
-	<buildArgs>test --coverage --pattern UnitTest</buildArgs>
-      </exec>
+      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="NCover Unit Tests">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
+	<targets>NCover</targets>
+	<timeout>$(msbuild-ncover-timeout)</timeout>
+      </msbuild>
     </cb:if>
   </cb:define>
   <cb:define name="run-ncover">
