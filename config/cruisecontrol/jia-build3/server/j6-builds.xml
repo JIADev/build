@@ -96,7 +96,7 @@
     <cb:reqBuild req-number="REQ194" />
     <cb:reqBuild req-number="REQ022" />
     <cb:reqBuild req-number="REQ002" queue-priority="1" />
-	<cb:reqBuild req-number="REQ032" unit-test="false" />
+    <cb:reqBuild req-number="REQ032" />
   </cb:define>
   
   <cb:define name="track5">
