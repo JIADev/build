@@ -96,8 +96,7 @@
 	    <file action="Copy">$(project-folder)\NDepend\*</file>
 	  </files>
 	</merge>
-	<xmllogger />
-	<statistics />
+	<cb:standard-publishers />
       </publishers>
       <externalLinks>
 	<externalLink name="root" url="$(ccwebroot)" />
