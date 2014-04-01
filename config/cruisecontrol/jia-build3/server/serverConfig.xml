@@ -5,12 +5,12 @@
   <cb:define 
       sqlCmd="C:\Program Files\Microsoft SQL Server\110\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend\NDepend.Console.exe"
-      ccroot="c:\f_cc"
-      pkgroot="c:\pkg"
-      private-build-root="c:\f_cc\pb"
-      srcroot="c:\f_cc\src"
-      artifactroot="c:\f_cc\artifacts"
-      ccNetLogDir="c:\ccnet.log"
+      ccroot="f:\cc"
+      pkgroot="f:\pkg"
+      private-build-root="f:\cc\pb"
+      srcroot="f:\cc\src"
+      artifactroot="f:\cc\artifacts"
+      ccNetLogDir="f:\ccnet.log"
       />
 
   <!-- Network Urls and Servers -->
