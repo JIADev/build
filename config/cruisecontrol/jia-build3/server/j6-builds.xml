@@ -40,6 +40,19 @@
       />
 
 -->
+<cb:v76build
+      project-name="CUST2094-7.6.0_debug"
+      branch = '2094_7.6.0'
+      driver = 'CUST2094'
+      redis-db="15"
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      protect="false"
+      j6Version="7.6.0"
+	  package="false"
+      />
 
   <cb:define name="track1">
     <cb:define track="1" />
