@@ -16,7 +16,6 @@
       branch = "2090_REQ17"
       driver = "CUST2090"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -24,7 +23,6 @@
       branch = "2090_REQ21"
       driver = "CUST2090"
       repo-name="master"
-      exclude-files="true"
       />
   
   <!-- CUST2092 -->
@@ -34,7 +32,6 @@
       branch = "2092_REQ12"
       driver = "CUST2092"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -42,7 +39,6 @@
       branch = "2092_REQ13"
       driver = "CUST2092"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -50,7 +46,6 @@
       branch = "2092_REQ17"
       driver = "CUST2092"
       repo-name="master"
-      exclude-files="true"
       />
   
   <!-- version branches -->  
@@ -62,7 +57,6 @@
       branch = "7.5.0"
       driver = "CUST000"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -70,7 +64,6 @@
       branch = "7.5.2"
       driver = "CUST000"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -78,7 +71,6 @@
       branch = "7.5.3"
       driver = "CUST000"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -86,7 +78,6 @@
       branch = "7.5.4"
       driver = "CUST000"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:customerbuild
@@ -94,7 +85,6 @@
       branch = "7.5.5"
       driver = "CUST000"
       repo-name="master"
-      exclude-files="true"
       />
   
   <cb:v76build
@@ -113,7 +103,7 @@
       j6Version="7.6.0"
       modules="AUTOSHIP"
       />
-
+  
   <cb:v76build
       project-name="CUST000-7.6.0-DEV"
       branch = '000_7.6.0'
@@ -148,7 +138,6 @@
       branch = "7.5.2"
       driver = "CUST001"
       repo-name="master"
-      exclude-files="true"
       />
   
   <!-- release (tagged) branches -->
@@ -162,7 +151,6 @@
       prodTag="065_PRD"
       driver = "CUST065"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
   
@@ -175,10 +163,9 @@
       prodTag="069_PRD"
       driver = "CUST069"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST077 -->
   
   <cb:legacybuild
@@ -187,7 +174,6 @@
       prodTag="077_PRD"
       branch="tags"
       driver = "CUST077"
-      exclude-files="true"
       package="true"
       unit-test="false"
       recreate-db="true"
@@ -203,7 +189,6 @@
       prodTag="077_PRD"
       branch="tags"
       driver = "CUST077"
-      exclude-files="true"
       package="true"
       unit-test="false"
       recreate-db="false"
@@ -222,12 +207,11 @@
       prodTag="2069_PRD"
       driver = "CUST2069"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST2082 -->
-
+  
   <cb:customerbuild
       project-name="CUST2082-7.3.3"
       branch = "tags"
@@ -236,7 +220,6 @@
       driver = "CUST2082"
       repo-name="master"
       sourceCheckInterval=""
-      exclude-files="true"
       />
   
   <!-- CUST2083 -->
@@ -248,10 +231,9 @@
       prodTag="2083_PRD"
       driver = "CUST2083"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST2085 -->
   
   <cb:customerbuild
@@ -261,10 +243,9 @@
       prodTag="2085_PRD"
       driver = "CUST2085"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST2086 -->
   
   <cb:customerbuild
@@ -274,7 +255,6 @@
       prodTag="2086_PRD"
       driver = "CUST2086"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
   
@@ -287,10 +267,9 @@
       prodTag="2087_PRD"
       driver = "CUST2087"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST2088 -->
   
   <cb:customerbuild
@@ -300,10 +279,9 @@
       prodTag="2088_PRD"
       driver = "CUST2088"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST2089 -->
   
   <cb:customerbuild
@@ -313,10 +291,9 @@
       prodTag="2089_PRD"
       driver = "CUST2089"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST2090 -->
   
   <cb:customerbuild
@@ -326,7 +303,6 @@
       prodTag="2090_PRD"
       driver = "CUST2090"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
   
@@ -339,10 +315,9 @@
       prodTag="2092_PRD"
       driver = "CUST2092"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   
   <!-- CUST2093 -->
   
@@ -353,13 +328,12 @@
       prodTag="2093_PRD"
       driver = "CUST2093"
       repo-name="master"
-      exclude-files="true"
       sourceCheckInterval=""
       />
-
+  
   <!-- CUST2094 -->
-<!--
-  <cb:v76build
+  <!--
+      <cb:v76build
       project-name="CUST2094-7.6.0"
       branch = '2094_7.6.0'
       driver = 'CUST2094'
@@ -374,7 +348,7 @@
       repo-name="master"
       generate-reports="false"
       />
--->
+  -->
   <cb:v76build
       project-name="CUST2094-7.6.0"
       branch = '2094_7.6.0'
@@ -387,76 +361,76 @@
       protect="false"
       j6Version="7.6.0"
       />
-
-    <cb:v76build
-	driver="CUST2094"
-	project-name="CUST2094-Track3"
-	tag="2094_TRK3"
-	prodTag="2094_7.6.0"
-	branch = 'tags'
-	platform="AnyCpu"
-	repo-name="master"
-	j6Version="7.6.0"
-	external-protect="true"
-	external-zip="true"
-	protect="false"
-	queueSuffix="-Track3"
-	sourceCheckInterval=""
-	/>
-
-    <cb:v76build
-	driver="CUST2094"
-	project-name="CUST2094-Track4"
-	branch = 'tags'
-	tag="2094_TRK4"
-	prodTag="2094_7.6.0"
-	platform="AnyCpu"
-	repo-name="master"
-	j6Version="7.6.0"
-	external-protect="true"
-	external-zip="true"
-	protect="false"
-	queueSuffix="-Track4"
-	sourceCheckInterval=""
-	/>
-
-    <cb:v76build
-	driver="CUST2094"
-	project-name="CUST2094-Track5"
-	branch = 'tags'
-	tag="2094_TRK5"
-	prodTag="2094_7.6.0"
-	platform="AnyCpu"
-	repo-name="master"
-	j6Version="7.6.0"
-	external-protect="true"
-	external-zip="true"
-	protect="false"
-	queueSuffix="-Track5"
-	sourceCheckInterval=""
-	/>
-
-<!-- Experimental stuff (03-27-2014)
-    <cb:createTaggedBuild
-	project-name="create-2094_Track3"
-	driver="2094"
-	branches="REQ038"
-	buildTag="2094_Track3"
-	baseTag="2094_7.6.0"
-	tagsBranch="2094_tags"
-	triggerTime="09:00"
-	triggerTime2="14:00"
-	/>
-
-    <cb:createTaggedBuild
-	project-name="create-2094-Track4"
-	driver="2094"
-	branches="REQ177;REQ060"
-	buildTag="2094_Track4"
-	baseTag="2094_7.6.0"
-	tagsBranch="2094_tags"
-	triggerTime="09:00"
-	triggerTime2="14:00"
-	/>
---> 
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-Track3"
+      tag="2094_TRK3"
+      prodTag="2094_7.6.0"
+      branch = 'tags'
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      protect="false"
+      queueSuffix="-Track3"
+      sourceCheckInterval=""
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-Track4"
+      branch = 'tags'
+      tag="2094_TRK4"
+      prodTag="2094_7.6.0"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      protect="false"
+      queueSuffix="-Track4"
+      sourceCheckInterval=""
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-Track5"
+      branch = 'tags'
+      tag="2094_TRK5"
+      prodTag="2094_7.6.0"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      protect="false"
+      queueSuffix="-Track5"
+      sourceCheckInterval=""
+      />
+  
+  <!-- Experimental stuff (03-27-2014)
+       <cb:createTaggedBuild
+       project-name="create-2094_Track3"
+       driver="2094"
+       branches="REQ038"
+       buildTag="2094_Track3"
+       baseTag="2094_7.6.0"
+       tagsBranch="2094_tags"
+       triggerTime="09:00"
+       triggerTime2="14:00"
+       />
+       
+       <cb:createTaggedBuild
+       project-name="create-2094-Track4"
+       driver="2094"
+       branches="REQ177;REQ060"
+       buildTag="2094_Track4"
+       baseTag="2094_7.6.0"
+       tagsBranch="2094_tags"
+       triggerTime="09:00"
+       triggerTime2="14:00"
+       />
+  --> 
 </cb:config-template>
