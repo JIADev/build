@@ -30,6 +30,6 @@
 
   <!-- Misc -->
   <cb:define
-      exclude-files="false"
+      exclude-files="true"
       />
 </cb:config-template>
