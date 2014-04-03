@@ -130,6 +130,6 @@
 
   <cb:tracks2094 />
 -->
- <cb:reqBuild req-number="REQ009" track="4" />
+ <cb:reqBuild req-number="REQ009" track="4" customer="2094" />
    
 </cb:config-template>
