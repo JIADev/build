@@ -57,7 +57,7 @@
   <cb:define name="track1">
     <cb:define track="1" />
 	<cb:define unit-test="true" />
-    <cb:reqBuild req-number="REQ035" unit-test="true" />
+    <cb:reqBuild req-number="REQ035" unit-test="true" queue-priority="900" />
     <cb:reqBuild req-number="REQ033" />
     <cb:reqBuild req-number="REQ036" />
     <cb:reqBuild req-number="REQ017" />
@@ -89,34 +89,34 @@
     <cb:reqBuild req-number="REQ020" />
     <cb:reqBuild req-number="REQ024" />
     <cb:reqBuild req-number="REQ038" queue-priority="900" />
-    <cb:reqBuild req-number="REQ064" />
+    <cb:reqBuild req-number="REQ064" queue-priority="900" />
     <cb:reqBuild req-number="REQ116" />
     <cb:reqBuild req-number="REQ121" />
-    <cb:reqBuild req-number="REQ145" queue-priority="800" package="true" />
+    <cb:reqBuild req-number="REQ145" queue-priority="700" package="true" />
     <cb:reqBuild req-number="REQ146" />
     <cb:reqBuild req-number="REQ147" />
   </cb:define>
   
   <cb:define name="track4">
     <cb:define track="4" />
-    <cb:reqBuild req-number="REQ177" queue-priority="800" />
+    <cb:reqBuild req-number="REQ177" queue-priority="700" />
     <cb:reqBuild req-number="REQ009" />
     <cb:reqBuild req-number="REQ023" />
-    <cb:reqBuild req-number="REQ016" />
+    <cb:reqBuild req-number="REQ016" queue-priority="900" />
     <cb:reqBuild req-number="REQ006" />
     <cb:reqBuild req-number="REQ060" queue-priority="900" />
     <cb:reqBuild req-number="REQ193" />
     <cb:reqBuild req-number="REQ194" />
     <cb:reqBuild req-number="REQ022" />
     <cb:reqBuild req-number="REQ002" queue-priority="900" />
-    <cb:reqBuild req-number="REQ032" />
+    <cb:reqBuild req-number="REQ032" queue-priority="900" />
   </cb:define>
   
   <cb:define name="track5">
     <cb:define track="5" />
-    <cb:reqBuild req-number="REQ044" queue-priority="900" />
+    <cb:reqBuild req-number="REQ044" queue-priority="800" />
     <cb:reqBuild req-number="REQ049" queue-priority="900" />
-    <cb:reqBuild req-number="REQ081" queue-priority="900" />
+    <cb:reqBuild req-number="REQ081" />
   </cb:define>
 
   <cb:define name="tracks2094">
