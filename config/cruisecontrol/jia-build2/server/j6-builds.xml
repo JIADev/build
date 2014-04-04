@@ -25,8 +25,8 @@
     <cb:define track="1" />
 	<cb:define unit-test="true" />
     <cb:reqBuild req-number="REQ035" unit-test="true" queue-priority="900" />
-    <cb:reqBuild req-number="REQ033" />
-    <cb:reqBuild req-number="REQ036" />
+    <cb:reqBuild req-number="REQ033" queue-priority="900" />
+    <cb:reqBuild req-number="REQ036" queue-priority="900" />
     <cb:reqBuild req-number="REQ017" />
     <cb:reqBuild req-number="REQ039" />
     <cb:reqBuild req-number="REQ089" />
