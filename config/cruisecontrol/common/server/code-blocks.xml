@@ -20,7 +20,7 @@
   </cb:define>
 
   <cb:define name="createbuild">
-    	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Creating build" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
+    	<msbuild logger="$(msBuildListenerDll)" description="Creating build" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
 	  <buildArgs>/p:CustomerNumber="$(driver)" /p:Branches="$(branches)" /p:WorkingDirectory="$(project-folder)" /p:Interactive="false" /p:BuildTag="$(buildTag)" /p:BaseTag="$(baseTag)" /p:TagsBranch="$(tagsBranch)"</buildArgs>
 	</msbuild>
   </cb:define>
@@ -79,7 +79,7 @@
 	      baseDirectory="$(tag-folder)" />
 	
 	
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
+	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder)</buildArgs>
 	</msbuild>
 	
@@ -92,7 +92,7 @@
   </cb:define>
   
   <cb:define name="set-customer">
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Set Customer"
+    <msbuild logger="$(msBuildListenerDll)" description="Set Customer"
 	     executable="$(msbuild)"
 	     workingDirectory="$(project-folder)"
 	     projectFile="j6.proj"
@@ -107,7 +107,7 @@
 	<folderExistsCondition folder="$(tag-folder)/customers/$(driver)" />
       </conditions>
       <tasks>
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Junction baseline features"
+	<msbuild logger="$(msBuildListenerDll)" description="Junction baseline features"
 		 executable="$(msbuild)"
 		 workingDirectory="$(project-folder)"
 		 projectFile="j6.proj"
@@ -203,7 +203,7 @@
   </cb:define>
   
   <cb:define name="configure-db">
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="configure database"
+    <msbuild logger="$(msBuildListenerDll)" description="configure database"
 	     executable="$(msbuild)"
 	     workingDirectory="$(project-folder)"
 	     projectFile="j6.proj"
@@ -214,7 +214,7 @@
   </cb:define>
   
   <cb:define name="build-feature-exe">
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="build feature.exe"
+    <msbuild logger="$(msBuildListenerDll)" description="build feature.exe"
 	     executable="$(msbuild)"
 	     workingDirectory="$(project-folder)"
 	     projectFile="j6.proj"
@@ -477,7 +477,7 @@
   <cb:define name="msbuild-package">
     <cb:if expr="'$(package)' == 'true'">
       <cb:create-revision-txt />
-      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="package build"
+      <msbuild logger="$(msBuildListenerDll)" description="package build"
 	       executable="$(msbuild)"
 	       projectFile="j6.proj"
 	       targets="Package"
@@ -487,7 +487,7 @@
       </msbuild>
    <cb:if expr="'$(protect)' == 'true'">
    <cb:if expr="'$(external-protect)' == 'true'">
-      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Protect Build"
+      <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
 	       executable="$(msbuild)"
 	       projectFile="c:\build\buildtools.proj"
 	       targets="Protect"
@@ -498,7 +498,7 @@
     </cb:if>
     </cb:if>
    <cb:if expr="'$(external-zip)' == 'true'">
-      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Create Zip File"
+      <msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
 	       executable="$(msbuild)"
 	       projectFile="c:\build\buildtools.proj"
 	       targets="CreateZip"
@@ -513,7 +513,7 @@
   <cb:define name="msdeploy">
     <cb:if expr="'$(deployment-webserver)' != ''">
       <cb:if expr="'$(deployment-sitename)' != ''">
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Configure sql-settings"
+	<msbuild logger="$(msBuildListenerDll)" description="Configure sql-settings"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="Configure"
@@ -521,7 +521,7 @@
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)</buildArgs>
 	</msbuild>
 	
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Reinstalling Database"
+	<msbuild logger="$(msBuildListenerDll)" description="Reinstalling Database"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
@@ -529,7 +529,7 @@
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver)</buildArgs>
 	</msbuild>
 	
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Flushing RedisCache"
+	<msbuild logger="$(msBuildListenerDll)" description="Flushing RedisCache"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="FlushRedis"
@@ -537,7 +537,7 @@
 	  <buildArgs>/p:CacheDatabase=$(redis-db) /p:CacheServer=$(redis-server) /p:Cust=$(driver)</buildArgs>
 	</msbuild>
 	
-	<msbuild logger="$(ccroot)\MSBuildListener.dll" description="Deploying Sites"
+	<msbuild logger="$(msBuildListenerDll)" description="Deploying Sites"
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="InstallSite"
@@ -570,7 +570,7 @@
 	    </elseTasks>
 	  </conditional>
 	  <msbuild 
-	      logger="$(ccroot)\MSBuildListener.dll"
+	      logger="$(msBuildListenerDll)"
 	      description="Run Web Tests for deployed site"
 	      executable="$(msbuild)"
 	      projectFile="$(project-folder)\RELEASE\deployment.proj"
@@ -595,7 +595,7 @@
     <xmllogger />
     <statistics />
     <cb:if expr="'$(sourceCheckInterval)' == ''">
-      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
+      <msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
 	<buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
       </msbuild>
     </cb:if>
@@ -605,14 +605,14 @@
   
   <cb:define name="msbuild-configure">
     <exec executable="$(powershell)" description = "Clear old config" buildArgs = '-c "rm -force Config.targets*"' />
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="configure">
+    <msbuild logger="$(msBuildListenerDll)" description="configure">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(tag-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)" /p:Customer="$(driver)"</buildArgs> 
       <targets>Configure</targets>
       <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="showconfig">
+    <msbuild logger="$(msBuildListenerDll)" description="showconfig">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs></buildArgs>
@@ -623,7 +623,7 @@
   
   <cb:define name="msbuild-build">
     <cb:if expr="'$(build)' == 'true'">
-      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="build">
+      <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform)"</buildArgs>
@@ -634,7 +634,7 @@
   </cb:define>
   
   <cb:define name="msbuild-bootstrap">
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="bootstrap">
+    <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(tag-folder)</buildArgs>
@@ -644,7 +644,7 @@
   </cb:define>
   
   <cb:define name="msbuild-setup">
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="setup">
+    <msbuild logger="$(msBuildListenerDll)" description="setup">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
@@ -654,7 +654,7 @@
   </cb:define>
   
   <cb:define name="msbuild-recreatedb">
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="recreatedb">
+    <msbuild logger="$(msBuildListenerDll)" description="recreatedb">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
@@ -666,7 +666,7 @@
   </cb:define>
   
   <cb:define name="msbuild-patch">
-    <msbuild logger="$(ccroot)\MSBuildListener.dll" description="patch">
+    <msbuild logger="$(msBuildListenerDll)" description="patch">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
       <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
@@ -681,7 +681,7 @@
   
   <cb:define name="run-ncover-f-unittests">
     <cb:if expr="'$(unit-test)' == 'true'">
-      <msbuild logger="$(ccroot)\MSBuildListener.dll" description="NCover Unit Tests">
+      <msbuild logger="$(msBuildListenerDll)" description="NCover Unit Tests">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>

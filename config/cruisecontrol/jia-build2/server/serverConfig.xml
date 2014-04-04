@@ -11,6 +11,7 @@
       srcroot="f:\cc\src"
       artifactroot="f:\cc\artifacts"
       ccNetLogDir="f:\ccnet.log" 
+      msBuildListenerDll="c:\MSBuildListener.dll"
       />
 
   <!-- Network Urls and Servers -->
