@@ -426,6 +426,22 @@
       sourceCheckInterval=""
       />
   
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-RC1"
+      branch = 'tags'
+      tag="2094_RC1"
+      prodTag="2094_7.6.0"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      protect="false"
+      queueSuffix="-RC1"
+      sourceCheckInterval=""
+      />
+  
   <!-- Experimental stuff (03-27-2014)
        <cb:createTaggedBuild
        project-name="create-2094_Track3"
