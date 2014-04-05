@@ -5,26 +5,11 @@
   
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
   
-  <!-- release branches -->
+  <!-- req branches -->
   
-<cb:v76build
-      project-name="CUST2094-7.6.0_debug"
-      branch = '2094_7.6.0'
-      driver = 'CUST2094'
-      redis-db="15"
-      platform="AnyCpu"
-      repo-name="master"
-      external-protect="true"
-      external-zip="true"
-      protect="false"
-      j6Version="7.6.0"
-	  package="false"
-      />
-
   <cb:define name="track1">
     <cb:define track="1" />
-	<cb:define unit-test="true" />
-    <cb:reqBuild req-number="REQ035" unit-test="true" queue-priority="900" />
+    <cb:reqBuild req-number="REQ035" queue-priority="800" />
     <cb:reqBuild req-number="REQ033" queue-priority="900" />
     <cb:reqBuild req-number="REQ036" queue-priority="900" />
     <cb:reqBuild req-number="REQ017" />
