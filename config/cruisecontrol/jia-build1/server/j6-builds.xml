@@ -428,6 +428,22 @@
   
   <cb:v76build
       driver="CUST2094"
+      project-name="CUST2094-Track2"
+      branch = 'tags'
+      tag="2094_TRK2"
+      prodTag="2094_7.6.0"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      protect="false"
+      queueSuffix="-Track2"
+      sourceCheckInterval=""
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
       project-name="CUST2094-RC1"
       branch = 'tags'
       tag="2094_RC1"
