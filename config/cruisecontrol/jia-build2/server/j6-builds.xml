@@ -9,7 +9,6 @@
   
   <cb:define name="track1">
     <cb:define track="1" />
-    <cb:define even-odd="Odd" />
     <cb:reqBuild req-number="REQ035" queue-priority="800" />
     <cb:reqBuild req-number="REQ033" queue-priority="900" />
     <cb:reqBuild req-number="REQ036" queue-priority="900" />
@@ -24,7 +23,6 @@
   
   <cb:define name="track2">
     <cb:define track="2" />
-    <cb:define even-odd="Even" />
     <cb:reqBuild req-number="REQ126" />
     <cb:reqBuild req-number="REQ132" />
     <cb:reqBuild req-number="REQ127" />
@@ -38,7 +36,6 @@
   
   <cb:define name="track3">
     <cb:define track="3" />
-    <cb:define even-odd="Odd" />
     <cb:reqBuild req-number="REQ011" />
     <cb:reqBuild req-number="REQ013" />
     <cb:reqBuild req-number="REQ020" />
@@ -54,7 +51,6 @@
   
   <cb:define name="track4">
     <cb:define track="4" />
-    <cb:define even-odd="Even" />
     <cb:reqBuild req-number="REQ177" queue-priority="700" />
     <cb:reqBuild req-number="REQ009" />
     <cb:reqBuild req-number="REQ023" />
@@ -70,7 +66,6 @@
   
   <cb:define name="track5">
     <cb:define track="5" />
-    <cb:define even-odd="Odd" />
     <cb:reqBuild req-number="REQ044" queue-priority="800" />
     <cb:reqBuild req-number="REQ049" queue-priority="900" />
     <cb:reqBuild req-number="REQ081" />
