@@ -10,7 +10,7 @@
       private-build-root="f:\cc\pb"
       srcroot="f:\cc\src"
       artifactroot="e:\artifacts"
-      ccNetLogDir="f:\ccnet.log" 
+      ccNetLogDir="e:\ccnet.log" 
       />
 
   <!-- Network Urls and Servers -->
