@@ -418,7 +418,7 @@
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  description="move new release to the package folder">
-	<buildArgs>-c "mv $(project-folder)\RELEASE* $(pkgroot)\$(project-name)"</buildArgs>
+	<buildArgs>-c "mv $(project-folder)\RELEASE*.zip $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
       
       <cb:remove-delete-me />
