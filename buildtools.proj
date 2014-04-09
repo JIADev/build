@@ -68,7 +68,7 @@
   <Target Name="CopyFilesIfDifferent" DependsOnTargets="BuildCopyDiffFiles">
     <Error Text="Missing SourceDir" Condition="'$(SourceDir)' == ''" />
     <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
-    <Exec Command="$(MSBuildStartupDirectory)\CopyDiffFiles.exe $(SourceDir) $(TargetDir)" />
+    <Exec Command='$(MSBuildStartupDirectory)\CopyDiffFiles.exe "$(SourceDir)" "$(TargetDir)"' />
   </Target>
 
   <Target Name="Protect" DependsOnTargets="BuildProtect">
