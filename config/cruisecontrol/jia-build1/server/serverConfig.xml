@@ -6,7 +6,7 @@
       sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
       ccroot="f:\cc"
-      pkgroot="e:\pkg"
+      pkgroot="f:\pkg"
       private-build-root="f:\cc\pb"
       srcroot="f:\cc\src"
       artifactroot="e:\artifacts"
