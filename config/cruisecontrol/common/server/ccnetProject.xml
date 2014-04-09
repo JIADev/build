@@ -64,9 +64,10 @@
       <exec executable="$(cmdExe)" 
 	    description="Copy dashboard config to server webdashboard"
 	    buildArgs='/c copy "$(ccnetConfigSource)\$(ccBuildServer)\webdashboard\*" "$(ccNetWebDashboard)"' />
-      <exec executable="$(cmdExe)" 
-	    description="Copy working folder files to server config folder"
-	    buildArgs='/c copy "$(project-folder)\*" "$(ccNetServer)"' />
+
+      <msbuild logger="$(msBuildListenerDll)" description="Copy working folder files to server config folder if different" executable="$(msbuild)" projectFile="$(global-feature-dir)\buildtools.proj" targets="CopyFilesIfDifferent" workingDirectory="$(project-folder)">
+	<buildArgs>/p:SourceDir="$(project-folder)" /p:TargetDir="$(ccNetServer)"</buildArgs>
+      </msbuild>
     </tasks>
     <publishers>
       <xmllogger logDir="$(ccnetLogDir)" />

@@ -65,6 +65,12 @@
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ChangedFiles.exe $(RepoDirectory)\ChangesetLog.xml $(RepoDirectory)\ChangedFiles.txt" />
   </Target>
 
+  <Target Name="CopyFilesIfDifferent" DependsOnTargets="BuildCopyDiffFiles">
+    <Error Text="Missing SourceDir" Condition="'$(SourceDir)' == ''" />
+    <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
+    <Exec Command="$(MSBuildStartupDirectory)\CopyDiffFiles.exe $(SourceDir) $(TargetDir)" />
+  </Target>
+
   <Target Name="Protect" DependsOnTargets="BuildProtect">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing Directory" Condition="'$(Directory)' == ''" />
@@ -121,6 +127,10 @@
     </ItemGroup>
     <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
     <Csc Sources="$(BuildToolsDirectory)\Code\Protect.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(MSBuildStartupDirectory)\Protect.exe" References="@(ReferenceFiles)" />
+  </Target>
+
+  <Target Name="BuildCopyDiffFiles">
+    <Csc Sources="$(BuildToolsDirectory)\Code\CopyDiffFiles.cs" OutputAssembly="$(MSBuildStartupDirectory)\CopyDiffFiles.exe" />
   </Target>
 
   <Target Name="BuildAssemblePackage">
