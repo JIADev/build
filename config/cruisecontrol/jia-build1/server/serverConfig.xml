@@ -6,10 +6,10 @@
       sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
       ccroot="f:\cc"
-      pkgroot="f:\pkg"
+      pkgroot="e:\pkg"
       private-build-root="f:\cc\pb"
       srcroot="f:\cc\src"
-      artifactroot="f:\cc\artifacts"
+      artifactroot="e:\artifacts"
       ccNetLogDir="f:\ccnet.log" 
       />
 
