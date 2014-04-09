@@ -61,13 +61,15 @@
 	  description="Validate configuration"
 	  executable="$(ccNetServer)\CCValidator.exe"
 	  buildArgs="$(project-folder)\ccnet.config --nogui --format=xml --logfile=$(ccnetLogDir)\configLog.xml" />
-      <exec executable="$(cmdExe)" 
-	    description="Copy dashboard config to server webdashboard"
-	    buildArgs='/c copy "$(ccnetConfigSource)\$(ccBuildServer)\webdashboard\*" "$(ccNetWebDashboard)"' />
+      
+      <msbuild logger="$(msBuildListenerDll)" description="Copy dashboard config to server webdashboard if different" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CopyFilesIfDifferent" workingDirectory="$(project-folder)">
+	<buildArgs>/p:SourceDir="$(ccnetConfigSource)\$(ccBuildServer)\webdashboard" /p:TargetDir="$(ccNetWebDashboard)"</buildArgs>
+      </msbuild>
 
       <msbuild logger="$(msBuildListenerDll)" description="Copy working folder files to server config folder if different" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CopyFilesIfDifferent" workingDirectory="$(project-folder)">
 	<buildArgs>/p:SourceDir="$(project-folder)" /p:TargetDir="$(ccNetServer)"</buildArgs>
       </msbuild>
+
     </tasks>
     <publishers>
       <xmllogger logDir="$(ccnetLogDir)" />
