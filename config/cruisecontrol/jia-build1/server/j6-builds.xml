@@ -7,8 +7,6 @@
   
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
   
-  <!-- req branches -->
-  
   <!-- CUST2090 -->
   
   <cb:customerbuild
