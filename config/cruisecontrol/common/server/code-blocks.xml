@@ -20,7 +20,7 @@
   </cb:define>
 
   <cb:define name="createbuild">
-    	<msbuild logger="$(msBuildListenerDll)" description="Creating build" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
+    	<msbuild logger="$(msBuildListenerDll)" description="Creating build" executable="$(msbuild)" projectFile="$(global-feature-dir)\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
 	  <buildArgs>/p:CustomerNumber="$(driver)" /p:Branches="$(branches)" /p:WorkingDirectory="$(project-folder)" /p:Interactive="false" /p:BuildTag="$(buildTag)" /p:BaseTag="$(baseTag)" /p:TagsBranch="$(tagsBranch)"</buildArgs>
 	</msbuild>
   </cb:define>
@@ -79,7 +79,7 @@
 	      baseDirectory="$(tag-folder)" />
 	
 	
-	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
+	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global-feature-dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder)</buildArgs>
 	</msbuild>
 	
@@ -489,7 +489,7 @@
    <cb:if expr="'$(external-protect)' == 'true'">
       <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
 	       executable="$(msbuild)"
-	       projectFile="c:\build\buildtools.proj"
+	       projectFile="$(global-feature-dir)\buildtools.proj"
 	       targets="Protect"
 	       workingDirectory="$(project-folder)"
 	       timeout="$(msbuild-protect-timeout)">
@@ -500,7 +500,7 @@
    <cb:if expr="'$(external-zip)' == 'true'">
       <msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
 	       executable="$(msbuild)"
-	       projectFile="c:\build\buildtools.proj"
+	       projectFile="$(global-feature-dir)\buildtools.proj"
 	       targets="CreateZip"
 	       workingDirectory="$(project-folder)"
 	       timeout="$(msbuild-package-timeout)">
@@ -595,7 +595,7 @@
     <xmllogger />
     <statistics />
     <cb:if expr="'$(sourceCheckInterval)' == ''">
-      <msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="c:\build\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
+      <msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global-feature-dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
 	<buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
       </msbuild>
     </cb:if>
