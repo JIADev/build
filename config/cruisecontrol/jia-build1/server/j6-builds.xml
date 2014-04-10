@@ -372,7 +372,7 @@
       external-protect="true"
       external-zip="true"
       protect="false"
-      queueSuffix="-Track3"
+      queueSuffix="-Track"
       sourceCheckInterval=""
       />
   
@@ -388,7 +388,7 @@
       external-protect="true"
       external-zip="true"
       protect="false"
-      queueSuffix="-Track4"
+      queueSuffix="-Track"
       sourceCheckInterval=""
       />
   
@@ -404,7 +404,7 @@
       external-protect="true"
       external-zip="true"
       protect="false"
-      queueSuffix="-Track5"
+      queueSuffix="-Track"
       sourceCheckInterval=""
       />
   
@@ -420,7 +420,7 @@
       external-protect="true"
       external-zip="true"
       protect="false"
-      queueSuffix="-Track1"
+      queueSuffix="-Track"
       sourceCheckInterval=""
       />
   
@@ -436,7 +436,7 @@
       external-protect="true"
       external-zip="true"
       protect="false"
-      queueSuffix="-Track2"
+      queueSuffix="-Track"
       sourceCheckInterval=""
       />
   
@@ -452,7 +452,6 @@
       external-protect="true"
       external-zip="true"
       protect="false"
-      queueSuffix="-RC1"
       sourceCheckInterval=""
       />
   
