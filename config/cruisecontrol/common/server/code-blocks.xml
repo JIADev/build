@@ -169,25 +169,22 @@
 	description="Recreate project folder">
       <buildArgs>/c "md -F $(project-folder)"</buildArgs>
     </exec>
-    <conditional description="Copy deployment package to project folder">
-      <conditions>
-	<folderExistsCondition folder="$(pkgroot)\$(project-to-deploy)\RELEASE" />>
-      </conditions>
-      <tasks>
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)"
-	      description="Copy deployment package to project folder"
-	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE" "$(project-folder)\RELEASE"' />
-      </tasks>
-      <elseTasks>
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)"
-	      description="Copy deployment package to project folder"
-	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE-UNPROTECTED" "$(project-folder)\RELEASE"' />
-      </elseTasks>
-    </conditional>    
+
+    <exec executable="$(cmdExe)" 
+	  baseDirectory="$(ccroot)"
+	  description="Copy deployment package to project folder"
+	  buildTimeoutSeconds="$(copy-source-timeout)"
+	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE*.zip" "$(project-folder)"' />
+
+      <msbuild logger="$(msBuildListenerDll)" description="Extract Release Package"
+	       executable="$(msbuild)"
+	       projectFile="$(global_feature_dir)\buildtools.proj"
+	       targets="UnZip"
+	       workingDirectory="$(project-folder)"
+	       timeout="$(msbuild-protect-timeout)">
+	<buildArgs>/p:ZipFile="$(project-folder)\RELEASE*.zip" /p:TargetDir="$(project-folder)\RELEASE"</buildArgs>
+      </msbuild>
+
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
 	  description="Copy private build to project folder"
