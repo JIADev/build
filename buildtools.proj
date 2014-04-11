@@ -97,6 +97,12 @@
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(MSBuildStartupDirectory)\Zip.exe $(ZipDirectory)-UNPROTECTED $(UnprotectedZipFile)" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
   </Target>
 
+  <Target Name="UnZip" DependsOnTargets="BuildUnZip">
+    <Error Text="Missing ZipFile" Condition="'$(ZipFile)' == ''" />
+    <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command='$(MSBuildStartupDirectory)\UnZip.exe "$(ZipFile)" "$(TargetDir)"' /> 
+  </Target>
+
   <Target Name="CleanJunctions" DependsOnTargets="BuildPurgeJunctionsExe">
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
@@ -119,6 +125,14 @@
     </ItemGroup>
     <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
     <Csc Sources="$(BuildToolsDirectory)\Code\Zip.cs" OutputAssembly="$(MSBuildStartupDirectory)\Zip.exe" References="@(ReferenceFiles)" />
+  </Target>
+
+  <Target Name="BuildUnZip">
+    <ItemGroup>
+      <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\UnZip.cs" OutputAssembly="$(MSBuildStartupDirectory)\UnZip.exe" References="@(ReferenceFiles)" />
   </Target>
 
   <Target Name="BuildProtect">
