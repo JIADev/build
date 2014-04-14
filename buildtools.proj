@@ -356,7 +356,7 @@
   </Target>
   <Target Name="ForwardMerge_760" DependsOnTargets="InitRepos">
     <PropertyGroup>
-      <TargetRepo>$(WorkingDirectory)\7.6.0</TargetRepo>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
       <TargetBranch>7.6.0</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
@@ -364,21 +364,21 @@
   </Target>
   <Target Name="OutwardMerge_000_760">
     <PropertyGroup>
-      <TargetRepo>$(WorkingDirectory)\7.6.0</TargetRepo>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
       <TargetBranch>000_7.6.0</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>    
   <Target Name="OutwardMerge_2094_760">
     <PropertyGroup>
-      <TargetRepo>$(WorkingDirectory)\7.6.0</TargetRepo>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
       <TargetBranch>2094_7.6.0</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>    
   <Target Name="ForwardMerge_2094" DependsOnTargets="ForwardMerge_76;InitRepos">
     <PropertyGroup>
-      <TargetRepo>$(WorkingDirectory)\2094_7.6.0</TargetRepo>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ177;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ049;DoMerge=true;DoCommit=true" />
@@ -430,7 +430,7 @@
   </Target>
   <Target Name="DependencyMerge_2094" DependsOnTargets="InitRepos">
     <PropertyGroup>
-      <TargetRepo>$(WorkingDirectory)\2094_7.6.0</TargetRepo>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
     <!-- Protection against devs accidentally committing to pub instead of regular req branch -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ145;DoMerge=true;DoCommit=true" />
