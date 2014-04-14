@@ -43,9 +43,9 @@
     <PropertyGroup>
       <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
     </PropertyGroup>
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(OriginalChangeset)" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(OriginalChangeset) -C" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="hg merge $(NewChangeset) --preview &gt; $(RepoDirectory)\mergedRevisions.txt" />
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(UpdateToChangeset)" Condition="'$(OriginalChangeset)' != '$(UpdateToChangeset)'" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(UpdateToChangeset) -C" Condition="'$(OriginalChangeset)' != '$(UpdateToChangeset)'" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\ChangesetLog.xml" />
   </Target>
 
@@ -193,7 +193,7 @@
     <Message Text="Changeset = $(Changeset)" />
     <Message Text="Working directory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
-    <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch)" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(CustomerNumber)_$(BuildTag) $(CustomerNumber)_$(DatedBuildTag) -m "Triggering build for $(CustomerNumber)_$(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
@@ -424,6 +424,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ002;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ032;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ081;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_REQ047;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=2094_QA_WebTests1;DoMerge=true;DoCommit=true" />
     <CallTarget Targets="DependencyMerge_2094" />
   </Target>
@@ -431,6 +432,18 @@
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\2094_7.6.0</TargetRepo>
     </PropertyGroup>
+    <!-- Protection against devs accidentally committing to pub instead of regular req branch -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ145;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ064_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ044_pub;TargetBranch=2094_REQ044;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ049_pub;TargetBranch=2094_REQ049;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ177;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ035_pub;TargetBranch=2094_REQ035;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ016_pub;TargetBranch=2094_REQ016;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ013_pub;TargetBranch=2094_REQ013;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ032_pub;TargetBranch=2094_REQ032;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ126;DoMerge=true;DoCommit=true" />
+
     <!-- Dependency branches -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ064_pub;TargetBranch=2094_REQ147;DoMerge=true;DoCommit=true" />
