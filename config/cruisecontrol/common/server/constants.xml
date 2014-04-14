@@ -112,6 +112,7 @@
       run-ndepend="false"
       external-protect="false"
       external-zip="false"
+      tag-completed="false"
       />
   
 </cb:config-template>

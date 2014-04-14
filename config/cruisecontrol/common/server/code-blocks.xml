@@ -337,28 +337,30 @@
   </cb:define>
   
   <cb:define name="tag-build">
-    <cb:if expr="'$(sourceCheckInterval)' == ''">
-      <conditional>
-	<conditions>
-	  <folderExistsCondition folder="$(tagsRepo)" />
-	</conditions>
-	<elseTasks>
-	  <exec executable="$(powershell)" 
-		description = "hg start tags repo"
-		buildArgs = '-c "hg clone $(source) $(tagsRepo)"' 
-		baseDirectory="$(tag-folder)" />
-	</elseTasks>
-      </conditional>
-      
-      <exec executable="$(powershell)"
-	    description = "hg pull changes to tags repo"
-	    buildArgs = '-c "hg pull"' 
-	    baseDirectory="$(tagsRepo)" />
-      
-      <exec executable="$(powershell)"
-	    description = "hg update to tags branch"
-	    buildArgs = '-c "hg update tags"' 
-	    baseDirectory="$(tagsRepo)" />
+    <cb:if expr="'$(tag-completed)' == 'true'">
+      <cb:if expr="'$(sourceCheckInterval)' == ''">
+	<conditional>
+	  <conditions>
+	    <folderExistsCondition folder="$(tagsRepo)" />
+	  </conditions>
+	  <elseTasks>
+	    <exec executable="$(powershell)" 
+		  description = "hg start tags repo"
+		  buildArgs = '-c "hg clone $(source) $(tagsRepo)"' 
+		  baseDirectory="$(tag-folder)" />
+	  </elseTasks>
+	</conditional>
+	
+	<exec executable="$(powershell)"
+	      description = "hg pull changes to tags repo"
+	      buildArgs = '-c "hg pull"' 
+	      baseDirectory="$(tagsRepo)" />
+	
+	<exec executable="$(powershell)"
+	      description = "hg update to tags branch"
+	      buildArgs = '-c "hg update tags"' 
+	      baseDirectory="$(tagsRepo)" />
+      </cb:if>
     </cb:if>
   </cb:define>
   
@@ -437,38 +439,40 @@
   </cb:define>
   
   <cb:define name="publish-privatebuild">
-    <exec 
-	executable="$(powershell)" 
-	baseDirectory="$(project-folder)"
-	description="Create PrivateBuild Root Folder if needed">
-      <buildArgs>/c "md -F $(private-build-root)\$(project-name)"</buildArgs>
-    </exec>
-    
+    <cb:if expr="'$(package)' == 'true'">
+      <exec 
+	  executable="$(powershell)" 
+	  baseDirectory="$(project-folder)"
+	  description="Create PrivateBuild Root Folder if needed">
+	<buildArgs>/c "md -F $(private-build-root)\$(project-name)"</buildArgs>
+      </exec>
+      
       <conditional>
 	<conditions>
 	  <folderExistsCondition folder="$(private-build-root)\$(project-name)\PrivateBuild" />
 	</conditions>
 	<tasks Description="Remove old PrivateBuild">
-    <exec
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description = "remove old PrivateBuild">
-      <buildArgs>-c "rm -r -fo $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
-    </exec>
+	  <exec
+	      executable="$(powershell)"
+	      baseDirectory="$(project-folder)"
+	      description = "remove old PrivateBuild">
+	    <buildArgs>-c "rm -r -fo $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
+	  </exec>
 	</tasks>
       </conditional>    
-    <exec 
-	executable="$(powershell)" 
-	baseDirectory="$(project-folder)"
-	description="Create PrivateBuild SubFolder if needed">
-      <buildArgs>/c "md -F $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
-    </exec>
-    
-    <exec 
-	executable="$(powershell)"
-	baseDirectory="$(project-folder)"
-	description="copy private build to the privatebuild folder"
-	buildArgs='/c xcopy /s/e/y/q/i "$(project-folder)\PrivateBuild" "$(private-build-root)\$(project-name)\PrivateBuild"' />
+      <exec 
+	  executable="$(powershell)" 
+	  baseDirectory="$(project-folder)"
+	  description="Create PrivateBuild SubFolder if needed">
+	<buildArgs>/c "md -F $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
+      </exec>
+      
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="copy private build to the privatebuild folder"
+	  buildArgs='/c xcopy /s/e/y/q/i "$(project-folder)\PrivateBuild" "$(private-build-root)\$(project-name)\PrivateBuild"' />
+    </cb:if>
   </cb:define>
   
   <cb:define name="msbuild-package">
