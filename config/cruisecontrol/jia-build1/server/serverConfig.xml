@@ -8,7 +8,7 @@
       ccroot="f:\"
       pkgroot="g:\pkg"
       private-build-root="g:\PrivateBuild"
-      srcroot="f:\cc\src"
+      srcroot="f:\src"
       artifactroot="e:\artifacts"
       ccNetLogDir="e:\ccnet.log" 
       />
