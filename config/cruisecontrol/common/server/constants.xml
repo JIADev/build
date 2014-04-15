@@ -72,6 +72,7 @@
       unit-test="true"
       web-test="false"
       package="true"
+      package-privatebuild="false"
       forceclean="true"
       recreate-db="true"
       install-patches="true"

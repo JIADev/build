@@ -114,6 +114,7 @@
       external-zip="true"
       protect="false"
       j6Version="7.6.0"
+      package-privatebuild="true"
       />
   
   <cb:v76deployment
