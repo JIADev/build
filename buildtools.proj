@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-
+  
   <PropertyGroup>
     <WorkingDirectory>$([MSBuild]::ValueOrDefault(`$(WorkingDirectory)`, 'c:\dev\repos'))</WorkingDirectory>
     <MasterRepo>$(WorkingDirectory)\master</MasterRepo>
@@ -25,7 +25,7 @@
       <Changeset>$([MSBuild]::ValueOrDefault(`$(ChangesetLine)`, '').Substring($(ChangesetPosition)).Trim(':'))</Changeset>
     </PropertyGroup>
   </Target>
-
+  
   <Target Name="GetLastModifiedArtifactFile" Outputs="$(LastModified)" DependsOnTargets="BuildGetLastModifiedFile">
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\GetLastModifiedFile.exe $(CCNetArtifactDirectory)\buildlogs &gt; $(RepoDirectory)\LastModifiedFile.txt" />
     <ReadLinesFromFile File="$(RepoDirectory)\LastModifiedFile.txt">
@@ -35,7 +35,7 @@
       <LastModified>$(Files)</LastModified>
     </PropertyGroup>
   </Target>
-
+  
   <Target Name="GetMergedChangesets" DependsOnTargets="BuildExtractChangesets">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
@@ -48,7 +48,7 @@
     <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(UpdateToChangeset) -C" Condition="'$(OriginalChangeset)' != '$(UpdateToChangeset)'" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\ChangesetLog.xml" />
   </Target>
-
+  
   <Target Name="MergeChangesetLog" DependsOnTargets="BuildMergeLog">
     <Error Text="Missing CCNetArtifactDirectory" Condition="'$(CCNetArtifactDirectory)' == ''" />
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
@@ -57,32 +57,32 @@
     </CallTarget>
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" />
   </Target>
-
+  
   <Target Name="ReadChangedFiles" DependsOnTargets="BuildChangedFiles">
     <Error Text="Missing ChangesetLogFile" Condition="'$(ChangesetLogFile)' == ''" />
     <Error Text="Missing OutputFile" Condition="'$(OutputFile)' == ''" />
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ChangedFiles.exe $(RepoDirectory)\ChangesetLog.xml $(RepoDirectory)\ChangedFiles.txt" />
   </Target>
-
+  
   <Target Name="CopyFilesIfDifferent" DependsOnTargets="BuildCopyDiffFiles">
     <Error Text="Missing SourceDir" Condition="'$(SourceDir)' == ''" />
     <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
     <Exec Command='$(MSBuildStartupDirectory)\CopyDiffFiles.exe "$(SourceDir)" "$(TargetDir)"' />
   </Target>
-
+  
   <Target Name="Protect" DependsOnTargets="BuildProtect">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing Directory" Condition="'$(Directory)' == ''" />
     <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\Protect.exe $(Directory) $(Customer)" IgnoreExitCode="true" />
   </Target>
-
+  
   <Target Name="AssemblePackage" DependsOnTargets="BuildAssemblePackage">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing HgSourceDir" Condition="'$(HgSourceDir)' == ''" />
     <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\AssemblePackage.exe $(Customer) $(MSBuildStartupDirectory) $(HgSourceDir) $(MSBuildStartupDirectory)\RELEASE-UNPROTECTED" />
   </Target>
-
+  
   <Target Name="CreateZip" DependsOnTargets="BuildZip">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing j6Version" Condition="'$(j6Version)' == ''" />
@@ -92,33 +92,33 @@
       <ZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).zip</ZipFile>
       <UnprotectedZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))-UNPROTECTED.zip</UnprotectedZipFile>
     </PropertyGroup>
-
+    
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(MSBuildStartupDirectory)\Zip.exe $(ZipDirectory) $(ZipFile)" Condition="Exists('$(ZipDirectory)')" /> 
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(MSBuildStartupDirectory)\Zip.exe $(ZipDirectory)-UNPROTECTED $(UnprotectedZipFile)" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
   </Target>
-
+  
   <Target Name="UnZip" DependsOnTargets="BuildUnZip">
     <Error Text="Missing ZipFile" Condition="'$(ZipFile)' == ''" />
     <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command='$(MSBuildStartupDirectory)\UnZip.exe "$(ZipFile)" "$(TargetDir)"' /> 
   </Target>
-
+  
   <Target Name="CleanJunctions" DependsOnTargets="BuildPurgeJunctionsExe">
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
-
+  
   <Target Name="BuildExtractChangesets">
     <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
   </Target>
-
+  
   <Target Name="BuildMergeLog">
     <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
   </Target>
-
+  
   <Target Name="BuildChangedFiles">
     <Csc Sources="$(BuildToolsDirectory)\Code\ChangedFiles.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ChangedFiles.exe" />
   </Target>
-
+  
   <Target Name="BuildZip">
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
@@ -126,7 +126,7 @@
     <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
     <Csc Sources="$(BuildToolsDirectory)\Code\Zip.cs" OutputAssembly="$(MSBuildStartupDirectory)\Zip.exe" References="@(ReferenceFiles)" />
   </Target>
-
+  
   <Target Name="BuildUnZip">
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
@@ -134,7 +134,7 @@
     <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
     <Csc Sources="$(BuildToolsDirectory)\Code\UnZip.cs" OutputAssembly="$(MSBuildStartupDirectory)\UnZip.exe" References="@(ReferenceFiles)" />
   </Target>
-
+  
   <Target Name="BuildProtect">
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
@@ -142,33 +142,33 @@
     <Copy SourceFiles="@(ReferenceFiles)" DestinationFolder="$(MSBuildStartupDirectory)" />
     <Csc Sources="$(BuildToolsDirectory)\Code\Protect.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(MSBuildStartupDirectory)\Protect.exe" References="@(ReferenceFiles)" />
   </Target>
-
+  
   <Target Name="BuildCopyDiffFiles">
     <Csc Sources="$(BuildToolsDirectory)\Code\CopyDiffFiles.cs" OutputAssembly="$(MSBuildStartupDirectory)\CopyDiffFiles.exe" />
   </Target>
-
+  
   <Target Name="BuildAssemblePackage">
     <Csc Sources="$(BuildToolsDirectory)\Code\AssemblePackage.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(MSBuildStartupDirectory)\AssemblePackage.exe" />
   </Target>
-
+  
   <Target Name="BuildGetLastModifiedFile">
     <Csc Sources="$(BuildToolsDirectory)\Code\GetLastModifiedFile.cs" OutputAssembly="$(RepoDirectory)\GetLastModifiedFile.exe" />
   </Target>
-
+  
   <Target Name="BuildPurgeJunctionsExe">
     <Csc Sources="$(BuildToolsDirectory)\Code\PurgeJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
-
+  
   <Target Name="ShowMessage">
     <Message Text="$(MyMessage)" />
   </Target>
-
+  
   <Target Name="MarkBuildDeployed" DependsOnTargets="InitBuildRepo">
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -r $(ReleaseNumber) $(CustomerNumber)_$(Environment) $(CustomerNumber)_$(Environment)_$(DeployedDate) -f -m "Deployed $(ReleaseNumber) to $(CustomerNumber) $(Environment) at $(DeployedDate)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
   </Target>
-
+  
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
     <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
@@ -198,7 +198,7 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
-
+  
   <Target Name="InitRepos" DependsOnTargets="InitMasterRepo">
     <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.2.11" Targets="InitRepo" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.3.3" Targets="InitRepo" />
@@ -215,7 +215,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.6.0" Targets="InitRepo" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\2094_7.6.0" Targets="InitRepo" />
   </Target>
-
+  
   <Target Name="InitBuildRepo">
     <MakeDir Directories="$(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(BuildRepo)" Condition="!Exists('$(BuildRepo)')" />
@@ -226,19 +226,19 @@
     <Message Text="WorkingDirectory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
   </Target>
-
+  
   <Target Name="InitMasterRepo">
     <MakeDir Directories="$(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(MasterRepo)" Condition="!Exists('$(MasterRepo)')" />
     <Message Text="WorkingDirectory = $(MasterRepo)" />
     <Exec WorkingDirectory="$(MasterRepo)" Command="hg pull" />
   </Target>
-
+  
   <Target Name="InitRepo" Condition="!Exists('$(TargetRepo)')">
     <MakeDir Directories="$(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command = "hg init $(TargetRepo)" />
   </Target>
-
+  
   <Target Name="MergeBranchesIfChanged">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
@@ -250,26 +250,41 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="ReadChangedFiles" Properties="RepoDirectory=$(TargetRepo);ChangesetLogFile=$(TargetRepo)\ChangesetLog.xml;OutputFile=$(TargetRepo)\ChangedFiles.txt" />
     <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="Exists('$(TargetRepo)\ChangedFiles.txt')" />
   </Target>
-
+  
   <Target Name="MergeBranches">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
+      <CleanFlag>$([MSBuild]::ValueOrDefault(`$(CleanFlag)`, ' -C'))</CleanFlag>
     </PropertyGroup>
     <Message Text="WorkingDirectory = $(TargetRepo)" />
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
-    <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch) -C" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch)$(CleanFlag)" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --preview" Condition="'$(Preview)' != 'false'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch)" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "@merge $(SourceBranch)"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
-
+  
+  <Target Name="PublishReq">
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="hg branch > $(MSBuildStartupDirectory)\publishbranch.txt" />
+    <ReadLinesFromFile File="$(MSBuildStartupDirectory)\publishbranch.txt">
+      <Output TaskParameter="Lines" PropertyName="SourceBranch" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <TargetRepo>$(MSBuildStartupDirectory)</TargetRepo>
+      <TargetBranch>$(SourceBranch)_pub</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties='TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);TargetBranch=$(TargetBranch);CleanFlag=" ";DoMerge=true;DoCommit=true' />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(SourceBranch)" />
+    <Delete Files="$(TargetRepo)\publishbranch.txt" />
+  </Target>
+  
   <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge_72;ForwardMerge_73;ForwardMerge_74;ForwardMerge_75;ForwardMerge_76;ForwardMerge_2094" />
   <Target Name="ForwardMerge_74" DependsOnTargets="ForwardMerge_740;ForwardMerge_741;ForwardMerge_744;ForwardMerge_745" />
   <Target Name="ForwardMerge_75" DependsOnTargets="ForwardMerge_750;ForwardMerge_752;ForwardMerge_753;ForwardMerge_754;ForwardMerge_755" />
   <Target Name="ForwardMerge_76" DependsOnTargets="ForwardMerge_760;OutwardMerge_000_760;OutwardMerge_2094_760" />
-
+  
   <Target Name="ForwardMerge_72" DependsOnTargets="InitRepos">
     <PropertyGroup>
       <TargetRepo>$(WorkingDirectory)\7.2.11</TargetRepo>
@@ -442,41 +457,41 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ013_pub;TargetBranch=2094_REQ013;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ032_pub;TargetBranch=2094_REQ032;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ126;DoMerge=true;DoCommit=true" />
-
+    
     <!-- Dependency branches -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ064_pub;TargetBranch=2094_REQ147;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ146;DoMerge=true;DoCommit=true" />
-
+    
     <!-- 145 -> 64 -> 147, therefore 145 -> 147 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ147;DoMerge=true;DoCommit=true" />
-
+    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ044_pub;TargetBranch=2094_REQ049;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ049_pub;TargetBranch=2094_REQ081;DoMerge=true;DoCommit=true" />
-
+    
     <!-- 44 -> 49 -> 81, therefore 44 -> 81 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ044_pub;TargetBranch=2094_REQ081;DoMerge=true;DoCommit=true" />
-
+    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ032_pub;TargetBranch=2094_REQ081;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ060;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ013;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ016_pub;TargetBranch=2094_REQ013;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ013_pub;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
-
+    
     <!-- 177 -> 13 -> 22, therefore 177 -> 22 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
     <!-- 16 -> 13 -> 22, therefore 16 -> 22 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ016_pub;TargetBranch=2094_REQ013;DoMerge=true;DoCommit=true" />
-
+    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ035_pub;TargetBranch=2094_REQ036;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ132;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ127;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ129;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ141;DoMerge=true;DoCommit=true" />
-
+    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ141_pub;TargetBranch=2094_REQ142;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ141_pub;TargetBranch=2094_REQ143;DoMerge=true;DoCommit=true" />
-
+    
     <!-- 126 -> 141 -> 142, therefore 126 -> 142 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ142;DoMerge=true;DoCommit=true" />
     <!-- 126 -> 141 -> 143, therefore 126 -> 143 -->
