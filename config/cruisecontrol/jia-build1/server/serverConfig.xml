@@ -5,7 +5,7 @@
   <cb:define 
       sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
-      ccroot="f:\"
+      ccroot="f:"
       pkgroot="g:\pkg"
       private-build-root="g:\PrivateBuild"
       srcroot="f:\src"
