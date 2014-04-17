@@ -261,7 +261,8 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch)$(CleanFlag)" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --preview" Condition="'$(Preview)' != 'false'" />
-    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch)" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --tool=internal:merge" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg resolve --all" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "@merge $(SourceBranch)"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
