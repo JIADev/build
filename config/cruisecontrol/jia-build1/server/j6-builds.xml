@@ -375,6 +375,19 @@
       />
   
   <cb:v76build
+      project-name="CUST2094-RM47121"
+      branch = '2094_RM47121'
+      driver = 'CUST2094'
+      redis-db="15"
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      protect="false"
+      j6Version="7.6.0"
+      />
+  
+  <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-Track3"
       tag="2094_TRK3"
