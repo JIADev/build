@@ -276,7 +276,7 @@
       <TargetRepo>$(MSBuildStartupDirectory)</TargetRepo>
       <TargetBranch>$(SourceBranch)_pub</TargetBranch>
     </PropertyGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties='TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);TargetBranch=$(TargetBranch);CleanFlag= "";DoMerge=true;DoCommit=true' />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties='WorkingDirectory=$(MSBuildStartupDirectory);SourceRepo=$(TargetRepo);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);TargetBranch=$(TargetBranch);CleanFlag= "";DoMerge=true;DoCommit=true' />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(SourceBranch)" />
     <Delete Files="$(TargetRepo)\publishbranch.txt" />
   </Target>
