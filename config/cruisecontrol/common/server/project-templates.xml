@@ -114,7 +114,7 @@
 	repo-name="master"
 	package="false"
 	j6Version="7.6.0"
-	queueSuffix="-Track$(even-odd)"
+	queueSuffix="-Track$(track)"
 	unit-test="true"
 	/>
   </cb:define>
