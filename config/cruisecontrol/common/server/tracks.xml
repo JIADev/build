@@ -76,15 +76,15 @@
 
   <cb:define name="build2Tracks2094">
     <cb:define customer="2094" />
-    <cb:track1 />
-    <cb:track3 />
-    <cb:track5 />
+    <cb:track2 />
+    <cb:track4 />
   </cb:define>
 
   <cb:define name="build3Tracks2094">
     <cb:define customer="2094" />
-    <cb:track2 />
-    <cb:track4 />
+    <cb:track1 />
+    <cb:track3 />
+    <cb:track5 />
   </cb:define>
 
 
