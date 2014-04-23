@@ -61,6 +61,9 @@
     <!-- 13 -> 57 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ013_pub;TargetBranch=2094_REQ057;DoMerge=true;DoCommit=true" />
 
+    <!-- 16 -> 13 -> 57, therefore 16 -> 57 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ016_pub;TargetBranch=2094_REQ057;DoMerge=true;DoCommit=true" />
+
     <!-- 13 -> 22 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ013_pub;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
 
