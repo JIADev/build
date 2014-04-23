@@ -67,6 +67,9 @@
     <!-- 177 -> 13 -> 57, therefore 177 -> 57 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ057;DoMerge=true;DoCommit=true" />
 
+    <!-- 33 -> 57 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ033_pub;TargetBranch=2094_REQ057;DoMerge=true;DoCommit=true" />
+
     <!-- 177 -> 13 -> 22, therefore 177 -> 22 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
 
@@ -84,6 +87,12 @@
 
     <!-- 35 -> 36 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ035_pub;TargetBranch=2094_REQ036;DoMerge=true;DoCommit=true" />
+
+    <!-- 36 -> 57 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ036_pub;TargetBranch=2094_REQ057;DoMerge=true;DoCommit=true" />
+
+    <!-- 35 -> 36 -> 57, therefore 35 -> 57 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ035_pub;TargetBranch=2094_REQ057;DoMerge=true;DoCommit=true" />
 
     <!-- 126 -> 132 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ132;DoMerge=true;DoCommit=true" />
