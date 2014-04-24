@@ -164,6 +164,10 @@
     <Csc Sources="$(BuildToolsDirectory)\Code\FindJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\FindJunctions.exe" />
   </Target>
   
+  <Target Name="BuildResetXmlEncodingExe">
+    <Csc Sources="$(BuildToolsDirectory)\Code\ResetXmlEncoding.cs;$(BuildToolsDirectory)\Code\FileEnumerator.cs" OutputAssembly="$(BuildToolsDirectory)\ResetXmlEncoding.exe" />
+  </Target>
+  
   <Target Name="ShowMessage">
     <Message Text="$(MyMessage)" />
   </Target>
@@ -260,13 +264,15 @@
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <CleanFlag>$([MSBuild]::ValueOrDefault(`$(CleanFlag)`, ' -C'))</CleanFlag>
+      <InternalMerge>$([MSBuild]::ValueOrDefault(`$(InternalMerge)`, 'true'))</InternalMerge>
     </PropertyGroup>
     <Message Text="WorkingDirectory = $(TargetRepo)" />
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch)$(CleanFlag)" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --preview" Condition="'$(Preview)' != 'false'" />
-    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --tool=internal:merge" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch) --tool=internal:merge" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' == 'true'" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch)" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' != 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg resolve --all" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "@merge $(SourceBranch)"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
