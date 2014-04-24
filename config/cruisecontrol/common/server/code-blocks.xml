@@ -222,10 +222,11 @@
   </cb:define>
   
   <cb:define name="create-settings">
-    <exec executable="$(feature)"
+    <exec executable="$(powershell)"
 	  description = "create sql-settings.xml"
-	  baseDirectory="$(project-folder)"
-	  buildArgs = 'config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"' />
+	  baseDirectory="$(project-folder)">
+    <buildArgs>-c '"$(feature)" config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"'</buildArgs>
+    </exec>
     <exec executable="$(powershell)"
 	  description = "create build-settings.xml"
 	  baseDirectory="$(project-folder)"
@@ -248,11 +249,12 @@
 	<cb:recreate-database />
       </cb:if>
       <exec 
-	  executable="$(feature)" 
+	  executable="$(powershell)" 
 	  description = "install patches"
-	  buildArgs = 'install --patch' 
 	  baseDirectory="$(project-folder)"
-	  buildTimeoutSeconds = '$(f-install-patches-timeout)' />
+	  buildTimeoutSeconds = '$(f-install-patches-timeout)'>
+	<buildArgs>-c '"$(feature)" install --patch'</buildArgs>
+      </exec>
     </cb:if>
   </cb:define>
   
@@ -274,14 +276,14 @@
   <cb:define name="f-setup">
     <cb:if expr="'$(updateSource)' != 'false'">
       <exec 
-	  executable="$(feature)" 
+	  executable="$(powershell)" 
 	  description = "feature setup"
 	  baseDirectory="$(project-folder)"
-	  buildArgs = 'setup' 
 	  buildTimeoutSeconds = '$(f-setup-timeout)'>
 	<environment>
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
 	</environment>
+	<buildArgs>-c '"$(feature)" setup'</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
@@ -289,14 +291,14 @@
   <cb:define name="f-build">
     <cb:if expr="'$(build)' == 'true'">
       <exec 
-	  executable="$(feature)" 
+	  executable="$(powershell)" 
 	  buildTimeoutSeconds = '$(f-build-timeout)' 
 	  baseDirectory="$(project-folder)"
 	  description = "Feature Build">
 	<environment>
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
 	</environment>
-	<buildArgs>build /p:Platform=$(platform) /p:Configuration=$(configuration)</buildArgs>
+	<buildArgs>-c '"$(feature)" build /p:Platform=$(platform) /p:Configuration=$(configuration)'</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
@@ -305,10 +307,10 @@
     <cb:if expr="'$(unit-test)' == 'true'">
       <exec 
 	  description="test pattern UnitTest"
-	  executable="$(feature)"
+	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
-	<buildArgs>test --pattern UnitTest</buildArgs>
+	<buildArgs>-c '"$(feature)" test --pattern UnitTest'</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
@@ -316,13 +318,13 @@
   <cb:define name="f-package">
     <cb:if expr="'$(package)' == 'true'">
       <cb:create-revision-txt />
-      <exec executable="$(feature)"
+      <exec executable="$(powershell)"
 	    description = "Package for deployment"
-	    baseDirectory="$(project-folder)"
-	    buildArgs = 'package Package $(driver) --verbose --sourcepath=$(tag-folder)'>
+	    baseDirectory="$(project-folder)">
 	<environment>
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	</environment>
+	<buildArgs>-c '"$(feature)" package Package $(driver) --verbose --sourcepath=$(tag-folder)'</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
