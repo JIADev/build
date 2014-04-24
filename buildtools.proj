@@ -160,6 +160,10 @@
     <Csc Sources="$(BuildToolsDirectory)\Code\PurgeJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
   
+  <Target Name="BuildFindJunctionsExe">
+    <Csc Sources="$(BuildToolsDirectory)\Code\FindJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\FindJunctions.exe" />
+  </Target>
+  
   <Target Name="ShowMessage">
     <Message Text="$(MyMessage)" />
   </Target>
