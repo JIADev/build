@@ -253,7 +253,7 @@
 	  description = "install patches"
 	  baseDirectory="$(project-folder)"
 	  buildTimeoutSeconds = '$(f-install-patches-timeout)'>
-	<buildArgs>-c '"$(feature)" install --patch'</buildArgs>
+	<buildArgs>-c "$(feature) install --patch"</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
@@ -283,7 +283,7 @@
 	<environment>
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
 	</environment>
-	<buildArgs>-c '"$(feature)" setup'</buildArgs>
+	<buildArgs>-c "$(feature) setup"</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
@@ -298,7 +298,7 @@
 	<environment>
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
 	</environment>
-	<buildArgs>-c '"$(feature)" build /p:Platform=$(platform) /p:Configuration=$(configuration)'</buildArgs>
+	<buildArgs>-c "$(feature) build /p:Platform=$(platform) /p:Configuration=$(configuration)"</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
@@ -310,7 +310,7 @@
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  buildTimeoutSeconds = "$(feature-test-unit-timeout)"> 
-	<buildArgs>-c '"$(feature)" test --pattern UnitTest'</buildArgs>
+	<buildArgs>-c "$(feature) test --pattern UnitTest"</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
@@ -324,7 +324,7 @@
 	<environment>
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	</environment>
-	<buildArgs>-c '"$(feature)" package Package $(driver) --verbose --sourcepath=$(tag-folder)'</buildArgs>
+	<buildArgs>-c "$(feature) package Package $(driver) --verbose --sourcepath=$(tag-folder)"</buildArgs>
       </exec>
     </cb:if>
   </cb:define>
