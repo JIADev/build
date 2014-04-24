@@ -225,7 +225,7 @@
     <exec executable="$(powershell)"
 	  description = "create sql-settings.xml"
 	  baseDirectory="$(project-folder)">
-    <buildArgs>-c "$(feature) config sql $(db-server) $(db-name) $(db-user) $(db-password)"</buildArgs>
+    <buildArgs>-c '"$(feature)" config sql "$(db-server)" "$(db-name)" "$(db-user)" "$(db-password)"'</buildArgs>
     </exec>
     <exec executable="$(powershell)"
 	  description = "create build-settings.xml"
