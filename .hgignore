@@ -27,3 +27,6 @@ SnapIns
 UiUxTools/UiUxTools/_ReSharper.UiUxTools
 UiUxTools/UiUxTools/UiUxTools/bin
 UiUxTools/UiUxTools/UiUxTools/obj
+syntax: glob
+Code/PurgeJunctions.exe
+FindJunctions.exe
