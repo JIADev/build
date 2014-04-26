@@ -207,6 +207,14 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
+
+  <Target Name="UpdateReqs">
+    <Error Text="Missing CustomerNumber" Condition="'$(CustomerNumber)' == ''" />
+    <ItemGroup>
+      <BranchesToPublish Include="$(Branches)" />
+    </ItemGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(BuildRepo);SourceBranch=$(CustomerNumber)_%(BranchesToPublish.Identity)" />
+  </Target>
   
   <Target Name="InitRepos" DependsOnTargets="InitMasterRepo">
     <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="TargetRepo=$(WorkingDirectory)\7.2.11" Targets="InitRepo" />
@@ -279,16 +287,17 @@
   </Target>
   
   <Target Name="PublishReq">
-    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="hg branch > $(MSBuildStartupDirectory)\publishbranch.txt" />
-    <ReadLinesFromFile File="$(MSBuildStartupDirectory)\publishbranch.txt">
-      <Output TaskParameter="Lines" PropertyName="SourceBranch" />
-    </ReadLinesFromFile>
     <PropertyGroup>
-      <TargetRepo>$(MSBuildStartupDirectory)</TargetRepo>
+      <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
+      <SourceBranch>$([MSBuild]::ValueOrDefault(`$(SourceBranch)`, '$(CurrentBranch)'))</SourceBranch>
       <TargetBranch>$(SourceBranch)_pub</TargetBranch>
     </PropertyGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties='WorkingDirectory=$(MSBuildStartupDirectory);SourceRepo=$(TargetRepo);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);TargetBranch=$(TargetBranch);CleanFlag= "";DoMerge=true;DoCommit=true' />
-    <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(SourceBranch)" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg branch > $(TargetRepo)\publishbranch.txt" />
+    <ReadLinesFromFile File="$(MSBuildStartupDirectory)\publishbranch.txt">
+      <Output TaskParameter="Lines" PropertyName="CurrentBranch" />
+    </ReadLinesFromFile>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties='WorkingDirectory=$(TargetRepo);SourceRepo=$(TargetRepo);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);TargetBranch=$(TargetBranch);CleanFlag= "";DoMerge=true;DoCommit=true' ContinueOnError="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(CurrentBranch)" />
     <Delete Files="$(TargetRepo)\publishbranch.txt" />
   </Target>
   

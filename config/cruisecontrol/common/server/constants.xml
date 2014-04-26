@@ -104,6 +104,7 @@
       msbuild-recreatedb-timeout="300"
       msbuild-patch-timeout="1200"
       msbuild-ncover-timeout="900"
+      msbuild-updatechangelog-timeout="1500"
       ncover-timeout="900"
       webtest-timeout="21600"
       get-reports-timeout="600"
