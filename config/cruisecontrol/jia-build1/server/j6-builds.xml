@@ -459,7 +459,6 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      protect="false"
       queueSuffix="-Track"
       sourceCheckInterval=""
       />
