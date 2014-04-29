@@ -92,7 +92,6 @@
       clean="true"
       build="true"
       data-test="true"
-      redis-db="14"
       platform="AnyCpu"
       repo-name="master"
       external-protect="true"
@@ -106,7 +105,6 @@
       project-name="CUST000-7.6.0-DEV"
       branch = '000_7.6.0'
       driver = 'CUST000'
-      redis-db="16"
       platform="AnyCpu"
       repo-name="master"
       modules="AUTOSHIP"
@@ -342,7 +340,6 @@
       unit-test="false"
       build="false"
       data-test="false"
-      redis-db="15"
       platform="AnyCpu"
       repo-name="master"
       generate-reports="false"
@@ -352,7 +349,6 @@
       project-name="CUST2094-7.6.0"
       branch = '2094_7.6.0'
       driver = 'CUST2094'
-      redis-db="15"
       platform="AnyCpu"
       repo-name="master"
       external-protect="true"
@@ -365,7 +361,6 @@
       project-name="CUST2094-RM47241"
       branch = '2094_RM47241'
       driver = 'CUST2094'
-      redis-db="15"
       platform="AnyCpu"
       repo-name="master"
       external-protect="true"
@@ -378,20 +373,31 @@
       project-name="CUST2094-QA_WebTests1"
       branch = '2094_QA_WebTests1'
       driver = 'CUST2094'
-      redis-db="15"
       platform="AnyCpu"
       repo-name="master"
       external-protect="true"
       external-zip="true"
       protect="false"
       j6Version="7.6.0"
+      /> 
+	  
+  <cb:v76deployment
+      project-name="CUST2094-RC1-WebTest"
+      driver = 'CUST2094'
+      web-test="true"
+      project-to-deploy="CUST2094-QA_WebTests1"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_2094_CA" 
+      db-server="DEV-8900sql1"
+      redis-server="qas-redis1"
+      redis-db="9"
+      queueSuffix="-WebTests"
       />
-  
+	  
   <cb:v76build
       project-name="CUST2094-RM47121"
       branch = '2094_RM47121'
       driver = 'CUST2094'
-      redis-db="15"
       platform="AnyCpu"
       repo-name="master"
       external-protect="true"
