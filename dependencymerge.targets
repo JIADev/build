@@ -46,6 +46,9 @@
     <!-- 044 -> 081 (from 044 -> 049 -> 081) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ044_pub;TargetBranch=2094_REQ081;DoMerge=true;DoCommit=true" />
 
+    <!-- 051 -> 089 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ051_pub;TargetBranch=2094_REQ089;DoMerge=true;DoCommit=true" />
+
     <!-- 049 -> 089 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ049_pub;TargetBranch=2094_REQ089;DoMerge=true;DoCommit=true" />
 
