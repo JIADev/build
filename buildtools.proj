@@ -289,13 +289,16 @@
   <Target Name="PublishReq">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
-      <SourceBranch>$([MSBuild]::ValueOrDefault(`$(SourceBranch)`, '$(CurrentBranch)'))</SourceBranch>
-      <TargetBranch>$(SourceBranch)_pub</TargetBranch>
     </PropertyGroup>
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg branch > $(TargetRepo)\publishbranch.txt" />
     <ReadLinesFromFile File="$(MSBuildStartupDirectory)\publishbranch.txt">
       <Output TaskParameter="Lines" PropertyName="CurrentBranch" />
     </ReadLinesFromFile>
+    <Message Text="CurrentBranch = $(CurrentBranch)" />
+    <PropertyGroup>
+      <SourceBranch>$([MSBuild]::ValueOrDefault(`$(SourceBranch)`, '$(CurrentBranch)'))</SourceBranch>
+      <TargetBranch>$(SourceBranch)_pub</TargetBranch>
+    </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties='WorkingDirectory=$(TargetRepo);SourceRepo=$(TargetRepo);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);TargetBranch=$(TargetBranch);CleanFlag= "";DoMerge=true;DoCommit=true' ContinueOnError="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(CurrentBranch)" />
     <Delete Files="$(TargetRepo)\publishbranch.txt" />
