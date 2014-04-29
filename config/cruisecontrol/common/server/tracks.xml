@@ -63,6 +63,7 @@
     <cb:reqBuild req-number="REQ022" queue-priority="1950" />
     <cb:reqBuild req-number="REQ002" queue-priority="1000" />
     <cb:reqBuild req-number="REQ032" queue-priority="1950" />
+    <cb:reqBuild req-number="REQ005" />
   </cb:define>
 
   <cb:define name="track5">
