@@ -100,10 +100,10 @@
   <Target Name="OutwardMerge_000_760">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
-      <TargetBranch>000_7.6.0</TargetBranch>
     </PropertyGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
-  </Target>    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=000_7.6.0;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="TargetRepo=$(TargetRepo);SourceBranch=000_7.6.0;TargetBranch=000_Events;DoMerge=true;DoCommit=true" />
+  </Target>
   <Target Name="OutwardMerge_2094_760">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
