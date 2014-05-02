@@ -34,12 +34,12 @@ namespace j6.BuildTools
 				if(hgIgnoreFile != null)
 					hgIgnoreFile.MoveTo(tmpIgnoreFile.FullName);
 
+				DeleteJunctions(repoRoot);
+
 				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile);
 				
 				if(hgIgnoreFile != null)
 					tmpIgnoreFile.MoveTo(hgIgnoreFile.FullName);
-
-				DeleteJunctions(repoRoot);
 
 				foreach (var file in files.Where(f => f.Exists))
 				{
