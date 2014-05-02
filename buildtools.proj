@@ -108,6 +108,10 @@
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
   
+  <Target Name="RevertAll" DependsOnTargets="BuildRevertAllExe">
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\RevertAll.exe" />
+  </Target>
+
   <Target Name="BuildExtractChangesets">
     <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
   </Target>
@@ -158,6 +162,10 @@
   
   <Target Name="BuildPurgeJunctionsExe">
     <Csc Sources="$(BuildToolsDirectory)\Code\PurgeJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
+  </Target>
+  
+  <Target Name="BuildRevertAllExe">
+    <Csc Sources="$(BuildToolsDirectory)\Code\RevertAll.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\RevertAll.exe" />
   </Target>
   
   <Target Name="BuildFindJunctionsExe">
