@@ -105,6 +105,7 @@ namespace j6.BuildTools
 		private static FileInfo[] GetHgStatFiles(string hgExe, DirectoryInfo directory, string tempIgnoreFile)
 		{
 			var output = BuildSystem.RunProcess(hgExe, "status", directory.FullName);
+			var currentAssembly = System.Reflection.Assembly.GetExecutingAssembly().Location;
 			var files = output.Split(new [] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
 							.Select(s => s.TrimStart(new [] { ' ', '?' }).Trim())
 							.Select(s =>
@@ -119,7 +120,7 @@ namespace j6.BuildTools
 										return null;
 									}
 								})
-							.Where(f => f != null && f.Exists && f.FullName != tempIgnoreFile).ToArray();
+							.Where(f => f != null && f.Exists && f.FullName != tempIgnoreFile && f.FullName != currentAssembly).ToArray();
 			return files;
 		}
 	}
