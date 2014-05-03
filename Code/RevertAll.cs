@@ -120,7 +120,7 @@ namespace j6.BuildTools
 										return null;
 									}
 								})
-							.Where(f => f != null && f.Exists && f.FullName != tempIgnoreFile && f.FullName != currentAssembly).ToArray();
+							.Where(f => f != null && f.Exists && f.FullName != tempIgnoreFile && !f.FullName.Equals(currentAssembly, StringComparison.InvariantCultureIgnoreCase)).ToArray();
 			return files;
 		}
 	}
