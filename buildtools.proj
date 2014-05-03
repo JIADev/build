@@ -109,7 +109,7 @@
   </Target>
   
   <Target Name="RevertAll" DependsOnTargets="BuildRevertAllExe">
-    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\RevertAll.exe" />
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
 
   <Target Name="BuildExtractChangesets">
@@ -165,7 +165,7 @@
   </Target>
   
   <Target Name="BuildRevertAllExe">
-    <Csc Sources="$(BuildToolsDirectory)\Code\RevertAll.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\RevertAll.exe" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\RevertAll.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
   
   <Target Name="BuildFindJunctionsExe">
