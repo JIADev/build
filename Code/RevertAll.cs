@@ -25,22 +25,24 @@ namespace j6.BuildTools
 					Console.WriteLine("Must be in a mercurial repository.");
 					return 2;
 				}
-				var hgIgnoreFile = repoRoot.GetFiles(".hgignore").SingleOrDefault(f => f.Exists && f.Name.Equals(".hgignore", StringComparison.InvariantCultureIgnoreCase));
-				var tmpIgnoreFile = new FileInfo( string.Format("{0}.hgignore", Guid.NewGuid()));
-
+				
 				var hgExe = "hg";
 				RevertAll(hgExe, repoRoot);
 
+				var hgIgnoreFile = repoRoot.GetFiles(".hgignore").Where(f => f.Exists && f.Name.Equals(".hgignore", StringComparison.InvariantCultureIgnoreCase)).Select(f => f.FullName).SingleOrDefault();
+				var tmpIgnoreFile = Path.Combine(repoRoot.FullName, string.Format("{0}.hgignore", Guid.NewGuid()));
+
 				if(hgIgnoreFile != null)
-					hgIgnoreFile.MoveTo(tmpIgnoreFile.FullName);
+					File.Move(hgIgnoreFile, tmpIgnoreFile);
 
 				DeleteJunctions(repoRoot);
 
 				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile);
-				
-				if(hgIgnoreFile != null)
-					tmpIgnoreFile.MoveTo(hgIgnoreFile.FullName);
 
+				if (hgIgnoreFile != null)
+				{
+					File.Move(tmpIgnoreFile, hgIgnoreFile);
+				}
 				foreach (var file in files.Where(f => f.Exists))
 				{
 					Console.WriteLine(string.Format("Deleting {0}", file));
@@ -100,7 +102,7 @@ namespace j6.BuildTools
 			return null;
 		}
 		
-		private static FileInfo[] GetHgStatFiles(string hgExe, DirectoryInfo directory, FileInfo tempIgnoreFile)
+		private static FileInfo[] GetHgStatFiles(string hgExe, DirectoryInfo directory, string tempIgnoreFile)
 		{
 			var output = BuildSystem.RunProcess(hgExe, "status", directory.FullName);
 			var files = output.Split(new [] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
@@ -117,60 +119,8 @@ namespace j6.BuildTools
 										return null;
 									}
 								})
-							.Where(f => f != null && f.Exists && f.FullName != tempIgnoreFile.FullName).ToArray();
+							.Where(f => f != null && f.Exists && f.FullName != tempIgnoreFile).ToArray();
 			return files;
-		}
-		
-		private static void GenerateXml(string hgExe, string outputFile, IEnumerable<string> changesets)
-		{
-			var xmlInput = string.Empty;
-			if (changesets.Any())
-			{
-				var args = CreateArgs(changesets);
-
-				xmlInput = BuildSystem.RunProcess(hgExe, args, Environment.CurrentDirectory);
-			}
-			if (string.IsNullOrEmpty(xmlInput))
-				xmlInput = "<log />";
-			var xDoc = XDocument.Parse(xmlInput);
-			var remove = xDoc.XPathSelectElements("/log/logentry").ToArray()
-				.Select(le => 
-				new 
-				{
-					logEntry = le, 
-					msgElement = le == null 
-					      ? null
-					      : le.XPathSelectElement("msg")
-				})
-				.Select(e => new 
-					   { 
-					   e.logEntry,
-					   msg = e.msgElement == null
-					       ? string.Empty
-					       : e.msgElement.Value ?? string.Empty
-					   })
-				.Where(m => m.msg.Contains("@build")).Select(e => e.logEntry);
-			foreach (var entry in remove)
-			{
-				entry.Remove();
-			}
-			xDoc.Save(outputFile);
-		}
-
-		private static string CreateArgs(IEnumerable<string> changesets)
-		{
-			return string.Format("log {0} -v --no-merges --style xml", string.Join(" ", changesets.Select(c => string.Format("-r {0}", c))));
-		}
-
-		private static IEnumerable<string> GetChangesets(string mergedRevisionFile)
-		{
-			using (var stream = new FileStream(mergedRevisionFile, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using(var reader = new StreamReader(stream))
-			{
-				var fileContents = reader.ReadToEnd();
-				var changesets = ChangesetRegex.Matches(fileContents).Cast<Match>().Select(m => m.Value.Substring(m.Value.LastIndexOf(':') + 1).Trim()).ToArray();
-				return changesets;
-			}
 		}
 	}
 }
