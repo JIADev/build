@@ -16,6 +16,8 @@
     <cb:reqBuild req-number="REQ086" />
     <cb:reqBuild req-number="REQ051" />
     <cb:reqBuild req-number="REQ095" />
+    <cb:reqBuild req-number="REQ029" />
+    <cb:reqBuild req-number="REQ031" />
   </cb:define>
   
   <cb:define name="track2">
