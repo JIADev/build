@@ -111,7 +111,7 @@
       repo-name="master"
       external-protect="true"
       external-zip="true"
-      protect="false"
+      package="false"
       j6Version="7.6.0"
       modules="AUTOSHIP"
       />
