@@ -121,7 +121,10 @@
     <!-- 127 -> 141 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ127_pub;TargetBranch=2094_REQ141;DoMerge=true;DoCommit=true" />
 
-    <!-- 126 -> 141 from (126 -> 127 -> 141) -->
+    <!-- 129 -> 141 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ129_pub;TargetBranch=2094_REQ141;DoMerge=true;DoCommit=true" />
+
+    <!-- 126 -> 141 from (126 -> 127 -> 141 *AND* 126 -> 129 -> 141) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ141;DoMerge=true;DoCommit=true" />
 
     <!-- 141 -> 142 -->
