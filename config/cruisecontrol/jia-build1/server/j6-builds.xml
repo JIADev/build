@@ -96,7 +96,6 @@
       repo-name="master"
       external-protect="true"
       external-zip="true"
-      protect="false"
       j6Version="7.6.0"
       modules="AUTOSHIP"
       />
@@ -125,7 +124,6 @@
       modules="AUTOSHIP"
       external-protect="true"
       external-zip="true"
-      protect="false"
       j6Version="7.6.0"
       package-privatebuild="true"
       />
@@ -368,7 +366,6 @@
       repo-name="master"
       external-protect="true"
       external-zip="true"
-      protect="false"
       j6Version="7.6.0"
       />
 	  
@@ -380,7 +377,6 @@
       repo-name="master"
       external-protect="true"
       external-zip="true"
-      protect="false"
       j6Version="7.6.0"
       /> 
 	  
@@ -405,7 +401,6 @@
       repo-name="master"
       external-protect="true"
       external-zip="true"
-      protect="false"
       j6Version="7.6.0"
       />
   
@@ -420,7 +415,6 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      protect="false"
       queueSuffix="-Track"
       sourceCheckInterval=""
       />
@@ -436,7 +430,6 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      protect="false"
       queueSuffix="-Track"
       sourceCheckInterval=""
       />
@@ -452,7 +445,6 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      protect="false"
       queueSuffix="-Track"
       sourceCheckInterval=""
       />
@@ -483,7 +475,6 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      protect="false"
       queueSuffix="-Track"
       sourceCheckInterval=""
       />
@@ -499,7 +490,6 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      protect="false"
       sourceCheckInterval=""
       />
   
