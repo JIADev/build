@@ -4,6 +4,7 @@
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
+
     <!-- Protection against devs accidentally committing to pub instead of regular req branch -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ145_pub;TargetBranch=2094_REQ145;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ064_pub;TargetBranch=2094_REQ064;DoMerge=true;DoCommit=true" />
@@ -63,6 +64,9 @@
 
     <!-- 177 -> 060 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ060;DoMerge=true;DoCommit=true;Publish=true;UpdateBackToReqBranch=false" />
+
+    <!-- 177 -> 193 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ193;DoMerge=true;DoCommit=true" />
 
     <!-- 177 -> 013 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ013;DoMerge=true;DoCommit=true" />
