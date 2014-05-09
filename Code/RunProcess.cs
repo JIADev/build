@@ -12,7 +12,8 @@ namespace j6.BuildTools
 		public static string RunProcess(string process,
 			string args,
 			string workingDirectory,
-			Dictionary<string, string> extraEnvVariables = null)
+			Dictionary<string, string> extraEnvVariables = null,
+			int timeoutSeconds = 0)
 		{
 			var startInfo =
 				new ProcessStartInfo
@@ -65,7 +66,17 @@ namespace j6.BuildTools
 			if (!string.IsNullOrEmpty(errorBuilder.ToString()))
 				throw new Exception(errorBuilder.ToString());
 
-			proc.WaitForExit();
+			if (timeoutSeconds == 0)
+				proc.WaitForExit();
+			else
+				proc.WaitForExit(timeoutSeconds*1000);
+			
+			if (!proc.HasExited)
+			{
+				proc.Kill();
+				throw new TimeoutException(string.Format("Process {0} timed out after {1} seconds", startInfo.FileName, timeoutSeconds));
+			}
+			
 			outputWriter.Join();
 			errorWriter.Join();
 
