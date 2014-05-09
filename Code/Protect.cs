@@ -40,7 +40,7 @@ namespace j6.BuildTools
 				releaseDir.MoveTo(releaseDir.FullName.Substring(0, releaseDir.FullName.Length - UNPROTECTED.Length));
 		}
 
-		public static void ProtectAll(string driverFeature, DirectoryInfo baseDir)
+		public static void ProtectAll(string driverFeature, DirectoryInfo baseDir, int maxRetries = 1)
 		{
 			var tempDir = Path.Combine(baseDir.FullName, "temp");
 			
@@ -60,7 +60,18 @@ namespace j6.BuildTools
 				var distinctFiles = GetDistinctFiles(assembliesToVeil, tempDir);
 				var targets = string.Join(";", distinctFiles.Keys.ToArray());
 				var args = "/Secure /Target:" + targets;
-				BuildSystem.RunProcess("AgileDotNet.Console.exe", args, baseDir.FullName);
+				try
+				{
+					BuildSystem.RunProcess("AgileDotNet.Console.exe", args, baseDir.FullName, null, 180);
+				}
+				catch (TimeoutException)
+				{
+					if (maxRetries == 0)
+						throw;
+
+					ProtectAll(driverFeature, baseDir, maxRetries - 1);
+					return;
+				}
 				foreach (var veiledFile in distinctFiles)
 				{
 					foreach (var targetFile in veiledFile.Value.Select(f => f.FullName).ToArray())
