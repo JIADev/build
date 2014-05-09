@@ -62,7 +62,7 @@ namespace j6.BuildTools
 				var args = "/Secure /Target:" + targets;
 				try
 				{
-					BuildSystem.RunProcess("AgileDotNet.Console.exe", args, baseDir.FullName, null, 180);
+					BuildSystem.RunProcess("AgileDotNet.Console.exe", args, baseDir.FullName, null, 120);
 				}
 				catch (TimeoutException)
 				{
