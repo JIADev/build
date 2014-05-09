@@ -496,7 +496,7 @@ timeout="$(msbuild-updatechangelog-timeout)">
 	       projectFile="$(global_feature_dir)\buildtools.proj"
 	       targets="Protect"
 	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-protect-timeout)">
+	       timeout="$(msbuild-external-protect-timeout)">
 	<buildArgs>/p:Directory="$(project-folder)\RELEASE-UNPROTECTED" /p:Customer=$(driver)</buildArgs>
       </msbuild>
     </cb:if>
