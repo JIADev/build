@@ -221,7 +221,8 @@
     <ItemGroup>
       <BranchesToPublish Include="$(Branches)" />
     </ItemGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(BuildRepo);SourceBranch=$(CustomerNumber)_%(BranchesToPublish.Identity)" />
+    <Message Text="MasterRepo=$(MasterRepo)" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(MasterRepo);Source=$(CustomerNumber)_%(BranchesToPublish.Identity)" />
   </Target>
   
   <Target Name="InitRepos" DependsOnTargets="InitMasterRepo">
@@ -296,7 +297,7 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge $(SourceBranchPrefix)$(SourceBranch)" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' != 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg resolve --all" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "@merge $(SourceBranch)"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(TargetRepo);UpdateBackToReqBranch=$(UpdateBackToReqBranch)" Condition="'$(Publish)' == 'true'" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(TargetRepo);Source=$(TargetBranch);UpdateBackToReqBranch=$(UpdateBackToReqBranch)" Condition="'$(Publish)' == 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
   
