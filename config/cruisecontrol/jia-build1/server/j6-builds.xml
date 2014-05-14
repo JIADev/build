@@ -370,6 +370,17 @@
       />
 	  
   <cb:v76build
+      project-name="CUST2094-REQ057-Packaged"
+      branch = '2094_REQ057'
+      driver = 'CUST2094'
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.0"
+      />
+	  
+  <cb:v76build
       project-name="CUST2094-QA_WebTests1"
       branch = '2094_QA_WebTests1'
       driver = 'CUST2094'
