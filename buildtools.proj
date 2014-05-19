@@ -216,7 +216,7 @@
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
 
-  <Target Name="UpdateReqs">
+  <Target Name="UpdateReqs" DependsOnTargets="InitRepos">
     <Error Text="Missing CustomerNumber" Condition="'$(CustomerNumber)' == ''" />
     <ItemGroup>
       <BranchesToPublish Include="$(Branches)" />
