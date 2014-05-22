@@ -39,7 +39,7 @@
     <cb:define even-odd="Odd" />
     <cb:reqBuild req-number="REQ011" queue-priority="1000" />
     <cb:reqBuild req-number="REQ013" queue-priority="850" />
-    <cb:reqBuild req-number="REQ020" />
+    <cb:reqBuild req-number="REQ020.B" />
     <cb:reqBuild req-number="REQ024" />
     <cb:reqBuild req-number="REQ038" queue-priority="1000" />
     <cb:reqBuild req-number="REQ064" queue-priority="900" />
