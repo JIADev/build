@@ -150,20 +150,17 @@
     <!-- 016 -> 022 (from 016 -> 013 -> 022) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ016_pub;TargetBranch=2094_REQ013;DoMerge=true;DoCommit=true" />
 
-    <!-- 022 -> 020 -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ022_pub;TargetBranch=2094_REQ020;DoMerge=true;DoCommit=true" />
+    <!-- 013 -> 020.B -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ013_pub;TargetBranch=2094_REQ020.B;DoMerge=true;DoCommit=true" />
 
-    <!-- 013 -> 020 (from 013 -> 022 -> 020) -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ013_pub;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
+    <!-- 177 -> 020.B (from 177 -> 013 -> 020.B) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ020.B;DoMerge=true;DoCommit=true" />
 
-    <!-- 177 -> 020 (from 177 -> 013 -> 022 -> 020) -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177_pub;TargetBranch=2094_REQ020;DoMerge=true;DoCommit=true" />
+    <!-- 036 -> 020.B (from 036 -> 177 -> 013 -> 020.B) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ036_pub;TargetBranch=2094_REQ020.B;DoMerge=true;DoCommit=true" />
 
-    <!-- 036 -> 020 (from 036 -> 177 -> 013 -> 022 -> 020) -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ036_pub;TargetBranch=2094_REQ020;DoMerge=true;DoCommit=true" />
-
-    <!-- 035 -> 020 (from 035 -> 036 -> 177 -> 013 -> 022 -> 020) -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ035_pub;TargetBranch=2094_REQ020;DoMerge=true;DoCommit=true" />
+    <!-- 035 -> 020.B (from 035 -> 036 -> 177 -> 013 -> 020.B) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ035_pub;TargetBranch=2094_REQ020.B;DoMerge=true;DoCommit=true" />
 
     <!-- 126 -> 132 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ126_pub;TargetBranch=2094_REQ132;DoMerge=true;DoCommit=true;Publish=true;UpdateBackToReqBranch=false" />
