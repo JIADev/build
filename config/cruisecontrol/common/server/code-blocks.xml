@@ -315,6 +315,7 @@ timeout="$(msbuild-updatechangelog-timeout)">
   </cb:define>
   
   <cb:define name="f-package">
+    <cb:if expr="'$(package)' == 'true'">
       <cb:create-revision-txt />
       <exec executable="$(feature)"
 	    description = "Package for deployment"
@@ -324,6 +325,7 @@ timeout="$(msbuild-updatechangelog-timeout)">
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	</environment>
       </exec>
+    </cb:if>
   </cb:define>
   
   <cb:define name="create-revision-txt">
@@ -477,6 +479,7 @@ timeout="$(msbuild-updatechangelog-timeout)">
   </cb:define>
   
   <cb:define name="msbuild-package">
+    <cb:if expr="'$(package)' == 'true'">
       <cb:create-revision-txt />
       <msbuild logger="$(msBuildListenerDll)" description="package build"
 	       executable="$(msbuild)"
@@ -486,7 +489,6 @@ timeout="$(msbuild-updatechangelog-timeout)">
 	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
       </msbuild>
-    <cb:if expr="'$(package)' == 'true'">
    <cb:if expr="'$(protect)' == 'true'">
    <cb:if expr="'$(external-protect)' == 'true'">
       <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
