@@ -507,15 +507,13 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-QA"
-      branch = 'tags'
-      tag="2094_QA"
+      branch = '2094_Build_2014.05.23_140631'
       prodTag="2094_7.6.0"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      sourceCheckInterval=""
       />
   
   <!-- Experimental stuff (03-27-2014)
