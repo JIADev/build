@@ -10,7 +10,7 @@
     <cb:define db-server="$(db-server-2008)" />
     <cb:define db-user="$(db-user-2008)" />
     <cb:define db-password="$(db-password-2008)" />
-
+    
     <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
       <cb:if expr="'$(sourceCheckInterval)'!=''">
 	<triggers>
@@ -104,7 +104,7 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
-
+  
   <cb:define name="reqBuild">
     <cb:v76build
 	driver="CUST$(customer)"
@@ -118,7 +118,7 @@
 	unit-test="true"
 	/>
   </cb:define>
-
+  
   <cb:define name="v76deployment">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="ccnet-$(project-name)-DEV" />
@@ -159,20 +159,17 @@
     <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
-	<triggers>
-      <cb:if expr="'$(triggerTime)'!=''">
+      <triggers>
+	<cb:if expr="'$(triggerTime)'!=''">
 	  <scheduleTrigger time = "$(triggerTime)" buildCondition="ForceBuild" />
-      </cb:if>
-      <cb:if expr="'$(triggerTime2)'!=''">
-	  <scheduleTrigger time = "$(triggerTime2)" buildCondition="ForceBuild" />
-      </cb:if>
-	</triggers>
+	</cb:if>
+      </triggers>
       <tasks>
 	<cb:createbuild />
       </tasks>
       <publishers>
-      <xmllogger />
-      <statistics />
+	<xmllogger />
+	<statistics />
       </publishers>
       <externalLinks>
 	<externalLink name="root" url="$(ccwebroot)" />
@@ -181,4 +178,30 @@
     </project>
   </cb:define>
   
+  <cb:define name="mergeBuild">
+    <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <artifactDirectory>$(artifact-folder)</artifactDirectory>
+      <triggers>
+	<cb:if expr="'$(triggerTime)'!=''">
+	  <scheduleTrigger time = "$(triggerTime)" buildCondition="ForceBuild" />
+	</cb:if>
+	<cb:if expr="'$(triggerTime2)'!=''">
+	  <scheduleTrigger time = "$(triggerTime2)" buildCondition="ForceBuild" />
+	</cb:if>
+      </triggers>
+      <tasks>
+    	<msbuild logger="$(msBuildListenerDll)" description="Forward Merge 2094" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardMerge2094" workingDirectory="$(project-folder)" />
+      </tasks>
+      <publishers>
+	<xmllogger />
+	<statistics />
+      </publishers>
+      <externalLinks>
+	<externalLink name="root" url="$(ccwebroot)" />
+      </externalLinks>
+      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+    
+  </cb:define>
 </cb:config-template>
