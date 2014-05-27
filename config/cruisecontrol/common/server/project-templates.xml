@@ -191,7 +191,7 @@
 	</cb:if>
       </triggers>
       <tasks>
-    	<msbuild logger="$(msBuildListenerDll)" description="Forward Merge 2094" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardMerge2094" workingDirectory="$(project-folder)" />
+    	<msbuild logger="$(msBuildListenerDll)" description="Forward Merge 2094" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardMerge_2094" workingDirectory="$(project-folder)" />
       </tasks>
       <publishers>
 	<xmllogger />
