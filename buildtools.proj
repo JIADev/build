@@ -113,7 +113,7 @@
   </Target>
 
   <Target Name="BuildExtractChangesets">
-    <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" Condition="!Exists('$(RepoDirectory)\ExtractChangesets.exe')" />
   </Target>
   
   <Target Name="BuildMergeLog">
