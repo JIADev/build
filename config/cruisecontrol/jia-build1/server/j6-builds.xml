@@ -370,17 +370,6 @@
       />
 	  
   <cb:v76build
-      project-name="CUST2094-REQ057-Packaged"
-      branch = '2094_REQ057'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      external-protect="true"
-      external-zip="true"
-      j6Version="7.6.0"
-      />
-	  
-  <cb:v76build
       project-name="CUST2094-QA_WebTests1"
       branch = '2094_QA_WebTests1'
       driver = 'CUST2094'
@@ -493,15 +482,13 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-RC1"
-      branch = 'tags'
-      tag="2094_RC1"
+      branch = '2094_RC1.1'
       prodTag="2094_7.6.0"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-      sourceCheckInterval=""
       />
   
   <!-- Experimental stuff (03-27-2014)
