@@ -121,7 +121,7 @@
   </Target>
   
   <Target Name="BuildChangedFiles">
-    <Csc Sources="$(BuildToolsDirectory)\Code\ChangedFiles.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ChangedFiles.exe" />
+    <Csc Sources="$(BuildToolsDirectory)\Code\ChangedFiles.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ChangedFiles.exe" Condition="!Exists('$(RepoDirectory)\ChangedFiles.exe')" />
   </Target>
   
   <Target Name="BuildZip">
