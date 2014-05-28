@@ -191,7 +191,7 @@
 	</cb:if>
       </triggers>
       <tasks>
-    	<msbuild logger="$(msBuildListenerDll)" description="Revert All Files" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="RevertAll" workingDirectory="$(project-folder)" timeout="60" />
+    	<msbuild logger="$(msBuildListenerDll)" description="Revert All Files" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="RevertAll" workingDirectory="c:\dev\repos\master" timeout="60" />
     	<msbuild logger="$(msBuildListenerDll)" description="Forward Merge 2094" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardMerge_2094" workingDirectory="$(project-folder)" timeout="3600" />
       <exec executable="$(powershell)" 
 	    description = "hg push"
