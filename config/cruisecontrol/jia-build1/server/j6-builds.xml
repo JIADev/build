@@ -430,4 +430,15 @@
       j6Version="7.6.0"
       />
 	  
+  <cb:v76build
+      project-name="CUST2095-Events"
+      branch = '2095_Events'
+      driver = 'CUST2095'
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.0"
+      />
+	  
 </cb:config-template>
