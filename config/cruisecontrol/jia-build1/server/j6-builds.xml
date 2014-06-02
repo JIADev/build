@@ -416,28 +416,18 @@
       external-protect="true"
       external-zip="true"
       />
+
+<!-- CUST2095 -->
   
-  <!-- Experimental stuff (03-27-2014)
-       <cb:createTaggedBuild
-       project-name="create-2094_Track3"
-       driver="2094"
-       branches="REQ038"
-       buildTag="2094_Track3"
-       baseTag="2094_7.6.0"
-       tagsBranch="2094_tags"
-       triggerTime="09:00"
-       triggerTime2="14:00"
-       />
-       
-       <cb:createTaggedBuild
-       project-name="create-2094-Track4"
-       driver="2094"
-       branches="REQ177;REQ060"
-       buildTag="2094_Track4"
-       baseTag="2094_7.6.0"
-       tagsBranch="2094_tags"
-       triggerTime="09:00"
-       triggerTime2="14:00"
-       />
-  --> 
+  <cb:v76build
+      project-name="CUST2095-7.6.0"
+      branch = '2095_7.6.0'
+      driver = 'CUST2095'
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.0"
+      />
+	  
 </cb:config-template>
