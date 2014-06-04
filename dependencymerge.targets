@@ -13,6 +13,9 @@
     <!-- RC1.1 ->  089 (from 044 -> 049 -> 081 -> 089 and 011 -> 081 -> 089 and 051 -> 089) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC1.1;TargetBranch=2094_REQ089;DoMerge=true;DoCommit=true" />
 
+    <!-- RC1.1 ->  WebTest_RC1.1 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC1.1;TargetBranch=2094_WebTest_RC1.1;DoMerge=true;DoCommit=true" />
+
     <!-- RC1.1 ->  022 (from 035 -> 036 -> 177 -> 013 -> 022 and 016 -> 013 -> 022) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC1.1;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
 
