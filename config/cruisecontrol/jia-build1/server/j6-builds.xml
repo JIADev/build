@@ -417,6 +417,18 @@
       external-zip="true"
       />
 
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-WebTest_RC1.1"
+      branch = '2094_WebTest_RC1.1'
+      prodTag="2094_7.6.0"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      />
+
 <!-- CUST2095 -->
   
   <cb:v76build
