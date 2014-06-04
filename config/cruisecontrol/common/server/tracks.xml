@@ -54,5 +54,17 @@
     <cb:track5 />
   </cb:define>
 
+<cb:define name="build2TBSAH">
+  <cb:define customer="2095" />
+  <cb:reqBuild track="1" req-number="REQ002" />
+  <cb:reqBuild track="1" req-number="REQ004" />
+  <cb:reqBuild track="1" req-number="REQ014" />
+</cb:define>
+
+<cb:define name="build3TBSAH">
+  <cb:define customer="2095" />
+  <cb:reqBuild track="1" req-number="REQ005" />
+  <cb:reqBuild track="1" req-number="REQ006" />
+</cb:define>
 
 </cb:config-template>
