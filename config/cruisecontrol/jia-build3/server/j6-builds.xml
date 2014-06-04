@@ -7,12 +7,6 @@
 
   <!-- req branches -->
   <cb:build3Tracks2094 />
-
-  <cb:mergeBuild
-      project-name="CVS-MergeBuild"
-      driver="2094"
-      queueSuffix="-merge"
-      />
-
+  <cb:build3TBSAH />
 
 </cb:config-template>
