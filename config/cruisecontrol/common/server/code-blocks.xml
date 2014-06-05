@@ -77,18 +77,22 @@
 	      description = "hg pull tag changes"
 	      buildArgs = '-c "hg pull -r $(tag)"' 
 	      baseDirectory="$(tag-folder)" />
-	
-	
-	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
-timeout="$(msbuild-updatechangelog-timeout)">
-	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(tag) /p:RepoDirectory=$(tag-folder)</buildArgs>
-	</msbuild>
-	
-	<exec executable="$(powershell)" 
-	      description = "hg update to tag"
-	      buildArgs = '-c "hg update $(tag)"' 
-	      baseDirectory="$(tag-folder)" />
+	<cb:define newChangeset="$(tag)" />
       </cb:if>
+      <cb:else>
+	<cb:define newChangeset="$(branch)" />
+      </cb:else>
+      
+      <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
+	       timeout="$(msbuild-updatechangelog-timeout)">
+	<buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(tag-folder)</buildArgs>
+      </msbuild>
+      
+      <exec executable="$(powershell)" 
+	    description = "hg update to tag or branch"
+	    buildArgs = '-c "hg update $(newChangeset)"' 
+	    baseDirectory="$(tag-folder)" />
+      
     </cb:if>    
   </cb:define>
   
@@ -598,11 +602,9 @@ timeout="$(msbuild-updatechangelog-timeout)">
     -->
     <xmllogger />
     <statistics />
-    <cb:if expr="'$(sourceCheckInterval)' == ''">
-      <msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
-	<buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
-      </msbuild>
-    </cb:if>
+    <msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
+      <buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
+    </msbuild>
   </cb:define>
   
   <!-- Added for 7.6 builds -->
