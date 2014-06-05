@@ -56,7 +56,7 @@
     <CallTarget Targets="GetLastModifiedArtifactFile">
       <Output TaskParameter="TargetOutputs" PropertyName="CCNetLogFile" />
     </CallTarget>
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" Condition="Exists('$(RepoDirectory)\ChangesetLog.xml')" />
   </Target>
   
   <Target Name="ReadChangedFiles" DependsOnTargets="BuildChangedFiles">
