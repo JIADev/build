@@ -82,17 +82,18 @@
       <cb:else>
 	<cb:define newChangeset="$(branch)" />
       </cb:else>
-      
-      <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
-	       timeout="$(msbuild-updatechangelog-timeout)">
-	<buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(tag-folder)</buildArgs>
-      </msbuild>
-      
-      <exec executable="$(powershell)" 
-	    description = "hg update to tag or branch"
-	    buildArgs = '-c "hg update $(newChangeset)"' 
-	    baseDirectory="$(tag-folder)" />
-      
+
+      <cb:if expr="'$(prodTag)' != ''">
+	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
+		 timeout="$(msbuild-updatechangelog-timeout)">
+	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(tag-folder)</buildArgs>
+	</msbuild>
+	
+	<exec executable="$(powershell)" 
+	      description = "hg update to tag or branch"
+	      buildArgs = '-c "hg update $(newChangeset)"' 
+	      baseDirectory="$(tag-folder)" />
+      </cb:if>
     </cb:if>    
   </cb:define>
   
