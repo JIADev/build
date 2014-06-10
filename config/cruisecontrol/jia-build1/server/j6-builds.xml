@@ -409,7 +409,6 @@
       driver="CUST2094"
       project-name="CUST2094-RC1"
       branch = '2094_RC1.1'
-      prodTag="2094_7.6.0"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.0"
