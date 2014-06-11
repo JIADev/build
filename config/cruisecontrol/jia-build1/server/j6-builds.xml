@@ -371,23 +371,13 @@
       j6Version="7.6.0"
       />
 	  
-  <cb:v76build
-      project-name="CUST2094-QA_WebTests1"
-      branch = '2094_QA_WebTests1'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      external-protect="true"
-      external-zip="true"
-      j6Version="7.6.0"
-	  package-privatebuild="true"
-      /> 
+ 
 	  
   <cb:v76deployment
       project-name="CUST2094-RC1-WebTest"
       driver = 'CUST2094'
       web-test="true"
-      project-to-deploy="CUST2094-QA_WebTests1"
+      project-to-deploy="CUST2094-WebTest_RC1.1"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_2094_CA" 
       db-server="DEV-8900sql1"
@@ -428,6 +418,7 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
+	  package-privatebuild="true"
       />
 
 <!-- CUST2095 -->
