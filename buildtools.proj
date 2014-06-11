@@ -37,17 +37,14 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="GetMergedChangesets" DependsOnTargets="BuildExtractChangesets">
+  <Target Name="GetMergedChangesets">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
     <PropertyGroup>
       <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
     </PropertyGroup>
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(OriginalChangeset) -C" />
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg merge $(NewChangeset) --preview &gt; $(RepoDirectory)\mergedRevisions.txt" />
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg up $(UpdateToChangeset) -C" Condition="'$(OriginalChangeset)' != '$(UpdateToChangeset)'" />
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ExtractChangesets.exe $(RepoDirectory)\mergedRevisions.txt $(RepoDirectory)\ChangesetLog.xml" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors($(NewChangeset)) and not keyword('@build')&quot; --verbose --prune $(OriginalChangeset) --no-merges --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
   </Target>
   
   <Target Name="MergeChangesetLog" DependsOnTargets="BuildMergeLog">
