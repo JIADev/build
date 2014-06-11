@@ -127,6 +127,7 @@
       j6Version="7.6.0"
       package-privatebuild="true"
       />
+	  
   
   <cb:v76deployment
       project-name="CUST000-7.6.0-DEV-WebTest"
@@ -379,6 +380,7 @@
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
+	  package-privatebuild="true"
       /> 
 	  
   <cb:v76deployment
