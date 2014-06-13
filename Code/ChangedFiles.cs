@@ -14,14 +14,14 @@ namespace j6.BuildTools
 		{
 			try
 			{
-
 				var inputFile = args[0];
 				var outputFile = args[1];
 				if (File.Exists(outputFile))
 					File.Delete(outputFile);
 
 				var xml = ReadXml(inputFile);
-				
+				if (xml == null)
+					return 0;
 				var files = ChangedFiles(xml);
 
 				if (files.Any())
@@ -51,10 +51,13 @@ namespace j6.BuildTools
 
 		private static XDocument ReadXml(string inputFile)
 		{
-			XDocument returnValue;
+			XDocument returnValue = null;
 			using (var input = new FileStream(inputFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+			using(var readerInput = new StreamReader(input))
 			{
-				returnValue = XDocument.Load(input);
+				var xmlData = readerInput.ReadToEnd();
+				if(!string.IsNullOrWhiteSpace(xmlData))
+					returnValue = XDocument.Parse(xmlData);
 			}
 			return returnValue;
 		}
