@@ -120,6 +120,7 @@
       <TargetBranch>2095_7.6.0</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=000_Events;TargetBranch=2095_Events;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_7.6.0;TargetBranch=2095_Events;DoMerge=true;DoCommit=true" />
   </Target>    
   <Target Name="ForwardMerge_2095" DependsOnTargets="ForwardMerge_76;InitRepos">
@@ -135,6 +136,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Events;TargetBranch=2095_REQ007;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Events;TargetBranch=2095_REQ014;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Events;TargetBranch=2095_REQ015;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Events;TargetBranch=2095_REQ022;DoMerge=true;DoCommit=true" />
   </Target>
   <Target Name="ForwardMerge_2094" DependsOnTargets="ForwardMerge_76;InitRepos">
     <PropertyGroup>
