@@ -387,8 +387,8 @@
       />
 	  
   <cb:v76build
-      project-name="CUST2094-RM47241"
-      branch = '2094_RM47241'
+      project-name="CUST2094-RM47756"
+      branch = '2094_RM47756'
       driver = 'CUST2094'
       platform="AnyCpu"
       repo-name="master"
