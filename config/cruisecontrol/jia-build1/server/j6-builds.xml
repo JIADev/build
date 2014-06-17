@@ -458,7 +458,7 @@
       external-zip="true"
       />
 
-  <cb:customerbuild
+  <cb:v76build
       project-name="CUST2095-CVS"
       branch = "tags"
       tag = "2095_CVS"
