@@ -458,4 +458,19 @@
       external-zip="true"
       />
 
+  <cb:customerbuild
+      project-name="CUST2095-CVS"
+      branch = "tags"
+      tag = "2095_CVS"
+      prodTag="2094_RC1.1"
+      driver = "CUST2095"
+      platform="AnyCpu"
+      repo-name="master"
+      sourceCheckInterval=""
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      />
+  
+
 </cb:config-template>
