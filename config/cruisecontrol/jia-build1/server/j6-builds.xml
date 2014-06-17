@@ -448,7 +448,7 @@
 	  
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-RC1"
+      project-name="CUST2095-QA"
       branch = '2095_REQ006'
       prodTag="2094_Events"
       platform="AnyCpu"
