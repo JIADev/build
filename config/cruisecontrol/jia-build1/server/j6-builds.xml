@@ -446,4 +446,31 @@
       j6Version="7.6.0"
       />
 	  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-QA"
+      branch = '2095_REQ006'
+      prodTag="2095_Events"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      />
+
+  <cb:v76build
+      project-name="CUST2095-CVS"
+      branch = "tags"
+      tag = "2095_CVS"
+      prodTag="2094_RC1.1"
+      driver = "CUST2095"
+      platform="AnyCpu"
+      repo-name="master"
+      sourceCheckInterval=""
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      />
+  
+
 </cb:config-template>
