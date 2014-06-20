@@ -68,6 +68,7 @@
   <cb:reqBuild track="1" req-number="REQ005" />
   <cb:reqBuild track="1" req-number="REQ006" />
   <cb:reqBuild track="1" req-number="REQ007" />
+  <cb:reqBuild track="1" req-number="REQ011" />
   <cb:reqBuild track="1" req-number="REQ015" />
 </cb:define>
 
