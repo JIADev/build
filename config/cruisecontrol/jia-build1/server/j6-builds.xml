@@ -101,6 +101,21 @@
       />
   
   <cb:v76build
+      project-name="CUST000-7.6.1"
+      branch = '7.6.1'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.1"
+      modules="AUTOSHIP"
+      />
+  
+  <cb:v76build
       project-name="CUST000-Events"
       branch = '000_Events'
       driver = 'CUST000'
@@ -405,6 +420,18 @@
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      />
+
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-7.6.1"
+      branch = '7.6.1'
+      prodTag="7.6.0"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
       />
