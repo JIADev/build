@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Target Name="DependencyMerge_2094" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+
+    <!-- Protection against devs accidentally committing to pub instead of regular req branch -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ022_pub;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
+    
+    <!-- Dependency branches -->
+
+    <!-- RC1.1 ->  089 (from 044 -> 049 -> 081 -> 089 and 011 -> 081 -> 089 and 051 -> 089) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2094_REQ089;DoMerge=true;DoCommit=true" />
+
+    <!-- RC1.1 ->  WebTest_RC1.1 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2094_WebTest_RC1.1;DoMerge=true;DoCommit=true" />
+
+    <!-- RC1.1 ->  022 (from 035 -> 036 -> 177 -> 013 -> 022 and 016 -> 013 -> 022) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
+
+    <!-- RC1.1 ->  143 (from 126 -> 127 -> 141 -> 143) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2094_REQ143;DoMerge=true;DoCommit=true" />
+
+    <!-- 143 ->  142 (from 126 -> 127 -> 141 -> 143 -> 142) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ143;TargetBranch=2094_REQ142;DoMerge=true;DoCommit=true" />
+
+    <!-- RC1.1 ->  142 (from 126 -> 127 -> 141 -> 143 -> 142) -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2094_REQ142;DoMerge=true;DoCommit=true" />
+
+
+  </Target>
+  <Target Name="DependencyMerge_2095" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    <!-- config merges -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ001;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ002;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ004;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ005;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ006;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ007;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ015;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ022;DoMerge=true;DoCommit=true" />
+
+    <!-- REQ006 -> REQ011 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ006;TargetBranch=2095_REQ011;DoMerge=true;DoCommit=true" />
+
+    <!-- REQ015 -> REQ014 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ015;TargetBranch=2095_REQ014;DoMerge=true;DoCommit=true" />
+
+    <!-- Should already be taken care of by REQ006 -> REQ011, but for good measure... -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ011;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_Config;TargetBranch=2095_REQ014;DoMerge=true;DoCommit=true" />
+  </Target>
+</Project>
