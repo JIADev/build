@@ -9,4 +9,8 @@
   <cb:build2Tracks2094 />
   <cb:build2TBSAH />
 
+  <!-- temporary while build 3 is down -->
+  <cb:build3Tracks2094 />
+  <cb:build3TBSAH />
+
 </cb:config-template>
