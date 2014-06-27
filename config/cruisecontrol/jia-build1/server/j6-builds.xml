@@ -401,7 +401,8 @@
       queueSuffix="-WebTests"
       />
 	  
-  <!-- <cb:v76build
+  <!-- 
+       <cb:v76build
       project-name="CUST2094-RM48051"
       branch = '2094_RM48051'
       driver = 'CUST2094'
@@ -410,7 +411,18 @@
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
-      /> -->
+      />
+ -->
+       <cb:v76build
+      project-name="CUST2094-RM47756"
+      branch = '2094_RM47756'
+      driver = 'CUST2094'
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.0"
+      />
   
   <cb:v76build
       driver="CUST2094"
