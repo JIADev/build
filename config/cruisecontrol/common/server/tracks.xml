@@ -15,6 +15,7 @@
   <cb:define name="track2">
     <cb:define track="2" />
     <cb:define even-odd="Even" />
+	<cb:reqBuild req-number="REQ076" />
     <cb:reqBuild req-number="REQ078" />
     <cb:reqBuild req-number="REQ128" />
     <cb:reqBuild req-number="REQ142" />
