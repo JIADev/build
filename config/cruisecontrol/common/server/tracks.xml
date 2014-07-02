@@ -71,6 +71,7 @@
   <cb:reqBuild track="1" req-number="REQ014" />
   <cb:reqBuild track="1" req-number="REQ022" />
   <cb:reqBuild track="1" req-number="Config" />
+  <cb:reqBuild track="1" req-number="REQ003" />
 </cb:define>
 
 <cb:define name="build3TBSAH">
@@ -80,6 +81,7 @@
   <cb:reqBuild track="1" req-number="REQ007" />
   <cb:reqBuild track="1" req-number="REQ011" />
   <cb:reqBuild track="1" req-number="REQ015" />
+  <cb:reqBuild track="1" req-number="REQ037" />
 </cb:define>
 
 </cb:config-template>
