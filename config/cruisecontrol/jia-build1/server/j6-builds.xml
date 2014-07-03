@@ -438,7 +438,7 @@
 
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-QA"
+      project-name="CUST2094-RC2"
       branch = '2094_REQ188'
       prodTag="7.6.1"
       platform="AnyCpu"
