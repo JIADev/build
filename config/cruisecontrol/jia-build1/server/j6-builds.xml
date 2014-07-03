@@ -438,9 +438,9 @@
 
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-7.6.1"
-      branch = '7.6.1'
-      prodTag="7.6.0"
+      project-name="CUST2094-QA"
+      branch = '2094_REQ188'
+      prodTag="7.6.1"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.1"
