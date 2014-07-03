@@ -19,16 +19,17 @@
     <cb:reqBuild req-number="REQ078" />
     <cb:reqBuild req-number="REQ128" />
     <cb:reqBuild req-number="REQ142" />
-    <cb:reqBuild req-number="REQ143" />
+    <cb:reqBuild req-number="REQ143" queue-priority="1950" />
     <cb:reqBuild req-number="REQ148" />
   </cb:define>
 
   <cb:define name="track3">
     <cb:define track="3" />
     <cb:define even-odd="Odd" />
-	<cb:reqBuild req-number="REQ179" />
     <cb:reqBuild req-number="REQ024" />
-	<cb:reqBuild req-number="REQ188" />
+    <cb:reqBuild req-number="REQ025" />
+	<cb:reqBuild req-number="REQ179" />
+	<cb:reqBuild req-number="REQ188" queue-priority="2000" />
 	<cb:reqBuild req-number="REQ020.B" />
   </cb:define>
   
@@ -69,18 +70,18 @@
   <cb:reqBuild track="1" req-number="REQ002" />
   <cb:reqBuild track="1" req-number="REQ004" />
   <cb:reqBuild track="1" req-number="REQ014" />
-  <cb:reqBuild track="1" req-number="REQ022" />
+  <cb:reqBuild track="1" req-number="REQ022" queue-priority="900" />
   <cb:reqBuild track="1" req-number="Config" />
   <cb:reqBuild track="1" req-number="REQ003" />
 </cb:define>
 
 <cb:define name="build3TBSAH">
   <cb:define customer="2095" />
-  <cb:reqBuild track="1" req-number="REQ005" />
-  <cb:reqBuild track="1" req-number="REQ006" />
-  <cb:reqBuild track="1" req-number="REQ007" />
+  <cb:reqBuild track="1" req-number="REQ005" queue-priority="900" />
+  <cb:reqBuild track="1" req-number="REQ006" queue-priority="950" />
+  <cb:reqBuild track="1" req-number="REQ007" queue-priority="1000" />
   <cb:reqBuild track="1" req-number="REQ011" />
-  <cb:reqBuild track="1" req-number="REQ015" />
+  <cb:reqBuild track="1" req-number="REQ015" queue-priority="1000" />
   <cb:reqBuild track="1" req-number="REQ037" />
 </cb:define>
 
