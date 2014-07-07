@@ -439,13 +439,15 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-RC2"
-      branch = '2094_REQ188'
+      branch = 'tags'
+      tag="2094_RC2"
       prodTag="7.6.1"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
+      sourceCheckInterval=""
       />
 
   <cb:v76build
