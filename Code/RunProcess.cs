@@ -37,7 +37,7 @@ namespace j6.BuildTools
 			};
 
 			var outputString = new StringWriter();
-			Trace.WriteLine(string.Format("Starting: {0} with arguments: {1}", startInfo.FileName, startInfo.Arguments));
+            Trace.WriteLine(string.Format("Starting: {0} with arguments: {1}", startInfo.FileName, startInfo.Arguments));
 			proc.Start();
 			var errorBuilder = new StringBuilder();
 
@@ -47,7 +47,7 @@ namespace j6.BuildTools
 				lock (proc)
 					while ((line = proc.StandardOutput.ReadLine()) != null)
 					{
-						Console.WriteLine(line);
+                        Console.WriteLine(line);
 						outputString.WriteLine(line);
 					}
 			});
@@ -57,7 +57,7 @@ namespace j6.BuildTools
 				lock (proc)
 					while ((line = proc.StandardError.ReadLine()) != null)
 					{
-						Console.Error.WriteLine(line);
+                        Console.Error.WriteLine(line);
 						errorBuilder.AppendLine(line);
 					}
 			});
