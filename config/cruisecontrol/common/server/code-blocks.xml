@@ -639,7 +639,24 @@
       </msbuild>
     </cb:if>
   </cb:define>
-  
+  <cb:define name="msbuild-jslint">
+    <cb:if expr="'$(jslint)' == 'true'">
+      <msbuild logger="$(msBuildListenerDll)" description="jslint">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<buildArgs>/p:JSLintNetSourceDirectory="WebBusiness\Private\Project\J6.BusinessPortal"</buildArgs>
+	<targets>jslintexe</targets>
+	<timeout>$(msbuild-jslint-timeout)</timeout>
+      </msbuild>
+	  <msbuild logger="$(msBuildListenerDll)" description="jslint">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<buildArgs>/p:JSLintNetSourceDirectory="Site/Employee"</buildArgs>
+	<targets>jslintexe</targets>
+	<timeout>$(msbuild-jslint-timeout)</timeout>
+      </msbuild>
+    </cb:if>
+  </cb:define>
   <cb:define name="msbuild-bootstrap">
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
       <executable>$(msbuild)</executable>
