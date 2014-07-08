@@ -36,8 +36,12 @@ namespace j6.BuildTools
 			
 			ProtectAll(driverFeature, releaseDir);
 
-			if(releaseDir.FullName.EndsWith(UNPROTECTED, StringComparison.InvariantCultureIgnoreCase))
-				releaseDir.MoveTo(releaseDir.FullName.Substring(0, releaseDir.FullName.Length - UNPROTECTED.Length));
+            if (releaseDir.FullName.EndsWith(UNPROTECTED, StringComparison.InvariantCultureIgnoreCase))
+            {
+                var newDirName = releaseDir.FullName.Substring(0, releaseDir.FullName.Length - UNPROTECTED.Length);
+                Console.WriteLine(string.Format("Renaming {0} to {1}", releaseDir.FullName, newDirName));
+                releaseDir.MoveTo(newDirName);
+            }
 		}
 
 		public static void ProtectAll(string driverFeature, DirectoryInfo baseDir, int maxRetries = 1)
@@ -76,6 +80,7 @@ namespace j6.BuildTools
 				{
 					foreach (var targetFile in veiledFile.Value.Select(f => f.FullName).ToArray())
 					{
+                        Console.WriteLine(string.Format("Overwriting {0}", targetFile));
 						File.Copy(veiledFile.Key, targetFile, true);
 					}
 				}
@@ -97,13 +102,16 @@ namespace j6.BuildTools
 			{
 				var zipFileInfo = zip.Key;
 				var zipDirectoryInfo = zip.Value;
-				var zipFile = new ZipFile();
+                Console.WriteLine(string.Format("Recreating file {0} from {1}", zipFileInfo.Name, zipDirectoryInfo.FullName));
+                var zipFile = new ZipFile();
 				foreach (var directory in zipDirectoryInfo.GetDirectories())
 				{
+                    Console.WriteLine(string.Format("Zipping {0}", directory.FullName));
 					zipFile.AddDirectory(directory.FullName, directory.Name);
 				}
 				zipFile.AddFiles(zipDirectoryInfo.GetFiles().Select(f => f.FullName), false, "\\");
 				zipFile.Save(zipFileInfo.FullName);
+                Console.WriteLine(string.Format("Closing file {0}", zipFileInfo.FullName));
 			}
 		}
 
