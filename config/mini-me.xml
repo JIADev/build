@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <release>
+    <buildroot>E:\J6\RELEASE</buildroot>
+  </release>
+  <debug>
+    <buildroot>D:\CRUISECONTROL\build\J6</buildroot>
+  </debug>
+</config>

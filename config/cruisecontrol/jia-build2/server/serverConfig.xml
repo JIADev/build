@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+
+  <!-- Common definitions for all projects, edit to suit your system -->
+  <cb:define 
+      sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
+      ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
+      ccroot="f:"
+      pkgroot="\\jia-build1\ReleasePackages"
+      private-build-root="\\jia-build1\PrivateBuild$"
+      srcroot="f:\src"
+      artifactroot="e:\artifacts"
+      ccNetLogDir="e:\ccnet.log" 
+      />
+
+  <!-- Network Urls and Servers -->
+  <cb:define
+      db-server-2008="dev-sql1"
+      db-server-2012="jia-sql12"
+      ccBuildServer="jia-build2"
+      />
+
+  <!-- Credentials -->
+  <cb:define
+      db-user-2008="sqluser"
+      db-password-2008="j0l-6-web"
+      db-user-2012=""
+      db-password-2012=""
+      />
+
+  <!-- Misc -->
+  <cb:define
+      exclude-files="true"
+      />
+</cb:config-template>
