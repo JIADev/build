@@ -72,7 +72,7 @@
   <Target Name="Protect" DependsOnTargets="BuildProtect">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing Directory" Condition="'$(Directory)' == ''" />
-    <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\Protect.exe $(Directory) $(Customer)" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\Protect.exe $(Directory)\RELEASE-UNPROTECTED $(Customer)" IgnoreExitCode="true" />
   </Target>
   
   <Target Name="AssemblePackage" DependsOnTargets="BuildAssemblePackage">
