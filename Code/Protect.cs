@@ -9,24 +9,24 @@ namespace j6.BuildTools
 {
 	class Program
 	{
-		private static int Main(string[] args)
+        private static int Main(string[] args)
 		{
-			try
-			{
-				if (args.Length < 2)
-				{
-					Console.WriteLine("Usage: Protect <baseDir> <driverFeature>");
-					return 1;
-				}
-				Protect(args[0], args[1]);
-				
-				return 0;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("ERROR: " + ex.Message);
-				return 0;
-			}
+            try
+            {
+                if (args.Length < 2)
+                {
+                    Console.WriteLine("Usage: Protect <baseDir> <driverFeature>");
+                    return 1;
+                }
+                Protect(args[0], args[1]);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR: " + ex.Message);
+            }
+            
+            return 0;
 		}
 
 		private static void Protect(string baseDir, string driverFeature)
@@ -47,45 +47,55 @@ namespace j6.BuildTools
 		public static void ProtectAll(string driverFeature, DirectoryInfo baseDir, int maxRetries = 1)
 		{
 			var tempDir = Path.Combine(baseDir.FullName, "temp");
-			
-			try
-			{
-				if (Directory.Exists(tempDir))
-				{
-					Console.WriteLine(string.Format("Deleting: {0}", tempDir));
-					Directory.Delete(tempDir, true);
-				}
 
-				Directory.CreateDirectory(tempDir);
+            try
+            {
+                if (Directory.Exists(tempDir))
+                {
+                    Console.WriteLine(string.Format("Deleting: {0}", tempDir));
+                    Directory.Delete(tempDir, true);
+                }
 
-				Console.WriteLine(string.Format("Reading: {0}", baseDir.FullName));
-				var zipFiles = ExtractZips(baseDir, tempDir);
-				var assembliesToVeil = GetAssembliesToVeil(driverFeature, baseDir);
-				var distinctFiles = GetDistinctFiles(assembliesToVeil, tempDir);
-				var targets = string.Join(";", distinctFiles.Keys.ToArray());
-				var args = "/Secure /Target:" + targets;
-				try
-				{
-					BuildSystem.RunProcess("AgileDotNet.Console.exe", args, baseDir.FullName, null, 120);
-				}
-				catch (TimeoutException)
-				{
-					if (maxRetries == 0)
-						throw;
+                Directory.CreateDirectory(tempDir);
 
-					ProtectAll(driverFeature, baseDir, maxRetries - 1);
-					return;
-				}
-				foreach (var veiledFile in distinctFiles)
-				{
-					foreach (var targetFile in veiledFile.Value.Select(f => f.FullName).ToArray())
-					{
+                Console.WriteLine(string.Format("Reading: {0}", baseDir.FullName));
+                var zipFiles = ExtractZips(baseDir, tempDir);
+                var assembliesToVeil = GetAssembliesToVeil(driverFeature, baseDir);
+                var distinctFiles = GetDistinctFiles(assembliesToVeil, tempDir);
+                var targets = string.Join(";", distinctFiles.Keys.ToArray());
+                var args = "/Secure /Target:" + targets;
+                try
+                {
+                    BuildSystem.RunProcess("AgileDotNet.Console.exe", args, baseDir.FullName, null, 120);
+                }
+                catch (TimeoutException)
+                {
+                    if (maxRetries == 0)
+                        throw;
+
+                    ProtectAll(driverFeature, baseDir, maxRetries - 1);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("ERROR: " + ex.ToString());
+                    throw;
+                }
+                foreach (var veiledFile in distinctFiles)
+                {
+                    foreach (var targetFile in veiledFile.Value.Select(f => f.FullName).ToArray())
+                    {
                         Console.WriteLine(string.Format("Overwriting {0}", targetFile));
-						File.Copy(veiledFile.Key, targetFile, true);
-					}
-				}
-				RecreateZips(zipFiles);
-			}
+                        File.Copy(veiledFile.Key, targetFile, true);
+                    }
+                }
+                RecreateZips(zipFiles);
+            }
+            catch (Exception ex1)
+            {
+                Console.WriteLine("ERROR: " + ex1.ToString());
+                throw;
+            }
 			finally
 			{
 				if (Directory.Exists(tempDir))
