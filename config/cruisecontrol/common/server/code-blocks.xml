@@ -641,20 +641,27 @@
   </cb:define>
   <cb:define name="msbuild-jslint">
     <cb:if expr="'$(jslint)' == 'true'">
-      <msbuild logger="$(msBuildListenerDll)" description="jslint">
+      <msbuild logger="$(msBuildListenerDll)" description="jslintBusiness">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:JSLintNetSourceDirectory="WebBusiness\Private\Project\J6.BusinessPortal"</buildArgs>
+	<buildArgs>/p:JSLintNetSourceDirectory="WebBusiness\Private\Project\J6.BusinessPortal" /p:Portal="Business"</buildArgs>
 	<targets>jslintexe</targets>
 	<timeout>$(msbuild-jslint-timeout)</timeout>
       </msbuild>
-	  <msbuild logger="$(msBuildListenerDll)" description="jslint">
+	  <msbuild logger="$(msBuildListenerDll)" description="jslintEmployee">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:JSLintNetSourceDirectory="Site/Employee"</buildArgs>
+	<buildArgs>/p:JSLintNetSourceDirectory="Site/Employee" /p:Portal="Employee"</buildArgs>
 	<targets>jslintexe</targets>
 	<timeout>$(msbuild-jslint-timeout)</timeout>
       </msbuild>
+	  <msbuild logger="$(msBuildListenerDll)" description="jslintPersonal">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<buildArgs>/p:JSLintNetSourceDirectory="WebPersonal\Site\Personal" /p:Portal="Personal"</buildArgs>
+	<targets>jslintexe</targets>
+	<timeout>$(msbuild-jslint-timeout)</timeout>
+      </msbuil
     </cb:if>
   </cb:define>
   <cb:define name="msbuild-bootstrap">
