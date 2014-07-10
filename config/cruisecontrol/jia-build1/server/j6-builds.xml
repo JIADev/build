@@ -502,6 +502,18 @@
       />
 
   <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-Config"
+      branch = '2095_Config'
+      prodTag="2095_Events"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      />
+
+  <cb:v76build
       project-name="CUST2095-CVS"
       branch = "tags"
       tag = "2095_CVS"
@@ -515,5 +527,4 @@
       external-zip="true"
       />
   
-
 </cb:config-template>
