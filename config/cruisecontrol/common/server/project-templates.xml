@@ -166,7 +166,7 @@
 	platform="AnyCpu"
 	repo-name="master"
 	package="false"
-	j6Version="7.6.0"
+	j6Version="7.6.1"
 	queueSuffix="-Track$(track)"
 	unit-test="true"
 	/>

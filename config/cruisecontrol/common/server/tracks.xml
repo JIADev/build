@@ -51,6 +51,7 @@
     <cb:define track="5" />
     <cb:define even-odd="Odd" />
     <cb:reqBuild req-number="REQ047" />
+    <cb:reqBuild req-number="REQ017.1" />
   </cb:define>
 
   <cb:define name="build3Tracks2094">
@@ -73,7 +74,6 @@
   <cb:reqBuild track="1" req-number="REQ004" />
   <cb:reqBuild track="1" req-number="REQ014" />
   <cb:reqBuild track="1" req-number="REQ022" queue-priority="900" />
-  <cb:reqBuild track="1" req-number="Config" />
   <cb:reqBuild track="1" req-number="REQ003" />
 </cb:define>
 
