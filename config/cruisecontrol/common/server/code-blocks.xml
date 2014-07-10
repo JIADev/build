@@ -661,7 +661,7 @@
 	<buildArgs>/p:JSLintNetSourceDirectory="WebPersonal\Site\Personal" /p:Portal="Personal"</buildArgs>
 	<targets>jslintexe</targets>
 	<timeout>$(msbuild-jslint-timeout)</timeout>
-      </msbuil
+      </msbuild> 
     </cb:if>
   </cb:define>
   <cb:define name="msbuild-bootstrap">
