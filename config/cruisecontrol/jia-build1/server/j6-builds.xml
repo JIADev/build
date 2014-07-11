@@ -116,6 +116,20 @@
       />
   
   <cb:v76build
+      driver="CUST000"
+      project-name="CUST000-RC2"
+      branch = 'tags'
+      tag="2094_RC2"
+      prodTag="7.6.1"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.1"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      />
+
+  <cb:v76build
       project-name="CUST000-Events"
       branch = '000_Events'
       driver = 'CUST000'
