@@ -44,6 +44,7 @@
     <cb:reqBuild req-number="REQ054" />
     <cb:reqBuild req-number="REQ058" />
     <cb:reqBuild req-number="REQ181" />
+    <cb:reqBuild req-number="REQ176" />
     <cb:reqBuild req-number="REQ194" />
   </cb:define>
 
