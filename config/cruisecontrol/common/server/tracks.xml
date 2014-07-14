@@ -5,6 +5,7 @@
   
   <cb:define name="queue1">
     <cb:define queueNumber="1" />
+    <cb:define queue="Queue1" />
     <cb:define even-odd="Odd" />
     <cb:reqBuild customer="2094" req-number="REQ089" queue-priority="900" />
     <cb:reqBuild customer="2094" req-number="REQ181" queue-priority="1000" />
@@ -17,6 +18,7 @@
   
   <cb:define name="queue2">
     <cb:define queueNumber="2" />
+    <cb:define queue="Queue2" />
     <cb:define even-odd="Even" />
     <cb:reqBuild customer="2094" req-number="REQ143" queue-priority="950" />
     <cb:reqBuild customer="2094" req-number="REQ188" queue-priority="1000" />
@@ -29,6 +31,7 @@
   
   <cb:define name="queue3">
     <cb:define queueNumber="3" />
+    <cb:define queue="Queue3" />
     <cb:define even-odd="Odd" />
     <cb:reqBuild customer="2094" req-number="REQ022" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ091" queue-priority="1950" />
@@ -41,6 +44,7 @@
   
   <cb:define name="queue4">
     <cb:define queueNumber="4" />
+    <cb:define queue="Queue4" />
     <cb:define even-odd="Even" />
     <cb:reqBuild customer="2094" req-number="REQ054" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ009" />
@@ -53,6 +57,7 @@
   
   <cb:define name="queue5">
     <cb:define queueNumber="5" />
+    <cb:define queue="Queue5" />
     <cb:define even-odd="Odd" />
     <cb:reqBuild customer="2094" req-number="REQ078" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ017.1" />
@@ -65,6 +70,7 @@
 
   <cb:define name="queue6">
     <cb:define queueNumber="6" />
+    <cb:define queue="Queue6" />
     <cb:define even-odd="Even" />
     <cb:reqBuild customer="2094" req-number="REQ179" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ020.B" />
