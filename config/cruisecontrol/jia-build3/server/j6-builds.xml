@@ -6,7 +6,6 @@
   <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
 
   <!-- req branches -->
-  <cb:build3Tracks2094 />
-  <cb:build3TBSAH />
+  <cb:build3queues />
 
 </cb:config-template>
