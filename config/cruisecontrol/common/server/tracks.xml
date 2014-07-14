@@ -1,92 +1,95 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-
+  
   <!-- default queue-priority = 2000.  Subtract 1000 if it is part of a track build.  Subtract 50 for each dependency it has -->
   
-  <cb:define name="track1">
-    <cb:define track="1" />
+  <cb:define name="queue1">
+    <cb:define queueNumber="1" />
+    <cb:define queue="Queue1" />
     <cb:define even-odd="Odd" />
-    <cb:reqBuild req-number="REQ089" />
-    <cb:reqBuild req-number="REQ091" />
-    <cb:reqBuild req-number="REQ086" />
-    <cb:reqBuild req-number="REQ095" />
+    <cb:reqBuild customer="2094" req-number="REQ089" queue-priority="900" />
+    <cb:reqBuild customer="2094" req-number="REQ181" queue-priority="1000" />
+    <cb:reqBuild customer="2094" req-number="REQ023" />
+    <cb:reqBuild customer="2094" req-number="REQ058" />
+    <cb:reqBuild customer="2094" req-number="REQ128" />
+    <cb:reqBuild customer="2095" req-number="REQ005" queue-priority="900" />
+    <cb:reqBuild customer="2095" req-number="REQ011" queue-priority="1000" />
   </cb:define>
   
-  <cb:define name="track2">
-    <cb:define track="2" />
+  <cb:define name="queue2">
+    <cb:define queueNumber="2" />
+    <cb:define queue="Queue2" />
     <cb:define even-odd="Even" />
-	<cb:reqBuild req-number="REQ076" />
-    <cb:reqBuild req-number="REQ078" />
-    <cb:reqBuild req-number="REQ128" />
-    <cb:reqBuild req-number="REQ142" />
-    <cb:reqBuild req-number="REQ143" queue-priority="1950" />
-    <cb:reqBuild req-number="REQ148" />
-  </cb:define>
-
-  <cb:define name="track3">
-    <cb:define track="3" />
-    <cb:define even-odd="Odd" />
-    <cb:reqBuild req-number="REQ024" />
-    <cb:reqBuild req-number="REQ025" />
-	<cb:reqBuild req-number="REQ179" />
-	<cb:reqBuild req-number="REQ188" queue-priority="2000" />
-	<cb:reqBuild req-number="REQ020.B" />
-	<cb:reqBuild req-number="REQ113" />
+    <cb:reqBuild customer="2094" req-number="REQ143" queue-priority="950" />
+    <cb:reqBuild customer="2094" req-number="REQ188" queue-priority="1000" />
+    <cb:reqBuild customer="2094" req-number="REQ024" />
+    <cb:reqBuild customer="2094" req-number="REQ076" />
+    <cb:reqBuild customer="2094" req-number="REQ142" />
+    <cb:reqBuild customer="2095" req-number="REQ022" queue-priority="900" />
+    <cb:reqBuild customer="2095" req-number="REQ001" />
   </cb:define>
   
-  <cb:define name="track4">
-    <cb:define track="4" />
-    <cb:define even-odd="Even" />
-    <cb:reqBuild req-number="REQ009" />
-    <cb:reqBuild req-number="REQ022" />
-    <cb:reqBuild req-number="REQ023" />
-    <cb:reqBuild req-number="REQ051.1" />
-    <cb:reqBuild req-number="REQ054" />
-    <cb:reqBuild req-number="REQ058" />
-    <cb:reqBuild req-number="REQ103" />
-    <cb:reqBuild req-number="REQ181" />
-    <cb:reqBuild req-number="REQ176" />
-    <cb:reqBuild req-number="REQ194" />
-  </cb:define>
-
-  <cb:define name="track5">
-    <cb:define track="5" />
+  <cb:define name="queue3">
+    <cb:define queueNumber="3" />
+    <cb:define queue="Queue3" />
     <cb:define even-odd="Odd" />
-    <cb:reqBuild req-number="REQ047" />
-    <cb:reqBuild req-number="REQ017.1" />
+    <cb:reqBuild customer="2094" req-number="REQ022" queue-priority="1000" />
+    <cb:reqBuild customer="2094" req-number="REQ091" queue-priority="1950" />
+    <cb:reqBuild customer="2094" req-number="REQ025" />
+    <cb:reqBuild customer="2094" req-number="REQ086" />
+    <cb:reqBuild customer="2094" req-number="REQ148" />
+    <cb:reqBuild customer="2095" req-number="REQ006" queue-priority="950" />
+    <cb:reqBuild customer="2095" req-number="REQ002" />
+  </cb:define>
+  
+  <cb:define name="queue4">
+    <cb:define queueNumber="4" />
+    <cb:define queue="Queue4" />
+    <cb:define even-odd="Even" />
+    <cb:reqBuild customer="2094" req-number="REQ054" queue-priority="1000" />
+    <cb:reqBuild customer="2094" req-number="REQ009" />
+    <cb:reqBuild customer="2094" req-number="REQ047" />
+    <cb:reqBuild customer="2094" req-number="REQ095" />
+    <cb:reqBuild customer="2094" req-number="REQ176" />
+    <cb:reqBuild customer="2095" req-number="REQ015" queue-priority="950" />
+    <cb:reqBuild customer="2095" req-number="REQ003" />
+  </cb:define>
+  
+  <cb:define name="queue5">
+    <cb:define queueNumber="5" />
+    <cb:define queue="Queue5" />
+    <cb:define even-odd="Odd" />
+    <cb:reqBuild customer="2094" req-number="REQ078" queue-priority="1000" />
+    <cb:reqBuild customer="2094" req-number="REQ017.1" />
+    <cb:reqBuild customer="2094" req-number="REQ051.1" />
+    <cb:reqBuild customer="2094" req-number="REQ103" />
+    <cb:reqBuild customer="2094" req-number="REQ194" />
+    <cb:reqBuild customer="2095" req-number="REQ004" queue-priority="1000" />
+    <cb:reqBuild customer="2095" req-number="REQ014" />
   </cb:define>
 
-  <cb:define name="build3Tracks2094">
-    <cb:define customer="2094" />
-    <cb:track2 />
-    <cb:track4 />
+  <cb:define name="queue6">
+    <cb:define queueNumber="6" />
+    <cb:define queue="Queue6" />
+    <cb:define even-odd="Even" />
+    <cb:reqBuild customer="2094" req-number="REQ179" queue-priority="1000" />
+    <cb:reqBuild customer="2094" req-number="REQ020.B" />
+    <cb:reqBuild customer="2094" req-number="REQ050" />
+    <cb:reqBuild customer="2094" req-number="REQ113" />
+    <cb:reqBuild customer="2095" req-number="REQ007" queue-priority="1000" />
+    <cb:reqBuild customer="2095" req-number="REQ037" />
   </cb:define>
 
-  <cb:define name="build2Tracks2094">
-    <cb:define customer="2094" />
-    <cb:track1 />
-    <cb:track3 />
-    <cb:track5 />
+  <cb:define name="build3queues">
+    <cb:queue2 />
+    <cb:queue4 />
+    <cb:queue6 />
   </cb:define>
-
-<cb:define name="build2TBSAH">
-  <cb:define customer="2095" />
-  <cb:reqBuild track="1" req-number="REQ001" />
-  <cb:reqBuild track="1" req-number="REQ002" />
-  <cb:reqBuild track="1" req-number="REQ004" />
-  <cb:reqBuild track="1" req-number="REQ014" />
-  <cb:reqBuild track="1" req-number="REQ022" queue-priority="900" />
-  <cb:reqBuild track="1" req-number="REQ003" />
-</cb:define>
-
-<cb:define name="build3TBSAH">
-  <cb:define customer="2095" />
-  <cb:reqBuild track="1" req-number="REQ005" queue-priority="900" />
-  <cb:reqBuild track="1" req-number="REQ006" queue-priority="950" />
-  <cb:reqBuild track="1" req-number="REQ007" queue-priority="1000" />
-  <cb:reqBuild track="1" req-number="REQ011" />
-  <cb:reqBuild track="1" req-number="REQ015" queue-priority="1000" />
-  <cb:reqBuild track="1" req-number="REQ037" />
-</cb:define>
-
+  
+  <cb:define name="build2queues">
+    <cb:queue1 />
+    <cb:queue3 />
+    <cb:queue5 />
+  </cb:define>
+  
 </cb:config-template>
