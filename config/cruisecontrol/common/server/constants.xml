@@ -24,7 +24,7 @@
       deploy-root-local="C:\j6\QA_Sites"
       cmdExe="C:\WINDOWS\system32\cmd.exe"
       ccNetSourceWorkingDir="$(ccroot)\ccnet"
-      msBuildListenerDll="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll"
+      msBuildListenerDll="c:\MSBuildListener.dll"
       ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol"
       ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
       ccNetWebDashboard="C:\Program Files (x86)\CruiseControl.NET\webdashboard" 
