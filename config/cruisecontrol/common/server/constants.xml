@@ -61,6 +61,7 @@
       redis-server="localhost"
       redis-db="10"
       queueSuffix = ""
+      queueName="$(driver)$(queueSuffix)"
       sourceCheckInterval = "300"
       bookmark=""
       hgBranch="default"
