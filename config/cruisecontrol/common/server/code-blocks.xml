@@ -641,21 +641,21 @@
   </cb:define>
   <cb:define name="msbuild-jslint">
     <cb:if expr="'$(jslint)' == 'true'">
-      <msbuild logger="$(msBuildListenerDll)" description="jslintBusiness">
+      <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintBusiness">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:JSLintNetSourceDirectory="WebBusiness\Private\Project\J6.BusinessPortal" /p:Portal="Business"</buildArgs>
 	<targets>jslintexe</targets>
 	<timeout>$(msbuild-jslint-timeout)</timeout>
       </msbuild>
-	  <msbuild logger="$(msBuildListenerDll)" description="jslintEmployee">
+	  <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintEmployee">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:JSLintNetSourceDirectory="Site/Employee" /p:Portal="Employee"</buildArgs>
 	<targets>jslintexe</targets>
 	<timeout>$(msbuild-jslint-timeout)</timeout>
       </msbuild>
-	  <msbuild logger="$(msBuildListenerDll)" description="jslintPersonal">
+	  <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintPersonal">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:JSLintNetSourceDirectory="WebPersonal\Site\Personal" /p:Portal="Personal"</buildArgs>
