@@ -12,6 +12,7 @@
     <cb:reqBuild customer="2094" req-number="REQ023" />
     <cb:reqBuild customer="2094" req-number="REQ058" />
     <cb:reqBuild customer="2094" req-number="REQ128" />
+    <cb:reqBuild customer="2094" req-number="REQ035.1" />
     <cb:reqBuild customer="2095" req-number="REQ005" queue-priority="900" />
     <cb:reqBuild customer="2095" req-number="REQ005_7.6.1" queue-priority="900" />
     <cb:reqBuild customer="2095" req-number="REQ011" queue-priority="1000" />
