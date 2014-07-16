@@ -6,9 +6,9 @@ $args | foreach { if($_ -eq '--non-interactive'){
 }
 
 $customernumber = 'CustomerNumber=2095;'
-$branches = 'Branches="Config_7.6.1;REQ005;REQ022;REQ011;REQ006;REQ007;REQ015;REQ004"'
+$branches = 'Branches="REQ005;REQ022;REQ011;REQ006;REQ007;REQ015;REQ004;Config"'
 $buildTag = 'BuildTag=QA;'
-$baseTag = 'BaseTag=Events_7.6.1;'
+$baseTag = 'BaseTag=Events;'
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
 & msbuild /t:CreateBuild $interactive$customernumber$buildTag$baseTag$branches $scriptPath\buildtools.proj
