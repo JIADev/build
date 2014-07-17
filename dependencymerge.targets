@@ -22,6 +22,9 @@
     <!-- 089 ->  086 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ089;TargetBranch=2094_REQ086;DoMerge=true;DoCommit=true" />
 
+    <!-- 177.1 ->  022 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177.1;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
+
   </Target>
   <Target Name="DependencyMerge_2095" DependsOnTargets="InitRepos">
     <PropertyGroup>
