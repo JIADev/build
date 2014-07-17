@@ -518,11 +518,23 @@
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-Config"
-      branch = '2095_Config_7.6.1'
+      branch = '2095_Config'
       prodTag="2095_Events"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.0"
+      external-protect="true"
+      external-zip="true"
+      />
+
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-Config_7.6.1"
+      branch = '2095_Config_7.6.1'
+      prodTag="2095_Events"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
       />
