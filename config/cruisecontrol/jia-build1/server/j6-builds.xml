@@ -238,6 +238,18 @@
       repo-name="master"
       />
   
+  <cb:legacybuild
+      project-name="CUST077-RM48252"
+      prodTag="077_PRD"
+      branch="077_RM48252"
+      driver = "CUST077"
+      package="true"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      repo-name="master"
+      />
+  
   <!-- CUST2069 -->
   
   <cb:customerbuild
