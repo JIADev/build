@@ -240,7 +240,6 @@
   
   <cb:legacybuild
       project-name="CUST077-RM48252"
-      prodTag="077_PRD"
       branch="077_RM48252"
       driver = "CUST077"
       package="true"
