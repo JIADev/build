@@ -60,6 +60,23 @@
 	</conditional>
       </cb:if>
       
+	<cb:if expr="'$(prodTag)' != ''">
+	  <exec executable="$(powershell)" 
+		description = "hg pull tags branch"
+		buildArgs = '-c "hg pull -b tags"' 
+		baseDirectory="$(source-folder)" />
+
+	  <exec executable="$(powershell)" 
+		description = "hg pull tags branch"
+		buildArgs = '-c "hg pull -b tags"' 
+		baseDirectory="$(tag-folder)" />
+
+	  <exec executable="$(powershell)" 
+		description = "hg pull prod tag changes"
+		buildArgs = '-c "hg pull -r $(prodTag)"' 
+		baseDirectory="$(tag-folder)" />
+	</cb:if>
+	
       <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
 	<exec executable="$(powershell)" 
 	      description = "hg pull updates from source-folder"
