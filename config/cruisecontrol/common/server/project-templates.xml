@@ -167,7 +167,7 @@
 	repo-name="master"
 	package="false"
 	j6Version="7.6.1"
-	queueSuffix="-Queue$(queueNumber)"
+	queueSuffix="$(queueName)"
 	unit-test="true"
 	/>
   </cb:define>
