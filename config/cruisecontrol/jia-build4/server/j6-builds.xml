@@ -4,7 +4,16 @@
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
   
   <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
-
+ <cb:v76Test
+      project-name="CUST2094-RM47968"
+      branch = '2094_RM47968'
+      driver = 'CUST2094'
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.1"
+      />
   <!-- req branches -->
   <cb:build4queues />
   <cb:build5queues />
