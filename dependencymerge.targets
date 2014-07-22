@@ -31,7 +31,10 @@
     <!-- 177.1 ->  022 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177.1;TargetBranch=2094_REQ022;DoMerge=true;DoCommit=true" />
 
-    <!-- 177.1 ->  023 -->
+    <!-- 009 ->  023 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ009;TargetBranch=2094_REQ023;DoMerge=true;DoCommit=true" />
+
+    <!-- 177.1 ->  023 (from 177.1 -> 009 -> 023) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ177.1;TargetBranch=2094_REQ023;DoMerge=true;DoCommit=true" />
 
     <!-- 177.1 ->  103 -->
