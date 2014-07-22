@@ -3,6 +3,7 @@
 
   <!-- Common definitions for all projects, edit to suit your system -->
   <cb:define 
+      hg = "C:\Program Files\TortoiseHg\hg.exe"
       sqlCmd="C:\Program Files\Microsoft SQL Server\110\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend\NDepend.Console.exe"
       ccroot="f:"
