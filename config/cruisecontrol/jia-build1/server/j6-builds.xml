@@ -438,16 +438,7 @@
       j6Version="7.6.0"
       />
  -->
-       <cb:v76Test
-      project-name="CUST2094-RM47968"
-      branch = '2094_RM47968'
-      driver = 'CUST2094'
-      platform="AnyCpu"
-      repo-name="master"
-      external-protect="true"
-      external-zip="true"
-      j6Version="7.6.1"
-      />
+      
   
   <cb:v76build
       driver="CUST2094"
