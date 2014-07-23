@@ -508,6 +508,20 @@
       project-name="CUST2095-QA"
       branch = 'tags'
       tag='2095_QA'
+      prodTag="7.6.1"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.1"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      />
+
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-RC1"
+      branch = 'tags'
+      tag='2095_RC1'
       prodTag="2095_Events"
       platform="AnyCpu"
       repo-name="master"
