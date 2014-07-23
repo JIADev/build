@@ -620,6 +620,8 @@
     -->
     <xmllogger />
     <statistics />
+	 <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(artifact-folder)\$(CCNetLabel))) { mkdir $(artifact-folder)\$(CCNetLabel) }}"' description="Create JSLint report directory" />
+	 <exec executable="$(powershell)" description = "copy JSLint reports" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\$(CCNetLabel)"' />
     <msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
       <buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
     </msbuild>
