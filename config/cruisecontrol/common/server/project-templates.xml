@@ -134,6 +134,7 @@
 	<cb:msbuild-install-patches />
 	<cb:msbuild-build />
 	<cb:msbuild-jslint />
+	<cb:copy-jslint-reports />
 	<cb:setup-unittests />
 	<cb:run-ncover-f-unittests />
 	<cb:get-reports />
