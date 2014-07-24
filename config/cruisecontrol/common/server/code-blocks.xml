@@ -682,8 +682,8 @@
     </cb:if>
   </cb:define>
   <cb:define name="copy-jslint-reports">
-	 <exec executable="$(powershell)" buildArgs='-c "mkdir $(artifact-folder)\Reports"' description="Create JSLint report directory" />
-	 <exec executable="$(powershell)" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\Reports"' description = "copy JSLint reports" />
+	 <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(artifact-folder)\$[CCNetLabel])) { mkdir $(artifact-folder)\$[$CCNetLabel] }}"' description="Create JSLint report directory" />
++	 <exec executable="$(powershell)" description = "copy JSLint reports" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\$[$CCNetLabel]"' />
   </cb:define>
   <cb:define name="msbuild-bootstrap">
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
