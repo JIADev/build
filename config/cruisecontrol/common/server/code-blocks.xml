@@ -681,6 +681,10 @@
       </msbuild> 
     </cb:if>
   </cb:define>
+  <cb:define name="copy-jslint-reports">
+	 <exec executable="$(powershell)" buildArgs='-c "mkdir $(artifact-folder)\Reports"' description="Create JSLint report directory" />
+	 <exec executable="$(powershell)" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\Reports"' description = "copy JSLint reports" />
+  </cb:define>
   <cb:define name="msbuild-bootstrap">
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
       <executable>$(msbuild)</executable>
