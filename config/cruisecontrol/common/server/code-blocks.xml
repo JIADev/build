@@ -620,9 +620,11 @@
     -->
     <xmllogger />
     <statistics />
-    <msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
+    <!--
+	<msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
       <buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
     </msbuild>
+	--> 
   </cb:define>
   
   <!-- Added for 7.6 builds -->
