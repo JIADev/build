@@ -14,6 +14,12 @@
       external-protect="false"
       external-zip="false"
       j6Version="7.6.1"
+	  force-clean="false"
+	  unit-test="false"
+      recreate-db="false"
+      install-patches="false"
+      build="false"
+	  
       />
   <!-- req branches -->
   <cb:build4queues />
