@@ -161,7 +161,7 @@
     <Csc Sources="$(BuildToolsDirectory)\Code\PurgeJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
   
-  <Target Name="BuildRevertAllExe">
+  <Target Name="BuildRevertAllExe" Condition="!Exists('$(BuildToolsDirectory)\Code\RevertAll.exe')">
     <Csc Sources="$(BuildToolsDirectory)\Code\RevertAll.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
   
