@@ -33,6 +33,7 @@
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
       repo-name="$(driver)"
+	  buildversion="$[$CCNetLabel]"
       />
 
   <!-- Network Urls and Servers -->
