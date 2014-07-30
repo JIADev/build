@@ -95,6 +95,16 @@
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(MSBuildStartupDirectory)\Zip.exe $(ZipDirectory)-UNPROTECTED $(UnprotectedZipFile)" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
   </Target>
   
+  <Target Name="PublishChangesetLog" >
+	<Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
+	<Error Text="Missing DestinationFolder" Condition="'$(DestinationFolder)' == ''" />
+	<PropertyGroup>
+      <DestFile>ChangsetLog-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).xml</DestFile>
+	</PropertyGroup>
+    <Copy SourceFiles="ChangesetLog.xml" DestinationFile="$(DestinationFolder)\$(DestFile)" /> 
+
+  </Target>
+  
   <Target Name="UnZip" DependsOnTargets="BuildUnZip">
     <Error Text="Missing ZipFile" Condition="'$(ZipFile)' == ''" />
     <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />

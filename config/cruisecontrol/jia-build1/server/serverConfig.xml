@@ -12,6 +12,7 @@
       srcroot="f:\src"
       artifactroot="e:\artifacts"
       ccNetLogDir="e:\ccnet.log" 
+	  archive-package="e:\archivePkg"
       />
 
   <!-- Network Urls and Servers -->

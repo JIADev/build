@@ -10,15 +10,12 @@
       driver = 'CUST2094'
       platform="AnyCpu"
       repo-name="master"
-	  package="false"
-      external-protect="false"
-      external-zip="false"
+	  package="true"
+      external-protect="true"
+      external-zip="true"
       j6Version="7.6.1"
-	  force-clean="false"
 	  unit-test="false"
-      recreate-db="false"
-      install-patches="false"
-      build="false"
+     
 	  
       />
   <!-- req branches -->
