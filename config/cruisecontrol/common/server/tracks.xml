@@ -28,13 +28,14 @@
   <cb:define name="queue1c">
     <cb:define queueName="Queue1" />
     <cb:reqBuild customer="2094" req-number="REQ089" queue-priority="850" />
-    <cb:reqBuild customer="2094" req-number="REQ023" />
+    <cb:reqBuild customer="2094" req-number="REQ023" queue-priority="50" />
     <cb:reqBuild customer="2094" req-number="REQ128" />
   </cb:define>
 
   <cb:define name="queue2c">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild customer="2094" req-number="REQ022" queue-priority="950" />
+    <cb:reqBuild customer="2094" req-number="REQ022" queue-priority="50" />
+    <cb:reqBuild customer="2094" req-number="REQ022.MergeTemp" queue-priority="50" />
     <cb:reqBuild customer="2094" req-number="REQ025" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ148" queue-priority="1000" />
   </cb:define>
