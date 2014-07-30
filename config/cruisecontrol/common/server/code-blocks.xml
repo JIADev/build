@@ -878,14 +878,14 @@
 
       <conditional description="If changeset log exists">
 	<conditions>
-	  <fileExistsCondition file="$(tag-folder)\ChangesetLog.xml" />
+	  <fileExistsCondition file="$(project-folder)\ChangesetLog.xml" />
 	</conditions>
 	<tasks>
 	  <msbuild logger="$(msBuildListenerDll)" description="PublishChangesetLog file"
 	       executable="$(msbuild)"
 	       projectFile="$(global_feature_dir)\buildtools.proj"
 	       targets="PublishChangesetLog"
-	       workingDirectory="$(tag-folder)"
+	       workingDirectory="$(project-folder)"
 	       timeout="$(msbuild-package-timeout)">
 	<buildArgs>/p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:DestinationFolder=$(pkgroot)\$(project-name)</buildArgs>
       </msbuild>
@@ -910,7 +910,7 @@
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"
 	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(tag-folder)\ChangesetLog.xml $(tag-folder)\RELEASE-UNPROTECTED\ChangesetLog.xml"</buildArgs>
+	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED\ChangesetLog.xml"</buildArgs>
 	  </exec>
    <cb:if expr="'$(protect)' == 'true'">
    <cb:if expr="'$(external-protect)' == 'true'">
