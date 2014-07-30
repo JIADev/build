@@ -11,6 +11,7 @@
       platform="AnyCpu"
       repo-name="master"
 	  package="true"
+	  prodTag="7.6.1"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.1"
