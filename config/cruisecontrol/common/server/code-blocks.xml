@@ -885,7 +885,7 @@
 	       executable="$(msbuild)"
 	       projectFile="$(global_feature_dir)\buildtools.proj"
 	       targets="PublishChangesetLog"
-	       workingDirectory="$(tag-folder)"
+	       workingDirectory="$(project-folder)"
 	       timeout="$(msbuild-package-timeout)">
 	<buildArgs>/p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:DestinationFolder=$(pkgroot)\$(project-name)</buildArgs>
       </msbuild>

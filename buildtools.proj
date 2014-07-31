@@ -97,11 +97,11 @@
   
   <Target Name="PublishChangesetLog" >
 	<Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
-	<Error Text="Missing DestinationFolder" Condition="'$(DestinationFolder)' == ''" />
+	<Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
 	<PropertyGroup>
       <DestFile>ChangsetLog-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).xml</DestFile>
 	</PropertyGroup>
-    <Copy SourceFiles="ChangesetLog.xml" DestinationFile="$(DestinationFolder)\$(DestFile)" /> 
+    <Copy SourceFiles="ChangesetLog.xml" DestinationFolder="$(TargetDir)\$(DestFile)" /> 
 
   </Target>
   
