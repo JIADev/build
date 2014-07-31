@@ -887,7 +887,7 @@
 	       targets="PublishChangesetLog"
 	       workingDirectory="$(project-folder)"
 	       timeout="$(msbuild-package-timeout)">
-	<buildArgs>/p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:DestinationFolder=$(pkgroot)\$(project-name)</buildArgs>
+	<buildArgs>/p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:TargetDir=$(pkgroot)\$(project-name)</buildArgs>
       </msbuild>
 	</tasks>
       </conditional>
