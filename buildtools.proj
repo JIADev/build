@@ -102,7 +102,7 @@
 	<Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
 	<Error Text="Missing SourceFile" Condition="'$(SourceFile)' == ''" />
 	<PropertyGroup>
-      <DestFile>ChangsetLog-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).xml</DestFile>
+      <DestFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).xml</DestFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<SourceFiles Include="$(SourceFile)" />

@@ -849,22 +849,15 @@
       <exec 
 	  executable="$(powershell)" 
 	  baseDirectory="$(project-folder)"
-	  description="Make delete.me folder">
-	<buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	  description="Make archive folder">
+	<buildArgs>/c "md -F $(archive-package)\$(project-name)"</buildArgs>
       </exec>
       
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  description="move old release to the delete.me folder">
-	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-      </exec>
-      
-      <exec 
-	  executable="$(powershell)"
-	  baseDirectory="$(project-folder)"
-	  description="move old changeset log to the delete.me folder">
-	<buildArgs>-c "mv $(pkgroot)\$(project-name)\ChangesetLog.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(archive-package)\$(project-name)"</buildArgs>
       </exec>
       
       <exec 
@@ -874,6 +867,13 @@
 	<buildArgs>-c "mv $(project-folder)\RELEASE*.zip $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
       
+	  <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="move new ChangesetLog to the package folder">
+	<buildArgs>-c "mv $(project-folder)\RELEASE*.xml $(pkgroot)\$(project-name)"</buildArgs>
+      </exec>
+	  
       <cb:remove-delete-me />
 
       <conditional description="If changeset log exists">

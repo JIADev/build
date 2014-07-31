@@ -12,6 +12,7 @@
       srcroot="f:\src"
       artifactroot="e:\artifacts"
       ccNetLogDir="e:\ccnet.log"
+	  archive-package="\\jia-build1\ReleasePackages\Archive"
       />
 
   <!-- Network Urls and Servers -->
