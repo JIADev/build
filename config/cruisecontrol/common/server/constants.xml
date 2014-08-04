@@ -122,6 +122,6 @@
       tag-completed="false"
       />
   <cb:define 
-      compileless="$(package)"
+      compileless="true"
       />
 </cb:config-template>
