@@ -122,6 +122,6 @@
       tag-completed="false"
       />
   <cb:define 
-      compileless="true"
+      compileless="false"
       />
 </cb:config-template>

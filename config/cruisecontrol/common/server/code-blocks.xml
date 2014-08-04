@@ -659,7 +659,7 @@
     </cb:if>
   </cb:define>
   <cb:define name="msbuild-compileless">
-    <cb:if expr="'$(jslint)' == 'true'">
+    <cb:if expr="'$(compileless)' == 'true'">
       <msbuild logger="$(msBuildListenerDll)" description="Compile .less to .css">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
