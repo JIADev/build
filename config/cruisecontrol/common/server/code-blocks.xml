@@ -658,6 +658,16 @@
       </msbuild>
     </cb:if>
   </cb:define>
+  <cb:define name="msbuild-compileless">
+    <cb:if expr="'$(jslint)' == 'true'">
+      <msbuild logger="$(msBuildListenerDll)" description="Compile .less to .css">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<targets>CompileLess</targets>
+	<timeout>$(msbuild-compileless-timeout)</timeout>
+      </msbuild>
+    </cb:if>
+  </cb:define>
   <cb:define name="msbuild-jslint">
     <cb:if expr="'$(jslint)' == 'true'">
       <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintBusiness">

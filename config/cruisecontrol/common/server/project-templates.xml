@@ -80,6 +80,7 @@
 	<cb:msbuild-setup />
 	<cb:msbuild-install-patches />
 	<cb:msbuild-build />
+	<cb:msbuild-compileless />
 	<cb:msbuild-jslint />
 	<cb:copy-jslint-reports />
 	<cb:setup-unittests />
