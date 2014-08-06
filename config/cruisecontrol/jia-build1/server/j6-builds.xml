@@ -413,10 +413,10 @@
  
 	  
   <cb:v76deployment
-      project-name="CUST2094-RC1-WebTest"
+      project-name="CUST2094-RC2-WebTest"
       driver = 'CUST2094'
       web-test="true"
-      project-to-deploy="CUST2094-WebTest_RC1.1"
+      project-to-deploy="CUST2094-WT2.1"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_2094_CA" 
       db-server="DEV-8900sql1"
@@ -487,7 +487,20 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
-	  package-privatebuild="true"
+      package-privatebuild="true"
+      />
+
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-WT2.1"
+      branch = '2094_WT1.1'
+      prodTag="7.6.1"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.1"
+      external-protect="true"
+      external-zip="true"
+      package-privatebuild="true"
       />
 
 <!-- CUST2095 -->
@@ -539,7 +552,7 @@
       external-protect="true"
       external-zip="true"
       />
-
+<!--
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-Config"
@@ -551,18 +564,7 @@
       external-protect="true"
       external-zip="true"
       />
-
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-Config_7.6.1"
-      branch = '2095_Config_7.6.1'
-      prodTag="2095_Events"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.1"
-      external-protect="true"
-      external-zip="true"
-      />
+-->
 
   <cb:v76build
       project-name="CUST2095-CVS"
