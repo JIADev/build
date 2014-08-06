@@ -495,7 +495,7 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-WT2.1"
-      branch = '2094_WT1.1'
+      branch = '2094_WT2.1'
       prodTag="7.6.1"
       platform="AnyCpu"
       repo-name="master"

@@ -214,7 +214,7 @@
     <Error Text="Missing /p:SourceBranch=&quot;SourceBranch&quot;" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:SourceRepo=&quot;SourceRepo&quot;" Condition="'$(SourceRepo)' == ''" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(SourceBranch) -C" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(SourceBranch)_pub -C" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)_pub&quot; --close-branch" IgnoreExitCode="true" />
 
