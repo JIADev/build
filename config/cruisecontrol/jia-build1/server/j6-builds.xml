@@ -462,6 +462,7 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
+      queue-priority="500"
       />
 
   <cb:v76build
@@ -475,6 +476,7 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
+      queue-priority="1000"
       />
 
   <cb:v76build
