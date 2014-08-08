@@ -69,6 +69,9 @@
   </Target>
   <Target Name="Update2094RC2" DependsOnTargets="InitRepos">
 
+    <!-- RC2.1 first -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.1;TargetBranch=2094_RC2.1_Incoming;DoMerge=true;DoCommit=true" />
+
     <!-- 143 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ143;TargetBranch=2094_RC2.1_Incoming;DoMerge=true;DoCommit=true" />
 
@@ -134,6 +137,9 @@
 
     <!-- 113 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ113;TargetBranch=2094_RC2.1_Incoming;DoMerge=true;DoCommit=true" />
+
+    <!-- 151 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ151;TargetBranch=2094_RC2.1_Incoming;DoMerge=true;DoCommit=true" />
 
     
   </Target>
