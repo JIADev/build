@@ -557,7 +557,7 @@
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-7.6.1"
-      branch = '2095_RC1.2+2094_RC2.1_Merge1'
+      branch = '2095_RC1.2_Merge1_2094_RC2.1'
       prodTag="2095_Events"
       platform="AnyCpu"
       repo-name="master"
