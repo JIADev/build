@@ -61,10 +61,10 @@
     <!-- 024 ->  183 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ024;TargetBranch=2094_REQ183;DoMerge=true;DoCommit=true" />
 
+    <CallTarget Targets="Update2094RC2" />
+
     <!-- RC2.1 -> WT2.1 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.1;TargetBranch=2094_WT2.1;DoMerge=true;DoCommit=true" />
-
-    <CallTarget Targets="Update2094RC2" />
 
   </Target>
   <Target Name="Update2094RC2" DependsOnTargets="InitRepos">
