@@ -75,7 +75,7 @@
       <SourceBranches Include="143;188;179;078;086;089;054;181;176;148;050;076;083;091;095;058;022;009;103;025;040;113;024;151;076.2" />
     </ItemGroup>
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=2094_REQ%(SourceBranches.Identity)" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ%(SourceBranches.Identity);TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
 
