@@ -69,6 +69,7 @@
       tag = ""
       prodTag = ""
       build="true"
+      fullbuild="true"
       jslint="false"
       updateSource="true"
       unit-test="true"

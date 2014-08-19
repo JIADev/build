@@ -638,6 +638,7 @@
       <targets>Configure</targets>
       <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
+<!--
     <msbuild logger="$(msBuildListenerDll)" description="showconfig">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
@@ -645,6 +646,7 @@
       <targets>ShowConfig</targets>
       <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
+-->
   </cb:define>
   
   <cb:define name="msbuild-build">
@@ -658,6 +660,19 @@
       </msbuild>
     </cb:if>
   </cb:define>
+
+  <cb:define name="msbuild-fullbuild">
+    <cb:if expr="'$(build)' == 'true'">
+      <msbuild logger="$(msBuildListenerDll)" description="build">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(tag-folder) /p:DefineConstants=$(modules)</buildArgs>
+	<targets>FullBuild</targets>
+	<timeout>$(msbuild-build-timeout)</timeout>
+      </msbuild>
+    </cb:if>
+  </cb:define>
+
   <cb:define name="msbuild-compileless">
     <cb:if expr="'$(compileless)' == 'true'">
       <msbuild logger="$(msBuildListenerDll)" description="Compile .less to .css">
