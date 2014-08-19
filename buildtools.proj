@@ -63,6 +63,12 @@
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ChangedFiles.exe $(RepoDirectory)\ChangesetLog.xml $(RepoDirectory)\ChangedFiles.txt" />
   </Target>
   
+  <Target Name="DeleteIfEmpty" DependsOnTargets="BuildDeleteIfEmpty">
+    <Error Text="Missing File" Condition="'$(File)' == ''" />
+    <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\DeleteIfEmpty.exe $(RepoDirectory)\$(File)" />
+  </Target>
+  
   <Target Name="CopyFilesIfDifferent" DependsOnTargets="BuildCopyDiffFiles">
     <Error Text="Missing SourceDir" Condition="'$(SourceDir)' == ''" />
     <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
@@ -128,7 +134,11 @@
   <Target Name="BuildExtractChangesets">
     <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" Condition="!Exists('$(RepoDirectory)\ExtractChangesets.exe')" />
   </Target>
-  
+
+  <Target Name="BuildDeleteIfEmpty">
+    <Csc Sources="$(BuildToolsDirectory)\Code\DeleteIfEmpty.cs" OutputAssembly="$(RepoDirectory)\DeleteifEmpty.exe" Condition="!Exists('$(RepoDirectory)\DeleteIfEmpty.exe')" />
+  </Target>
+    
   <Target Name="BuildMergeLog">
     <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
   </Target>
@@ -213,11 +223,21 @@
     <Message Text="SourceRepo=$(SourceRepo)" />
     <Error Text="Missing /p:SourceBranch=&quot;SourceBranch&quot;" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:SourceRepo=&quot;SourceRepo&quot;" Condition="'$(SourceRepo)' == ''" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(SourceBranch) -C" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" IgnoreExitCode="true" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(SourceBranch)_pub -C" IgnoreExitCode="true" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)_pub&quot; --close-branch" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch) --rev &quot;closed()&quot; > $(SourceRepo)\closerevision.txt" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch)_pub --rev &quot;closed()&quot; > $(SourceRepo)\closepubrevision.txt" IgnoreExitCode="true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=closerevision.txt" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=closepubrevision.txt" />
 
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch) > $(SourceRepo)\branchrevisions.txt" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch)_pub > $(SourceRepo)\pubbranchrevisions.txt" IgnoreExitCode="true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=branchrevisions.txt" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=pubbranchrevisions.txt" />
+
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch) -C" Condition="!Exists('$(SourceRepo)\closerevision.txt') AND Exists('$(SourceRepo)\branchrevisions.txt')" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="!Exists('$(SourceRepo)\closerevision.txt') AND Exists('$(SourceRepo)\branchrevisions.txt')" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch)_pub -C" Condition="!Exists('$(SourceRepo)\closepubrevision.txt') AND Exists('$(SourceRepo)\pubbranchrevisions.txt')" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)_pub&quot; --close-branch" Condition="!Exists('$(SourceRepo)\closepubrevision.txt') AND Exists('$(SourceRepo)\pubbranchrevisions.txt')" />
+    <Delete Files="$(SourceRepo)\closerevision.txt;$(SourceRepo)\closepubrevision.txt;$(SourceRepo)\branchrevisions.txt;$(SourceRepo)\pubbranchrevisions.txt" />
  </Target>
 
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
