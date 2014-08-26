@@ -507,7 +507,7 @@
       driver="CUST2095"
       project-name="CUST2095-RC1.2"
       branch = '2095_RC1.2'
-      prodTag="2095_Events"
+      prodTag="2095_UAT"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.0"
