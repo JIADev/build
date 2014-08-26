@@ -52,6 +52,7 @@ namespace j6.BuildTools
 				{
 					continue;
 				}
+				errors = errors.Union(PurgeEmptyDirectories(subdir)).ToDictionary(e => e.Key, e => e.Value);
 				var isEmpty = !subdir.GetFileSystemInfos().Any();
 				if(isEmpty)
 				{
@@ -67,7 +68,6 @@ namespace j6.BuildTools
 						errors.Add(subdir.FullName, ex);
 					}
 				}
-				errors = errors.Union(PurgeEmptyDirectories(subdir)).ToDictionary(e => e.Key, e => e.Value);
 			}
 			return errors;
 		}
