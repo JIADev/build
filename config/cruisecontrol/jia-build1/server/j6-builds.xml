@@ -390,12 +390,13 @@
       driver = 'CUST2094'
       platform="AnyCpu"
       repo-name="master"
+	  package="true"
+	  prodTag="7.6.0"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
+	  compileless="true"
       />
-	  
- 
 	  
   <cb:v76deployment
       project-name="CUST2094-RC2-WebTest"
