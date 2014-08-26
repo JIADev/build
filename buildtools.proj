@@ -127,6 +127,10 @@
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
   
+  <Target Name="CleanEmptyDirectories" DependsOnTargets="BuildPurgeEmptyDirectoriesExe">
+    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeEmptyDirectories.exe" />
+  </Target>
+  
   <Target Name="RevertAll" DependsOnTargets="BuildRevertAllExe">
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
@@ -185,6 +189,10 @@
   
   <Target Name="BuildPurgeJunctionsExe">
     <Csc Sources="$(BuildToolsDirectory)\Code\PurgeJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
+  </Target>
+  
+  <Target Name="BuildPurgeEmptyDirectoriesExe">
+    <Csc Sources="$(BuildToolsDirectory)\Code\PurgeEmptyDirectories.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeEmptyDirectories.exe" />
   </Target>
   
   <Target Name="BuildRevertAllExe" Condition="!Exists('$(BuildToolsDirectory)\Code\RevertAll.exe')">
