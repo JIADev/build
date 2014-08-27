@@ -395,7 +395,7 @@
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
-	  compileless="true"
+	  jslint="true"
       />
 	  
   <cb:v76deployment
