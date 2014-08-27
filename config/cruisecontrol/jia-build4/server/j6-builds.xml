@@ -16,7 +16,8 @@
       external-zip="true"
       j6Version="7.6.1"
 	  unit-test="false"
-     
+      compileless="true"
+	  jslint="true"
 	  
       />
   <!-- req branches -->
