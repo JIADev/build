@@ -70,7 +70,7 @@
       prodTag = ""
       build="true"
       fullbuild="true"
-      jslint="false"
+      jslint="true"
       updateSource="true"
       unit-test="true"
       web-test="false"
