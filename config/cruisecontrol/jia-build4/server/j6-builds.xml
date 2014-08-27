@@ -10,10 +10,10 @@
       driver = 'CUST2094'
       platform="AnyCpu"
       repo-name="master"
-	  package="false"
+	  package="true"
 	  prodTag="7.6.1"
-      external-protect="false"
-      external-zip="false"
+      external-protect="true"
+      external-zip="true"
       j6Version="7.6.1"
 	  unit-test="false"
 	  jslint="true"
