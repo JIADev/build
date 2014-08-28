@@ -849,14 +849,14 @@
 	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED\ChangesetLog.xml"</buildArgs>
 	  </exec>
 	</tasks>
-	<elsetasks>
+	<elseTasks>
 	  <exec
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"
 	      description="copy changeset log to the package folder">
 	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\ChangesetLog.xml"</buildArgs>
 	  </exec>
-	</elsetasks>
+	</elseTasks>
       </conditional>
 	<cb:if expr="'$(protect)' == 'true'">
 	  <cb:if expr="'$(external-protect)' == 'true'">
