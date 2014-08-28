@@ -931,16 +931,31 @@
 	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
       </msbuild>
+      <conditional description="Copy changeset log to package folder">
+	<conditions>
+	  <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
+	</conditions>
+	<tasks>
 	  <exec 
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"
 	      description="copy changeset log to the package folder">
 	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED\ChangesetLog.xml"</buildArgs>
 	  </exec>
-   <cb:if expr="'$(protect)' == 'true'">
-   <cb:if expr="'$(external-protect)' == 'true'">
-      <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
-	       executable="$(msbuild)"
+	</tasks>
+	<elsetasks>
+	  <exec
+	      executable="$(powershell)"
+	      baseDirectory="$(project-folder)"
+	      description="copy changeset log to the package folder">
+	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\ChangesetLog.xml"</buildArgs>
+	  </exec>
+	</elsetasks>
+      </conditional>
+	<cb:if expr="'$(protect)' == 'true'">
+	  <cb:if expr="'$(external-protect)' == 'true'">
+	    <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
+		     executable="$(msbuild)"
 	       projectFile="$(global_feature_dir)\buildtools.proj"
 	       targets="Protect"
 	       workingDirectory="$(project-folder)"
