@@ -146,8 +146,8 @@
 	<cb:setup-unittests />
 	<cb:run-ncover-f-unittests />
 	<cb:get-reports />
-	<cb:msbuild-package-test />
-	<cb:publish-package-test />
+	<cb:msbuild-package />
+	<cb:publish-package />
 	<cb:publish-privatebuild />
       </tasks>
       <publishers>
