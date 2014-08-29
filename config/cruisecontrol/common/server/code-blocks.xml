@@ -850,12 +850,19 @@
 	  </exec>
 	</tasks>
 	<elseTasks>
-	  <exec
-	      executable="$(powershell)"
-	      baseDirectory="$(project-folder)"
-	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\ChangesetLog.xml"</buildArgs>
-	  </exec>
+	  <conditional description="Copy changeset log to package folder">
+	    <conditions>
+	      <folderExistsCondition folder="$(project-folder)\RELEASE" />
+	    </conditions>
+	    <tasks>
+	      <exec
+		  executable="$(powershell)"
+		  baseDirectory="$(project-folder)"
+		  description="copy changeset log to the package folder">
+		<buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\ChangesetLog.xml"</buildArgs>
+	      </exec>
+	    </tasks>
+	  </conditional>
 	</elseTasks>
       </conditional>
 	<cb:if expr="'$(protect)' == 'true'">
