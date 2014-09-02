@@ -63,7 +63,7 @@
     <cb:reqBuild customer="2095" req-number="REQ001" />
   </cb:define>
 
-  <cb:define name="queue1f">
+  <cb:define name="queue1a">
     <cb:define queueName="Queue1" />
     <cb:reqBuild customer="2094" req-number="REQ100" />
   </cb:define>
