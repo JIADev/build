@@ -63,11 +63,6 @@
     <cb:reqBuild customer="2095" req-number="REQ001" />
   </cb:define>
   
-  <cb:define name="queue4b">
-    <cb:define queueName="Queue4" />
-    <cb:reqBuild customer="2094" req-number="REQ100" />
-  </cb:define>
-  
   <cb:define name="build2queues">
     <cb:queue1b />
     <cb:queue2b />
