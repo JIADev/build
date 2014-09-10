@@ -444,6 +444,7 @@
       prodTag="7.6.1"
       platform="AnyCpu"
       repo-name="master"
+	  fullbuild="false"
       j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
