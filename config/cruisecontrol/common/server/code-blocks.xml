@@ -777,6 +777,7 @@
 
       <cb:remove-delete-me />
 
+   <cb:if expr="'$(archive)' == 'true'">	  
       <exec 
 	  executable="$(powershell)" 
 	  baseDirectory="$(project-folder)"
@@ -787,10 +788,26 @@
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
-	  description="move old release to the delete.me folder">
+	  description="move old release to the archive folder">
 	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(archive-package)\$(project-name)"</buildArgs>
       </exec>
+   </cb:if>
+	<cb:else>
+	 <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="move old release to the delete.me folder">
+	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+      </exec>
       
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="move old changeset log to the delete.me folder">
+	<buildArgs>-c "mv $(pkgroot)\$(project-name)\ChangesetLog.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+      </exec>
+	  </cb:else>
+	  
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
