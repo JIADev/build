@@ -103,6 +103,7 @@
   <cb:v76build
       project-name="CUST000-7.6.1"
       branch = '7.6.1'
+	  prodTag="7.6.1"
       driver = 'CUST000'
       clean="true"
       build="true"
