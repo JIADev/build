@@ -66,6 +66,15 @@
     <!-- RC2.1 -> WT2.1 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.1;TargetBranch=2094_WT2.1;DoMerge=true;DoCommit=true" />
 
+    <!-- 069 ->  067 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ069;TargetBranch=2094_REQ067;DoMerge=true;DoCommit=true" />
+
+    <!-- 065 ->  066 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ065;TargetBranch=2094_REQ066;DoMerge=true;DoCommit=true" />
+
+    <!-- 065 ->  012 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ065;TargetBranch=2094_REQ012;DoMerge=true;DoCommit=true" />
+
   </Target>
   <Target Name="Update2094RC2" DependsOnTargets="InitRepos">
     <PropertyGroup>
