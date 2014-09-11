@@ -124,5 +124,6 @@
       />
   <cb:define 
       compileless="false"
+	  archive="false"
       />
 </cb:config-template>
