@@ -793,13 +793,19 @@
       </exec>
    </cb:if>
    <cb:else>
+   <conditional description="Ensure delete.me">
+	<conditions>
+	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />
+	</conditions>
+	<tasks>
 	  <exec 
 	    executable="$(powershell)" 
 	    baseDirectory="$(project-folder)"
 	    description="Make delete.me folder">
-	    <buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me\"</buildArgs>
+	    <buildArgs>/c "md $(pkgroot)\$(project-name)\delete.me"</buildArgs>
       </exec>
-   
+   </tasks>
+   </conditional>
       <exec 
 	    executable="$(powershell)"
 	    baseDirectory="$(project-folder)"
