@@ -236,6 +236,7 @@
       queueSuffix="-PRD-nopatches"
       sourceCheckInterval=""
       repo-name="master"
+	  archive="true"
       />
   
   <cb:legacybuild
