@@ -18,13 +18,13 @@
       <branch>$(branch)</branch>
     </sourcecontrol>
   </cb:define>
-
+  
   <cb:define name="createbuild">
-    	<msbuild logger="$(msBuildListenerDll)" description="Creating build" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
-	  <buildArgs>/p:CustomerNumber="$(driver)" /p:Branches="$(branches)" /p:WorkingDirectory="$(project-folder)" /p:Interactive="false" /p:BuildTag="$(buildTag)" /p:BaseTag="$(baseTag)" /p:TagsBranch="$(tagsBranch)"</buildArgs>
-	</msbuild>
+    <msbuild logger="$(msBuildListenerDll)" description="Creating build" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
+      <buildArgs>/p:CustomerNumber="$(driver)" /p:Branches="$(branches)" /p:WorkingDirectory="$(project-folder)" /p:Interactive="false" /p:BuildTag="$(buildTag)" /p:BaseTag="$(baseTag)" /p:TagsBranch="$(tagsBranch)"</buildArgs>
+    </msbuild>
   </cb:define>
-
+  
   <cb:define name="update-source">
     <cb:if expr="'$(updateSource)' != 'false'">
       <exec executable="$(cmdExe)" 
@@ -60,23 +60,23 @@
 	</conditional>
       </cb:if>
       
-	<cb:if expr="'$(prodTag)' != ''">
-	  <exec executable="$(powershell)" 
-		description = "hg pull tags branch"
-		buildArgs = '-c "hg pull -b tags"' 
-		baseDirectory="$(source-folder)" />
-
-	  <exec executable="$(powershell)" 
-		description = "hg pull tags branch"
-		buildArgs = '-c "hg pull -b tags"' 
-		baseDirectory="$(tag-folder)" />
-
-	  <exec executable="$(powershell)" 
-		description = "hg pull prod tag changes"
-		buildArgs = '-c "hg pull -r $(prodTag)"' 
-		baseDirectory="$(tag-folder)" />
-	</cb:if>
+      <cb:if expr="'$(prodTag)' != ''">
+	<exec executable="$(powershell)" 
+	      description = "hg pull tags branch"
+	      buildArgs = '-c "hg pull -b tags"' 
+	      baseDirectory="$(source-folder)" />
 	
+	<exec executable="$(powershell)" 
+	      description = "hg pull tags branch"
+	      buildArgs = '-c "hg pull -b tags"' 
+	      baseDirectory="$(tag-folder)" />
+	
+	<exec executable="$(powershell)" 
+	      description = "hg pull prod tag changes"
+	      buildArgs = '-c "hg pull -r $(prodTag)"' 
+	      baseDirectory="$(tag-folder)" />
+      </cb:if>
+      
       <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
 	<exec executable="$(powershell)" 
 	      description = "hg pull updates from source-folder"
@@ -99,7 +99,7 @@
       <cb:else>
 	<cb:define newChangeset="$(branch)" />
       </cb:else>
-
+      
       <cb:if expr="'$(prodTag)' != ''">
 	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
 		 timeout="$(msbuild-updatechangelog-timeout)">
@@ -192,22 +192,22 @@
 	description="Recreate project folder">
       <buildArgs>/c "md -F $(project-folder)"</buildArgs>
     </exec>
-
+    
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
 	  description="Copy deployment package to project folder"
 	  buildTimeoutSeconds="$(copy-source-timeout)"
 	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE*.zip" "$(project-folder)"' />
-
-      <msbuild logger="$(msBuildListenerDll)" description="Extract Release Package"
-	       executable="$(msbuild)"
-	       projectFile="$(global_feature_dir)\buildtools.proj"
-	       targets="UnZip"
-	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-protect-timeout)">
-	<buildArgs>/p:ZipFile="$(project-folder)\RELEASE*.zip" /p:TargetDir="$(project-folder)\RELEASE"</buildArgs>
-      </msbuild>
-
+    
+    <msbuild logger="$(msBuildListenerDll)" description="Extract Release Package"
+	     executable="$(msbuild)"
+	     projectFile="$(global_feature_dir)\buildtools.proj"
+	     targets="UnZip"
+	     workingDirectory="$(project-folder)"
+	     timeout="$(msbuild-protect-timeout)">
+      <buildArgs>/p:ZipFile="$(project-folder)\RELEASE*.zip" /p:TargetDir="$(project-folder)\RELEASE"</buildArgs>
+    </msbuild>
+    
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
 	  description="Copy private build to project folder"
@@ -388,21 +388,21 @@
   </cb:define>
   
   <cb:define name="remove-delete-me">
-      <conditional description="If delete.me directory exists">
-	<conditions>
-	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
-	</conditions>
-	<tasks Description="Remove delete.me">
-	  <exec
-	      executable="$(powershell)"
-	      baseDirectory="$(project-folder)"
-	      description = "remove delete.me directory">
-	    <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-	  </exec>
-	</tasks>
-      </conditional>
+    <conditional description="If delete.me directory exists">
+      <conditions>
+	<folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />>
+      </conditions>
+      <tasks Description="Remove delete.me">
+	<exec
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description = "remove delete.me directory">
+	  <buildArgs>-c "rm -r -fo $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	</exec>
+      </tasks>
+    </conditional>
   </cb:define>
-
+  
   <cb:define name="publish-privatebuild">
     <cb:if expr="'$(package)' == 'true'">
       <cb:if expr="'$(package-privatebuild)' == 'true'">
@@ -528,9 +528,9 @@
     <statistics />
     <!--
 	<msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
-      <buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
-    </msbuild>
-	--> 
+	<buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
+	</msbuild>
+    --> 
   </cb:define>
   
   <!-- Added for 7.6 builds -->
@@ -544,15 +544,15 @@
       <targets>Configure</targets>
       <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
-<!--
-    <msbuild logger="$(msBuildListenerDll)" description="showconfig">
-      <executable>$(msbuild)</executable>
-      <projectFile>j6.proj</projectFile>
-      <buildArgs></buildArgs>
-      <targets>ShowConfig</targets>
-      <timeout>$(msbuild-configure-timeout)</timeout>
-    </msbuild>
--->
+    <!--
+	<msbuild logger="$(msBuildListenerDll)" description="showconfig">
+	<executable>$(msbuild)</executable>
+	<projectFile>j6.proj</projectFile>
+	<buildArgs></buildArgs>
+	<targets>ShowConfig</targets>
+	<timeout>$(msbuild-configure-timeout)</timeout>
+	</msbuild>
+    -->
   </cb:define>
   
   <cb:define name="msbuild-build">
@@ -566,7 +566,7 @@
       </msbuild>
     </cb:if>
   </cb:define>
-
+  
   <cb:define name="msbuild-fullbuild">
     <cb:if expr="'$(build)' == 'true'">
       <msbuild logger="$(msBuildListenerDll)" description="build">
@@ -578,7 +578,7 @@
       </msbuild>
     </cb:if>
   </cb:define>
-
+  
   <cb:define name="msbuild-compileless">
     <cb:if expr="'$(compileless)' == 'true'">
       <msbuild logger="$(msBuildListenerDll)" description="Compile .less to .css">
@@ -598,14 +598,14 @@
 	<targets>jslintexe</targets>
 	<timeout>$(msbuild-jslint-timeout)</timeout>
       </msbuild>
-	  <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintEmployee">
+      <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintEmployee">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:JSLintNetSourceDirectory="Site/Employee" /p:Portal="Employee"</buildArgs>
 	<targets>jslintexe</targets>
 	<timeout>$(msbuild-jslint-timeout)</timeout>
       </msbuild>
-	  <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintPersonal">
+      <msbuild logger="C:\Program Files (x86)\CruiseControl.NET\server\ThoughtWorks.CruiseControl.MSBuild.dll" description="jslintPersonal">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:JSLintNetSourceDirectory="WebPersonal\Site\Personal" /p:Portal="Personal"</buildArgs>
@@ -615,8 +615,8 @@
     </cb:if>
   </cb:define>
   <cb:define name="copy-jslint-reports">
-	 <exec executable="$(powershell)" buildArgs='-c "mkdir $(artifact-folder)\$(buildversion)"' description="Create JSLint report directory" />
-	 <exec executable="$(powershell)" description = "copy JSLint reports" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\$(buildversion)"' />
+    <exec executable="$(powershell)" buildArgs='-c "mkdir $(artifact-folder)\$(buildversion)"' description="Create JSLint report directory" />
+    <exec executable="$(powershell)" description = "copy JSLint reports" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\$(buildversion)"' />
   </cb:define>
   <cb:define name="msbuild-bootstrap">
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
@@ -765,7 +765,7 @@
       </cb:if>
     </cb:if>
   </cb:define>
-   <cb:define name="publish-package">
+  <cb:define name="publish-package">
     <cb:if expr="'$(package)' == 'true'">
       <cb:tag-build />
       <exec 
@@ -774,53 +774,47 @@
 	  description="Create Release Package folder if needed">
 	<buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
-
-      <cb:remove-delete-me />
-	  
-   <cb:if expr="'$(archive)' == 'true'">
-      <exec 
-	  executable="$(powershell)" 
-	  baseDirectory="$(project-folder)"
-	  description="Make archive folder">
-	<buildArgs>/c "md -F $(archive-package)\$(project-name)"</buildArgs>
-      </exec>
       
-      <exec 
-	  executable="$(powershell)"
-	  baseDirectory="$(project-folder)"
-	  description="move old release to the archive folder">
-	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(archive-package)\$(project-name)"</buildArgs>
-      </exec>
-   </cb:if>
-   <cb:else>
-   <conditional description="Ensure delete.me">
-	<conditions>
-	  <folderExistsCondition folder="$(pkgroot)\$(project-name)\delete.me" />
-	</conditions>
-	<tasks>
-	  <exec 
+      <cb:remove-delete-me />
+      
+      <cb:if expr="'$(archive)' == 'true'">
+	<exec 
+	    executable="$(powershell)" 
+	    baseDirectory="$(project-folder)"
+	    description="Make archive folder">
+	  <buildArgs>/c "md -F $(archive-package)\$(project-name)"</buildArgs>
+	</exec>
+	
+	<exec 
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description="move old release to the archive folder">
+	  <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(archive-package)\$(project-name)"</buildArgs>
+	</exec>
+      </cb:if>
+      <cb:else>
+	<exec 
 	    executable="$(powershell)" 
 	    baseDirectory="$(project-folder)"
 	    description="Make delete.me folder">
-	    <buildArgs>/c "md $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-      </exec>
-   </tasks>
-   </conditional>
-      <exec 
+	  <buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	</exec>
+	
+	<exec 
 	    executable="$(powershell)"
 	    baseDirectory="$(project-folder)"
 	    description="move old release to the delete.me folder">
-	    <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-      </exec>
+	  <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	</exec>
+	
+	<exec 
+	    executable="$(powershell)"
+	    baseDirectory="$(project-folder)"
+	    description="move old changeset log to the delete.me folder">
+	  <buildArgs>-c "mv $(pkgroot)\$(project-name)\ChangesetLog.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	</exec>
+      </cb:else>
       
-      <exec 
-	  executable="$(powershell)"
-	  baseDirectory="$(project-folder)"
-	  description="move old changeset log to the delete.me folder">
-	<buildArgs>-c "mv $(pkgroot)\$(project-name)\ChangesetLog.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-      </exec>
-	  </cb:else>
-   
       <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
@@ -828,35 +822,35 @@
 	<buildArgs>-c "mv $(project-folder)\RELEASE*.zip $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
       
-	  <exec 
+      <exec 
 	  executable="$(powershell)"
 	  baseDirectory="$(project-folder)"
 	  description="move new ChangesetLog to the package folder">
 	<buildArgs>-c "mv $(project-folder)\RELEASE*.xml $(pkgroot)\$(project-name)"</buildArgs>
       </exec>
-	  
+      
       <cb:remove-delete-me />
-
+      
       <conditional description="If changeset log exists">
 	<conditions>
 	  <fileExistsCondition file="$(tag-folder)\ChangesetLog.xml" />
 	</conditions>
 	<tasks>
 	  <msbuild logger="$(msBuildListenerDll)" description="PublishChangesetLog file"
-	       executable="$(msbuild)"
-	       projectFile="$(global_feature_dir)\buildtools.proj"
-	       targets="PublishChangesetLog"
-	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-package-timeout)">
-	<buildArgs>/p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:TargetDir=$(pkgroot)\$(project-name) /p:SourceFile=$(project-folder)\ChangesetLog.xml</buildArgs>
-      </msbuild>
+		   executable="$(msbuild)"
+		   projectFile="$(global_feature_dir)\buildtools.proj"
+		   targets="PublishChangesetLog"
+		   workingDirectory="$(project-folder)"
+		   timeout="$(msbuild-package-timeout)">
+	    <buildArgs>/p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:TargetDir=$(pkgroot)\$(project-name) /p:SourceFile=$(project-folder)\ChangesetLog.xml</buildArgs>
+	  </msbuild>
 	</tasks>
       </conditional>
     </cb:if>
   </cb:define>
   
-
- <cb:define name="msbuild-package">
+  
+  <cb:define name="msbuild-package">
     <cb:if expr="'$(package)' == 'true'">
       <cb:create-revision-txt />
       <msbuild logger="$(msBuildListenerDll)" description="package build"
@@ -895,28 +889,28 @@
 	  </conditional>
 	</elseTasks>
       </conditional>
-	<cb:if expr="'$(protect)' == 'true'">
-	  <cb:if expr="'$(external-protect)' == 'true'">
-	    <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
-		     executable="$(msbuild)"
-	       projectFile="$(global_feature_dir)\buildtools.proj"
-	       targets="Protect"
-	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-external-protect-timeout)">
-	<buildArgs>/p:Directory="$(project-folder)" /p:Customer=$(driver)</buildArgs>
-      </msbuild>
-    </cb:if>
-    </cb:if>
-   <cb:if expr="'$(external-zip)' == 'true'">
-      <msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
-	       executable="$(msbuild)"
-	       projectFile="$(global_feature_dir)\buildtools.proj"
-	       targets="CreateZip"
-	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-package-timeout)">
-	<buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
-      </msbuild>
-    </cb:if>
+      <cb:if expr="'$(protect)' == 'true'">
+	<cb:if expr="'$(external-protect)' == 'true'">
+	  <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
+		   executable="$(msbuild)"
+		   projectFile="$(global_feature_dir)\buildtools.proj"
+		   targets="Protect"
+		   workingDirectory="$(project-folder)"
+		   timeout="$(msbuild-external-protect-timeout)">
+	    <buildArgs>/p:Directory="$(project-folder)" /p:Customer=$(driver)</buildArgs>
+	  </msbuild>
+	</cb:if>
+      </cb:if>
+      <cb:if expr="'$(external-zip)' == 'true'">
+	<msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
+		 executable="$(msbuild)"
+		 projectFile="$(global_feature_dir)\buildtools.proj"
+		 targets="CreateZip"
+		 workingDirectory="$(project-folder)"
+		 timeout="$(msbuild-package-timeout)">
+	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
+	</msbuild>
+      </cb:if>
     </cb:if>
   </cb:define>
   
