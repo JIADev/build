@@ -177,6 +177,7 @@
       driver = "CUST065"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST069 -->
@@ -189,6 +190,7 @@
       driver = "CUST069"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST077 -->
@@ -206,6 +208,7 @@
       install-patches="true"
       sourceCheckInterval=""
       repo-name="master"
+	  archive="true"
       />
   
   <cb:legacybuild
@@ -245,6 +248,7 @@
       driver = "CUST2069"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2082 -->
@@ -257,6 +261,7 @@
       driver = "CUST2082"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2083 -->
@@ -270,6 +275,7 @@
       repo-name="master"
       exclude-files="false"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2085 -->
@@ -282,6 +288,7 @@
       driver = "CUST2085"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2086 -->
@@ -294,6 +301,7 @@
       driver = "CUST2086"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2087 -->
@@ -306,6 +314,7 @@
       driver = "CUST2087"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2088 -->
@@ -318,7 +327,8 @@
       driver = "CUST2088"
       repo-name="master"
       sourceCheckInterval=""
-      />
+      archive="true"
+	  />
   
   <!-- CUST2089 -->
   
@@ -330,6 +340,7 @@
       driver = "CUST2089"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2090 -->
@@ -342,6 +353,7 @@
       driver = "CUST2090"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2092 -->
@@ -354,6 +366,7 @@
       driver = "CUST2092"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   
@@ -367,6 +380,7 @@
       driver = "CUST2093"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       />
   
   <!-- CUST2094 -->
@@ -466,6 +480,7 @@
       compileless="true"
       queue-priority="500"
       sourceCheckInterval=""
+	  archive="true"
       />
 
   <cb:v76build
@@ -519,6 +534,7 @@
       external-protect="true"
       external-zip="true"
       sourceCheckInterval=""
+	  archive="true"
       />
 
   <cb:v76build
@@ -568,6 +584,7 @@
       platform="AnyCpu"
       repo-name="master"
       sourceCheckInterval=""
+	  archive="true"
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
