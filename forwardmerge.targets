@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="releasecandidate.targets" Condition="Exists('releasecandidate.targets')"/>
+  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge_72;ForwardMerge_73;ForwardMerge_74;ForwardMerge_75;ForwardMerge_76;ForwardMerge_2094;ForwardMerge_2095" />
+  <Target Name="ForwardMerge_74" DependsOnTargets="ForwardMerge_740;ForwardMerge_741;ForwardMerge_744;ForwardMerge_745" />
+  <Target Name="ForwardMerge_75" DependsOnTargets="ForwardMerge_750;ForwardMerge_752;ForwardMerge_753;ForwardMerge_754;ForwardMerge_755" />
+  <Target Name="ForwardMerge_76" DependsOnTargets="ForwardMerge_760;OutwardMerge_000_760;OutwardMerge_2094_760;OutwardMerge_2095_760;ForwardMerge_761" />
+  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;ForwardMerge_2094;ForwardMerge_2095" />
+
+  <Target Name="ForwardMerge_72" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.2.11</TargetRepo>
+      <TargetBranch>7.2.11</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=077_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_73" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.3.3</TargetRepo>
+      <TargetBranch>7.3.3</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2082_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_740" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.0</TargetRepo>
+      <TargetBranch>7.4.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2085_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_741" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.1</TargetRepo>
+      <TargetBranch>7.4.1</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.4.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2083_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_744" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.4</TargetRepo>
+      <TargetBranch>7.4.4</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.4.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2087_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=069_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_745" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.4.5</TargetRepo>
+      <TargetBranch>7.4.5</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.4.4;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2089_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_750" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.0</TargetRepo>
+      <TargetBranch>7.5.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=065_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2086_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_752" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.2</TargetRepo>
+      <TargetBranch>7.5.2</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.5.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_753" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.3</TargetRepo>
+      <TargetBranch>7.5.3</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.5.2;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2069_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_754" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.4</TargetRepo>
+      <TargetBranch>7.5.4</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.5.3;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_755" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(WorkingDirectory)\7.5.5</TargetRepo>
+      <TargetBranch>7.5.5</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.5.4;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2092_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="ForwardMerge_760" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+      <TargetBranch>7.6.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=000_7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="OutwardMerge_000_760">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=000_7.6.0;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=000_7.6.0;TargetBranch=000_Events;DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="OutwardMerge_2094_760">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+      <TargetBranch>2094_7.6.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>    
+  <Target Name="OutwardMerge_2095_760">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+      <TargetBranch>2095_7.6.0</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=000_Events;TargetBranch=2095_Events;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_7.6.0;TargetBranch=2095_Events;DoMerge=true;DoCommit=true" />
+  </Target>    
+  <Target Name="ForwardMerge_761">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.0;TargetBranch=2094_RC1.1;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC1.1;TargetBranch=7.6.1;DoMerge=true;DoCommit=true" />
+  </Target>
+  <Target Name="OutwardMerge_2094_RC1">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+      <TargetBranch>2094_RC1.1</TargetBranch>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
+  </Target>    
+
+  <Target Name="ForwardMerge_2095" DependsOnTargets="ForwardMerge_76;InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+
+    <!-- These are the branches which don't depend on anything -->
+<!--    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=2095_RC1.2" /> -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC1.2;TargetBranch=2095_RC1.3;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2095_RC1.3;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC1.3;TargetBranch=2094_762_Merge1;DoMerge=true;DoCommit=true" />
+
+    <!-- These are the branches which don't depend on anything but need to be published -->
+
+    <!-- Then we do the dependency merges -->
+    <CallTarget Targets="DependencyMerge_2095" />
+
+    <!-- Now the ones which depend on another branch -->
+  </Target>
+  <Target Name="ForwardMerge_2094" DependsOnTargets="ForwardMerge_76;OutwardMerge_2094_RC1;InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+
+    <ItemGroup>
+<!--      <NonDependentPublish Include="" /> -->
+      <NonDependentNoPublish Include="017.1;020.B;035.1;047;051.1;128;152;183;194;201" />
+<!--      <DependentPublish Include="" /> -->
+      <DependentNoPublish Include="142" />
+    </ItemGroup>
+
+    <!-- These are the branches which don't depend on anything but need to be published -->
+<!--    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2094_REQ%(NonDependentPublish.Identity);DoMerge=true;DoCommit=true" /> -->
+
+    <!-- Then we do the dependency merges -->
+    <CallTarget Targets="DependencyMerge_2094" />
+
+    <!-- Now we merge into the release candidate branch -->
+    <!-- <CallTarget Targets="ReleaseCandidate1_2094" /> -->
+
+    <!-- These are the branches which don't depend on anything and *don't* need to be published -->
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.1;TargetBranch=7.6.2;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.2;TargetBranch=2094_REQ194;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.2;TargetBranch=2094_REQ%(NonDependentNoPublish.Identity);DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.2;TargetBranch=2094_762_Merge1;DoMerge=true;DoCommit=true" />
+
+    <!-- Now the ones which depend on another branch and need to be published -->
+    
+<!--    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=2094_REQ%(DependentPublish.Identity);DoMerge=true;DoCommit=true" /> -->
+
+    <!-- Now the ones which depend on another branch and *don't* need to be published -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.2;TargetBranch=2094_REQ%(DependentNoPublish.Identity);DoMerge=true;DoCommit=true" />
+
+  </Target>
+</Project>
