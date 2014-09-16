@@ -861,6 +861,7 @@
 	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
       </msbuild>
+	  
       <conditional description="Copy changeset log to package folder">
 	<conditions>
 	  <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
@@ -870,7 +871,7 @@
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"
 	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED\ChangesetLog.xml"</buildArgs>
+	    <buildArgs>-c "cp $(project-folder)\ChangesetLog*.xml $(project-folder)\RELEASE-UNPROTECTED\"</buildArgs>
 	  </exec>
 	</tasks>
 	<elseTasks>
@@ -883,7 +884,7 @@
 		  executable="$(powershell)"
 		  baseDirectory="$(project-folder)"
 		  description="copy changeset log to the package folder">
-		<buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\ChangesetLog.xml"</buildArgs>
+		<buildArgs>-c "cp $(project-folder)\ChangesetLog*.xml $(project-folder)\RELEASE\"</buildArgs>
 	      </exec>
 	    </tasks>
 	  </conditional>
