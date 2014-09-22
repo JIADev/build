@@ -494,8 +494,8 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-RC2"
-      branch = '2094_RC2.1'
+      project-name="CUST2094-RC3a"
+      branch = '2094_RC3a'
       prodTag="7.6.1"
       platform="AnyCpu"
       repo-name="master"

@@ -180,7 +180,9 @@
 
     <!-- These are the branches which don't depend on anything and *don't* need to be published -->
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.1;TargetBranch=7.6.2;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.2;TargetBranch=2094_RC3a;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3a;TargetBranch=7.6.2;DoMerge=true;DoCommit=true" />
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.2;TargetBranch=2094_REQ194;DoMerge=true;DoCommit=true" />
 
