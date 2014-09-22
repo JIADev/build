@@ -61,10 +61,10 @@
     <!-- 024 ->  183 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ024;TargetBranch=2094_REQ183;DoMerge=true;DoCommit=true" />
 
-    <CallTarget Targets="Update2094RC2" />
+<!--    <CallTarget Targets="Update2094RC2" /> -->
 
-    <!-- RC2.1 -> WT2.1 -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.1;TargetBranch=2094_WT2.1;DoMerge=true;DoCommit=true" />
+    <!-- RC3a -> WT2.1 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3a;TargetBranch=2094_WT2.1;DoMerge=true;DoCommit=true" />
 
     <!-- 069 ->  067 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ069;TargetBranch=2094_REQ067;DoMerge=true;DoCommit=true" />
@@ -78,7 +78,7 @@
   </Target>
   <Target Name="Update2094RC2" DependsOnTargets="InitRepos">
     <PropertyGroup>
-      <TargetBranch>2094_RC2.1</TargetBranch>
+      <TargetBranch>2094_RC3a</TargetBranch>
     </PropertyGroup>
     <ItemGroup>
       <SourceBranches Include="143;188;179;078;086;089;054;181;176;148;050;076;083;091;095;058;022;009;103;025;040;113;024;151;076.2;023.2" />
