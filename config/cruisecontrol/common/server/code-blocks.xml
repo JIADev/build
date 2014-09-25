@@ -280,18 +280,34 @@
   </cb:define>
   
   <cb:define name="recreate-database">
-    <exec 
-	description="Drop Database" 
-	baseDirectory="$(project-folder)"
-	executable="$(sqlCmd)">
-      <buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "IF EXISTS (SELECT name FROM sys.databases WHERE name = '$(db-name)') DROP DATABASE [$(db-name)]"</buildArgs>
-    </exec>
-    <exec 
-	description="Create Database" 
-	baseDirectory="$(project-folder)"
-	executable="$(sqlCmd)">
-      <buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "CREATE DATABASE [$(db-name)]"</buildArgs>
-    </exec>
+    <cb:if expr="'$(db-user)' != ''">
+      <exec 
+	  description="Drop Database" 
+	  baseDirectory="$(project-folder)"
+	  executable="$(sqlCmd)">
+	<buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "IF EXISTS (SELECT name FROM sys.databases WHERE name = '$(db-name)') DROP DATABASE [$(db-name)]"</buildArgs>
+      </exec>
+      <exec 
+	  description="Create Database" 
+	  baseDirectory="$(project-folder)"
+	  executable="$(sqlCmd)">
+	<buildArgs>-S $(db-server) -U $(db-user) -P $(db-password) -Q "CREATE DATABASE [$(db-name)]"</buildArgs>
+      </exec>
+    </cb:if>
+    <cb:else>
+      <exec 
+	  description="Drop Database" 
+	  baseDirectory="$(project-folder)"
+	  executable="$(sqlCmd)">
+	<buildArgs>-S $(db-server) -Q "IF EXISTS (SELECT name FROM sys.databases WHERE name = '$(db-name)') DROP DATABASE [$(db-name)]"</buildArgs>
+      </exec>
+      <exec 
+	  description="Create Database" 
+	  baseDirectory="$(project-folder)"
+	  executable="$(sqlCmd)">
+	<buildArgs>-S $(db-server) -Q "CREATE DATABASE [$(db-name)]"</buildArgs>
+      </exec>
+    </cb:else>
   </cb:define>
   
   <cb:define name="f-setup">
