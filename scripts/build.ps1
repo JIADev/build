@@ -1886,3 +1886,13 @@ function j([string]$command = "build") {
 	$rest = [string]::join(" ", $args)
 	msbuild /nologo /t:$command $rest j6.proj
 }
+
+function hgpb () {
+	$branchname = hg branch
+	hg pull -b $branchname -u
+}
+
+function hgib () {
+	$branchname = hg branch
+	hg incoming -b $branchname
+}
