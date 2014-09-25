@@ -8,9 +8,9 @@
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="ccnet-$(project-name)-DEV" />
     <cb:define feature="$(commonfeature)" />
-    <cb:define db-server="$(db-server-2008)" />
-    <cb:define db-user="$(db-user-2008)" />
-    <cb:define db-password="$(db-password-2008)" />
+    <cb:define db-server="$(db-server-2012)" />
+    <cb:define db-user="$(db-user-2012)" />
+    <cb:define db-password="$(db-password-2012)" />
 
     <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
       <cb:if expr="'$(sourceCheckInterval)'!=''">
