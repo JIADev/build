@@ -503,7 +503,7 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
-      queue-priority="500"
+      queue-priority="750"
       />
 	  
 	  <cb:v76build
@@ -517,7 +517,7 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
-      queue-priority="500"
+      queue-priority="700"
       />
   
   <cb:v76build
@@ -530,7 +530,7 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
-      queue-priority="500"
+      queue-priority="1000"
       />
   
   <cb:v76build
@@ -543,7 +543,7 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
-      queue-priority="500"
+      queue-priority="1500"
       />
   
   <cb:v76build
