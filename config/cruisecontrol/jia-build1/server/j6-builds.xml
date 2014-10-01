@@ -631,18 +631,6 @@
   
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-RC1"
-      branch = '2095_RC1.3'
-      prodTag="7.6.1"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.1"
-      external-protect="true"
-      external-zip="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2095"
       project-name="CUST2095-7.6.3"
       branch = '2095_762_Merge1'
       prodTag="7.6.2"
