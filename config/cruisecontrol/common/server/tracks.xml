@@ -8,6 +8,7 @@
     <cb:reqBuild customer="2094" req-number="REQ035.1" />
     <cb:reqBuild customer="2094" req-number="REQ067" />
     <cb:reqBuild customer="2095" req-number="REQ042" />
+	<cb:reqBuild customer="2094" req-number="REQ212" />
   </cb:define>
   
   <cb:define name="queue2b">
@@ -15,6 +16,7 @@
     <cb:reqBuild customer="2094" req-number="REQ017.1" />
     <cb:reqBuild customer="2094" req-number="REQ070" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ076.2" />
+	<cb:reqBuild customer="2095" req-number="REQ039" />
   </cb:define>
   
   <cb:define name="queue3b">
@@ -22,6 +24,7 @@
     <cb:reqBuild customer="2094" req-number="REQ183" />
     <cb:reqBuild customer="2094" req-number="REQ069" queue-priority="1950" />
     <cb:reqBuild customer="2094" req-number="REQ006.2" />
+	<cb:reqBuild customer="2095" req-number="REQ020" />
   </cb:define>
   
   <cb:define name="queue1c">
@@ -29,6 +32,7 @@
     <cb:reqBuild customer="2094" req-number="REQ128" />
     <cb:reqBuild customer="2094" req-number="REQ065" queue-priority="900" />
     <cb:reqBuild customer="2094" req-number="REQ050.1" />
+	<cb:reqBuild customer="2095" req-number="REQ037a" />
   </cb:define>
   
   <cb:define name="queue2c">
@@ -36,6 +40,7 @@
     <cb:reqBuild customer="2094" req-number="REQ051.1" />
     <cb:reqBuild customer="2094" req-number="REQ305" />
     <cb:reqBuild customer="2094" req-number="REQ091" />
+	<cb:reqBuild customer="2095" req-number="REQ008" />
   </cb:define>
   
   <cb:define name="queue3c">
@@ -77,12 +82,14 @@
     <cb:define queueName="Queue2" />
     <cb:reqBuild customer="2094" req-number="REQ047" />
     <cb:reqBuild customer="2095" req-number="REQ024" />
+	<cb:reqBuild customer="2094" req-number="REQ303" />
   </cb:define>
   
   <cb:define name="queue3e">
     <cb:define queueName="Queue3" />
     <cb:reqBuild customer="2095" req-number="REQ001" />
     <cb:reqBuild customer="2094" req-number="REQ100" />
+	 <cb:reqBuild customer="2094" req-number="REQ077" />
   </cb:define>
   
   <cb:define name="build2queues">
