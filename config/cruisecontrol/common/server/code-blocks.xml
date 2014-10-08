@@ -229,7 +229,7 @@
 	     projectFile="j6.proj"
 	     targets="Configure"
 	     timeout="$(configure-db-timeout)">
-      <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark);hgBranch=$(hgBranch)</buildArgs>
+      <buildArgs>/p:DriverFeature=$(driver) /p:RepositoryBase=$(source) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Bookmark=$(bookmark);hgBranch=$(hgBranch)</buildArgs>
     </msbuild>
   </cb:define>
   
@@ -466,7 +466,7 @@
 		 projectFile="deployment.proj"
 		 targets="Configure"
 		 workingDirectory="$(project-folder)\RELEASE">
-	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)</buildArgs>
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)</buildArgs>
 	</msbuild>
 	
 	<msbuild logger="$(msBuildListenerDll)" description="Reinstalling Database"
@@ -474,7 +474,7 @@
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
 		 workingDirectory="$(project-folder)\RELEASE">
-	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:Cust=$(driver)</buildArgs>
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver)</buildArgs>
 	</msbuild>
 	
 	<msbuild logger="$(msBuildListenerDll)" description="Flushing RedisCache"
@@ -556,7 +556,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="configure">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(tag-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)" /p:Customer="$(driver)"</buildArgs> 
+      <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseInstance=$(db-instance) /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(tag-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)" /p:Customer="$(driver)"</buildArgs> 
       <targets>Configure</targets>
       <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
