@@ -166,7 +166,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <NonDependentPublish Include="024;069;065;102;197" />
+      <NonDependentPublish Include="069;065;102;197" />
       <NonDependentNoPublish Include="100;311;070;076.2;142;201;152;128;051.1;047;035.1;020.B;017.1;194;301;212;312;077;303;302;307;305;050.1;091;020" />
 <!--      <DependentPublish Include="" /> -->
       <DependentNoPublish Include="183;067;066;012;104;006.2" />
