@@ -64,7 +64,13 @@
     <!-- 037a ->  038 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ037a;TargetBranch=2095_REQ038;DoMerge=true;DoCommit=true" />
 
-    <!-- 037a ->  043 -->
+    <!-- 037a ->  023 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ037a;TargetBranch=2095_REQ023;DoMerge=true;DoCommit=true" />
+
+    <!-- 023 ->  043 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ023;TargetBranch=2095_REQ043;DoMerge=true;DoCommit=true" />
+
+    <!-- 037a ->  043 (from 037a -> 023 -> 043) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ037a;TargetBranch=2095_REQ043;DoMerge=true;DoCommit=true" />
 
   </Target>
