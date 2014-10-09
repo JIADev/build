@@ -132,7 +132,10 @@
   </Target>
   
   <Target Name="RevertAll" DependsOnTargets="BuildRevertAllExe">
-    <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
+    <PropertyGroup>
+      <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
+    </PropertyGroup>
+    <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
 
   <Target Name="BuildExtractChangesets">
@@ -323,9 +326,10 @@
     <Exec WorkingDirectory="$(MasterRepo)" Command="hg pull" />
   </Target>
   
-  <Target Name="InitRepo" Condition="!Exists('$(TargetRepo)')">
-    <MakeDir Directories="$(WorkingDirectory)" />
-    <Exec WorkingDirectory="$(WorkingDirectory)" Command = "hg init $(TargetRepo)" />
+  <Target Name="InitRepo">
+    <MakeDir Directories="$(WorkingDirectory)" Condition="!Exists('$(TargetRepo)')" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command = "hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
+    <CallTarget Targets="RevertAll" />
   </Target>
   
   <Target Name="MergeBranchesIfChanged">
