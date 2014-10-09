@@ -7,6 +7,5 @@
 
   <!-- req branches -->
   <cb:build2queues />
-  <cb:build3queues />
 
 </cb:config-template>
