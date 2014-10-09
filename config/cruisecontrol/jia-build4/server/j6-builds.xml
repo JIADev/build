@@ -21,6 +21,5 @@
       />
   <!-- req branches -->
   <cb:build4queues />
-  <cb:build5queues />
 
 </cb:config-template>
