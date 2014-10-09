@@ -5,7 +5,7 @@
   <Target Name="ForwardMerge_74" DependsOnTargets="ForwardMerge_740;ForwardMerge_741;ForwardMerge_744;ForwardMerge_745" />
   <Target Name="ForwardMerge_75" DependsOnTargets="ForwardMerge_750;ForwardMerge_752;ForwardMerge_753;ForwardMerge_754;ForwardMerge_755" />
   <Target Name="ForwardMerge_76" DependsOnTargets="ForwardMerge_760;OutwardMerge_000_760;OutwardMerge_2094_760;OutwardMerge_2095_760;ForwardMerge_761" />
-  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;ForwardMerge_2094;ForwardMerge_2095" />
+  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;ForwardMerge_2095;ForwardMerge_2094" />
 
   <Target Name="ForwardMerge_72" DependsOnTargets="InitRepos">
     <PropertyGroup>
@@ -166,10 +166,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <NonDependentPublish Include="069;065;102;197" />
-      <NonDependentNoPublish Include="100;311;070;076.2;142;201;152;128;051.1;047;035.1;020.B;017.1;194;301;212;312;077;303;302;307;305;050.1" />
+      <NonDependentPublish Include="024;069;065;102;197;303" />
+      <NonDependentNoPublish Include="100;311;070;076.2;142;201;152;128;051.1;047;035.1;020.B;017.1;194;212;312;077;302;307;305;050.1" />
 <!--      <DependentPublish Include="" /> -->
-      <DependentNoPublish Include="183;067;066;012;104;006.2" />
+      <DependentNoPublish Include="183;067;066;012;104;006.2;301" />
     </ItemGroup>
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.2;TargetBranch=7.6.2;DoMerge=true;DoCommit=true" />
