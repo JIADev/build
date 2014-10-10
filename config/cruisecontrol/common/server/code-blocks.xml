@@ -360,7 +360,7 @@
 	    baseDirectory="$(project-folder)"
 	    buildArgs = 'package Package $(driver) --verbose --sourcepath=$(tag-folder)'>
 	<environment>
-	  <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
+	  <variable name="PATH" value="$(dotNetFrameworkPath);$(PATH)" />
 	</environment>
       </exec>
     </cb:if>

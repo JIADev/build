@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <Import Project="releasecandidate.targets" Condition="Exists('releasecandidate.targets')"/>
-  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge_72;ForwardMerge_73;ForwardMerge_74;ForwardMerge_75;ForwardMerge_76;ForwardMerge_2094;ForwardMerge_2095" />
+  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge_72;ForwardMerge_73;ForwardMerge_74;ForwardMerge_75;ForwardMerge_76;ForwardMerge_Active" />
   <Target Name="ForwardMerge_74" DependsOnTargets="ForwardMerge_740;ForwardMerge_741;ForwardMerge_744;ForwardMerge_745" />
   <Target Name="ForwardMerge_75" DependsOnTargets="ForwardMerge_750;ForwardMerge_752;ForwardMerge_753;ForwardMerge_754;ForwardMerge_755" />
   <Target Name="ForwardMerge_76" DependsOnTargets="ForwardMerge_760;OutwardMerge_000_760;OutwardMerge_2094_760;OutwardMerge_2095_760;ForwardMerge_761" />
@@ -74,7 +74,6 @@
       <TargetBranch>7.5.3</TargetBranch>
     </PropertyGroup>
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.5.2;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2069_PRD;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>
   <Target Name="ForwardMerge_754" DependsOnTargets="InitRepos">
     <PropertyGroup>
