@@ -141,7 +141,7 @@
       repo-name="master"
       external-protect="true"
       external-zip="true"
-      j6Version="7.6.2"
+      j6Version="7.6.3"
       modules="AUTOSHIP"
       />
   
@@ -496,20 +496,6 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-RC3a"
-      branch = '2094_RC3a'
-      prodTag="7.6.1"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.2"
-      external-protect="true"
-      external-zip="true"
-      compileless="true"
-      queue-priority="750"
-      />
-	  
-	  <cb:v76build
-      driver="CUST2094"
       project-name="CUST2094-RC2.2"
       branch = '2094_RC2.2'
       prodTag="2094_UAT"
@@ -541,7 +527,7 @@
       branch = '2094_RC3a'
       platform="AnyCpu"
       repo-name="master"
-      j6Version="7.6.2"
+      j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
       compileless="true"
@@ -638,7 +624,7 @@
       prodTag="7.6.2"
       platform="AnyCpu"
       repo-name="master"
-      j6Version="7.6.2"
+      j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
       />
