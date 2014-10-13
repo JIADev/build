@@ -75,7 +75,7 @@
       updateSource="true"
       unit-test="true"
       web-test="false"
-      package="true"
+      package="false"
       package-privatebuild="false"
       forceclean="true"
       recreate-db="true"

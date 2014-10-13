@@ -14,6 +14,7 @@
       branch = "2090_REQ17"
       driver = "CUST2090"
       repo-name="master"
+      package="true"
       />
   
   <cb:customerbuild
@@ -21,6 +22,7 @@
       branch = "2090_REQ21"
       driver = "CUST2090"
       repo-name="master"
+      package="true"
       />
   
   <!-- CUST2092 -->
@@ -30,6 +32,7 @@
       branch = "2092_REQ12"
       driver = "CUST2092"
       repo-name="master"
+      package="true"
       />
   
   <cb:customerbuild
@@ -37,6 +40,7 @@
       branch = "2092_REQ13"
       driver = "CUST2092"
       repo-name="master"
+      package="true"
       />
   
   <cb:customerbuild
@@ -44,6 +48,7 @@
       branch = "2092_REQ17"
       driver = "CUST2092"
       repo-name="master"
+      package="true"
       />
   
   <!-- version branches -->  
@@ -55,6 +60,7 @@
       branch = "7.5.0"
       driver = "CUST000"
       repo-name="master"
+      package="true"
       />
   
   <cb:customerbuild
@@ -62,6 +68,7 @@
       branch = "7.5.2"
       driver = "CUST000"
       repo-name="master"
+      package="true"
       />
   
   <cb:customerbuild
@@ -69,6 +76,7 @@
       branch = "7.5.3"
       driver = "CUST000"
       repo-name="master"
+      package="true"
       />
   
   <cb:customerbuild
@@ -76,6 +84,7 @@
       branch = "7.5.4"
       driver = "CUST000"
       repo-name="master"
+      package="true"
       />
   
   <cb:customerbuild
@@ -83,6 +92,7 @@
       branch = "7.5.5"
       driver = "CUST000"
       repo-name="master"
+      package="true"
       />
   
   <cb:v76build
@@ -98,7 +108,9 @@
       external-zip="true"
       j6Version="7.6.0"
       modules="AUTOSHIP"
+      package="true"
       />
+
   
   <cb:v76build
       project-name="CUST000-7.6.1"
@@ -113,6 +125,7 @@
       external-zip="true"
       j6Version="7.6.1"
       modules="AUTOSHIP"
+      package="true"
       />
   
   <cb:v76build
@@ -128,6 +141,7 @@
       external-zip="true"
       j6Version="7.6.2"
       modules="AUTOSHIP"
+      package="true"
       />
   
   <cb:v76build
@@ -143,6 +157,7 @@
       external-zip="true"
       j6Version="7.6.3"
       modules="AUTOSHIP"
+      package="true"
       />
   
   <cb:v76build
@@ -156,6 +171,7 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
+      package="true"
       />
   
   <cb:v76build
@@ -169,6 +185,7 @@
       external-zip="true"
       j6Version="7.6.0"
       package-privatebuild="true"
+      package="true"
       />
   
   
@@ -193,6 +210,7 @@
       branch = "7.5.2"
       driver = "CUST001"
       repo-name="master"
+      package="true"
       />
   
   <!-- release (tagged) branches -->
@@ -208,6 +226,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST069 -->
@@ -221,6 +240,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST077 -->
@@ -231,7 +251,6 @@
       prodTag="077_PRD"
       branch="tags"
       driver = "CUST077"
-      package="true"
       unit-test="false"
       recreate-db="true"
       queueSuffix="-PRD"
@@ -239,7 +258,9 @@
       sourceCheckInterval=""
       repo-name="master"
       archive="true"
+      package="true"
       />
+
   
   <cb:legacybuild
       project-name="CUST077-7.2.11-nopatches"
@@ -247,7 +268,6 @@
       prodTag="077_PRD"
       branch="tags"
       driver = "CUST077"
-      package="true"
       unit-test="false"
       recreate-db="false"
       install-patches="false"
@@ -255,17 +275,7 @@
       sourceCheckInterval=""
       repo-name="master"
       archive="true"
-      />
-  
-  <cb:legacybuild
-      project-name="CUST077-RM48252"
-      branch="077_RM48252"
-      driver = "CUST077"
       package="true"
-      unit-test="false"
-      recreate-db="true"
-      install-patches="true"
-      repo-name="master"
       />
   
   <!-- CUST2069 -->
@@ -279,6 +289,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2082 -->
@@ -292,6 +303,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2083 -->
@@ -306,6 +318,7 @@
       exclude-files="false"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2085 -->
@@ -319,6 +332,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2086 -->
@@ -332,6 +346,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2087 -->
@@ -345,6 +360,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2088 -->
@@ -358,6 +374,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2089 -->
@@ -371,6 +388,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2090 -->
@@ -384,6 +402,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2092 -->
@@ -397,6 +416,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   
@@ -411,6 +431,7 @@
       repo-name="master"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <!-- CUST2094 -->
@@ -428,6 +449,7 @@
       platform="AnyCpu"
       repo-name="master"
       generate-reports="false"
+      package="true"
       />
   -->
   <cb:v76build
@@ -436,11 +458,11 @@
       driver = 'CUST2094'
       platform="AnyCpu"
       repo-name="master"
-      package="true"
       prodTag="7.6.0"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
+      package="true"
       />
   
   <cb:v76deployment
@@ -455,6 +477,7 @@
       redis-server="qas-redis1"
       redis-db="9"
       queueSuffix="-WebTests"
+      package="true"
       />
   
   <!-- 
@@ -467,6 +490,7 @@
        external-protect="true"
        external-zip="true"
        j6Version="7.6.0"
+       package="true"
        />
   -->
   
@@ -481,6 +505,7 @@
       j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
+      package="true"
       />
   
   <cb:v76build
@@ -492,6 +517,7 @@
       j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
+      package="true"
       />
   
   <cb:v76build
@@ -506,6 +532,7 @@
       external-zip="true"
       compileless="true"
       queue-priority="700"
+      package="true"
       />
   
   <cb:v76build
@@ -519,6 +546,7 @@
       external-zip="true"
       compileless="true"
       queue-priority="1000"
+      package="true"
       />
   
   <cb:v76build
@@ -532,6 +560,7 @@
       external-zip="true"
       compileless="true"
       queue-priority="1500"
+      package="true"
       />
   
   <cb:v76build
@@ -549,6 +578,7 @@
       queue-priority="500"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <cb:v76build
@@ -562,6 +592,7 @@
       external-protect="true"
       external-zip="true"
       package-privatebuild="true"
+      package="true"
       />
   
   <cb:v76build
@@ -575,6 +606,7 @@
       external-protect="true"
       external-zip="true"
       package-privatebuild="true"
+      package="true"
       />
   
   <!-- CUST2095 -->
@@ -588,6 +620,7 @@
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
+      package="true"
       />
   
   <cb:v76build
@@ -603,6 +636,7 @@
       external-zip="true"
       sourceCheckInterval=""
       archive="true"
+      package="true"
       />
   
   <cb:v76build
@@ -615,6 +649,7 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
+      package="true"
       />
   
   <cb:v76build
@@ -627,6 +662,7 @@
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
+      package="true"
       />
   
   <!--
@@ -640,22 +676,8 @@
       j6Version="7.6.0"
       external-protect="true"
       external-zip="true"
+      package="true"
       />
   -->
-  
-  <cb:v76build
-      project-name="CUST2095-CVS"
-      branch = "tags"
-      tag = "2095_CVS"
-      prodTag="2094_RC1.1"
-      driver = "CUST2095"
-      platform="AnyCpu"
-      repo-name="master"
-      sourceCheckInterval=""
-      archive="true"
-      j6Version="7.6.0"
-      external-protect="true"
-      external-zip="true"
-      />
   
 </cb:config-template>
