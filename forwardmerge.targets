@@ -149,7 +149,7 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC1.3;TargetBranch=2095_762_Merge1;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_762_Merge1;TargetBranch=2094_RC3a;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_762_Merge1;TargetBranch=7.6.3;DoMerge=true;DoCommit=true" />
 
     <!-- These are the branches which don't depend on anything but need to be published -->
 
@@ -161,7 +161,7 @@
   <Target Name="ForwardMerge_2094" DependsOnTargets="ForwardMerge_76;OutwardMerge_2094_RC1;InitRepos">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
-      <DependencySourceBranch>2094_RC3a</DependencySourceBranch>
+      <DependencySourceBranch>7.6.3</DependencySourceBranch>
     </PropertyGroup>
 
     <ItemGroup>
@@ -175,7 +175,7 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.2;TargetBranch=2095_762_Merge1;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_762_Merge1;TargetBranch=2094_RC3a;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_762_Merge1;TargetBranch=7.6.3;DoMerge=true;DoCommit=true" />
 
     <!-- These are the branches which don't depend on anything but need to be published -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=$(DependencySourceBranch);TargetBranch=2094_REQ%(NonDependentPublish.Identity);DoMerge=true;DoCommit=true" /> 
