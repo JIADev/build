@@ -178,7 +178,7 @@
 	platform="AnyCpu"
 	repo-name="master"
 	package="false"
-	j6Version="7.6.1"
+	j6Version="7.6.3"
 	queueSuffix="$(queueName)"
 	unit-test="true"
 	/>
