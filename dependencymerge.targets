@@ -15,8 +15,8 @@
 
 <!--    <CallTarget Targets="Update2094RC2" /> -->
 
-    <!-- RC3a -> WT2.1 -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3a;TargetBranch=2094_WT2.1;DoMerge=true;DoCommit=true" />
+    <!-- 7.6.3 -> WT2.1 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.3;TargetBranch=2094_WT2.1;DoMerge=true;DoCommit=true" />
 
     <!-- 069 ->  067 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ069;TargetBranch=2094_REQ067;DoMerge=true;DoCommit=true" />
@@ -39,7 +39,7 @@
   </Target>
   <Target Name="Update2094RC2" DependsOnTargets="InitRepos">
     <PropertyGroup>
-      <TargetBranch>2094_RC3a</TargetBranch>
+      <TargetBranch>7.6.3</TargetBranch>
     </PropertyGroup>
     <ItemGroup>
       <SourceBranches Include="7.6.2" />
