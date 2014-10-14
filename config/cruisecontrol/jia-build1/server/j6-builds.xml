@@ -626,9 +626,9 @@
 
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-QA"
+      project-name="CUST2095-RC2"
       branch = 'tags'
-      tag='2095_QA'
+      tag='2095_RC2'
       prodTag="7.6.1"
       platform="AnyCpu"
       repo-name="master"
