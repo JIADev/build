@@ -201,6 +201,7 @@
       redis-server="qas-redis1"
       redis-db="12"
       queueSuffix="-WebTests"
+      triggerTime="02:00"
       />
   
   <!-- CUST001 -->
