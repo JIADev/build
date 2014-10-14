@@ -115,7 +115,7 @@
 	  msbuild-md5-timeout="600"
 	  msbuild-setCorFlags-timeout="600"
       ncover-timeout="900"
-      webtest-timeout="21600"
+      webtest-timeout="18000"
       get-reports-timeout="600"
       sourcecontrol-timeout="3600"
       triggerTime="20:00"
