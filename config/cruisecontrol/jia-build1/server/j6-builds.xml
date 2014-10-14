@@ -623,7 +623,7 @@
       j6Version="7.6.0"
       package="true"
       />
-  
+
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-QA"
@@ -639,7 +639,7 @@
       archive="true"
       package="true"
       />
-  
+  <!-- 
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-RC1.2"
@@ -652,7 +652,7 @@
       external-zip="true"
       package="true"
       />
-  
+  -->
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-7.6.3"
