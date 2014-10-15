@@ -44,7 +44,7 @@
     <PropertyGroup>
       <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
     </PropertyGroup>
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors($(NewChangeset)) and not keyword('@build')&quot; --verbose --prune $(OriginalChangeset) --no-merges --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and not keyword('@build')&quot; --verbose --prune $(OriginalChangeset) --no-merges --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
   </Target>
   
   <Target Name="MergeChangesetLog" DependsOnTargets="BuildMergeLog">
