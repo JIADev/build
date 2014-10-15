@@ -639,6 +639,21 @@
       archive="true"
       package="true"
       />
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-RC2-demo"
+      branch = 'tags'
+      tag='2095_RC2-demo'
+      prodTag="7.6.1"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.1"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      />
   <!-- 
   <cb:v76build
       driver="CUST2095"
