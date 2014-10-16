@@ -678,6 +678,7 @@
       external-zip="true"
       j6Version="7.6.0"
       package="false"
+      queueName="Production"
       />
 
   <cb:v76build
@@ -694,6 +695,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   <cb:v76build
       driver="CUST2095"
