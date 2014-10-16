@@ -15,7 +15,6 @@
       driver = "CUST2090"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:customerbuild
@@ -24,7 +23,6 @@
       driver = "CUST2090"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2092 -->
@@ -35,7 +33,6 @@
       driver = "CUST2092"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:customerbuild
@@ -44,7 +41,6 @@
       driver = "CUST2092"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:customerbuild
@@ -53,7 +49,6 @@
       driver = "CUST2092"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <!-- version branches -->  
@@ -66,7 +61,6 @@
       driver = "CUST000"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:customerbuild
@@ -75,7 +69,6 @@
       driver = "CUST000"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:customerbuild
@@ -84,7 +77,6 @@
       driver = "CUST000"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:customerbuild
@@ -93,7 +85,6 @@
       driver = "CUST000"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:customerbuild
@@ -102,7 +93,6 @@
       driver = "CUST000"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -119,7 +109,6 @@
       j6Version="7.6.0"
       modules="AUTOSHIP"
       package="true"
-      queueName="Production"
       />
 
   
@@ -137,7 +126,6 @@
       j6Version="7.6.1"
       modules="AUTOSHIP"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -154,7 +142,6 @@
       j6Version="7.6.2"
       modules="AUTOSHIP"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -171,7 +158,6 @@
       j6Version="7.6.3"
       modules="AUTOSHIP"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -186,7 +172,6 @@
       external-zip="true"
       compileless="true"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -201,7 +186,6 @@
       j6Version="7.6.0"
       package-privatebuild="true"
       package="true"
-      queueName="Production"
       />
   
   
@@ -228,7 +212,6 @@
       driver = "CUST001"
       repo-name="master"
       package="true"
-      queueName="Production"
       />
   
   <!-- release (tagged) branches -->
@@ -245,7 +228,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST069 -->
@@ -260,7 +242,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST077 -->
@@ -279,7 +260,6 @@
       repo-name="master"
       archive="true"
       package="true"
-      queueName="Production"
       />
 
   
@@ -297,7 +277,6 @@
       repo-name="master"
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2069 -->
@@ -312,7 +291,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2082 -->
@@ -327,7 +305,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2083 -->
@@ -343,7 +320,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2085 -->
@@ -358,7 +334,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2086 -->
@@ -373,7 +348,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2087 -->
@@ -388,7 +362,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2088 -->
@@ -403,7 +376,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2089 -->
@@ -418,7 +390,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2090 -->
@@ -433,7 +404,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2092 -->
@@ -448,7 +418,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   
@@ -464,7 +433,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2094 -->
@@ -483,7 +451,6 @@
       repo-name="master"
       generate-reports="false"
       package="true"
-      queueName="Production"
       />
   -->
   <cb:v76build
@@ -497,7 +464,6 @@
       external-zip="true"
       j6Version="7.6.0"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76deployment
@@ -526,7 +492,6 @@
        external-zip="true"
        j6Version="7.6.0"
        package="true"
-      queueName="Production"
        />
   -->
   
@@ -542,7 +507,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -555,7 +519,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -571,7 +534,6 @@
       compileless="true"
       queue-priority="700"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -586,7 +548,6 @@
       compileless="true"
       queue-priority="1000"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -601,7 +562,6 @@
       compileless="true"
       queue-priority="1500"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -620,7 +580,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -635,7 +594,6 @@
       external-zip="true"
       package-privatebuild="true"
       package="true"
-      queueName="Production"
       />
   
   <cb:v76build
@@ -650,7 +608,6 @@
       external-zip="true"
       package-privatebuild="true"
       package="true"
-      queueName="Production"
       />
   
   <!-- CUST2095 -->
@@ -665,7 +622,6 @@
       external-zip="true"
       j6Version="7.6.0"
       package="true"
-      queueName="Production"
       />
 
   <cb:v76build
@@ -695,7 +651,6 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="Production"
       />
   <cb:v76build
       driver="CUST2095"
@@ -725,7 +680,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queueName="Production"
       />
   -->
   <cb:v76build
@@ -739,7 +693,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queueName="Production"
       />
   
   <!--
@@ -754,7 +707,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queueName="Production"
       />
   -->
   
