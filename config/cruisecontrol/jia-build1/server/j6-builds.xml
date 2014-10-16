@@ -625,6 +625,18 @@
       />
 
   <cb:v76build
+      project-name="CUST2095-RC1.2"
+      branch = '2095_RC1.2'
+      driver = 'CUST2095'
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.0"
+      package="true"
+      />
+
+  <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-RC2"
       branch = 'tags'
