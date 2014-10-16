@@ -13,7 +13,7 @@
     <cb:define db-password="$(db-password-2008)" />
     <cb:define db-instance="$(db-server-2008-instance)" />
 
-    <project name="$(project-name)" category="$(driver)" queue="$(driver)$(queueSuffix)" queuePriority="$(queue-priority)">
+    <project name="$(project-name)" category="$(driver)" queue="$(queueName)" queuePriority="$(queue-priority)">
       <cb:if expr="'$(sourceCheckInterval)'!=''">
 	<triggers>
 	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
