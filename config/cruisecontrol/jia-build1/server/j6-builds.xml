@@ -634,7 +634,6 @@
       external-zip="true"
       j6Version="7.6.0"
       package="false"
-      queueName="Production"
       />
 
   <cb:v76build
