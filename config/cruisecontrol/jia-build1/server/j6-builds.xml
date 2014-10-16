@@ -633,7 +633,7 @@
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
-      package="true"
+      package="false"
       />
 
   <cb:v76build
