@@ -175,6 +175,19 @@
       />
   
   <cb:v76build
+      project-name="CUST000-7.6.0-RM48798"
+      branch = '000_RM48798'
+      driver = 'CUST000'
+      platform="AnyCpu"
+      repo-name="master"
+      modules="AUTOSHIP"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.0"
+      package="true"
+      />
+  
+  <cb:v76build
       project-name="CUST000-7.6.0-DEV"
       branch = '000_7.6.0'
       driver = 'CUST000'
