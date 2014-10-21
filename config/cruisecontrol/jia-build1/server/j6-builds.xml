@@ -628,6 +628,22 @@
       package="true"
       />
   
+  <cb:v76fastupdate
+      driver="CUST2094"
+      project-name="CUST2094-RC3.1.1-fast"
+      branch = '2094_RC3.1.1'
+      prodTag="7.6.3"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.3"
+      external-protect="true"
+      external-zip="true"
+      compileless="true"
+      queue-priority="500"
+      archive="true"
+      package="true"
+      />
+  
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-RC3.1-demo"
