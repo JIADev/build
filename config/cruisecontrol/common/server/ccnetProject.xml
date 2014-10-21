@@ -90,13 +90,15 @@
 	  <exec executable="$(powershell)" 
 		description = "hg create master repo"
 		buildArgs = '-c "hg init $(srcroot)/master"' 
-		baseDirectory="$(project-folder)" />
+		baseDirectory="$(project-folder)"
+		timeout="1200000" />
 	</elseTasks>
       </conditional>
       <exec executable="$(powershell)" 
 	    description = "hg pull all changesets"
 	    buildArgs = '-c "hg pull $(server-repo-source-root)/master"' 
-	    baseDirectory="$(srcroot)/master" />
+	    baseDirectory="$(srcroot)/master"
+	    timeout="12000000" />
     </tasks>
   </project>  
 </cb:config-template>
