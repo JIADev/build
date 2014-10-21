@@ -95,7 +95,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST000-7.6.0"
       branch = '7.6.0'
       driver = 'CUST000'
@@ -112,7 +112,7 @@
       />
 
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST000-7.6.1"
       branch = '7.6.1'
       driver = 'CUST000'
@@ -128,7 +128,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST000-7.6.2"
       branch = '7.6.2'
       driver = 'CUST000'
@@ -144,7 +144,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST000-7.6.3"
       branch = '7.6.3'
       driver = 'CUST000'
@@ -160,7 +160,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST000-RC3.1.1"
       branch = '2094_RC3.1.1'
       driver = 'CUST000'
@@ -177,7 +177,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST000"
       project-name="CUST000-RC2"
       branch = '2094_RC2.1'
@@ -191,7 +191,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST000-7.6.0-RM48798"
       branch = '000_RM48798'
       driver = 'CUST000'
@@ -204,7 +204,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST000-7.6.0-DEV"
       branch = '000_7.6.0'
       driver = 'CUST000'
@@ -467,7 +467,7 @@
   
   <!-- CUST2094 -->
   <!--
-      <cb:v76build
+      <cb:v76fastupdate
       project-name="CUST2094-7.6.0"
       branch = '2094_7.6.0'
       driver = 'CUST2094'
@@ -483,7 +483,7 @@
       package="true"
       />
   -->
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST2094-7.6.0"
       branch = '2094_7.6.0'
       driver = 'CUST2094'
@@ -512,7 +512,7 @@
       />
   
   <!-- 
-       <cb:v76build
+       <cb:v76fastupdate
        project-name="CUST2094-RM48051"
        branch = '2094_RM48051'
        driver = 'CUST2094'
@@ -526,7 +526,7 @@
   -->
   
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-RC1"
       branch = '2094_RC1.1'
@@ -539,7 +539,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-7.6.1"
       branch = '7.6.1'
@@ -551,7 +551,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-RC2.2"
       branch = '2094_RC2.2'
@@ -566,7 +566,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-7.6.2"
       branch = '7.6.2'
@@ -580,7 +580,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-7.6.3"
       branch = '7.6.3'
@@ -594,7 +594,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-RC3"
       branch = 'tags'
@@ -612,7 +612,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-RC3.1.1"
       branch = '2094_RC3.1.1'
@@ -628,7 +628,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-RC3.1-demo"
       branch = '2094_RC3.1_demo'
@@ -644,7 +644,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-WebTest_RC1.1"
       branch = '2094_WebTest_RC1.1'
@@ -658,7 +658,7 @@
       package="true"
       />
   
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2094"
       project-name="CUST2094-WT2.1"
       branch = '2094_WT2.1'
@@ -674,7 +674,7 @@
   
   <!-- CUST2095 -->
   
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST2095-7.6.0"
       branch = '2095_7.6.0'
       driver = 'CUST2095'
@@ -686,7 +686,7 @@
       package="true"
       />
 
-  <cb:v76build
+  <cb:v76fastupdate
       project-name="CUST2095-RC1.2"
       branch = '2095_RC1.2'
       driver = 'CUST2095'
@@ -698,7 +698,7 @@
       package="false"
       />
 
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2095"
       project-name="CUST2095-RC2"
       branch = 'tags'
@@ -713,7 +713,7 @@
       archive="true"
       package="true"
       />
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2095"
       project-name="CUST2095-RC2-demo"
       branch = 'tags'
@@ -729,7 +729,7 @@
       package="true"
       />
   <!-- 
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2095"
       project-name="CUST2095-RC1.2"
       branch = '2095_RC1.2'
@@ -742,7 +742,7 @@
       package="true"
       />
   -->
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2095"
       project-name="CUST2095-7.6.3"
       branch = '7.6.3'
@@ -755,7 +755,7 @@
       package="true"
       />
 
-  <cb:v76build
+  <cb:v76fastupdate
       driver="CUST2095"
       project-name="CUST2095-YAN-RC3.1.1"
       branch = '2094_RC3.1.1'
@@ -769,7 +769,7 @@
       />
   
   <!--
-      <cb:v76build
+      <cb:v76fastupdate
       driver="CUST2095"
       project-name="CUST2095-Config"
       branch = '2095_Config'
