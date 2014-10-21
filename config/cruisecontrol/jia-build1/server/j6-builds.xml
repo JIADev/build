@@ -614,7 +614,7 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-RC3.1"
+      project-name="CUST2094-RC3.1.1"
       branch = '2094_RC3.1.1'
       prodTag="7.6.3"
       platform="AnyCpu"
