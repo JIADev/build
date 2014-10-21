@@ -23,7 +23,7 @@
       <cb:sourcecontrol />
       <prebuild>
 	<cb:update-source />
-	<cb:revertall />
+	<cb:force-clean />
       </prebuild>
       <tasks>
 	<cb:set-customer />
@@ -135,7 +135,7 @@
       <cb:sourcecontrol />
       <prebuild>
 	<cb:update-source />
-	<cb:revertall />
+	<cb:force-clean />
       </prebuild>
       <tasks>
 	<cb:set-customer />
