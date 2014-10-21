@@ -19,81 +19,53 @@
     </sourcecontrol>
   </cb:define>
   
+  <cb:define name="project-sourcecontrol">
+    <sourcecontrol type="hg">
+      <autoGetSource>false</autoGetSource>
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
+      <repo>$(source)</repo>
+      <multipleHeadsFail>false</multipleHeadsFail>
+      <tagOnSuccess>false</tagOnSuccess>
+      <commitModifications>false</commitModifications>
+      <commitUntracked>false</commitUntracked>
+      <purgeModifications>true</purgeModifications>
+      <revertModifications>true</revertModifications>
+      <tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+      <modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+      <tagNameFormat>ccnet_build_{0}</tagNameFormat>
+      <committerName>CruiseControl.NET</committerName>
+      <branch>$(branch)</branch>
+    </sourcecontrol>
+  </cb:define>
+  
   <cb:define name="createbuild">
     <msbuild logger="$(msBuildListenerDll)" description="Creating build" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
       <buildArgs>/p:CustomerNumber="$(driver)" /p:Branches="$(branches)" /p:WorkingDirectory="$(project-folder)" /p:Interactive="false" /p:BuildTag="$(buildTag)" /p:BaseTag="$(baseTag)" /p:TagsBranch="$(tagsBranch)"</buildArgs>
     </msbuild>
   </cb:define>
   
-  <cb:define name="update-source">
+  <cb:define name="update-source-fast">
     <cb:if expr="'$(updateSource)' != 'false'">
-      <exec executable="$(cmdExe)" 
-	    description="Copy default.hgrc file to .hg\hgrc"
-	    buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
-      
-      <exec executable="$(cmdExe)" 
-	    description="Configure hgrc"
-	    buildArgs='/c echo $(repo-name)/ >> $(source-folder)\.hg\hgrc' />
-      
-      <exec executable="$(cmdExe)" 
-	    description="Copy exclude file to source folder"
-	    buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
-      
+  
       <exec executable="$(powershell)" 
 	    description = "hg update to branch"
 	    buildArgs = '-c "hg update $(branch)"' 
-	    baseDirectory="$(source-folder)" />
-      
-      <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
-	<conditional description="Update tag folder">
-	  <conditions>
-	    <folderExistsCondition folder="$(tag-folder)" />>
-	  </conditions>
-	  <tasks />
-	  <elseTasks>
-	    <exec executable="$(cmdExe)" 
-		  baseDirectory="$(ccroot)"
-		  description="Copy source"
-		  buildTimeoutSeconds="$(copy-source-timeout)"
-		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
-	  </elseTasks>
-	</conditional>
-      </cb:if>
+	    baseDirectory="$(project-folder)" />
       
       <cb:if expr="'$(prodTag)' != ''">
 	<exec executable="$(powershell)" 
 	      description = "hg pull tags branch"
 	      buildArgs = '-c "hg pull -b tags"' 
-	      baseDirectory="$(source-folder)" />
-	
-	<exec executable="$(powershell)" 
-	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags"' 
-	      baseDirectory="$(tag-folder)" />
+	      baseDirectory="$(project-folder)" />
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull prod tag changes"
 	      buildArgs = '-c "hg pull -r $(prodTag)"' 
-	      baseDirectory="$(tag-folder)" />
+	      baseDirectory="$(project-folder)" />
       </cb:if>
       
       <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
-	<exec executable="$(powershell)" 
-	      description = "hg pull updates from source-folder"
-	      buildArgs = '-c "hg pull $(source-folder)"' 
-	      baseDirectory="$(tag-folder)" />
-	
-	<cb:if expr="'$(prodTag)' != ''">
-	  <exec executable="$(powershell)" 
-		description = "hg pull prod tag changes"
-		buildArgs = '-c "hg pull -r $(prodTag)"' 
-		baseDirectory="$(tag-folder)" />
-	</cb:if>
-	
-	<exec executable="$(powershell)" 
-	      description = "hg pull tag changes"
-	      buildArgs = '-c "hg pull -r $(tag)"' 
-	      baseDirectory="$(tag-folder)" />
 	<cb:define newChangeset="$(tag)" />
       </cb:if>
       <cb:else>
@@ -101,15 +73,15 @@
       </cb:else>
       
       <cb:if expr="'$(prodTag)' != ''">
-	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
+	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-updatechangelog-timeout)">
-	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(tag-folder)</buildArgs>
+	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
 	</msbuild>
 	
 	<exec executable="$(powershell)" 
 	      description = "hg update to tag or branch"
 	      buildArgs = '-c "hg update $(newChangeset)"' 
-	      baseDirectory="$(tag-folder)" />
+	      baseDirectory="$(project-folder)" />
       </cb:if>
     </cb:if>    
   </cb:define>
@@ -139,6 +111,17 @@
     </conditional>
   </cb:define>
   
+  <cb:define name="revertall">
+    <cb:if expr="'$(updateSource)' != 'false'">
+    <exec 
+	executable="$(powershell)" 
+	baseDirectory="$(project-folder)"
+	description="Revert all changes in project dir">
+      <buildArgs>/c "$(global-feature-dir)/revertall.ps1"</buildArgs>
+    </exec>
+    </cb:if>    
+  </cb:define>
+
   <cb:define name="force-clean">
     <cb:if expr="'$(updateSource)' != 'false'">
       <conditional description="If project folder exists">
