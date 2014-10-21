@@ -98,8 +98,5 @@
 	    buildArgs = '-c "hg pull $(server-repo-source-root)/master"' 
 	    baseDirectory="$(srcroot)/master" />
     </tasks>
-    <publishers>
-      <xmllogger logDir="$(ccnetLogDir)" />
-    </publishers>
   </project>  
 </cb:config-template>
