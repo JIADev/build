@@ -18,6 +18,7 @@
     <cb:reqBuild customer="2094" req-number="REQ035.1" />
     <cb:reqBuild customer="2094" req-number="REQ076.2" />
     <cb:reqBuild customer="2095" req-number="REQ039" queue-priority="1000" />
+    <cb:reqBuild customer="2094" req-number="REQ067.2" />
   </cb:define>
   
   <cb:define name="queue3b">
