@@ -45,98 +45,9 @@
     </msbuild>
   </cb:define>
   
-  <cb:define name="update-source">
-    <cb:if expr="'$(updateSource)' != 'false'">
-      <exec executable="$(cmdExe)" 
-	    description="Copy default.hgrc file to .hg\hgrc"
-	    buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
-      
-      <exec executable="$(cmdExe)" 
-	    description="Configure hgrc"
-	    buildArgs='/c echo $(repo-name)/ >> $(source-folder)\.hg\hgrc' />
-      
-      <exec executable="$(cmdExe)" 
-	    description="Copy exclude file to source folder"
-	    buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
-      
-      <exec executable="$(powershell)" 
-	    description = "hg update to branch"
-	    buildArgs = '-c "hg update $(branch)"' 
-	    baseDirectory="$(source-folder)" />
-      
-      <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
-	<conditional description="Update tag folder">
-	  <conditions>
-	    <folderExistsCondition folder="$(tag-folder)" />>
-	  </conditions>
-	  <tasks />
-	  <elseTasks>
-	    <exec executable="$(cmdExe)" 
-		  baseDirectory="$(ccroot)"
-		  description="Copy source"
-		  buildTimeoutSeconds="$(copy-source-timeout)"
-		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
-	  </elseTasks>
-	</conditional>
-      </cb:if>
-      
-      <cb:if expr="'$(prodTag)' != ''">
-	<exec executable="$(powershell)" 
-	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags"' 
-	      baseDirectory="$(source-folder)" />
-	
-	<exec executable="$(powershell)" 
-	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags"' 
-	      baseDirectory="$(tag-folder)" />
-	
-	<exec executable="$(powershell)" 
-	      description = "hg pull prod tag changes"
-	      buildArgs = '-c "hg pull -r $(prodTag)"' 
-	      baseDirectory="$(tag-folder)" />
-      </cb:if>
-      
-      <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
-	<exec executable="$(powershell)" 
-	      description = "hg pull updates from source-folder"
-	      buildArgs = '-c "hg pull $(source-folder)"' 
-	      baseDirectory="$(tag-folder)" />
-	
-	<cb:if expr="'$(prodTag)' != ''">
-	  <exec executable="$(powershell)" 
-		description = "hg pull prod tag changes"
-		buildArgs = '-c "hg pull -r $(prodTag)"' 
-		baseDirectory="$(tag-folder)" />
-	</cb:if>
-	
-	<exec executable="$(powershell)" 
-	      description = "hg pull tag changes"
-	      buildArgs = '-c "hg pull -r $(tag)"' 
-	      baseDirectory="$(tag-folder)" />
-	<cb:define newChangeset="$(tag)" />
-      </cb:if>
-      <cb:else>
-	<cb:define newChangeset="$(branch)" />
-      </cb:else>
-      
-      <cb:if expr="'$(prodTag)' != ''">
-	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
-		 timeout="$(msbuild-updatechangelog-timeout)">
-	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(tag-folder)</buildArgs>
-	</msbuild>
-	
-	<exec executable="$(powershell)" 
-	      description = "hg update to tag or branch"
-	      buildArgs = '-c "hg update $(newChangeset)"' 
-	      baseDirectory="$(tag-folder)" />
-      </cb:if>
-    </cb:if>    
-  </cb:define>
-  
   <cb:define name="update-source-fast">
     <cb:if expr="'$(updateSource)' != 'false'">
-      
+  
       <exec executable="$(powershell)" 
 	    description = "hg update to branch"
 	    buildArgs = '-c "hg update $(branch)"' 
@@ -202,15 +113,15 @@
   
   <cb:define name="revertall">
     <cb:if expr="'$(updateSource)' != 'false'">
-      <exec 
-	  executable="$(powershell)" 
-	  baseDirectory="$(project-folder)"
-	  description="Revert all changes in project dir">
-	<buildArgs>/c "$(global_feature_dir)/revertall.ps1"</buildArgs>
-      </exec>
+    <exec 
+	executable="$(powershell)" 
+	baseDirectory="$(project-folder)"
+	description="Revert all changes in project dir">
+      <buildArgs>/c "$(global-feature-dir)/revertall.ps1"</buildArgs>
+    </exec>
     </cb:if>    
   </cb:define>
-  
+
   <cb:define name="force-clean">
     <cb:if expr="'$(updateSource)' != 'false'">
       <conditional description="If project folder exists">
@@ -949,7 +860,7 @@
 	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
       </msbuild>
-      
+	  
       <conditional description="Copy changeset log to package folder">
 	<conditions>
 	  <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
