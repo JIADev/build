@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
-<cb:define
-    project-root="ccnet-$(ccBuildServer)"
-    />
+  <cb:define
+      project-root="ccnet-$(ccBuildServer)"
+      />
   <project name="$(project-root)" category="ccnet" queue="ccnet">
     <cb:define db-server="" />
     <cb:define db-user="" />
     <cb:define db-password="" />
-
+    
     <triggers>
       <intervalTrigger seconds="60" />
     </triggers>
@@ -27,30 +27,30 @@
 	>
     </sourcecontrol>
     <tasks>
-    <conditional description="Delete working folder">
-      <conditions>
-	<folderExistsCondition folder="$(project-folder)" />>
-      </conditions>
-      <tasks>
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)" 
-	      description="Delete working folder" 
-	      successExitCodes="0"> 
-	  <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
-	</exec>
-      </tasks>
-    </conditional>
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)" 
-	      description="recreate working folder" 
-	      successExitCodes="0"> 
-	  <buildArgs>/c "mkdir $(project-folder)"</buildArgs>
-	</exec>
+      <conditional description="Delete working folder">
+	<conditions>
+	  <folderExistsCondition folder="$(project-folder)" />>
+	</conditions>
+	<tasks>
+	  <exec executable="$(cmdExe)" 
+		baseDirectory="$(ccroot)" 
+		description="Delete working folder" 
+		successExitCodes="0"> 
+	    <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
+	  </exec>
+	</tasks>
+      </conditional>
+      <exec executable="$(cmdExe)" 
+	    baseDirectory="$(ccroot)" 
+	    description="recreate working folder" 
+	    successExitCodes="0"> 
+	<buildArgs>/c "mkdir $(project-folder)"</buildArgs>
+      </exec>
       <exec executable="$(cmdExe)"
 	    description="Update $(global_feature_dir)"
 	    buildArgs="/c  hg pull -u"
 	    baseDirectory="$(global_feature_dir)" />
-
+      
       <exec executable="$(cmdExe)"
 	    description="Copy common config files to working folder"
 	    buildArgs='/c copy "$(ccnetConfigSource)\common\server\*" "$(project-folder)"' />
@@ -65,15 +65,41 @@
       <msbuild logger="$(msBuildListenerDll)" description="Copy dashboard config to server webdashboard if different" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CopyFilesIfDifferent" workingDirectory="$(project-folder)">
 	<buildArgs>/p:SourceDir="$(ccnetConfigSource)\$(ccBuildServer)\webdashboard" /p:TargetDir="$(ccNetWebDashboard)"</buildArgs>
       </msbuild>
-
+      
       <msbuild logger="$(msBuildListenerDll)" description="Copy working folder files to server config folder if different" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CopyFilesIfDifferent" workingDirectory="$(project-folder)">
 	<buildArgs>/p:SourceDir="$(project-folder)" /p:TargetDir="$(ccNetServer)"</buildArgs>
       </msbuild>
+      
+    </tasks>
+    <publishers>
+      <xmllogger logDir="$(ccnetLogDir)" />
+    </publishers>
+  </project>  
 
+  <project name="mercurial" category="ccnet" queue="ccnet">
+    
+    <triggers>
+      <intervalTrigger seconds="60" />
+    </triggers>
+    <tasks>
+      <conditional description="Ensure directory exists">
+	<conditions>
+	  <folderExistsCondition folder="$(srcroot)/master" />>
+	</conditions>
+	<elseTasks>
+	  <exec executable="$(powershell)" 
+		description = "hg create master repo"
+		buildArgs = '-c "hg init $(srcroot)/master"' 
+		baseDirectory="$(project-folder)" />
+	</elseTasks>
+      </conditional>
+      <exec executable="$(powershell)" 
+	    description = "hg pull all changesets"
+	    buildArgs = '-c "hg pull $(server-repo-source-root)/master"' 
+	    baseDirectory="$(srcroot)/master" />
     </tasks>
     <publishers>
       <xmllogger logDir="$(ccnetLogDir)" />
     </publishers>
   </project>  
 </cb:config-template>
-  

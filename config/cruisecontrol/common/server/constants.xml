@@ -37,8 +37,9 @@
 
   <!-- Network Urls and Servers -->
   <cb:define
-      repo-source-root="http://source.jenkon.com/hg/hgwebdir.cgi/feature"
-      source="$(repo-source-root)/customers/$(repo-name)"
+      server-repo-source-root="http://source.jenkon.com/hg/hgwebdir.cgi/feature/customers"
+      repo-source-root="$(srcroot)"
+      source="$(repo-source-root)/$(repo-name)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://jia-build1/ccnet/"
       deployment-webserver=""
