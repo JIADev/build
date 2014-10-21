@@ -102,24 +102,6 @@
     </cb:if>    
   </cb:define>
   
-  <cb:define name="force-clean">
-    <cb:if expr="'$(updateSource)' != 'false'">
-      <conditional description="If project folder exists">
-	<conditions>
-	  <folderExistsCondition folder="$(project-folder)" />>
-	</conditions>
-	<tasks>
-	  <exec executable="$(cmdExe)" 
-		baseDirectory="$(ccroot)" 
-		description="Delete entire project folder" 
-		successExitCodes="0"> 
-	    <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
-	  </exec>
-	</tasks>
-      </conditional>
-    </cb:if>
-  </cb:define>
-  
   <cb:define name="force-clean-deployment-project">
     <conditional description="Delete entire project folder">
       <conditions>
