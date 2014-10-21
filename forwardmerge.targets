@@ -195,7 +195,7 @@
     <!-- Now the ones which depend on another branch and *don't* need to be published -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=$(DependencySourceBranch);TargetBranch=2094_REQ%(DependentNoPublish.Identity);DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ%(ReleaseCandidate311Reqs);TargetBranch=2094_RC3.1.1;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ%(ReleaseCandidate311Reqs.Identity);TargetBranch=2094_RC3.1.1;DoMerge=true;DoCommit=true" />
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.3;TargetBranch=2094_RC3.1.1;DoMerge=true;DoCommit=true" />
     
