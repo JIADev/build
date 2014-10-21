@@ -69,7 +69,7 @@
       </cb:if>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <cb:project-sourcecontrol />
+      <cb:sourcecontrol />
       <prebuild>
 	<cb:update-source />
 	<cb:revertall />
