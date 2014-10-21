@@ -36,7 +36,7 @@
       <cb:if expr="'$(prodTag)' != ''">
 	<exec executable="$(powershell)" 
 	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags $(source)"' 
+	      buildArgs = '-c "hg pull -b tags"' 
 	      baseDirectory="$(project-folder)" />
 	
 	<exec executable="$(powershell)" 
@@ -703,6 +703,7 @@
   </cb:define>
   <cb:define name="publish-package">
     <cb:if expr="'$(package)' == 'true'">
+      <cb:tag-build />
       <exec 
 	  executable="$(powershell)" 
 	  baseDirectory="$(project-folder)"
