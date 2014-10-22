@@ -3,7 +3,7 @@
 <cb:define
     project-root="ccnet-$(ccBuildServer)"
     />
-<project name="mercurial" category="ccnet" queue="mercurial">
+<project name="hg-$(ccBuildServer)" category="ccnet" queue="mercurial">
     <triggers>
       <intervalTrigger seconds="60" />
     </triggers>
