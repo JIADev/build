@@ -615,20 +615,6 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-WebTest_RC1.1"
-      branch = '2094_WebTest_RC1.1'
-      prodTag="2094_7.6.0"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.0"
-      external-protect="true"
-      external-zip="true"
-      package-privatebuild="true"
-      package="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
       project-name="CUST2094-WT2.1"
       branch = '2094_WT2.1'
       prodTag="2094_RC2.1"
