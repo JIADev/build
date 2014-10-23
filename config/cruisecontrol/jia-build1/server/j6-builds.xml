@@ -738,4 +738,14 @@
       />
   -->
   
+  <!-- CUST2096 -->
+  
+   <cb:customerbuild
+      project-name="CUST2096-7.5.5"
+      branch = "2096_7.5.5"
+      driver = "CUST2096"
+      repo-name="master"
+      package="true"
+      />
+  
 </cb:config-template>
