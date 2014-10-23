@@ -20,7 +20,6 @@
       redis-server="qas-redis1"
       redis-db="12"
       queueName="WebTests"
-      triggerTime="02:00"
       />
   
   <cb:v76deployment
