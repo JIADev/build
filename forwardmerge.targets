@@ -154,7 +154,13 @@
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_2095" />
 
-    <!-- Now the ones which depend on another branch -->
+    <ItemGroup>
+      <ReleaseCandidate21Reqs Include="042;039;008;010;029;019_7.6.0;024" />
+      <ReleaseCandidate22Reqs Include="" />
+    </ItemGroup>
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ%(ReleaseCandidate311Reqs.Identity);TargetBranch=2095_RC2.1;DoMerge=true;DoCommit=true" />
+
   </Target>
 
   <Target Name="ForwardMerge_2094" DependsOnTargets="ForwardMerge_76;OutwardMerge_2094_RC1;InitRepos">
