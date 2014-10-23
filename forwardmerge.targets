@@ -164,11 +164,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <NonDependentPublish Include="024;303" />
-      <NonDependentNoPublish Include="076.2;142;201;152;128;051.1;047;035.1;020.B;017.1;312;077;307;050.1" />
+      <NonDependentPublish Include="024" />
+      <NonDependentNoPublish Include="076.2;142;201;152;128;051.1;047;035.1;020.B;017.1;312;307;050.1" />
       <!-- <DependentPublish Include="067" /> -->
       <DependentNoPublish Include="301" />
-      <ReleaseCandidate311Reqs Include="066;012;065;067;069;070;311;104;102;100;006.2;305;183;212;197;194;302" />
+      <ReleaseCandidate311Reqs Include="066;012;065;067;069;070;311;104;102;100;006.2;305;183;212;197;194;302;303;077" />
     </ItemGroup>
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC2.2;TargetBranch=7.6.2;DoMerge=true;DoCommit=true" />

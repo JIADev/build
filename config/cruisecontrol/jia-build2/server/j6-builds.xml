@@ -19,7 +19,7 @@
       db-instance=""
       redis-server="qas-redis1"
       redis-db="12"
-      queueSuffix="-WebTests"
+      queueName="WebTests"
       triggerTime="02:00"
       />
   
@@ -34,7 +34,7 @@
       db-instance=""
       redis-server="qas-redis1"
       redis-db="9"
-      queueSuffix="-WebTests"
+      queueName="WebTests"
       package="true"
       />
   
