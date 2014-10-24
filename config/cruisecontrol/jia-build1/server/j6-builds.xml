@@ -612,6 +612,20 @@
       package="true"
       />
   
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-WT3.1"
+      branch = '2094_WT3.1'
+      prodTag="7.6.3"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.3"
+      external-protect="true"
+      external-zip="true"
+      package-privatebuild="true"
+      package="true"
+      />
+  
   <!-- CUST2095 -->
   
   <cb:v76build
