@@ -229,26 +229,27 @@
      <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=$(CustomerNumber)_%(BranchesToClose.Identity)" />
   </Target>
 
+  <Target Name="FindClosed" DependsOnTargets="BuildFindClosedExe">
+    <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch) $(SourceRepo)\branches.txt $(SourceRepo)\closerevision.txt" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch)_pub $(SourceRepo)\branches.txt closepubrevision.txt" />
+  </Target>
+
+  <Target Name="BuildFindClosedExe">
+    <Csc Sources="$(BuildToolsDirectory)\Code\FindClosed.cs" OutputAssembly="$(BuildToolsDirectory)\Code\FindClosed.exe" Condition="!Exists('$(BuildToolsDirectory)\Code\FindClosed.exe')" />
+  </Target>
+
   <Target Name="CloseBranch">
     <Message Text="SourceBranch=$(SourceBranch)" />
     <Message Text="SourceRepo=$(SourceRepo)" />
     <Error Text="Missing /p:SourceBranch=&quot;SourceBranch&quot;" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:SourceRepo=&quot;SourceRepo&quot;" Condition="'$(SourceRepo)' == ''" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch) --rev &quot;closed()&quot; > $(SourceRepo)\closerevision.txt" IgnoreExitCode="true" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch)_pub --rev &quot;closed()&quot; > $(SourceRepo)\closepubrevision.txt" IgnoreExitCode="true" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=closerevision.txt" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=closepubrevision.txt" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg branches -c > $(SourceRepo)\branches.txt" IgnoreExitCode="true" />
+    <CallTarget Targets="FindClosed" />
 
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch) > $(SourceRepo)\branchrevisions.txt" IgnoreExitCode="true" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg log -b $(SourceBranch)_pub > $(SourceRepo)\pubbranchrevisions.txt" IgnoreExitCode="true" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=branchrevisions.txt" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DeleteIfEmpty" Properties="RepoDirectory=$(SourceRepo);File=pubbranchrevisions.txt" />
-
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch) -C" Condition="!Exists('$(SourceRepo)\closerevision.txt') AND Exists('$(SourceRepo)\branchrevisions.txt')" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="!Exists('$(SourceRepo)\closerevision.txt') AND Exists('$(SourceRepo)\branchrevisions.txt')" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch)_pub -C" Condition="!Exists('$(SourceRepo)\closepubrevision.txt') AND Exists('$(SourceRepo)\pubbranchrevisions.txt')" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)_pub&quot; --close-branch" Condition="!Exists('$(SourceRepo)\closepubrevision.txt') AND Exists('$(SourceRepo)\pubbranchrevisions.txt')" />
-    <Delete Files="$(SourceRepo)\closerevision.txt;$(SourceRepo)\closepubrevision.txt;$(SourceRepo)\branchrevisions.txt;$(SourceRepo)\pubbranchrevisions.txt" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch) -C" Condition="Exists('$(SourceRepo)\closerevision.txt')" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="Exists('$(SourceRepo)\closerevision.txt')" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch)_pub -C" Condition="Exists('$(SourceRepo)\closepubrevision.txt')" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)_pub&quot; --close-branch" Condition="Exists('$(SourceRepo)\closepubrevision.txt')" />
  </Target>
 
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
