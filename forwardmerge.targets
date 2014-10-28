@@ -208,8 +208,6 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.3;TargetBranch=2094_RC3.1.1;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3.1_demo;TargetBranch=2094_RC3.1.1;DoMerge=true;DoCommit=true" />
-    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3.1.1;TargetBranch=2094_REQ067.2;DoMerge=true;DoCommit=true" />
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3.1.1;TargetBranch=2094_WT3.1;DoMerge=true;DoCommit=true" />
