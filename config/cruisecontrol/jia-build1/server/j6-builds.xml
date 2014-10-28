@@ -550,24 +550,6 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-RC3"
-      branch = 'tags'
-      tag="2094_RC3"
-      prodTag="7.6.3"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.3"
-      external-protect="true"
-      external-zip="true"
-      compileless="true"
-      queue-priority="500"
-      sourceCheckInterval=""
-      archive="true"
-      package="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
       project-name="CUST2094-RC3.1.1"
       branch = '2094_RC3.1.1'
       prodTag="7.6.3"
@@ -579,36 +561,6 @@
       compileless="true"
       queue-priority="500"
       archive="true"
-      package="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-RC3.1-demo"
-      branch = '2094_RC3.1_demo'
-      prodTag="7.6.3"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.3"
-      external-protect="true"
-      external-zip="true"
-      compileless="true"
-      queue-priority="500"
-      archive="true"
-      package="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-WT2.1"
-      branch = '2094_WT2.1'
-      prodTag="2094_RC2.1"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.2"
-      external-protect="true"
-      external-zip="true"
-      package-privatebuild="true"
       package="true"
       />
   
@@ -638,23 +590,6 @@
       external-zip="true"
       j6Version="7.6.0"
       package="true"
-      />
-
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-RC2.2"
-      branch = 'tags'
-      tag='2095_RC2.2'
-      prodTag="7.6.1"
-      platform="AnyCpu"
-      repo-name="master"
-      j6Version="7.6.1"
-      external-protect="true"
-      external-zip="true"
-      sourceCheckInterval=""
-      archive="true"
-      package="true"
-      queue-priority="750"
       />
 
   <cb:v76build
