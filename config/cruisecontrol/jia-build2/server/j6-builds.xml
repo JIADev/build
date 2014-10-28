@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
+  
+  <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
+
+  <!-- req branches -->
+  <cb:build2queues />
+
+  <cb:v76deployment
+      project-name="CUST000-7.6.0-DEV-WebTest"
+      driver = 'CUST000'
+      web-test="true"
+      project-to-deploy="CUST000-7.6.0-DEV"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_760_CA" 
+      db-server="DEV-8900sql1"
+      db-instance=""
+      redis-server="qas-redis1"
+      redis-db="12"
+      queueName="WebTests"
+      />
+  
+  <cb:v76deployment
+      project-name="CUST2094-RC2-WebTest"
+      driver = 'CUST2094'
+      web-test="true"
+      project-to-deploy="CUST2094-WT2.1"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_2094_CA" 
+      db-server="DEV-8900sql1"
+      db-instance=""
+      redis-server="qas-redis1"
+      redis-db="9"
+      queueName="WebTests"
+      package="true"
+      />
+  
+  <cb:v76deployment
+      project-name="CUST2094-RC3.1-WebTest"
+      driver = 'CUST2094'
+      web-test="true"
+      project-to-deploy="CUST2094-WT3.1"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_2094_RC3.1" 
+      db-server="DEV-8900sql1"
+      db-instance=""
+      redis-server="qas-redis1"
+      redis-db="10"
+      queueName="WebTests"
+      package="true"
+      />
+
+</cb:config-template>
