@@ -537,6 +537,20 @@
       package="true"
       />
   
+ <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-WT2.1"
+      branch = '2094_WT2.1'
+      prodTag="7.6.1"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.1"
+      external-protect="true"
+      external-zip="true"
+      package-privatebuild="true"
+      package="true"
+      /> 
+  
   <!-- CUST2096 -->
   
    <cb:customerbuild
