@@ -155,7 +155,7 @@
     <CallTarget Targets="DependencyMerge_2095" />
 
     <ItemGroup>
-      <ReleaseCandidate21Reqs Include="042;039;008;010;029;019_7.6.0;020;024;028;013" />
+      <ReleaseCandidate21Reqs Include="043;023;042;039;008;010;029;019_7.6.0;020;024;028;013" />
     </ItemGroup>
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=2095_RC1.2" />
