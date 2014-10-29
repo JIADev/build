@@ -23,4 +23,19 @@
       package="true"
       />
 
+  <cb:v76deployment
+      project-name="CUST2095-RC2.1-WebTest"
+      driver = 'CUST2095'
+      web-test="true"
+      project-to-deploy="CUST2095-WT2.1"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_2095_CA" 
+      db-server="DEV-8900sql1"
+      db-instance=""
+      redis-server="qas-redis1"
+      redis-db="9"
+      queueName="WebTests"
+      package="true"
+      />
+  
 </cb:config-template>
