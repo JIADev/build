@@ -155,13 +155,15 @@
     <CallTarget Targets="DependencyMerge_2095" />
 
     <ItemGroup>
-      <ReleaseCandidate21Reqs Include="043;023;042;039;008;010;029;019_7.6.0;020;024;028;013" />
+      <ReleaseCandidate21Reqs Include="043;023;042;039;038;008;010;029;019_7.6.0;020;024;028;013" />
     </ItemGroup>
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=2095_RC1.2" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC1.2;TargetBranch=2095_RC2.1;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=2095_REQ%(ReleaseCandidate21Reqs.Identity)" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ%(ReleaseCandidate21Reqs.Identity);TargetBranch=2095_RC2.1;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC2.1;TargetBranch=2095_WT2.1;DoMerge=true;DoCommit=true" />
 
   </Target>
 
