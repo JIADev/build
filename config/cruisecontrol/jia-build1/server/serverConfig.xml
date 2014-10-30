@@ -19,8 +19,8 @@
   <cb:define
       db-server-2008="dev-8900sql4"
       db-server-2008-instance=""
-      db-server-2012="jia-sql12"
-      db-server-2012-instance=""
+      db-server-2012="dev-8900sql4"
+      db-server-2012-instance="SQL2012"
       ccBuildServer="jia-build1"
       />
 
