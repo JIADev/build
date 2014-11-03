@@ -3,33 +3,6 @@
   <cb:define
       project-root="ccnet-$(ccBuildServer)"
       />
-  <project name="hg-$(ccBuildServer)" category="ccnet" queue="mercurial">
-    <triggers>
-      <intervalTrigger seconds="60" />
-    </triggers>
-    <sourcecontrol 
-	type="hg" 
-	workingDirectory="$(srcroot)/master"
-	repo="$(repo-source-root)/customers/master"
-	autoGetSource="true" 
-	timeout="12000000"
-	multipleHeadsFail="false"
-	tagOnSuccess="false"
-	commitModifications="false"
-	commitUntracked="false"
-	purgeModifications="false"
-	revertModifications="false"
-	committerName="CruiseControl.NET"
-	>
-    </sourcecontrol>
-    <tasks>
-      <exec executable="$(cmdExe)"
-	    description="Update $(global_feature_dir)"
-	    buildArgs="/c  hg pull -u"
-	    baseDirectory="$(global_feature_dir)" />
-    </tasks>
-  </project>
-  
   <project name="$(project-root)" category="ccnet" queue="ccnet">
     <cb:define db-server="" />
     <cb:define db-user="" />
