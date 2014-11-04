@@ -220,13 +220,13 @@
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
   </Target>
 
-  <Target Name="CloseBranches" DependsOnTargets="InitBuildRepo">
-    <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
+  <Target Name="CloseBranches">
+    <Error Text="Missing /p:BuildRepo" Condition="'$(BuildRepo)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <ItemGroup>
       <BranchesToClose Include="$(Branches)" />
     </ItemGroup>
-     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=$(CustomerNumber)_%(BranchesToClose.Identity)" />
+     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=%(BranchesToClose.Identity)" />
   </Target>
 
   <Target Name="FindClosed" DependsOnTargets="BuildFindClosedExe">
