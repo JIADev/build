@@ -230,6 +230,7 @@
   </Target>
 
   <Target Name="FindClosed" DependsOnTargets="BuildFindClosedExe">
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg branches -c > $(SourceRepo)\branches.txt" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch) $(SourceRepo)\branches.txt $(SourceRepo)\closerevision.txt" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch)_pub $(SourceRepo)\branches.txt closepubrevision.txt" />
   </Target>
@@ -243,13 +244,10 @@
     <Message Text="SourceRepo=$(SourceRepo)" />
     <Error Text="Missing /p:SourceBranch=&quot;SourceBranch&quot;" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:SourceRepo=&quot;SourceRepo&quot;" Condition="'$(SourceRepo)' == ''" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg branches -c > $(SourceRepo)\branches.txt" IgnoreExitCode="true" />
-    <CallTarget Targets="FindClosed" />
+    <CallTarget Targets="FindClosed" Condition="'$(Force)' != 'true'" />
 
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch) -C" Condition="Exists('$(SourceRepo)\closerevision.txt')" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="Exists('$(SourceRepo)\closerevision.txt')" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch)_pub -C" Condition="Exists('$(SourceRepo)\closepubrevision.txt')" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)_pub&quot; --close-branch" Condition="Exists('$(SourceRepo)\closepubrevision.txt')" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch) -C" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
+    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
  </Target>
 
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
