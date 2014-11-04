@@ -48,7 +48,7 @@ namespace j6.BuildTools
 		{
 			var root = baseDir.Root;
 
-			var tempDir = Path.Combine(root.FullName, "temp", Guid.NewGuid().ToString());
+			var tempDir = Path.Combine(root.FullName, "temp", Guid.NewGuid().ToString().Split(new [] { '-' }, StringSplitOptions.RemoveEmptyEntries).First());
 
             try
             {
