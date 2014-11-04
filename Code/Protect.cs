@@ -46,7 +46,9 @@ namespace j6.BuildTools
 
 		public static void ProtectAll(string driverFeature, DirectoryInfo baseDir, int maxRetries = 1)
 		{
-			var tempDir = Path.Combine(baseDir.FullName, "temp");
+			var root = baseDir.Root;
+
+			var tempDir = Path.Combine(root.FullName, "temp", Guid.NewGuid().ToString());
 
             try
             {
