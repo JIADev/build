@@ -475,6 +475,7 @@
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
+	  package-privatebuild="true"
       compileless="true"
       queue-priority="500"
       archive="true"
