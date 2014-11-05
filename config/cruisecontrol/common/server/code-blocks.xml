@@ -15,8 +15,8 @@
       <tagOnSuccess>false</tagOnSuccess>
       <commitModifications>false</commitModifications>
       <commitUntracked>false</commitUntracked>
-      <purgeModifications>false</purgeModifications>
-      <revertModifications>false</revertModifications>
+      <purgeModifications>true</purgeModifications>
+      <revertModifications>true</revertModifications>
       <tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
       <modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
       <tagNameFormat>ccnet_build_{0}</tagNameFormat>
