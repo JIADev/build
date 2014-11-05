@@ -1,7 +1,13 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   <cb:define name="sourcecontrol">
+    <cb:if expr="'$(tag)' == ''">
+      <cb:define autoGetSource="true" />
+    </cb:if>
+    <cb:else>
+      <cb:define autoGetSource="false" />
+    </cb:else>
     <sourcecontrol type="hg">
-      <autoGetSource>false</autoGetSource>
+      <autoGetSource>$(autoGetSource)</autoGetSource>
       <workingDirectory>$(project-folder)</workingDirectory>
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
@@ -33,17 +39,16 @@
 	      description = "hg pull tags branch"
 	      buildArgs = '-c "hg pull -b tags $(source)"' 
 	      baseDirectory="$(project-folder)" />
-      </cb:if>
-      <cb:else>
-      <cb:if expr="'$(tag)' != ''">
+	
 	<exec executable="$(powershell)" 
-	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags $(source)"' 
+	      description = "hg pull prod tag changes"
+	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
 	      baseDirectory="$(project-folder)" />
+	
       </cb:if>
-      </cb:else>
       
       <cb:if expr="'$(tag)' != ''">
+	
 	<exec executable="$(powershell)" 
 	      description = "hg pull tag changes"
 	      buildArgs = '-c "hg pull -r $(tag) $(source)"' 
@@ -56,11 +61,6 @@
       </cb:else>
       
       <cb:if expr="'$(prodTag)' != ''">
-	<exec executable="$(powershell)" 
-	      description = "hg pull prod tag changes"
-	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
-	      baseDirectory="$(project-folder)" />
-	
 	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-updatechangelog-timeout)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
