@@ -161,6 +161,22 @@
       />
   
   <cb:v76build
+      project-name="CUST000-7.6.4"
+      branch = '2094_2095_Merge1'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      platform="AnyCpu"
+      repo-name="master"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.3"
+      modules="AUTOSHIP"
+      package="true"
+      />
+  
+  <cb:v76build
       project-name="CUST000-RC3.1.1"
       branch = '2094_RC3.1.1'
       driver = 'CUST000'
@@ -467,6 +483,20 @@
   
   <cb:v76build
       driver="CUST2094"
+      project-name="CUST2094-7.6.4"
+      branch = '2094_2095_Merge1'
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.3"
+      external-protect="true"
+      external-zip="true"
+      compileless="true"
+      queue-priority="1500"
+      package="true"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
       project-name="CUST2094-RC3.1.1"
       branch = '2094_RC3.1.1'
       prodTag="7.6.3"
@@ -517,6 +547,19 @@
       project-name="CUST2095-7.6.3"
       branch = '7.6.3'
       prodTag="7.6.2"
+      platform="AnyCpu"
+      repo-name="master"
+      j6Version="7.6.3"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      />
+
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-7.6.4"
+      branch = '2094_2095_Merge1'
+      prodTag="7.6.3"
       platform="AnyCpu"
       repo-name="master"
       j6Version="7.6.3"
