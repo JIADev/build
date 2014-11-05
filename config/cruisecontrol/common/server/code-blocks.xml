@@ -41,7 +41,7 @@
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull prod tag changes"
-	      buildArgs = '-c "hg pull -r $(prodTag)"' 
+	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
 	      baseDirectory="$(project-folder)" />
       </cb:if>
       
