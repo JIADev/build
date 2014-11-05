@@ -1,7 +1,7 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   <cb:define name="sourcecontrol">
     <sourcecontrol type="hg">
-      <autoGetSource>false</autoGetSource>
+      <autoGetSource>true</autoGetSource>
       <workingDirectory>$(project-folder)</workingDirectory>
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
