@@ -352,7 +352,26 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(TargetRepo);Source=$(TargetBranch);UpdateBackToReqBranch=$(UpdateBackToReqBranch)" Condition="'$(Publish)' == 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
-  
+
+  <Target Name="MergeAll">
+    <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
+    <Error Text="Missing /p:TargetRepo" Condition="'$(TargetRepo)' == ''" />
+    <Error Text="Missing /p:TargetBranch" Condition="'$(TargetBranch)' == ''" />
+    <Error Text="Missing /p:SourceBranches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(SourceBranches)' == ''" />
+    <ItemGroup>
+      <BranchesToMerge Include="$(SourceBranches)" />
+    </ItemGroup>
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(SourceRepo);TargetRepo=$(TargetRepo);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(TargetBranch);DoCommit=true;DoMerge=true;Publish=False" />
+  </Target>
+
+  <Target Name="Merge">
+    <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
+    <Error Text="Missing /p:SourceBranch" Condition="'$(SourceBranch)' == ''" />
+    <Error Text="Missing /p:TargetBranch" Condition="'$(TargetBranch)' == ''" />
+
+  </Target>
+
   <Target Name="PublishReq">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
