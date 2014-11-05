@@ -1,13 +1,7 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   <cb:define name="sourcecontrol">
-    <cb:if expr="'$(tag)' == ''">
-      <cb:define autoGetSource="true" />
-    </cb:if>
-    <cb:else>
-      <cb:define autoGetSource="false" />
-    </cb:else>
     <sourcecontrol type="hg">
-      <autoGetSource>$(autoGetSource)</autoGetSource>
+      <autoGetSource>false</autoGetSource>
       <workingDirectory>$(project-folder)</workingDirectory>
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
