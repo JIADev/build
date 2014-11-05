@@ -28,11 +28,6 @@
   <cb:define name="update-source">
     <cb:if expr="'$(updateSource)' != 'false'">
       
-      <exec executable="$(powershell)" 
-	    description = "hg update to branch"
-	    buildArgs = '-c "hg update $(branch)"' 
-	    baseDirectory="$(project-folder)" />
-      
       <cb:if expr="'$(prodTag)' != ''">
 	<exec executable="$(powershell)" 
 	      description = "hg pull tags branch"
@@ -43,9 +38,16 @@
 	      description = "hg pull prod tag changes"
 	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
 	      baseDirectory="$(project-folder)" />
+	
       </cb:if>
       
       <cb:if expr="'$(tag)' != ''">
+	
+	<exec executable="$(powershell)" 
+	      description = "hg pull tag changes"
+	      buildArgs = '-c "hg pull -r $(tag) $(source)"' 
+	      baseDirectory="$(project-folder)" />
+	
 	<cb:define newChangeset="$(tag)" />
       </cb:if>
       <cb:else>
@@ -58,11 +60,11 @@
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
 	</msbuild>
 	
-	<exec executable="$(powershell)" 
-	      description = "hg update to tag or branch"
-	      buildArgs = '-c "hg update $(newChangeset)"' 
-	      baseDirectory="$(project-folder)" />
       </cb:if>
+      <exec executable="$(powershell)" 
+	    description = "hg update to tag or branch"
+	    buildArgs = '-c "hg update $(newChangeset) -C"' 
+	    baseDirectory="$(project-folder)" />
     </cb:if>    
   </cb:define>
   
