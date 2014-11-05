@@ -2,7 +2,7 @@
   <cb:define name="sourcecontrol">
     <sourcecontrol type="hg">
       <autoGetSource>false</autoGetSource>
-      <workingDirectory>$(source-folder)</workingDirectory>
+      <workingDirectory>$(project-folder)</workingDirectory>
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repo>$(source)</repo>
       <multipleHeadsFail>false</multipleHeadsFail>
@@ -27,73 +27,25 @@
   
   <cb:define name="update-source">
     <cb:if expr="'$(updateSource)' != 'false'">
-      <exec executable="$(cmdExe)" 
-	    description="Copy default.hgrc file to .hg\hgrc"
-	    buildArgs='/c copy /y "$(ccserver)\default.hgrc.config" "$(source-folder)\.hg\hgrc"' />
-      
-      <exec executable="$(cmdExe)" 
-	    description="Configure hgrc"
-	    buildArgs='/c echo $(repo-name)/ >> $(source-folder)\.hg\hgrc' />
-      
-      <exec executable="$(cmdExe)" 
-	    description="Copy exclude file to source folder"
-	    buildArgs='/c copy /y "$(ccserver)\excludeFiles.config" "$(source-folder)"' />
       
       <exec executable="$(powershell)" 
 	    description = "hg update to branch"
 	    buildArgs = '-c "hg update $(branch)"' 
-	    baseDirectory="$(source-folder)" />
-      
-      <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
-	<conditional description="Update tag folder">
-	  <conditions>
-	    <folderExistsCondition folder="$(tag-folder)" />>
-	  </conditions>
-	  <tasks />
-	  <elseTasks>
-	    <exec executable="$(cmdExe)" 
-		  baseDirectory="$(ccroot)"
-		  description="Copy source"
-		  buildTimeoutSeconds="$(copy-source-timeout)"
-		  buildArgs='/c xcopy /s/e/y/q/i "$(source-folder)" "$(tag-folder)"' />
-	  </elseTasks>
-	</conditional>
-      </cb:if>
+	    baseDirectory="$(project-folder)" />
       
       <cb:if expr="'$(prodTag)' != ''">
 	<exec executable="$(powershell)" 
 	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags"' 
-	      baseDirectory="$(source-folder)" />
-	
-	<exec executable="$(powershell)" 
-	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags"' 
-	      baseDirectory="$(tag-folder)" />
+	      buildArgs = '-c "hg pull -b tags $(source)"' 
+	      baseDirectory="$(project-folder)" />
 	
 	<exec executable="$(powershell)" 
 	      description = "hg pull prod tag changes"
 	      buildArgs = '-c "hg pull -r $(prodTag)"' 
-	      baseDirectory="$(tag-folder)" />
+	      baseDirectory="$(project-folder)" />
       </cb:if>
       
-      <cb:if expr="'$(tag-folder)' != '$(source-folder)'">
-	<exec executable="$(powershell)" 
-	      description = "hg pull updates from source-folder"
-	      buildArgs = '-c "hg pull $(source-folder)"' 
-	      baseDirectory="$(tag-folder)" />
-	
-	<cb:if expr="'$(prodTag)' != ''">
-	  <exec executable="$(powershell)" 
-		description = "hg pull prod tag changes"
-		buildArgs = '-c "hg pull -r $(prodTag)"' 
-		baseDirectory="$(tag-folder)" />
-	</cb:if>
-	
-	<exec executable="$(powershell)" 
-	      description = "hg pull tag changes"
-	      buildArgs = '-c "hg pull -r $(tag)"' 
-	      baseDirectory="$(tag-folder)" />
+      <cb:if expr="'$(tag)' != ''">
 	<cb:define newChangeset="$(tag)" />
       </cb:if>
       <cb:else>
@@ -101,15 +53,15 @@
       </cb:else>
       
       <cb:if expr="'$(prodTag)' != ''">
-	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(tag-folder)"
+	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-updatechangelog-timeout)">
-	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(tag-folder)</buildArgs>
+	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
 	</msbuild>
 	
 	<exec executable="$(powershell)" 
 	      description = "hg update to tag or branch"
 	      buildArgs = '-c "hg update $(newChangeset)"' 
-	      baseDirectory="$(tag-folder)" />
+	      baseDirectory="$(project-folder)" />
       </cb:if>
     </cb:if>    
   </cb:define>
@@ -127,7 +79,7 @@
   <cb:define name="junction-features">
     <conditional>
       <conditions>
-	<folderExistsCondition folder="$(tag-folder)/customers/$(driver)" />
+	<folderExistsCondition folder="$(project-folder)/customers/$(driver)" />
       </conditions>
       <tasks>
 	<msbuild logger="$(msBuildListenerDll)" description="Junction baseline features"
@@ -139,37 +91,15 @@
     </conditional>
   </cb:define>
   
-  <cb:define name="force-clean">
+  <cb:define name="revertall">
     <cb:if expr="'$(updateSource)' != 'false'">
-      <conditional description="If project folder exists">
-	<conditions>
-	  <folderExistsCondition folder="$(project-folder)" />>
-	</conditions>
-	<tasks>
-	  <exec executable="$(cmdExe)" 
-		baseDirectory="$(ccroot)" 
-		description="Delete entire project folder" 
-		successExitCodes="0"> 
-	    <buildArgs>/c "rmdir /s/q $(project-folder)"</buildArgs>
-	  </exec>
-	</tasks>
-      </conditional>
-      
-      <cb:if expr="'$(exclude-files)' == 'true'">
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)"
-	      description="Copy source"
-	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i /exclude:$(tag-folder)\excludeFiles.config "$(tag-folder)" "$(project-folder)"' />
-      </cb:if>
-      <cb:else>
-	<exec executable="$(cmdExe)" 
-	      baseDirectory="$(ccroot)"
-	      description="Copy source"
-	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i "$(tag-folder)" "$(project-folder)"' />
-      </cb:else>
-    </cb:if>
+      <exec 
+	  executable="$(powershell)" 
+	  baseDirectory="$(project-folder)"
+	  description="Revert all changes in project dir">
+	<buildArgs>/c "$(global_feature_dir)/revertall.ps1"</buildArgs>
+      </exec>
+    </cb:if>    
   </cb:define>
   
   <cb:define name="force-clean-deployment-project">
@@ -358,7 +288,7 @@
       <exec executable="$(feature)"
 	    description = "Package for deployment"
 	    baseDirectory="$(project-folder)"
-	    buildArgs = 'package Package $(driver) --verbose --sourcepath=$(tag-folder)'>
+	    buildArgs = 'package Package $(driver) --verbose --sourcepath=$(project-folder)'>
 	<environment>
 	  <variable name="PATH" value="$(dotNetFrameworkPath);$(cliSecurePath);$(PATH)" />
 	</environment>
@@ -369,38 +299,10 @@
   <cb:define name="create-revision-txt">
     <exec
 	executable="$(powershell)" 
-	baseDirectory="$(source-folder)"
+	baseDirectory="$(project-folder)"
 	description = "create $(driver)/REVISION.txt">
       <buildArgs>-c "hg parent --template &apos;{node}&apos; > $(project-folder)\$(driver)\REVISION.txt"</buildArgs>
     </exec>
-  </cb:define>
-  
-  <cb:define name="tag-build">
-    <cb:if expr="'$(tag-completed)' == 'true'">
-      <cb:if expr="'$(sourceCheckInterval)' == ''">
-	<conditional>
-	  <conditions>
-	    <folderExistsCondition folder="$(tagsRepo)" />
-	  </conditions>
-	  <elseTasks>
-	    <exec executable="$(powershell)" 
-		  description = "hg start tags repo"
-		  buildArgs = '-c "hg clone $(source) $(tagsRepo)"' 
-		  baseDirectory="$(tag-folder)" />
-	  </elseTasks>
-	</conditional>
-	
-	<exec executable="$(powershell)"
-	      description = "hg pull changes to tags repo"
-	      buildArgs = '-c "hg pull"' 
-	      baseDirectory="$(tagsRepo)" />
-	
-	<exec executable="$(powershell)"
-	      description = "hg update to tags branch"
-	      buildArgs = '-c "hg update tags"' 
-	      baseDirectory="$(tagsRepo)" />
-      </cb:if>
-    </cb:if>
   </cb:define>
   
   <cb:define name="remove-delete-me">
@@ -543,8 +445,8 @@
     <xmllogger />
     <statistics />
     <!--
-	<msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(tag-folder)">
-	<buildArgs>/p:RepoDirectory=$(tag-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
+	<msbuild logger="$(msBuildListenerDll)" description="Merge Changelog.xml with CCNet log" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="MergeChangesetLog" workingDirectory="$(project-folder)">
+	<buildArgs>/p:RepoDirectory=$(project-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
 	</msbuild>
     --> 
   </cb:define>
@@ -556,7 +458,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="configure">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseInstance=$(db-instance) /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(tag-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)" /p:Customer="$(driver)"</buildArgs> 
+      <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseInstance=$(db-instance) /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(project-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)" /p:Customer="$(driver)"</buildArgs> 
       <targets>Configure</targets>
       <timeout>$(msbuild-configure-timeout)</timeout>
     </msbuild>
@@ -588,7 +490,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(tag-folder) /p:DefineConstants=$(modules)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules)</buildArgs>
 	<targets>FullBuild</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
@@ -638,7 +540,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(tag-folder)</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder)</buildArgs>
       <targets>Bootstrap</targets>
       <timeout>$(msbuild-bootstrap-timeout)</timeout>
     </msbuild>
@@ -783,7 +685,6 @@
   </cb:define>
   <cb:define name="publish-package">
     <cb:if expr="'$(package)' == 'true'">
-      <cb:tag-build />
       <exec 
 	  executable="$(powershell)" 
 	  baseDirectory="$(project-folder)"
@@ -849,7 +750,7 @@
       
       <conditional description="If changeset log exists">
 	<conditions>
-	  <fileExistsCondition file="$(tag-folder)\ChangesetLog.xml" />
+	  <fileExistsCondition file="$(project-folder)\ChangesetLog.xml" />
 	</conditions>
 	<tasks>
 	  <msbuild logger="$(msBuildListenerDll)" description="PublishChangesetLog file"
@@ -875,9 +776,9 @@
 	       targets="Package"
 	       workingDirectory="$(project-folder)"
 	       timeout="$(msbuild-protect-timeout)">
-	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(tag-folder)</buildArgs>
+	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(project-folder)</buildArgs>
       </msbuild>
-	  
+      
       <conditional description="Copy changeset log to package folder">
 	<conditions>
 	  <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />

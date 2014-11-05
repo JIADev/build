@@ -28,8 +28,6 @@
       ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
       ccNetWebDashboard="C:\Program Files (x86)\CruiseControl.NET\webdashboard" 
       ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
-      tag-folder="$(srcroot)\$(project-name)$(tag)"
-      source-folder="$(srcroot)\$(project-name)"
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
       repo-name="$(driver)"
@@ -39,8 +37,8 @@
 
   <!-- Network Urls and Servers -->
   <cb:define
-      repo-source-root="http://source.jenkon.com/hg/hgwebdir.cgi/feature"
-      source="$(repo-source-root)/customers/$(repo-name)"
+      repo-source-root="http://source.jenkon.com/hg/hgwebdir.cgi/feature/customers"
+      source="$(repo-source-root)/$(repo-name)"
       mailhost="mail.jenkon.com"
       ccwebroot="http://jia-build1/ccnet/"
       deployment-webserver=""

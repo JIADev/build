@@ -24,7 +24,7 @@
     <cb:sourcecontrol />
     <prebuild>
       <cb:update-source />
-      <cb:force-clean />
+      <cb:revertall />
     </prebuild>
     <tasks description="Bootstrap setup">
       <cb:set-customer />
