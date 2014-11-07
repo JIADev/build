@@ -10,7 +10,7 @@
       branch = '2094_RM47968'
       driver = 'CUST2094'
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
 	  package="true"
 	  prodTag="7.6.1"
       external-protect="true"
