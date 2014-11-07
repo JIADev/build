@@ -13,7 +13,7 @@
       project-name="CUST2090-REQ17"
       branch = "2090_REQ17"
       driver = "CUST2090"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -21,7 +21,7 @@
       project-name="CUST2090-REQ21"
       branch = "2090_REQ21"
       driver = "CUST2090"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -31,7 +31,7 @@
       project-name="CUST2092-REQ12"
       branch = "2092_REQ12"
       driver = "CUST2092"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -39,7 +39,7 @@
       project-name="CUST2092-REQ13"
       branch = "2092_REQ13"
       driver = "CUST2092"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -47,7 +47,7 @@
       project-name="CUST2092-REQ17"
       branch = "2092_REQ17"
       driver = "CUST2092"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -59,7 +59,7 @@
       project-name="CUST000-7.5.0"
       branch = "7.5.0"
       driver = "CUST000"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -67,7 +67,7 @@
       project-name="CUST000-7.5.2"
       branch = "7.5.2"
       driver = "CUST000"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -75,7 +75,7 @@
       project-name="CUST000-7.5.3"
       branch = "7.5.3"
       driver = "CUST000"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -83,7 +83,7 @@
       project-name="CUST000-7.5.4"
       branch = "7.5.4"
       driver = "CUST000"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -91,7 +91,7 @@
       project-name="CUST000-7.5.5"
       branch = "7.5.5"
       driver = "CUST000"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -103,7 +103,7 @@
       build="true"
       data-test="true"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
@@ -120,7 +120,7 @@
       build="true"
       data-test="true"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.1"
@@ -136,7 +136,7 @@
       build="true"
       data-test="true"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.2"
@@ -152,7 +152,7 @@
       build="true"
       data-test="true"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.3"
@@ -168,7 +168,7 @@
       build="true"
       data-test="true"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.3"
@@ -185,7 +185,7 @@
       build="true"
       data-test="true"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.3"
@@ -199,7 +199,7 @@
       branch = '2094_RC2.1'
       prodTag="7.6.1"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.2"
       external-protect="true"
       external-zip="true"
@@ -212,7 +212,7 @@
       branch = '000_RM48798'
       driver = 'CUST000'
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       modules="AUTOSHIP"
       external-protect="true"
       external-zip="true"
@@ -225,7 +225,7 @@
       branch = '000_7.6.0'
       driver = 'CUST000'
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       modules="AUTOSHIP"
       external-protect="true"
       external-zip="true"
@@ -240,7 +240,7 @@
       project-name="CUST001-7.5.2"
       branch = "7.5.2"
       driver = "CUST001"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   
@@ -254,7 +254,7 @@
       tag = "065_BLD"
       prodTag="065_PRD"
       driver = "CUST065"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -268,7 +268,7 @@
       tag = "069_BLD"
       prodTag="069_PRD"
       driver = "CUST069"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -287,7 +287,7 @@
       queueSuffix="-PRD"
       install-patches="true"
       sourceCheckInterval=""
-      repo-name="master"
+      repo-name="prod"
       archive="true"
       package="true"
       />
@@ -304,7 +304,7 @@
       install-patches="false"
       queueSuffix="-PRD-nopatches"
       sourceCheckInterval=""
-      repo-name="master"
+      repo-name="prod"
       archive="true"
       package="true"
       />
@@ -317,7 +317,7 @@
       tag = "2069_BLD"
       prodTag="2069_PRD"
       driver = "CUST2069"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -331,7 +331,7 @@
       tag = "2082_BLD"
       prodTag="2082_PRD"
       driver = "CUST2082"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -345,7 +345,7 @@
       tag = "2083_BLD"
       prodTag="2083_PRD"
       driver = "CUST2083"
-      repo-name="master"
+      repo-name="prod"
       exclude-files="false"
       sourceCheckInterval=""
       archive="true"
@@ -360,7 +360,7 @@
       tag = "2085_BLD"
       prodTag="2085_PRD"
       driver = "CUST2085"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -374,7 +374,7 @@
       tag = "2086_BLD"
       prodTag="2086_PRD"
       driver = "CUST2086"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -388,7 +388,7 @@
       tag = "2087_BLD"
       prodTag="2087_PRD"
       driver = "CUST2087"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -402,7 +402,7 @@
       tag = "2088_BLD"
       prodTag="2088_PRD"
       driver = "CUST2088"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -416,7 +416,7 @@
       tag = "2089_BLD"
       prodTag="2089_PRD"
       driver = "CUST2089"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -430,7 +430,7 @@
       tag = "2090_BLD"
       prodTag="2090_PRD"
       driver = "CUST2090"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -444,7 +444,7 @@
       tag = "2092_BLD"
       prodTag="2092_PRD"
       driver = "CUST2092"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -459,7 +459,7 @@
       tag = "2093_BLD"
       prodTag="2093_PRD"
       driver = "CUST2093"
-      repo-name="master"
+      repo-name="prod"
       sourceCheckInterval=""
       archive="true"
       package="true"
@@ -472,7 +472,7 @@
       project-name="CUST2094-7.6.3"
       branch = '7.6.3'
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
@@ -486,7 +486,7 @@
       project-name="CUST2094-7.6.4"
       branch = '2095_2094_Merge1'
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
@@ -501,7 +501,7 @@
       branch = '2094_RC3.1.1'
       prodTag="7.6.3"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
@@ -518,7 +518,7 @@
       branch = '2094_WT3.1'
       prodTag="7.6.3"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
@@ -534,7 +534,7 @@
       branch = '2095_RC2.1'
       prodTag="7.6.1"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
@@ -548,7 +548,7 @@
       branch = '7.6.3'
       prodTag="7.6.2"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
@@ -561,7 +561,7 @@
       branch = '2095_2094_Merge1'
       prodTag="7.6.3"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
@@ -574,7 +574,7 @@
       branch = '2094_RC3.1.1'
       prodTag="7.6.3"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
@@ -587,7 +587,7 @@
       branch = '2095_WT2.1'
       prodTag="7.6.1"
       platform="AnyCpu"
-      repo-name="master"
+      repo-name="active"
       j6Version="7.6.1"
       external-protect="true"
       external-zip="true"
@@ -601,7 +601,7 @@
       project-name="CUST2096-7.5.5"
       branch = "2096_7.5.5"
       driver = "CUST2096"
-      repo-name="master"
+      repo-name="prod"
       package="true"
       />
   

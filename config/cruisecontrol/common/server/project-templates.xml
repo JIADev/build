@@ -171,13 +171,14 @@
       <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
     </project>
   </cb:define>
+
   <cb:define name="reqBuild">
     <cb:v76build
 	driver="CUST$(customer)"
 	project-name="$(driver)-$(req-number)"
 	branch = '$(customer)_$(req-number)'
 	platform="AnyCpu"
-	repo-name="master"
+	repo-name="active"
 	j6Version="7.6.3"
 	queueSuffix="$(queueName)"
 	unit-test="true"
@@ -243,36 +244,4 @@
     </project>
   </cb:define>
   
-  <cb:define name="mergeBuild">
-    <project name="$(project-name)" category="$(driver)" queue="$(queueName)" queuePriority="$(queue-priority)">
-      <workingDirectory>$(project-folder)</workingDirectory>
-      <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <triggers>
-	<cb:if expr="'$(triggerTime)'!=''">
-	  <scheduleTrigger time = "$(triggerTime)" buildCondition="ForceBuild" />
-	</cb:if>
-	<cb:if expr="'$(triggerTime2)'!=''">
-	  <scheduleTrigger time = "$(triggerTime2)" buildCondition="ForceBuild" />
-	</cb:if>
-      </triggers>
-      <tasks>
-    	<msbuild logger="$(msBuildListenerDll)" description="Revert All Files" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="RevertAll" workingDirectory="c:\dev\repos\master" timeout="60" />
-    	<msbuild logger="$(msBuildListenerDll)" description="Forward Merge 2094" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardMerge_2094" workingDirectory="$(project-folder)" timeout="3600" />
-      <exec executable="$(powershell)" 
-	    description = "hg push"
-	    buildArgs = '-c "hg push"' 
-	    baseDirectory="c:\dev\repos\master" />
-      
-      </tasks>
-      <publishers>
-	<xmllogger />
-	<statistics />
-      </publishers>
-      <externalLinks>
-	<externalLink name="root" url="$(ccwebroot)" />
-      </externalLinks>
-      <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
-    </project>
-    
-  </cb:define>
 </cb:config-template>
