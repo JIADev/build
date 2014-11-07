@@ -4,10 +4,11 @@
   <Import Project="dependencymerge.targets" Condition="Exists('dependencymerge.targets')"/>
   <PropertyGroup>
     <WorkingDirectory>$([MSBuild]::ValueOrDefault(`$(WorkingDirectory)`, 'c:\dev\repos'))</WorkingDirectory>
-    <MasterRepo>$(WorkingDirectory)\master</MasterRepo>
+    <ActiveRepo>$(WorkingDirectory)\active</ActiveRepo>
+    <ProdRepo>$(WorkingDirectory)\prod</ProdRepo>
     <BuildRepo>$(WorkingDirectory)\buildRepo</BuildRepo>
     <TagRepo>$(WorkingDirectory)\tagRepo</TagRepo>
-    <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(MasterRepo)'))</SourceRepo>
+    <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(ActiveRepo)'))</SourceRepo>
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
   </PropertyGroup>
@@ -286,16 +287,16 @@
     <ItemGroup>
       <BranchesToPublish Include="$(Branches)" />
     </ItemGroup>
-    <Message Text="MasterRepo=$(MasterRepo)" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(MasterRepo);Source=$(CustomerNumber)_%(BranchesToPublish.Identity)" />
+    <Message Text="ActiveRepo=$(ActiveRepo)" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(ActiveRepo);Source=$(CustomerNumber)_%(BranchesToPublish.Identity)" />
   </Target>
   
-  <Target Name="InitRepos" DependsOnTargets="InitMasterRepo">
+  <Target Name="InitRepos" DependsOnTargets="InitActiveRepo">
   </Target>
   
   <Target Name="InitBuildRepo">
     <MakeDir Directories="$(WorkingDirectory)" />
-    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(BuildRepo)" Condition="!Exists('$(BuildRepo)')" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone repos://prod $(BuildRepo)" Condition="!Exists('$(BuildRepo)')" />
     <Message Text="WorkingDirectory = $(BuildRepo)" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg pull" />
     <Message Text="WorkingDirectory = $(WorkingDirectory)" />
@@ -304,11 +305,11 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
   </Target>
   
-  <Target Name="InitMasterRepo">
+  <Target Name="InitActiveRepo">
     <MakeDir Directories="$(WorkingDirectory)" />
-    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone customers://master $(MasterRepo)" Condition="!Exists('$(MasterRepo)')" />
-    <Message Text="WorkingDirectory = $(MasterRepo)" />
-    <Exec WorkingDirectory="$(MasterRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone repos://active $(ActiveRepo)" Condition="!Exists('$(ActiveRepo)')" />
+    <Message Text="WorkingDirectory = $(ActiveRepo)" />
+    <Exec WorkingDirectory="$(ActiveRepo)" Command="hg pull" />
   </Target>
   
   <Target Name="InitRepo">
