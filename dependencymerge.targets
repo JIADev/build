@@ -48,6 +48,12 @@
     <!-- 301.B ->  308 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ301.B;TargetBranch=2094_REQ308;DoMerge=true;DoCommit=true" />
 
+    <!-- 301.B ->  304 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ301.B;TargetBranch=2094_REQ304;DoMerge=true;DoCommit=true" />
+
+    <!-- 304 ->  301.B -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ304;TargetBranch=2094_REQ301.B;DoMerge=true;DoCommit=true" />
+
     <!-- 308 ->  309 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ308;TargetBranch=2094_REQ309;DoMerge=true;DoCommit=true" />
 
