@@ -1,12 +1,18 @@
+$sourcerepo = ''
 $customernumber = ''
 $branches = ''
-$args | foreach { if($customernumber -eq ''){
-      	$customernumber = '/p:CustomerNumber=' + $_  + ';Branches="'
+$args | foreach {
+      if($sourcerepo -eq ''){
+        $sourcerepo = '/p:InitSourceRepo=' + $_ + ';CustomerNumber='
       } else {
-      	$branches = $branches + $_ + ';'
+      	if($customernumber -eq ''){
+	  $customernumber = '' + $_  + ';Branches="'
+      	} else {
+      	  $branches = $branches + $_ + ';'
+      	}
       }
 }
 $branches = $branches + '"'
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
-& $msbuild /t:CreateBuild $customernumber$branches $scriptPath\buildtools.proj
+& $msbuild /t:CreateBuild $sourcerepo$customernumber$branches $scriptPath\buildtools.proj
