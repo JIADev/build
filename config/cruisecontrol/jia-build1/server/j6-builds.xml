@@ -606,6 +606,6 @@
       />
 
   <!-- req branches -->
-  <cb:build2queues />
+  <cb:build1queues />
   
 </cb:config-template>
