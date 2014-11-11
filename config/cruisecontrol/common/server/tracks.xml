@@ -54,11 +54,11 @@
   <cb:define name="queue3d">
     <cb:define queueName="Queue3" />
     <cb:reqBuild customer="2094" req-number="REQ142" />
+    <cb:reqBuild customer="2094" req-number="REQ164" />
   </cb:define>
   
   <cb:define name="queue1e">
     <cb:define queueName="Queue1" />
-    <cb:reqBuild customer="2094" req-number="REQ301.B" />
   </cb:define>
   
   <cb:define name="queue2e">
@@ -69,6 +69,16 @@
   <cb:define name="queue3e">
     <cb:define queueName="Queue3" />
     <cb:reqBuild customer="2094" req-number="REQ184" />
+  </cb:define>
+
+<!-- This is a special queue... do not add to it without talking to Carl -->  
+  <cb:define name="specialQueue">
+    <cb:define queueName="REQs" />
+    <cb:reqBuild customer="2094" req-number="REQ301.B" package="true" />
+  </cb:define>
+
+  <cb:define name="build1queues">
+    <cb:specialQueue />
   </cb:define>
   
   <cb:define name="build2queues">

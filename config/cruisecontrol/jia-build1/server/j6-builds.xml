@@ -604,5 +604,8 @@
       repo-name="prod"
       package="true"
       />
+
+  <!-- req branches -->
+  <cb:build2queues />
   
 </cb:config-template>
