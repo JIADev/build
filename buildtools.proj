@@ -6,8 +6,9 @@
     <WorkingDirectory>$([MSBuild]::ValueOrDefault(`$(WorkingDirectory)`, 'c:\dev\repos'))</WorkingDirectory>
     <ActiveRepo>$(WorkingDirectory)\active</ActiveRepo>
     <ProdRepo>$(WorkingDirectory)\prod</ProdRepo>
-    <BuildRepo>$(WorkingDirectory)\buildRepo</BuildRepo>
-    <TagRepo>$(WorkingDirectory)\tagRepo</TagRepo>
+    <InitSourceRepo>$([MSBuild]::ValueOrDefault(`$(InitSourceRepo)`, 'prod')</InitSourceRepo>
+    <BuildRepo>$(WorkingDirectory)\build$(InitSourceRepo)Repo</BuildRepo>
+    <TagRepo>$(WorkingDirectory)\tag$(InitSourceRepo)Repo</TagRepo>
     <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(ActiveRepo)'))</SourceRepo>
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
@@ -295,8 +296,10 @@
   </Target>
   
   <Target Name="InitBuildRepo">
+    <Error Text="Missing InitSourceRepo" Condition="'$(InitSourceRepo)' == ''" />
+    <Message Text="BuildRepo = $(BuildRepo)" />
     <MakeDir Directories="$(WorkingDirectory)" />
-    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone repos://prod $(BuildRepo)" Condition="!Exists('$(BuildRepo)')" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone repos://$(InitSourceRepo) $(BuildRepo)" Condition="!Exists('$(BuildRepo)')" />
     <Message Text="WorkingDirectory = $(BuildRepo)" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg pull" />
     <Message Text="WorkingDirectory = $(WorkingDirectory)" />
