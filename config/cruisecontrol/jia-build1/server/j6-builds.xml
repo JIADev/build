@@ -605,6 +605,8 @@
       package="true"
       />
 
+  <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
+
   <!-- req branches -->
   <cb:build1queues />
   
