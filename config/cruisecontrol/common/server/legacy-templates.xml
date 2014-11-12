@@ -23,8 +23,8 @@
     <artifactDirectory>$(artifact-folder)</artifactDirectory>
     <cb:sourcecontrol />
     <prebuild>
-      <cb:update-source />
       <cb:revertall />
+      <cb:update-source />
     </prebuild>
     <tasks description="Bootstrap setup">
       <cb:set-customer />
