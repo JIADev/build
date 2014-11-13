@@ -38,7 +38,7 @@
       <LastModified>$(Files)</LastModified>
     </PropertyGroup>
   </Target>
-
+  
   <Target Name="GetMergedChangesets">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
@@ -106,17 +106,17 @@
   <Target Name="PublishChangesetLog" >
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing j6Version" Condition="'$(j6Version)' == ''" />
-	<Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
-	<Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
-	<Error Text="Missing SourceFile" Condition="'$(SourceFile)' == ''" />
-	<PropertyGroup>
+    <Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
+    <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
+    <Error Text="Missing SourceFile" Condition="'$(SourceFile)' == ''" />
+    <PropertyGroup>
       <DestFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).xml</DestFile>
-	</PropertyGroup>
-	<ItemGroup>
-		<SourceFiles Include="$(SourceFile)" />
-	</ItemGroup>
-	<Message Text="Copying @(SourceFiles)" />
-  <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(TargetDir)\$(DestFile)')" /> 
+    </PropertyGroup>
+    <ItemGroup>
+      <SourceFiles Include="$(SourceFile)" />
+    </ItemGroup>
+    <Message Text="Copying @(SourceFiles)" />
+    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(TargetDir)\$(DestFile)')" /> 
   </Target>
   
   <Target Name="UnZip" DependsOnTargets="BuildUnZip">
@@ -139,15 +139,15 @@
     </PropertyGroup>
     <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
-
+  
   <Target Name="BuildExtractChangesets">
     <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" Condition="!Exists('$(RepoDirectory)\ExtractChangesets.exe')" />
   </Target>
-
+  
   <Target Name="BuildDeleteIfEmpty">
     <Csc Sources="$(BuildToolsDirectory)\Code\DeleteIfEmpty.cs" OutputAssembly="$(RepoDirectory)\DeleteifEmpty.exe" Condition="!Exists('$(RepoDirectory)\DeleteIfEmpty.exe')" />
   </Target>
-    
+  
   <Target Name="BuildMergeLog">
     <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
   </Target>
@@ -221,37 +221,41 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
   </Target>
-
+  
   <Target Name="CloseBranches">
     <Error Text="Missing /p:BuildRepo" Condition="'$(BuildRepo)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <ItemGroup>
       <BranchesToClose Include="$(Branches)" />
     </ItemGroup>
-     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=%(BranchesToClose.Identity)" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=%(BranchesToClose.Identity)" />
   </Target>
-
-  <Target Name="FindClosed" DependsOnTargets="BuildFindClosedExe">
+  
+  <Target Name="WriteBranchList">
+    <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg branches -c > $(SourceRepo)\branches.txt" IgnoreExitCode="true" />
+  </Target>
+  
+  <Target Name="FindClosed" DependsOnTargets="WriteBranchList;BuildFindClosedExe">
     <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch) $(SourceRepo)\branches.txt $(SourceRepo)\closerevision.txt" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch)_pub $(SourceRepo)\branches.txt closepubrevision.txt" />
   </Target>
-
+  
   <Target Name="BuildFindClosedExe">
     <Csc Sources="$(BuildToolsDirectory)\Code\FindClosed.cs" OutputAssembly="$(BuildToolsDirectory)\Code\FindClosed.exe" Condition="!Exists('$(BuildToolsDirectory)\Code\FindClosed.exe')" />
   </Target>
-
+  
   <Target Name="CloseBranch">
     <Message Text="SourceBranch=$(SourceBranch)" />
     <Message Text="SourceRepo=$(SourceRepo)" />
     <Error Text="Missing /p:SourceBranch=&quot;SourceBranch&quot;" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:SourceRepo=&quot;SourceRepo&quot;" Condition="'$(SourceRepo)' == ''" />
     <CallTarget Targets="FindClosed" Condition="'$(Force)' != 'true'" />
-
+    
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch) -C" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
- </Target>
-
+  </Target>
+  
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
     <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
@@ -282,7 +286,7 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
-
+  
   <Target Name="UpdateReqs" DependsOnTargets="InitRepos">
     <Error Text="Missing CustomerNumber" Condition="'$(CustomerNumber)' == ''" />
     <ItemGroup>
@@ -356,7 +360,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(TargetRepo);Source=$(TargetBranch);UpdateBackToReqBranch=$(UpdateBackToReqBranch)" Condition="'$(Publish)' == 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
-
+  
   <Target Name="MergeAll">
     <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing /p:TargetRepo" Condition="'$(TargetRepo)' == ''" />
@@ -365,17 +369,17 @@
     <ItemGroup>
       <BranchesToMerge Include="$(SourceBranches)" />
     </ItemGroup>
-
+    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(SourceRepo);TargetRepo=$(TargetRepo);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(TargetBranch);DoCommit=true;DoMerge=true;Publish=False" />
   </Target>
-
+  
   <Target Name="Merge">
     <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing /p:SourceBranch" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:TargetBranch" Condition="'$(TargetBranch)' == ''" />
-
+    
   </Target>
-
+  
   <Target Name="PublishReq">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
