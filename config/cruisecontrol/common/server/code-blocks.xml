@@ -33,7 +33,7 @@
 	      description = "hg pull tags branch"
 	      buildArgs = '-c "hg pull -b tags $(source)"' 
 	      baseDirectory="$(project-folder)"
-	      timeout="$(sourcecontrol-timeout)" />
+	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
       </cb:if>
       <cb:else>
       <cb:if expr="'$(tag)' != ''">
@@ -41,7 +41,7 @@
 	      description = "hg pull tags branch"
 	      buildArgs = '-c "hg pull -b tags $(source)"' 
 	      baseDirectory="$(project-folder)" 
-	      timeout="$(sourcecontrol-timeout)" />
+	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
       </cb:if>
       </cb:else>
       
@@ -50,7 +50,7 @@
 	      description = "hg pull tag changes"
 	      buildArgs = '-c "hg pull -r $(tag) $(source)"' 
 	      baseDirectory="$(project-folder)"
-	      timeout="$(sourcecontrol-timeout)" />
+	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
 	
 	<cb:define newChangeset="$(tag)" />
       </cb:if>
@@ -63,7 +63,7 @@
 	      description = "hg pull prod tag changes"
 	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
 	      baseDirectory="$(project-folder)"
-	      timeout="$(sourcecontrol-timeout)" />
+	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
 	
 	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-updatechangelog-timeout)">
