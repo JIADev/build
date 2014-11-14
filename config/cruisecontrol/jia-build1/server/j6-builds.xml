@@ -484,7 +484,7 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-7.6.4"
-      branch = '2095_2094_Merge1'
+      branch = '2094_7.6.4'
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.3"
@@ -516,7 +516,7 @@
       driver="CUST2094"
       project-name="CUST2094-RC3.2"
       branch = 'tags'
-      prodTag="2095_2094_Merge1"
+      prodTag="2094_7.6.4"
       tag="2094_RC3.2"
       platform="AnyCpu"
       repo-name="active"
@@ -577,7 +577,7 @@
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-7.6.4"
-      branch = '2095_2094_Merge1'
+      branch = '2095_7.6.4'
       prodTag="7.6.3"
       platform="AnyCpu"
       repo-name="active"
