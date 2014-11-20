@@ -278,6 +278,7 @@
     <CallTarget Targets="GetTipChangeset">
       <Output TaskParameter="TargetOutputs" PropertyName="Changeset" />
     </CallTarget>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(Changeset);TargetBranch=trashcan;DoMerge=true;DoCommit=true;DoPush=false" />
     <Message Text="Changeset = $(Changeset)" />
     <Message Text="Working directory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
