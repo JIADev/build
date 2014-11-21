@@ -69,6 +69,9 @@
     <!-- 301.B ->  310.B -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ301.B;TargetBranch=2094_REQ310.B;DoMerge=true;DoCommit=true" />
 
+    <!-- 163 ->  164 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ163;TargetBranch=2094_REQ164;DoMerge=true;DoCommit=true" />
+
   </Target>
   <Target Name="Update2094RC2" DependsOnTargets="InitRepos">
     <PropertyGroup>
