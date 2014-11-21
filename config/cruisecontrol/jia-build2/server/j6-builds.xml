@@ -34,6 +34,7 @@
       db-instance=""
       redis-server="qas-redis1"
       redis-db="9"
+	  triggerTime="21:00"
       queueName="WebTests"
       package="true"
       />
