@@ -162,7 +162,7 @@
   
   <cb:v76build
       project-name="CUST000-7.6.4"
-      branch = '2095_2094_Merge1'
+      branch = '7.6.4'
       driver = 'CUST000'
       clean="true"
       build="true"
