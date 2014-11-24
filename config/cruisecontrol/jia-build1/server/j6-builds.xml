@@ -9,6 +9,7 @@
   
   <!-- CUST2090 -->
   
+<!--
   <cb:customerbuild
       project-name="CUST2090-REQ17"
       branch = "2090_REQ17"
@@ -24,7 +25,7 @@
       repo-name="prod"
       package="true"
       />
-  
+  -->
   <!-- CUST2092 -->
   
   <cb:customerbuild
@@ -177,20 +178,6 @@
       />
   
   <cb:v76build
-      driver="CUST000"
-      project-name="CUST000-RC2"
-      branch = '2094_RC2.1'
-      prodTag="7.6.1"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.2"
-      external-protect="true"
-      external-zip="true"
-      compileless="true"
-      package="true"
-      />
-  
-  <cb:v76build
       project-name="CUST000-7.6.0-RM48798"
       branch = '000_RM48798'
       driver = 'CUST000'
@@ -200,20 +187,6 @@
       external-protect="true"
       external-zip="true"
       j6Version="7.6.0"
-      package="true"
-      />
-  
-  <cb:v76build
-      project-name="CUST000-7.6.0-DEV"
-      branch = '000_7.6.0'
-      driver = 'CUST000'
-      platform="AnyCpu"
-      repo-name="active"
-      modules="AUTOSHIP"
-      external-protect="true"
-      external-zip="true"
-      j6Version="7.6.0"
-      package-privatebuild="true"
       package="true"
       />
   
@@ -275,22 +248,6 @@
       package="true"
       />
   
-  
-  <cb:legacybuild
-      project-name="CUST077-7.2.11-nopatches"
-      tag="077_BLD"
-      prodTag="077_PRD"
-      branch="tags"
-      driver = "CUST077"
-      unit-test="false"
-      recreate-db="false"
-      install-patches="false"
-      queueSuffix="-PRD-nopatches"
-      sourceCheckInterval=""
-      repo-name="prod"
-      archive="true"
-      package="true"
-      />
   
   <!-- CUST2069 -->
   
