@@ -177,23 +177,6 @@
       />
   
   <cb:v76build
-      project-name="CUST000-RC3.1.1"
-      branch = '2094_RC3.1.1'
-      driver = 'CUST000'
-      prodTag="7.6.3"
-      clean="true"
-      build="true"
-      data-test="true"
-      platform="AnyCpu"
-      repo-name="active"
-      external-protect="true"
-      external-zip="true"
-      j6Version="7.6.3"
-      modules="AUTOSHIP"
-      package="true"
-      />
-  
-  <cb:v76build
       driver="CUST000"
       project-name="CUST000-RC2"
       branch = '2094_RC2.1'
@@ -497,23 +480,6 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-RC3.1.1"
-      branch = '2094_RC3.1.1'
-      prodTag="7.6.3"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.3"
-      external-protect="true"
-      external-zip="true"
-      package-privatebuild="true"
-      compileless="true"
-      queue-priority="500"
-      archive="true"
-      package="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
       project-name="CUST2094-RC3.2"
       branch = 'tags'
       prodTag="2094_7.6.4"
@@ -582,19 +548,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.4"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-YAN-RC3.1.1"
-      branch = '2094_RC3.1.1'
-      prodTag="7.6.3"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.3"
       external-protect="true"
       external-zip="true"
       package="true"
