@@ -7,6 +7,7 @@
     <cb:define queueName="Queue1" />
     <cb:reqBuild customer="2094" req-number="REQ035.1" />
     <cb:reqBuild customer="2095" req-number="REQ018" />
+    <cb:reqBuild customer="2095" req-number="REQ057" />
   </cb:define>
   
   <cb:define name="queue2b">
@@ -66,11 +67,13 @@
   <cb:define name="queue2e">
     <cb:define queueName="Queue2" />
     <cb:reqBuild customer="2094" req-number="REQ213" />
+    <cb:reqBuild customer="2095" req-number="REQ044" />
   </cb:define>
   
   <cb:define name="queue3e">
     <cb:define queueName="Queue3" />
     <cb:reqBuild customer="2094" req-number="REQ184" />
+    <cb:reqBuild customer="2095" req-number="REQ045" />
   </cb:define>
 
 <!-- This is a special queue... do not add to it without talking to Carl -->  
