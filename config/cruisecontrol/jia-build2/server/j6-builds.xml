@@ -14,7 +14,7 @@
       web-test="true"
       project-to-deploy="CUST2094-WT3.2"
       deployment-webserver="DEV-8900WEB1"
-      deployment-sitename="DEV_8900_2094_RC3.1" 
+      deployment-sitename="DEV_8900_2094" 
       db-server="DEV-8900sql1"
       db-instance=""
       redis-server="qas-redis1"
