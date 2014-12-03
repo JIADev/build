@@ -456,6 +456,20 @@
   
   <cb:v76build
       driver="CUST2094"
+      project-name="CUST2094-REQ301.4-packaged"
+      branch = '2094_REQ301.4'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.4"
+      external-protect="true"
+      external-zip="true"
+      queue-priority="500"
+      archive="true"
+      package="true"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
       project-name="CUST2094-WT3.2"
       branch = '2094_WT3.2'
       prodTag="2094_7.6.4"
