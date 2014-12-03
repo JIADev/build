@@ -14,11 +14,14 @@ namespace j6.BuildTools
 	class Program
 	{
 		static readonly Regex ChangesetRegex = new Regex("^changeset:.*$", RegexOptions.Multiline);
+		private static bool _verbose;
 
 		private static int Main(string[] args)
 		{
 			try
 			{
+				_verbose = args.Any(a => a.Equals("--verbose", StringComparison.InvariantCultureIgnoreCase));
+
 				var repoRoot = FindRepoRoot(new DirectoryInfo(Environment.CurrentDirectory));
 				if (repoRoot == null)
 				{
@@ -35,7 +38,8 @@ namespace j6.BuildTools
 				if(hgIgnoreFile != null)
 					File.Move(hgIgnoreFile, tmpIgnoreFile);
 
-				DeleteJunctions(repoRoot);
+				var junctionsDeleted = DeleteJunctions(repoRoot);
+				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
 
 				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile);
 
@@ -43,13 +47,17 @@ namespace j6.BuildTools
 				{
 					File.Move(tmpIgnoreFile, hgIgnoreFile);
 				}
+				var fileCount = 0;
 				foreach (var file in files.Where(f => f.Exists))
 				{
-					Console.WriteLine(string.Format("Deleting {0}", file));
+					if(_verbose)
+						Console.WriteLine(string.Format("Deleting {0}", file));
 					file.Delete();
+					fileCount++;
 				}
-				DeleteEmptyDirectories(repoRoot);
-
+				Console.WriteLine(string.Format("Deleted {0} files.", fileCount));
+				var emptyDirectories = DeleteEmptyDirectories(repoRoot);
+				Console.WriteLine(string.Format("Deleted {0} empty directories.", emptyDirectories));
 			}
 			catch (Exception ex)
 			{
@@ -59,33 +67,36 @@ namespace j6.BuildTools
 			return 0;
 		}
 
-		private static void DeleteJunctions(DirectoryInfo directory)
+		private static int DeleteJunctions(DirectoryInfo directory)
 		{
 			if (directory.Attributes.HasFlag(FileAttributes.ReparsePoint))
 			{
-				Console.WriteLine(string.Format("Deleting Junction {0}", directory));
+				if(_verbose)
+					Console.WriteLine(string.Format("Deleting Junction {0}", directory));
 				directory.Delete();
-				return;
+				return 1;
 			}
-			foreach (var dir in directory.GetDirectories())
-				DeleteJunctions(dir);
+			return directory.GetDirectories().Sum(dir => DeleteJunctions(dir));
 		}
 
-		private static void DeleteEmptyDirectories(DirectoryInfo directory)
+		private static int DeleteEmptyDirectories(DirectoryInfo directory)
 		{
-			foreach(var dir in directory.GetDirectories())
-				DeleteEmptyDirectories(dir);
+			var emptyDirectoriesDeleted = directory.GetDirectories().Sum(dir => DeleteEmptyDirectories(dir));
 			
 			if (!directory.GetFileSystemInfos().Any())
 			{
-				Console.WriteLine(string.Format("Deleting empty directory {0}", directory));
+				if(_verbose)
+					Console.WriteLine(string.Format("Deleting empty directory {0}", directory));
 				directory.Delete(false);
+				emptyDirectoriesDeleted++;
 			}
+			return emptyDirectoriesDeleted;
 		}
 
 		private static void RevertAll(string hgExe, DirectoryInfo directory)
 		{
-			Console.WriteLine("Reverting all files under " + directory.FullName);
+			if(_verbose)
+				Console.WriteLine("Reverting all files under " + directory.FullName);
 			BuildSystem.RunProcess(hgExe, "revert --all --no-backup", directory.FullName);
 		}
 
