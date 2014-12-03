@@ -3,7 +3,7 @@ $customernumber = ''
 $branches = ''
 $args | foreach {
       if($sourcerepo -eq ''){
-        $sourcerepo = '/p:InitSourceRepo=' + $_ + ';CustomerNumber='
+        $sourcerepo = '/p:Preview=false;InitSourceRepo=' + $_ + ';CustomerNumber='
       } else {
       	if($customernumber -eq ''){
 	  $customernumber = '' + $_  + ';Branches="'
