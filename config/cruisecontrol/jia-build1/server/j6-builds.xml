@@ -417,7 +417,6 @@
       external-protect="true"
       external-zip="true"
       compileless="true"
-      queue-priority="1500"
       package="true"
       />
   
@@ -463,7 +462,7 @@
       j6Version="7.6.4"
       external-protect="true"
       external-zip="true"
-      queue-priority="500"
+      queue-suffix="cvs"
       archive="true"
       package="true"
       unit-test="false"
