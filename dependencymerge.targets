@@ -22,6 +22,9 @@
     <!-- 306.4 ->  309.4 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ306.4;TargetBranch=2094_REQ309.4;DoMerge=true;DoCommit=true" />
     
+    <!-- 309.4 ->  306.4 -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ309.4;TargetBranch=2094_REQ306.4;DoMerge=true;DoCommit=true" />
+    
     <!-- 309.4 ->  213.4 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_REQ309.4;TargetBranch=2094_REQ213.4;DoMerge=true;DoCommit=true" />
     
