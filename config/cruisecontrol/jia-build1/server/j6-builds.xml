@@ -436,9 +436,8 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-RC3.2"
-      branch = 'tags'
+      branch = '2094_RC3.2.1'
       prodTag="2094_7.6.4"
-      tag="2094_RC3.2"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.4"
@@ -449,7 +448,6 @@
       queue-priority="500"
       archive="true"
       package="true"
-      sourceCheckInterval=""
       />
   
   <cb:v76build
