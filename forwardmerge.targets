@@ -197,6 +197,8 @@
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_2094" />
     
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=2094_REQ%(ReleaseCandidate321Reqs.Identity)" />
+
     <!-- Now we merge into the release candidate branch -->
     <!-- <CallTarget Targets="ReleaseCandidate1_2094" /> -->
     
