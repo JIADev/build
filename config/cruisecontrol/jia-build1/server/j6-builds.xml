@@ -511,7 +511,7 @@
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-7.6.4"
-      branch = '2095_7.6.4'
+      branch = '7.6.4'
       prodTag="7.6.3"
       platform="AnyCpu"
       repo-name="active"
