@@ -446,26 +446,25 @@
       package-privatebuild="true"
       compileless="true"
       queue-priority="500"
-      archive="true"
+      archive="false"
       package="true"
       />
-
-<!--  
+ 
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-REQ301.4-printClient"
-      branch = '2094_REQ301.4_printClient'
+      project-name="CUST2094-RM51534"
+      branch = '2094_RM51534'
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.4"
       external-protect="true"
       external-zip="true"
-      queueSuffix="cvs"
-      archive="true"
+      queueSuffix="debug"
+      archive="false"
       package="true"
       unit-test="false"
       />
-  -->
+ 
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-WT3.2"
