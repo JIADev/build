@@ -524,6 +524,19 @@
   
   <cb:v76build
       driver="CUST2095"
+      project-name="CUST2095-pre7.6.5"
+      branch = '2094_RC3.2.1'
+      prodTag="2095_RC2.1"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.4"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
       project-name="CUST2095-WT2.1"
       branch = '2095_WT2.1'
       prodTag="2095_UAT"
