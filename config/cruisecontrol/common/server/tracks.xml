@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <!-- default queue-priority = 2000.  Subtract 1000 if it is part of a track build.  Subtract 50 for each dependency it has -->
+  
+  <cb:define name="queue1b">
+    <cb:define queueName="Queue1" />
+    <cb:reqBuild customer="2094" req-number="REQ067.4" />
+  </cb:define>
+  
+  <cb:define name="queue2b">
+    <cb:define queueName="Queue2" />
+  </cb:define>
+  
+  <cb:define name="queue3b">
+    <cb:define queueName="Queue3" />
+	<cb:reqBuild customer="2094" req-number="REQ057.4" />
+  </cb:define>
+  
+  <cb:define name="queue1c">
+    <cb:define queueName="Queue1" />
+	<cb:reqBuild customer="2094" req-number="REQ058.4" />
+  </cb:define>
+  
+  <cb:define name="queue2c">
+    <cb:define queueName="Queue2" />
+    <cb:reqBuild customer="2094" req-number="REQ214.4" />
+  </cb:define>
+  
+  <cb:define name="queue3c">
+    <cb:define queueName="Queue3" />
+	<cb:reqBuild customer="2094" req-number="REQ194.4" />
+  </cb:define>
+  
+  <cb:define name="queue1d">
+    <cb:define queueName="Queue1" />
+    <cb:reqBuild customer="2094" req-number="REQ142.4" />
+  </cb:define>
+  
+  <cb:define name="queue2d">
+    <cb:define queueName="Queue2" />
+  </cb:define>
+  
+  <cb:define name="queue3d">
+    <cb:define queueName="Queue3" />
+  </cb:define>
+  
+  <cb:define name="queue1e">
+    <cb:define queueName="Queue1" />
+    <cb:reqBuild customer="2095" req-number="REQ012" />
+  </cb:define>
+  
+  <cb:define name="queue2e">
+    <cb:define queueName="Queue2" />
+  </cb:define>
+  
+  <cb:define name="queue3e">
+    <cb:define queueName="Queue3" />
+    <cb:reqBuild customer="2095" req-number="REQ045" />
+  </cb:define>
+  
+  <!-- This is a special queue... do not add to it without talking to Carl -->  
+  <cb:define name="specialQueue">
+    <cb:define queueName="REQs" />
+  </cb:define>
+  
+  <cb:define name="build1queues">
+    <cb:specialQueue />
+  </cb:define>
+  
+  <cb:define name="build2queues">
+    <cb:queue1b />
+    <cb:queue2b />
+    <cb:queue3b />
+    <cb:queue1c />
+    <cb:queue2c />
+    <cb:queue3c />
+  </cb:define>
+  
+  <cb:define name="build3queues">
+  </cb:define>
+  
+  <cb:define name="build4queues">
+    <cb:queue1d />
+    <cb:queue2d />
+    <cb:queue3d />
+    <cb:queue1e />
+    <cb:queue2e />
+    <cb:queue3e />
+  </cb:define>
+  
+  <cb:define name="build5queues">
+  </cb:define>
+  
+</cb:config-template>
