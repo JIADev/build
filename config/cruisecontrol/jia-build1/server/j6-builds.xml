@@ -533,6 +533,7 @@
       external-protect="true"
       external-zip="true"
       package="true"
+      queue-priority="2500"
       />
   
   <cb:v76build
