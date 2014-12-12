@@ -2,7 +2,7 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   
   <!-- Common definitions for all projects, edit to suit your system -->
-
+  
   <!-- Paths -->
   <!-- Common feature used for legacy builds -->
   <cb:define 
@@ -31,10 +31,11 @@
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
       repo-name="$(driver)"
-	  buildversion="$[$CCNetLabel]"
-	  corflags="C:\build\CorFlags.exe"
+      buildversion="$[$CCNetLabel]"
+      corflags="C:\build\CorFlags.exe"
+      initialState="Started"
       />
-
+  
   <!-- Network Urls and Servers -->
   <cb:define
       repo-source-root="\\jia-build4\repo$"
@@ -43,7 +44,7 @@
       ccwebroot="http://jia-build1/ccnet/"
       deployment-webserver=""
       deployment-sitename="" />
-
+  
   <!-- Build Switches -->
   <cb:define
       modules="NONE" 
@@ -51,9 +52,9 @@
       configuration="Release"
       include-source="false"
       protect="true" />
-
+  
   <!-- Other defaults -->
-    <!-- 14400 seconds = 4 hours -->
+  <!-- 14400 seconds = 4 hours -->
   <cb:define
       generate-reports="true"
       j6Version="7.0.0"
@@ -110,8 +111,8 @@
       msbuild-patch-timeout="1200"
       msbuild-ncover-timeout="900"
       msbuild-updatechangelog-timeout="1500"
-	  msbuild-md5-timeout="600"
-	  msbuild-setCorFlags-timeout="600"
+      msbuild-md5-timeout="600"
+      msbuild-setCorFlags-timeout="600"
       ncover-timeout="900"
       webtest-timeout="10800"
       get-reports-timeout="600"
@@ -122,10 +123,10 @@
       external-protect="false"
       external-zip="false"
       tag-completed="false"
-	  set-corflags="false"
+      set-corflags="false"
       />
   <cb:define 
       compileless="false"
-	  archive="false"
+      archive="false"
       />
 </cb:config-template>
