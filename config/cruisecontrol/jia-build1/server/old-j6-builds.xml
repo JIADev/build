@@ -49,6 +49,21 @@
       initialState="Stopped"
       />
   
+  <!-- CUST2093 -->
+  
+  <cb:customerbuild
+      project-name="CUST2093-7.5.2"
+      branch = "tags"
+      tag = "2093_BLD"
+      prodTag="2093_PRD"
+      driver = "CUST2093"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      initialState="Stopped"
+      />
+  
   <!-- CUST000 -->
   
   <cb:customerbuild
