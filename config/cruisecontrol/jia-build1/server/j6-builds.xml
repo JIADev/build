@@ -217,35 +217,7 @@
       />
   
   
-  <!-- CUST2093 -->
-  
-  <cb:customerbuild
-      project-name="CUST2093-7.5.2"
-      branch = "tags"
-      tag = "2093_BLD"
-      prodTag="2093_PRD"
-      driver = "CUST2093"
-      repo-name="prod"
-      sourceCheckInterval=""
-      archive="true"
-      package="true"
-      />
-  
   <!-- CUST2094 -->
-  
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-7.6.4"
-      branch = '2094_7.6.4'
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.4"
-      external-protect="true"
-      external-zip="true"
-      compileless="true"
-      queue-priority="1500"
-      package="true"
-      />
   
   <cb:v76build
       driver="CUST2094"
@@ -261,6 +233,20 @@
       compileless="true"
       queue-priority="500"
       archive="false"
+      package="true"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-7.6.4"
+      branch = '2094_7.6.4'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.4"
+      external-protect="true"
+      external-zip="true"
+      compileless="true"
+      queue-priority="1500"
       package="true"
       />
   
@@ -324,20 +310,6 @@
   
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-pre7.6.5"
-      branch = '2094_RC3.2.1'
-      prodTag="2095_RC2.1"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.4"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      queue-priority="2500"
-      />
-  
-  <cb:v76build
-      driver="CUST2095"
       project-name="CUST2095-WT2.1"
       branch = '2095_WT2.1'
       prodTag="2095_UAT"
@@ -349,6 +321,20 @@
       package-privatebuild="true"
       package="true"
       /> 
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-pre7.6.5"
+      branch = '2094_RC3.2.1'
+      prodTag="2095_RC2.1"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.4"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      queue-priority="2500"
+      />
   
   <!-- CUST2096 -->
   
