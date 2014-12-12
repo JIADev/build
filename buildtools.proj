@@ -10,6 +10,7 @@
     <BuildRepo>$(WorkingDirectory)\build$(InitSourceRepo)Repo</BuildRepo>
     <TagRepo>$(WorkingDirectory)\tag$(InitSourceRepo)Repo</TagRepo>
     <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(ActiveRepo)'))</SourceRepo>
+    <TrashBranch>$([MSBuild]::ValueOrDefault(`$(TrashBranch)`, 'trash'))</TrashBranch>
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
   </PropertyGroup>
@@ -278,13 +279,13 @@
     <CallTarget Targets="GetTipChangeset">
       <Output TaskParameter="TargetOutputs" PropertyName="Changeset" />
     </CallTarget>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(Changeset);TargetBranch=trash;DoMerge=true;DoCommit=true;DoPush=false" />
     <Message Text="Changeset = $(Changeset)" />
     <Message Text="Working directory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(CustomerPrefix)$(BuildTag) $(CustomerPrefix)$(DatedBuildTag) -m "Triggering build for $(CustomerPrefix)$(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(BuildTag);TargetBranch=$(TrashBranch);ToolArgs=internal:other;ExtraArgs=--noninteractive;DoMerge=true;DoCommit=true;DoPush=false" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
   
@@ -346,6 +347,7 @@
       <CleanFlag>$([MSBuild]::ValueOrDefault(`$(CleanFlag)`, ' -C'))</CleanFlag>
       <InternalMerge>$([MSBuild]::ValueOrDefault(`$(InternalMerge)`, 'true'))</InternalMerge>
       <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
+      <ToolArgs>$([MSBuild]::ValueOrDefault(`$(ToolArgs)`, 'internal:merge'))</ToolArgs>
       <UpdateBackToReqBranch>$([MSBuild]::ValueOrDefault(`$(UpdateBackToReqBranch)`, 'true'))</UpdateBackToReqBranch>
     </PropertyGroup>
     <Message Text="WorkingDirectory = $(TargetRepo)" />
@@ -354,7 +356,7 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch)$(CleanFlag)" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)' --preview" Condition="'$(Preview)' != 'false'" />
-    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)' --tool=internal:merge" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' == 'true'" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)' --tool=$(ToolArgs) $(ExtraArgs)" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)'" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' != 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg resolve --all" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "@merge $(SourceBranch)"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
