@@ -59,6 +59,13 @@
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" Condition="Exists('$(RepoDirectory)\ChangesetLog.xml')" />
   </Target>
   
+  <Target Name="CleanProjectFiles" DependsOnTargets="BuildCleanProjectFiles">
+    <PropertyGroup>
+      <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
+    </PropertyGroup>
+    <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\CleanProjectFiles.exe" />
+  </Target>
+
   <Target Name="ReadChangedFiles" DependsOnTargets="BuildChangedFiles">
     <Error Text="Missing ChangesetLogFile" Condition="'$(ChangesetLogFile)' == ''" />
     <Error Text="Missing OutputFile" Condition="'$(OutputFile)' == ''" />
@@ -151,6 +158,10 @@
   
   <Target Name="BuildMergeLog">
     <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
+  </Target>
+
+  <Target Name="BuildCleanProjectFiles">
+    <Csc Sources="$(BuildToolsDirectory)\Code\CleanProjectFiles.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\Code\CleanProjectFiles.exe" />
   </Target>
   
   <Target Name="BuildChangedFiles">
@@ -359,6 +370,7 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)' --tool=$(ToolArgs) $(ExtraArgs)" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' == 'true'" IgnoreExitCode="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)'" Condition="'$(DoMerge)' == 'true' And '$(InternalMerge)' != 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg resolve --all" Condition="'$(DoMerge)' == 'true'" IgnoreExitCode="true" />
+    <CallTarget Targets="CleanProjectFiles" />
     <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "@merge $(SourceBranch)"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(TargetRepo);Source=$(TargetBranch);UpdateBackToReqBranch=$(UpdateBackToReqBranch)" Condition="'$(Publish)' == 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
