@@ -36,13 +36,13 @@
 	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
       </cb:if>
       <cb:else>
-      <cb:if expr="'$(tag)' != ''">
-	<exec executable="$(powershell)" 
-	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags $(source)"' 
-	      baseDirectory="$(project-folder)" 
-	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
-      </cb:if>
+	<cb:if expr="'$(tag)' != ''">
+	  <exec executable="$(powershell)" 
+		description = "hg pull tags branch"
+		buildArgs = '-c "hg pull -b tags $(source)"' 
+		baseDirectory="$(project-folder)" 
+		buildTimeoutSeconds="$(sourcecontrol-timeout)" />
+	</cb:if>
       </cb:else>
       
       <cb:if expr="'$(tag)' != ''">
@@ -596,30 +596,40 @@
   
   <cb:define name="run-ncover-f-unittests">
     <cb:if expr="'$(unit-test)' == 'true'">
+      <cb:if expr="'$(code-coverage)' == 'true'">
+	<cb:define unit-test-target="NCover" />
+      </cb:if>
+      <cb:else>
+	<cb:define unit-test-target="UnitTest" />
+      </cb:else>
       <msbuild logger="$(msBuildListenerDll)" description="NCover Unit Tests">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
-	<targets>NCover</targets>
+	<targets>$(unit-test-target)</targets>
 	<timeout>$(msbuild-ncover-timeout)</timeout>
       </msbuild>
     </cb:if>
   </cb:define>
   <cb:define name="run-ncover">
     <cb:if expr="'$(unit-test)' == 'true'">
-      <exec>
-	<description>Run unit tests for $(assembly)</description>
-	<executable>$(ncoverConsoleExe)</executable>
-	<buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
-	<buildArgs>"$(nunit)\nunit-console.exe" /nologo /labels /framework=4.0.30319 "/result=$(project-folder)\TestResult\$(assembly)-test.xml" //x $(project-folder)\Coverage\$(assembly)-coverage.xml //at $(project-folder)\Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
-	<baseDirectory>$(project-folder)</baseDirectory>
-      </exec>
+      <cb:if expr="'$(code-coverage)' == 'true'">
+	<exec>
+	  <description>Run unit tests for $(assembly)</description>
+	  <executable>$(ncoverConsoleExe)</executable>
+	  <buildTimeoutSeconds>$(ncover-timeout)</buildTimeoutSeconds>
+	  <buildArgs>"$(nunit)\nunit-console.exe" /nologo /labels /framework=4.0.30319 "/result=$(project-folder)\TestResult\$(assembly)-test.xml" //x $(project-folder)\Coverage\$(assembly)-coverage.xml //at $(project-folder)\Coverage\$(assembly)-trend.xml //eas .*Test;j6.Core.Config;j6.Data //ias j6\..+;CUST\d+\..+ //et Tests;XmlSerializers;CodeLib $(project-folder)\PrivateBuild\$(assembly).dll</buildArgs>
+	  <baseDirectory>$(project-folder)</baseDirectory>
+	</exec>
+      </cb:if>
     </cb:if>
   </cb:define>
   
   <cb:define name="setup-unittests">
     <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' description="Create TestResult directory" />
-    <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' description="Create Coverage directory" />
+    <cb:if expr="'$(code-coverage)' == 'true'">
+      <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' description="Create Coverage directory" />
+    </cb:if>
   </cb:define>
   
   <cb:define name="run-unittests">
@@ -668,13 +678,15 @@
   
   <cb:define name="get-reports">
     <cb:if expr="'$(generate-reports)' == 'true'">
-      <exec>
-	<description>Generate coverage report</description>
-	<executable>$(ncoverReportingExe)</executable>
-	<buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
-	<buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
-	<baseDirectory>$(project-folder)\Coverage</baseDirectory>
-      </exec>
+      <cb:if expr="'$(code-coverage)' == 'true'">
+	<exec>
+	  <description>Generate coverage report</description>
+	  <executable>$(ncoverReportingExe)</executable>
+	  <buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
+	  <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+	  <baseDirectory>$(project-folder)\Coverage</baseDirectory>
+	</exec>
+      </cb:if>
       <exec executable="$(powershell)" description = "copy j6.ndproj from core/private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
       <cb:if expr="'$(run-ndepend)' == 'true'">
 	<ndepend>
