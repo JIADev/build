@@ -598,11 +598,13 @@
     <cb:if expr="'$(unit-test)' == 'true'">
       <cb:if expr="'$(code-coverage)' == 'true'">
 	<cb:define unit-test-target="NCover" />
+	<cb:define unit-test-description="NCover Unit Tests" />
       </cb:if>
       <cb:else>
 	<cb:define unit-test-target="UnitTest" />
+	<cb:define unit-test-description="Run Unit Tests" />
       </cb:else>
-      <msbuild logger="$(msBuildListenerDll)" description="NCover Unit Tests">
+      <msbuild logger="$(msBuildListenerDll)" description="$(unit-test-description)">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
 	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
