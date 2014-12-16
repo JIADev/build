@@ -60,6 +60,7 @@
   
   <cb:define name="queue3e">
     <cb:define queueName="Queue3" />
+    <cb:reqBuild customer="2094" req-number="CR143.001" />
   </cb:define>
   
   <!-- This is a special queue... do not add to it without talking to Carl -->  
