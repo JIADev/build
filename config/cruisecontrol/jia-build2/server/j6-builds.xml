@@ -9,7 +9,7 @@
   <cb:build2queues />
 
   <cb:v76deployment
-      project-name="CUST2094-7.6.4-WebTest"
+      project-name="CUST2094-7.6.5-WebTest"
       driver = 'CUST2094'
       web-test="true"
       project-to-deploy="CUST2094-7.6.5_WT"
@@ -24,7 +24,7 @@
       />
 
   <cb:v76deployment
-      project-name="CUST2095-RC2.1-WebTest"
+      project-name="CUST2095-7.6.5-WebTest"
       driver = 'CUST2095'
       web-test="true"
       project-to-deploy="CUST2095-7.6.5_WT"
