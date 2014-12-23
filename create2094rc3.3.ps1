@@ -1,4 +1,4 @@
-$initsourcerepo='/p:Preview=false;InitSourceRepo=active;'
+$initsourcerepo='/p:TrashBranch=trashcan;Preview=false;InitSourceRepo=active;'
 $interactive = 'Interactive=true;'
 
 $args | foreach { if($_ -eq '--non-interactive'){
