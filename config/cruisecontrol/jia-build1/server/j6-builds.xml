@@ -231,7 +231,7 @@
       external-zip="true"
       package-privatebuild="true"
       compileless="true"
-      queue-priority="500"
+      queue-priority="750"
       archive="false"
       package="true"
       />
@@ -252,6 +252,7 @@
       queue-priority="500"
       archive="false"
       package="true"
+      sourceCheckInterval=""
       />
   
   <cb:v76build
