@@ -232,13 +232,13 @@
 
   <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;ForwardMerge_2095;ForwardMerge_2094">
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.4;TargetBranch=7.6.5;DoMerge=true;DoCommit=true" />
-<!--
+
     <ItemGroup>
-      <ActiveReqs Include="012" />
+      <ActiveReqs Include="021.5;035.5" />
     </ItemGroup>
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC2.1;TargetBranch=2095_REQ%(ActiveReqs.Identity);DoMerge=true;DoCommit=true" />
--->
+
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=2095_WT2.1" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_WT2.1;TargetBranch=7.6.5_WT;DoMerge=true;DoCommit=true" />
@@ -252,5 +252,12 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=7.6.5_WT;DoMerge=true;DoCommit=true" />
     
+  </Target>
+  <Target Name="ForwardMerge_765" DependsOnTargets="ForwardMerge_Active">
+    <ItemGroup>
+      <ActiveReqs Include="2094_CR013.001;2094_CR039.001;2094_CR081.001;2094_CR141.001;2094_CR143.001;2094_REQ057.4;2094_REQ058.4;2094_REQ067.4;2094_REQ142.4;2094_REQ194.4;2094_REQ213.5;2094_REQ214.4;2094_REQ216.4;2095_REQ021.5;2095_REQ035.5" />
+    </ItemGroup>
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=%(ActiveReqs.Identity);DoMerge=true;DoCommit=true" />
   </Target>
 </Project>
