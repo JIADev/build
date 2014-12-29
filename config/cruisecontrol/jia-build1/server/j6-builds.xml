@@ -224,7 +224,7 @@
       project-name="CUST2094-RC3.2"
       branch = 'tags'
       tag="2094_RC3.2"
-      prodTag="7.6.5"
+      prodTag="2094_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.5"
