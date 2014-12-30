@@ -172,10 +172,10 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.4;TargetBranch=7.6.5;DoMerge=true;DoCommit=true" />
     
     <ItemGroup>
-      <ActiveReqs Include="REQ021.5;REQ035.5;REQ032.5;REQ035.5;REQ060.5" />
+      <ActiveReqs Include="REQ021.5;REQ035.5;REQ032.5;REQ035.5;REQ060.5;REQ034.5" />
     </ItemGroup>
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC2.1;TargetBranch=2095_%(ActiveReqs.Identity);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=2095_%(ActiveReqs.Identity);DoMerge=true;DoCommit=true" />
 
   </Target>
   
