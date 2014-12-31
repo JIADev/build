@@ -24,7 +24,7 @@
     <cb:reqBuild customer="2094" req-number="CR141.001" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ214.4" />
     <cb:reqBuild customer="2094" req-number="REQ057.4" />
-    <cb:reqBuild customer="2095" req-number="REQ047.5" />
+    <cb:reqBuild customer="2095" req-number="REQ047" />
   </cb:define>
   
   <cb:define name="queue2d">
