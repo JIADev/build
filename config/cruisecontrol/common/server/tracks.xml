@@ -48,6 +48,7 @@
     <cb:reqBuild customer="2094" req-number="CR081.001" />
     <cb:reqBuild customer="2094" req-number="CR143.001" />
     <cb:reqBuild customer="2095" req-number="REQ032.5" />
+    <cb:reqBuild customer="2095" req-number="REQ008.5" />
   </cb:define>
   
   <cb:define name="build2queues">

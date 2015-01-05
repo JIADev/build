@@ -7,7 +7,7 @@ $args | foreach { if($_ -eq '--non-interactive'){
 }
 
 $customernumber = 'CustomerNumber=2094;SuppressPrefix="true";'
-$branches = 'Branches="2094_REQ216.4;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2095_REQ021.5"'
+$branches = 'Branches="2094_REQ216.4;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2095_REQ021.5;2095_REQ034.5"'
 $buildTag = 'BuildTag=2094_RC3.3;'
 $baseTag = 'BaseTag=2094_RC3.2;'
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
