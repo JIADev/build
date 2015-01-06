@@ -8,7 +8,7 @@
     <cb:reqBuild customer="2094" req-number="REQ067.4" />
     <cb:reqBuild customer="2094" req-number="RM51376" />
     <cb:reqBuild customer="2094" req-number="CR013.001" />
-	<cb:reqBuild customer="2094" req-number="REQ079.5" />
+    <cb:reqBuild customer="2094" req-number="REQ079.5" />
     <cb:reqBuild customer="2094" req-number="REQ058.4" queue-priority="1000" />
   </cb:define>
   
@@ -17,7 +17,6 @@
     <cb:reqBuild customer="2094" req-number="REQ142.4" />
     <cb:reqBuild customer="2094" req-number="REQ216.4" queue-priority="500" />
     <cb:reqBuild customer="2095" req-number="REQ031.5" />
-    <cb:reqBuild customer="2095" req-number="REQ034.5" />
   </cb:define>
   
   <cb:define name="queue2b">
@@ -33,22 +32,19 @@
     <cb:reqBuild customer="2094" req-number="CR039.001" queue-priority="1000" />
     <cb:reqBuild customer="2095" req-number="REQ035.5" />
     <cb:reqBuild customer="2095" req-number="REQ060.5" />
-	<cb:reqBuild customer="2095" req-number="REQ056.5" />
   </cb:define>
   
   <cb:define name="queue3b">
     <cb:define queueName="Queue3" />
-    <cb:reqBuild customer="2095" req-number="REQ021.5" queue-priority="1000" />
     <cb:reqBuild customer="2094" req-number="REQ213.5" />
     <cb:reqBuild customer="2094" req-number="REQ194.4" />
-	<cb:reqBuild customer="2095" req-number="REQ046.5" />
+    <cb:reqBuild customer="2095" req-number="REQ046.5" />
   </cb:define>
   
   <cb:define name="queue3d">
     <cb:define queueName="Queue3" />
     <cb:reqBuild customer="2094" req-number="CR081.001" />
     <cb:reqBuild customer="2094" req-number="CR143.001" />
-    <cb:reqBuild customer="2095" req-number="REQ032.5" />
     <cb:reqBuild customer="2095" req-number="REQ008.5" />
   </cb:define>
   
