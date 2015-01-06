@@ -308,8 +308,7 @@
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-RC3"
-      branch = 'tags'
-      tag="2094_RC3.3"
+      branch = '2095_RC3a'
       prodTag="2095_UAT"
       platform="AnyCpu"
       repo-name="active"
@@ -318,7 +317,6 @@
       external-zip="true"
       package="true"
       queue-priority="500"
-      sourceCheckInterval=""
       />
   
   <cb:v76build
