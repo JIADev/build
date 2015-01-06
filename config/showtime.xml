@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <release>
+    <buildroot>c:\Jenkon\builds\j6-release</buildroot>
+  </release>
+  <debug>
+    <buildroot>c:\Jenkon\builds\j6-debug</buildroot>
+  </debug>
+</config>
