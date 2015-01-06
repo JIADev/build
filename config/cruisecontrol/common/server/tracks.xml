@@ -32,6 +32,7 @@
     <cb:reqBuild customer="2094" req-number="CR039.001" queue-priority="1000" />
     <cb:reqBuild customer="2095" req-number="REQ035.5" />
     <cb:reqBuild customer="2095" req-number="REQ060.5" />
+	<cb:reqBuild customer="2094" req-number="CR197.001" /
   </cb:define>
   
   <cb:define name="queue3b">
