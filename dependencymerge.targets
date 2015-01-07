@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Target Name="DependencyMerge_2094" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    
+    <!-- Dependency branches -->
+	 <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_CR081.001;TargetBranch=2094_REQ079.5;DoMerge=true;DoCommit=true" />
+    
+  </Target>
+  
+  <Target Name="DependencyMerge_2095" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    
+	 <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ047;TargetBranch=2095_REQ035.5;DoMerge=true;DoCommit=true" />
+  </Target>
+  
+</Project>
