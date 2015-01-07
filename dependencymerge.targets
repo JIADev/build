@@ -6,6 +6,7 @@
     </PropertyGroup>
     
     <!-- Dependency branches -->
+	 <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_CR081.001;TargetBranch=2094_REQ079.5;DoMerge=true;DoCommit=true" />
     
   </Target>
   
@@ -14,6 +15,7 @@
       <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
     
+	 <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ047;TargetBranch=2095_REQ035.5;DoMerge=true;DoCommit=true" />
   </Target>
   
 </Project>
