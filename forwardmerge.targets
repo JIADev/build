@@ -169,7 +169,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <CompletedRC33Reqs Include="2095_RC3a;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5" />
+      <CompletedRC33Reqs Include="2095_RC3a;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5;2094_CR143.001" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
