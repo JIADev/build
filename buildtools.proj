@@ -344,7 +344,7 @@
       <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
       <UpdateBackToReqBranch>$([MSBuild]::ValueOrDefault(`$(UpdateBackToReqBranch)`, 'true'))</UpdateBackToReqBranch>
     </PropertyGroup>
-    <Message Text="WorkingDirectory = $(TargetRepo)" />
+    <Message Text="WorkingDirectory = $(TargetRepo) Source=$(SourceBranch) Target=$(TargetBranch)" />
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="GetMergedChangesets" Properties="RepoDirectory=$(TargetRepo);OriginalChangeset=$(TargetBranch);UpdateToChangeset=$(TargetBranch);NewChangeset=$(SourceBranchPrefix)$(SourceBranch)" />
@@ -361,7 +361,7 @@
       <ToolArgs>$([MSBuild]::ValueOrDefault(`$(ToolArgs)`, 'internal:merge'))</ToolArgs>
       <UpdateBackToReqBranch>$([MSBuild]::ValueOrDefault(`$(UpdateBackToReqBranch)`, 'true'))</UpdateBackToReqBranch>
     </PropertyGroup>
-    <Message Text="WorkingDirectory = $(TargetRepo)" />
+    <Message Text="WorkingDirectory = $(TargetRepo) Source=$(SourceBranch) Target=$(TargetBranch)" />
     <Message Text="Publish = $(Publish)" />
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
