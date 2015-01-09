@@ -157,7 +157,7 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(TargetRepo);SourceBranch=%(CompletedRC3Reqs.Identity)" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3.3a;TargetBranch=2095_RC3a;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3.3a;TargetBranch=2095_RC3a;DoMerge=true;DoCommit=true" />
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=%(CompletedRC3Reqs.Identity);TargetBranch=2095_RC3a;DoMerge=true;DoCommit=true" />
     
@@ -169,10 +169,12 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <CompletedRC33Reqs Include="2095_RC3a;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5;2094_CR143.001" />
+      <CompletedRC33Reqs Include="2094_REQ216.4;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5;2094_CR143.001;2094_RM51652" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=2094_REQ216.4;DoMerge=true;DoCommit=true" />
     
     <!-- These are the branches which don't depend on anything and *don't* need to be published -->
     
@@ -183,16 +185,28 @@
     
     <!-- Now the ones which depend on another branch and *don't* need to be published -->
 
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC3a;TargetBranch=2094_RC3.3a;DoMerge=true;DoCommit=true" />
+
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=%(CompletedRC33Reqs.Identity);TargetBranch=2094_RC3.3a;DoMerge=true;DoCommit=true" />
 
   </Target>
 
-  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;ForwardMerge_2095;ForwardMerge_2094">
-    
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=7.6.5_WT;DoMerge=true;DoCommit=true" />
+  <Target Name="PreForwardMergeActive" DependsOnTargets="InitRepos">
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=2094_REQ216.4;DoMerge=true;DoCommit=true" />
-    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5_WT;TargetBranch=7.6.5;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=7.6.5_WT;DoMerge=true;DoCommit=true" />
+
+  </Target>
+
+  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;PreForwardMergeActive;ForwardMerge_2095;ForwardMerge_2094;PostForwardMergeActive" />
+
+  <Target Name="PostForwardMergeActive" DependsOnTargets="InitRepos">
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3.3a;TargetBranch=2095_RC3a;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC3a;TargetBranch=2094_RC3.3a;DoMerge=true;DoCommit=true" />
+
   </Target>
 
   <Target Name="ForwardMerge_765" DependsOnTargets="ForwardMerge_Active">
