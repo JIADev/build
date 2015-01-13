@@ -76,7 +76,7 @@
   
   
   <!-- CUST2069 -->
-  
+<!--  
   <cb:customerbuild
       project-name="CUST2069-7.5.3"
       branch = "tags"
@@ -88,7 +88,7 @@
       archive="true"
       package="true"
       />
-  
+-->  
   <!-- CUST2082 -->
   
   <cb:customerbuild
