@@ -45,6 +45,7 @@
     <cb:reqBuild customer="2094" req-number="REQ194.4" />
     <cb:reqBuild customer="2094" req-number="RM51652" />
     <cb:reqBuild customer="2095" req-number="REQ052.5" />
+    <cb:reqBuild customer="2095" req-number="REQ017.5" />
   </cb:define>
   
   <cb:define name="queue3d">
