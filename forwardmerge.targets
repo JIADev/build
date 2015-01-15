@@ -142,8 +142,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <NonDependentNoPublish2095RC3 Include="2095_REQ008.5;2095_REQ016.5;2095_REQ031.5;2095_REQ047;2095_REQ052.5;2095_REQ055.5;2095_RC3a" />
-      <CompletedRC3Reqs Include="2095_REQ021.5;2095_REQ032.5;2095_REQ034.5;2095_REQ056.5;2095_REQ060.5;2095_REQ046.5;2095_REQ026.5" />
+      <NonDependentNoPublish2095RC3 Include="2095_REQ031.5;2095_RC3a" />
+      <CompletedRC3Reqs Include="2095_REQ008.5;2095_REQ017.5;2095_REQ016.5;2095_REQ021.5;2095_REQ026.5;2095_REQ032.5;2095_REQ034.5;2095_REQ035.5;2095_REQ046.5;2095_REQ047;2095_REQ052.5;2095_REQ054.5;2095_REQ055.5;2095_REQ056.5;2095_REQ060.5" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything -->
@@ -159,7 +159,7 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_RC3.3a;TargetBranch=2095_RC3a;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=%(CompletedRC3Reqs.Identity);TargetBranch=2095_RC3a;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=%(CompletedRC3Reqs.Identity);TargetBranch=2095_RC3a;DoMerge=true;DoCommit=true" />
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC3a;TargetBranch=2095_Branding;DoMerge=true;DoCommit=true" />
 
