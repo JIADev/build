@@ -142,8 +142,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <NonDependentNoPublish2095RC3 Include="2095_REQ008.5;2095_REQ016.5;2095_REQ017.5;2095_REQ026.5;2095_REQ031.5;2095_REQ047;2095_REQ052.5;2095_REQ054.5;2095_REQ055.5;2095_RC3a" />
-      <CompletedRC3Reqs Include="2095_REQ021.5;2095_REQ032.5;2095_REQ034.5;2095_REQ056.5;2095_REQ060.5;2095_REQ046.5;2095_REQ037.5" />
+      <NonDependentNoPublish2095RC3 Include="2095_REQ008.5;2095_REQ016.5;2095_REQ031.5;2095_REQ047;2095_REQ052.5;2095_REQ055.5;2095_RC3a" />
+      <CompletedRC3Reqs Include="2095_REQ021.5;2095_REQ032.5;2095_REQ034.5;2095_REQ056.5;2095_REQ060.5;2095_REQ046.5;2095_REQ026.5" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything -->
@@ -171,7 +171,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <CompletedRC33Reqs Include="2094_REQ216.4;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5;2094_CR143.001;2094_RM51652;2094_RM51376;2094_CR197.001;2094_REQ194" />
+      <CompletedRC33Reqs Include="2094_REQ216.4;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5;2094_CR143.001;2094_RM51652;2094_RM51376;2094_CR197.001;2094_REQ194.4" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
