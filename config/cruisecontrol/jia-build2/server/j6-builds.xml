@@ -45,15 +45,15 @@
       web-test="true"
       project-to-deploy="CUST2094-RC3.3"
       deployment-webserver="DEV-8900WEB1"
-      deployment-sitename="DEV_8900_2094" 
+      deployment-sitename="DEV_8900_2094_RC3" 
       db-server="DEV-8900sql1"
       db-instance=""
       redis-server="qas-redis1"
-      redis-db="10"
+      redis-db="11"
 	  triggerTime="20:02"
       queueName="WebTests"
       package="true"
-      />
+      />DEV
 
   <cb:v76deployment
       project-name="CUST2095-RC3-WebTest"
@@ -61,11 +61,11 @@
       web-test="true"
       project-to-deploy="CUST2095-RC3"
       deployment-webserver="DEV-8900WEB1"
-      deployment-sitename="DEV_8900_2095_CA" 
+      deployment-sitename="DEV_8900_2095_RC3" 
       db-server="DEV-8900sql1"
       db-instance=""
       redis-server="qas-redis1"
-      redis-db="9"
+      redis-db="12"
 	  triggerTime="20:03"
       queueName="WebTests"
       package="true"
