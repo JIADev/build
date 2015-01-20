@@ -27,6 +27,22 @@
       package="true"
       />
   
+  <cb:v76build
+      project-name="CUST000-RC3"
+      branch = '2094_RC3.3b'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      platform="AnyCpu"
+      repo-name="active"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.5"
+      modules="AUTOSHIP"
+      package="true"
+      />
+  
   <!-- release (tagged) branches -->
   
   <!-- CUST065 -->
