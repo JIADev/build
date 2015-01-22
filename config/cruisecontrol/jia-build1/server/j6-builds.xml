@@ -290,7 +290,7 @@
   
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-RC3"
+      project-name="CUST2095-RC3a"
       branch = '2095_RC3a'
       prodTag="2095_UAT"
       platform="AnyCpu"
@@ -301,6 +301,19 @@
       package="true"
       package-privatebuild="true"
       queue-priority="500"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-RC3b"
+      branch = '2094_RC3.3b'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
       />
   
   <cb:v76build
