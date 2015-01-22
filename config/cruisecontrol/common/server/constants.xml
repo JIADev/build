@@ -28,7 +28,7 @@
       ccNetConfigSource="$(ccNetSourceWorkingDir)\config\cruisecontrol"
       ccNetServer="C:\Program Files (x86)\CruiseControl.NET\server" 
       ccNetWebDashboard="C:\Program Files (x86)\CruiseControl.NET\webdashboard" 
-      ccNetConfigRepo="http://source.jenkon.com/hg/hgwebdir.cgi/build" 
+      ccNetConfigRepo="\\jia-build0\repo$\build" 
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
       repo-name="$(driver)"
