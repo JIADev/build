@@ -23,12 +23,11 @@
   
   <cb:define name="queue2d">
     <cb:define queueName="Queue2" />
-	<cb:reqBuild customer="2094" req-number="CR142.001"/>
+    <cb:reqBuild customer="2094" req-number="CR142.001"/>
   </cb:define>
   
   <cb:define name="queue3b">
     <cb:define queueName="Queue3" />
-    <cb:reqBuild customer="2094" req-number="RM51652" />
   </cb:define>
   
   <cb:define name="queue3d">
