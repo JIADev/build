@@ -167,7 +167,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <CompletedRC33Reqs Include="2094_REQ216.4;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5;2094_CR143.001;2094_RM51652;2094_RM51376;2094_CR197.001;2094_REQ194.5" />
+      <CompletedRC33Reqs Include="2094_REQ216.4;2094_CR141.001;2094_REQ058.4;2094_CR039.001;2094_REQ213.5;2094_CR143.001;2094_RM51652;2094_RM51376;2094_CR197.001;2094_REQ194.5;2094_REQ057.5b" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
