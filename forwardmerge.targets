@@ -172,8 +172,6 @@
     
     <!-- These are the branches which don't depend on anything but need to be published -->
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=2094_RC3.3b;DoMerge=true;DoCommit=true" />
-    
     <!-- These are the branches which don't depend on anything and *don't* need to be published -->
     
     <!-- Then we do the dependency merges -->
@@ -187,11 +185,11 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=%(CompletedRC33Reqs.Identity);TargetBranch=2094_RC3.3b;DoMerge=true;DoCommit=true" />
 
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=2094_RC3.3b;DoMerge=true;DoCommit=true" />
+    
   </Target>
 
   <Target Name="PreForwardMergeActive" DependsOnTargets="InitRepos">
-
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5_WT;TargetBranch=7.6.5;DoMerge=true;DoCommit=true" />
 
   </Target>
 
