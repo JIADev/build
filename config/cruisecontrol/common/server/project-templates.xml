@@ -163,7 +163,7 @@
 		   targets="Protect"
 		   workingDirectory="$(project-folder)"
 		   timeout="$(msbuild-external-protect-timeout)">
-	    <buildArgs>/p:Directory="F:\CUST001-7.6.5-Test\RELEASE" /p:Customer=$(driver)</buildArgs>
+	    <buildArgs>/p:Directory="$(project-folder)" /p:Customer=$(driver)</buildArgs>
 	  </msbuild>
 	<cb:publish-package />
 	<cb:publish-privatebuild />
