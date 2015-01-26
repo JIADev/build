@@ -312,7 +312,7 @@
   <Target Name="InitRepos" DependsOnTargets="InitActiveRepo">
   </Target>
   
-  <Target Name="InitBuildRepo">
+  <Target Name="InitBuildRepo" Condition="'$(SkipInit)' != 'true'">
     <Error Text="Missing InitSourceRepo" Condition="'$(InitSourceRepo)' == ''" />
     <Message Text="BuildRepo = $(BuildRepo)" />
     <MakeDir Directories="$(WorkingDirectory)" />
@@ -325,7 +325,7 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
   </Target>
   
-  <Target Name="InitActiveRepo">
+  <Target Name="InitActiveRepo" Condition="'$(SkipInit)' != 'true'">
     <MakeDir Directories="$(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone repos://active $(ActiveRepo)" Condition="!Exists('$(ActiveRepo)')" />
     <Message Text="WorkingDirectory = $(ActiveRepo)" />
