@@ -269,13 +269,12 @@
       package="true"
       />
 
-	  <cb:v76build-test
-	  queueName="2094TEST"
+	  <cb:v76build
       project-name="CUST001-7.6.5-Test"
       branch = "2094_SEC_CLI"
       driver = "CUST2094"
       platform="AnyCpu"
-      repo-name="active" 
+      repo-name="active"
       external-protect="true"
       external-zip="true"
       j6Version="7.6.5"
