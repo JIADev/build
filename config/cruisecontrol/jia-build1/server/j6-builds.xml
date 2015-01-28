@@ -49,14 +49,12 @@
   
   <cb:legacybuild
       project-name="IH00010-7.2.11"
-      tag="2010_BLD"
       prodTag="2010_PRD"
-      branch="tags"
+      branch="2010_7.2.11"
       driver = "IH00010"
       unit-test="false"
       recreate-db="true"
       install-patches="true"
-      sourceCheckInterval=""
       repo-name="prod"
       archive="true"
       package="true"
