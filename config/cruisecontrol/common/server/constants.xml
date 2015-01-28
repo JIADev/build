@@ -102,7 +102,7 @@
       feature-test-unit-timeout="3600"
       msbuild-package-timeout="1500"
       msbuild-protect-timeout="7200"
-      msbuild-external-protect-timeout="360"
+      msbuild-external-protect-timeout="720"
       msbuild-configure-timeout="300"
       msbuild-build-timeout="1800"
       msbuild-jslint-timeout="1800"
