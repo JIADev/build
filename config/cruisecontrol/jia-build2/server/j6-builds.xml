@@ -56,10 +56,10 @@
       />DEV
 
   <cb:v76deployment
-      project-name="CUST2095-RC3-WebTest"
+      project-name="CUST2095-7.6.6-WebTest"
       driver = 'CUST2095'
       web-test="true"
-      project-to-deploy="CUST2095-RC3"
+      project-to-deploy="CUST2095-7.6.6"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_2095_RC3" 
       db-server="DEV-8900sql1"
