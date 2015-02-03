@@ -94,6 +94,7 @@ namespace j6.BuildTools
 					}
 					docList.Add(xDoc);
 				}
+				firstDoc.AddFirst(new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
 			}
 			if (docList.Count < 1)
 				return;
@@ -102,7 +103,7 @@ namespace j6.BuildTools
 			
 			if (docList.Count == 1)
 			{
-				firstDoc.AddFirst(new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
+				//firstDoc.AddFirst(new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
 				firstDoc.Save(outputFile);
 				return;
 			}
@@ -113,7 +114,7 @@ namespace j6.BuildTools
 				var docElements = currentDoc.XPathSelectElements("/log/logentry");
 				firstDoc.XPathSelectElement("/log").Add(docElements);
 			}
-			firstDoc.AddFirst(new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
+			//firstDoc.AddFirst(new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
 			firstDoc.Save(outputFile);
 		}
 
