@@ -94,7 +94,6 @@ namespace j6.BuildTools
 					}
 					docList.Add(xDoc);
 				}
-				docList.AddFirst(new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
 			}
 			if (docList.Count < 1)
 				return;
