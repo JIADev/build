@@ -40,7 +40,7 @@
     </PropertyGroup>
   </Target>
   
-  <Target Name="GetMergedChangesets" DependsOnTargets="BuildUpdateStyleSheet"/>
+  <Target Name="GetMergedChangesets" DependsOnTargets="BuildUpdateStyleSheet">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
