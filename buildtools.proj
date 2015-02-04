@@ -40,7 +40,7 @@
     </PropertyGroup>
   </Target>
   
-  <Target Name="GetMergedChangesets">
+  <Target Name="GetMergedChangesets" DependsOnTargets="BuildUpdateStyleSheet">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
@@ -48,7 +48,8 @@
       <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
     </PropertyGroup>
     <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and !ancestors('$(OriginalChangeset)') and !merge() and !keyword('@build')&quot; --verbose --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
-  </Target>
+	<Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\UpdateStyleSheet.exe" /> 
+ </Target>
   
   <Target Name="MergeChangesetLog" DependsOnTargets="BuildMergeLog">
     <Error Text="Missing CCNetArtifactDirectory" Condition="'$(CCNetArtifactDirectory)' == ''" />
@@ -146,6 +147,10 @@
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
     </PropertyGroup>
     <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
+  </Target>
+  
+  <Target Name="BuildUpdateStyleSheet">
+    <Csc Sources="$(BuildToolsDirectory)\Code\UpdateStyleSheet.cs" OutputAssembly="$(RepoDirectory)\UpdateStyleSheet.exe" Condition="!Exists('$(RepoDirectory)\UpdateStyleSheet.exe')" />
   </Target>
   
   <Target Name="BuildExtractChangesets">

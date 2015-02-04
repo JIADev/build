@@ -99,7 +99,7 @@ namespace j6.BuildTools
 				return;
 
 			var firstDoc = docList[0];
-
+			
 			if (docList.Count == 1)
 			{
 				firstDoc.Save(outputFile);
@@ -112,7 +112,6 @@ namespace j6.BuildTools
 				var docElements = currentDoc.XPathSelectElements("/log/logentry");
 				firstDoc.XPathSelectElement("/log").Add(docElements);
 			}
-
 			firstDoc.Save(outputFile);
 		}
 
