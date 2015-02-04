@@ -12,10 +12,17 @@ namespace TestCmd
         static void Main(string[] args)
         {
             string log = "ChangesetLog.xml";
-            XDocument document = XDocument.Load(log);
-            document.AddFirst(new XProcessingInstruction(
-               "xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
-            document.Save(log);
+            try
+	    {	    
+	    	    XDocument document = XDocument.Load(log);
+            	    document.AddFirst(new XProcessingInstruction(
+               	    "xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
+            	    document.Save(log);
+	  }
+	  catch(Exception ex)
+	  {
+		Console.WriteLine(ex.ToString());
+	}
         }
     }
 }
