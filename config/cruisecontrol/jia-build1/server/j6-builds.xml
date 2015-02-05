@@ -252,7 +252,7 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-RC3.3"
+      project-name="CUST2094-7.6.6"
       branch="7.6.6"
       prodTag="2094_UAT"
       platform="AnyCpu"
