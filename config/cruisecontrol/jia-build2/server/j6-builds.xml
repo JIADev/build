@@ -4,26 +4,26 @@
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
   
   <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
-
+  
   <!-- req branches -->
   <cb:build2queues />
-
+  
   <cb:v76deployment
-      project-name="CUST2094-RC3.3-WebTest"
+      project-name="CUST2094-7.6.6-WebTest"
       driver = 'CUST2094'
       web-test="true"
-      project-to-deploy="CUST2094-RC3.3"
+      project-to-deploy="CUST2094-7.6.6"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_2094_RC3" 
       db-server="DEV-8900sql1"
       db-instance=""
       redis-server="qas-redis1"
       redis-db="11"
-	  triggerTime="20:02"
+      triggerTime="20:02"
       queueName="WebTests"
       package="true"
       />
-
+  
   <cb:v76deployment
       project-name="CUST2095-7.6.6-WebTest"
       driver = 'CUST2095'
@@ -35,7 +35,7 @@
       db-instance=""
       redis-server="qas-redis1"
       redis-db="12"
-	  triggerTime="20:03"
+      triggerTime="20:03"
       queueName="WebTests"
       package="true"
       />
