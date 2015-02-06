@@ -287,7 +287,7 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-AppLockPerf"
-      branch = '7.6.6'
+      branch = '2094_AppLockPerf'
       prodTag="7.6.6"
       platform="AnyCpu"
       repo-name="active"
