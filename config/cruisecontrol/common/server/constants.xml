@@ -118,7 +118,7 @@
       ncover-timeout="900"
       webtest-timeout="10800"
       get-reports-timeout="600"
-      sourcecontrol-timeout="3600"
+      sourcecontrol-timeout="7200"
       triggerTime="20:00"
       triggerTime2=""
       run-ndepend="false"
