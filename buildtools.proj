@@ -288,6 +288,7 @@
       <BranchesToMerge Include="$(Branches)" />
     </ItemGroup>
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg up $(CustomerPrefix)$(BaseTag) -C" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg up -C" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg branch $(BuildBranchName)" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Creating build branch @ignore @build"' />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(BuildBranchName);DoMerge=true;DoCommit=true;DoPush=false" />
