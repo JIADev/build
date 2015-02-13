@@ -126,6 +126,7 @@
       external-zip="false"
       tag-completed="false"
       set-corflags="false"
+      createChangesetLog="true"
       />
   <cb:define 
       compileless="false"

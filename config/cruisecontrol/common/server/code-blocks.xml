@@ -64,12 +64,16 @@
 	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
 	      baseDirectory="$(project-folder)"
 	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
-	
-	<msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
-		 timeout="$(msbuild-updatechangelog-timeout)">
+
+	<msbuild logger="$(msBuildListenerDll)" description="Forward-Only Check" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardChangesCheck" workingDirectory="$(project-folder)" timeout="$(msbuild-updatechangelog-timeout)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
 	</msbuild>
-	
+	<cb:if expr="'$(createChangesetLog)' != 'false'">
+	  <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
+		   timeout="$(msbuild-updatechangelog-timeout)">
+	    <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
+	  </msbuild>
+	</cb:if>
       </cb:if>
       <exec executable="$(powershell)" 
 	    description = "hg update to tag or branch"

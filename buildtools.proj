@@ -40,6 +40,14 @@
     </PropertyGroup>
   </Target>
   
+  <Target Name="ForwardChangesCheck" DependsOnTargets="BuildEnsureEmpty">
+    <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
+    <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
+    <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;!ancestors('$(NewChangeset)') and ancestors('$(OriginalChangeset)')&quot; > $(RepoDirectory)\RevertedChanges.txt" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\EnsureEmpty.exe $(RepoDirectory)\RevertedChanges.txt --ShowContents=true &quot;--Message=The following changes were reverted:&quot;" />
+  </Target>
+
   <Target Name="GetMergedChangesets" DependsOnTargets="BuildUpdateStyleSheet">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
@@ -151,6 +159,10 @@
   
   <Target Name="BuildUpdateStyleSheet">
     <Csc Sources="$(BuildToolsDirectory)\Code\UpdateStyleSheet.cs" OutputAssembly="$(RepoDirectory)\UpdateStyleSheet.exe" Condition="!Exists('$(RepoDirectory)\UpdateStyleSheet.exe')" />
+  </Target>
+  
+  <Target Name="BuildEnsureEmpty">
+    <Csc Sources="$(BuildToolsDirectory)\Code\EnsureEmpty.cs" OutputAssembly="$(RepoDirectory)\EnsureEmpty.exe" Condition="!Exists('$(RepoDirectory)\EnsureEmpty.exe')" />
   </Target>
   
   <Target Name="BuildExtractChangesets">
