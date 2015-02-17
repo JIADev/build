@@ -252,23 +252,6 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-RC4"
-      branch="2094_RC4"
-      prodTag="2094_UAT"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.6"
-      external-protect="true"
-      external-zip="true"
-      package-privatebuild="true"
-      compileless="true"
-      queue-priority="1000"
-      archive="false"
-      package="true"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
       project-name="CUST2094-7.6.6"
       branch="7.6.6"
       prodTag="2094_UAT"
