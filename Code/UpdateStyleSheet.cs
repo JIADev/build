@@ -16,7 +16,7 @@ namespace TestCmd
 	    {	    
 	    	    XDocument document = XDocument.Load(log);
             	    document.AddFirst(new XProcessingInstruction(
-               	    "xml-stylesheet", "type=\"text/xsl\" href=\"http://jia-build1.jenkon.com/ccnet/xsl/changelog.xsl\""));
+               	    "xml-stylesheet", "type=\"text/xsl\" href=\"changelog.xsl\""));
             	    document.Save(log);
 	  }
 	  catch(Exception ex)
