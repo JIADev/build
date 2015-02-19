@@ -304,7 +304,7 @@
       driver="CUST2094"
       project-name="CUST2094-AppLockPerf"
       branch = '2094_AppLockPerf'
-      prodTag="7.6.6"
+      prodTag="2094_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
