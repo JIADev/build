@@ -56,7 +56,14 @@
       <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
     </PropertyGroup>
     <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and !ancestors('$(OriginalChangeset)') and !merge() and !keyword('@build')&quot; --verbose --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
-	<Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\UpdateStyleSheet.exe" /> 
+	<Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\UpdateStyleSheet.exe" />
+
+	<ItemGroup>
+      <SourceFiles Include= "$(MSBuildProjectDirectory)\changelog.xsl" />
+    </ItemGroup>
+    <Message Text="Copying @(SourceFiles)" />
+    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(MSBuildProjectDirectory)\$(RepoDirectory)')" /> 	
+	
  </Target>
   
   <Target Name="MergeChangesetLog" DependsOnTargets="BuildMergeLog">
