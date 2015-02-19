@@ -62,7 +62,7 @@
       <SourceFiles Include= "$(MSBuildProjectDirectory)\changelog.xsl" />
     </ItemGroup>
     <Message Text="Copying @(SourceFiles)" />
-    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(RepoDirectory)')" /> 	
+    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(RepoDirectory)\changelog.xsl')" /> 	
 	
  </Target>
   
