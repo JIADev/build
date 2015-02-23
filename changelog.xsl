@@ -23,6 +23,20 @@
     </tr>
     </xsl:for-each>
   </table>
+  <h2>Files Affected</h2>
+  <table border="1">
+    <tr bgcolor="#9acd32">
+	  <th>Operation</th>
+	  <th>Path</th>
+    </tr>
+    <xsl:for-each select="log/logentry/paths/path">
+	<xsl:sort select="text()" />
+	<tr>
+      <td><xsl:value-of select="@action"/></td>
+	  <td><xsl:value-of select="text()"/></td>
+    </tr>
+    </xsl:for-each>
+  </table>
   </body>
   </html>
 </xsl:template>
