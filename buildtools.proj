@@ -323,7 +323,7 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(CustomerPrefix)$(BuildTag) $(CustomerPrefix)$(DatedBuildTag) -m "Triggering build for $(CustomerPrefix)$(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(BuildTag);TargetBranch=$(TrashBranch);ToolArgs=internal:other;ExtraArgs=--noninteractive;DoMerge=true;DoCommit=true;DoPush=false" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(BuildTag);TargetBranch=$(TrashBranch);ToolArgs=internal:local;ExtraArgs=--noninteractive;DoMerge=true;DoCommit=true;DoPush=false" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
   <Target Name="Trash" DependsOnTargets="InitRepos;CloseBranch">
