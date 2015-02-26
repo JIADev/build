@@ -57,6 +57,7 @@
       repo-name="prod"
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   
@@ -72,6 +73,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST069 -->
@@ -86,6 +88,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST077 -->
@@ -103,6 +106,7 @@
       repo-name="prod"
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   
@@ -132,6 +136,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2083 -->
@@ -147,6 +152,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2085 -->
@@ -161,6 +167,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2086 -->
@@ -175,6 +182,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2087 -->
@@ -189,6 +197,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2088 -->
@@ -203,6 +212,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2089 -->
@@ -217,6 +227,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2090 -->
@@ -231,6 +242,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   <!-- CUST2092 -->
@@ -245,6 +257,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      queueName="Production"
       />
   
   
