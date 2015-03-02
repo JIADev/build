@@ -376,7 +376,7 @@
       />
   
   <!-- CUST2096 -->
-  
+  <!--
   <cb:customerbuild
       project-name="CUST2096-7.5.5"
       branch = "2096_7.5.5"
@@ -385,5 +385,5 @@
       package="true"
       initialState="Stopped"
       />
-  
+  -->
 </cb:config-template>
