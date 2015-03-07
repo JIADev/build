@@ -393,14 +393,16 @@
       />
   
   <!-- CUST2096 -->
-  <!--
-  <cb:customerbuild
-      project-name="CUST2096-7.5.5"
-      branch = "2096_7.5.5"
-      driver = "CUST2096"
-      repo-name="prod"
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096-7.6.6"
+      branch = '7.6.6'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
       package="true"
-      initialState="Stopped"
+      package-privatebuild="true"
       />
-  -->
 </cb:config-template>
