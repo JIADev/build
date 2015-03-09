@@ -136,6 +136,26 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>    
   
+  <Target Name="ForwardMerge_2096" DependsOnTargets="ForwardMerge_76;InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <ActiveReqs Include="2096_REQ004;2096_REQ001" />
+    </ItemGroup>
+    
+    <!-- These are the branches which don't depend on anything -->
+
+    <!-- These are the branches which don't depend on anything but need to be published -->
+    
+    <!-- Then we do the dependency merges -->
+    <CallTarget Targets="DependencyMerge_2096" />
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(ActiveReqs.Identity);DoMerge=true;DoCommit=true" />
+        
+  </Target>
+  
   <Target Name="ForwardMerge_2095" DependsOnTargets="ForwardMerge_76;InitRepos">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
@@ -201,7 +221,7 @@
 
   </Target>
 
-  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;PreForwardMergeActive;ForwardMerge_2095;ForwardMerge_2094">
+  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;PreForwardMergeActive;ForwardMerge_2096;ForwardMerge_2095;ForwardMerge_2094">
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC3a;TargetBranch=7.6.6;DoMerge=true;DoCommit=true" />
 

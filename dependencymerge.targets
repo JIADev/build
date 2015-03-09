@@ -18,4 +18,11 @@
     
   </Target>
   
+  <Target Name="DependencyMerge_2096" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    
+  </Target>
+  
 </Project>
