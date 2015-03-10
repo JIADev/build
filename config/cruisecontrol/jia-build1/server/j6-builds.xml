@@ -317,6 +317,21 @@
   
   <cb:v76build
       driver="CUST2095"
+      project-name="CUST2095-TFS06524"
+      branch = '2095_TFS06524'
+      platform="AnyCpu"
+      prodTag="2095_UAT"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      queue-priority="750"
+      package-privatebuild="true"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
       project-name="CUST2095-RC3.2a"
       branch = '2095_RC3.2a'
       platform="AnyCpu"
@@ -326,7 +341,7 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queue-priority="750"
+      queue-priority="1000"
       package-privatebuild="true"
       />
   
