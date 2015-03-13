@@ -39,5 +39,21 @@
       queueName="WebTests"
       package="true"
       />
+	  
+  <cb:v76deployment
+      project-name="CUST2096-7.6.6-WebTest"
+      driver = 'CUST2096'
+      web-test="true"
+      project-to-deploy="CUST2096-7.6.6"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_2096" 
+      db-server="DEV-8900sql1"
+      db-instance=""
+      redis-server="qas-redis1"
+      redis-db="10"
+      triggerTime="20:04"
+      queueName="WebTests"
+      package="true"
+      />
   
 </cb:config-template>
