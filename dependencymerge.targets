@@ -22,6 +22,8 @@
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
+
+	 <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_REQ001;TargetBranch=2096_REQ006;DoMerge=true;DoCommit=true" />
     
   </Target>
   
