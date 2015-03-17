@@ -142,13 +142,16 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <Active2096Reqs Include="2096_REQ004;2096_REQ001" />
+      <Active2096Reqs Include="2096_REQ004;2096_REQ001;2096_REQ006" />
+      <Active2096ReqsWithDependencies Include="2096_REQ001" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything -->
 
     <!-- These are the branches which don't depend on anything but need to be published -->
     
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(Active2096ReqsWithDependencies.Identity);DoMerge=true;DoCommit=true" />
+        
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_2096" />
     
