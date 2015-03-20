@@ -49,7 +49,9 @@
   
   <cb:legacybuild
       project-name="IH00010-7.2.11"
-      branch="2010_7.2.11"
+      branch="tags"
+      tag = "010_BLD"
+      prodTag="010_PRD"
       driver = "IH00010"
       unit-test="false"
       recreate-db="true"
