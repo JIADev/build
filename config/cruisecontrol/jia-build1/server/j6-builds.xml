@@ -58,6 +58,7 @@
       archive="true"
       package="true"
       queueName="Production"
+      sourceCheckInterval=""
       />
   
   
