@@ -321,7 +321,6 @@
       project-name="CUST2095-TFS06524"
       branch = '2095_TFS06524'
       platform="AnyCpu"
-      prodTag="2095_UAT"
       repo-name="active"
       j6Version="7.6.5"
       external-protect="true"
