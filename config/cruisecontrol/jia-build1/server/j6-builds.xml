@@ -303,7 +303,6 @@
       driver="CUST2094"
       project-name="CUST2094-7.6.5"
       branch = '7.6.5'
-      prodTag="2094_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.5"
