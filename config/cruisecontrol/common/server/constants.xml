@@ -31,9 +31,10 @@
       ccNetConfigRepo="https://source.jenkon.com/hg/hgweb.cgi/build" 
       artifact-folder="$(artifactroot)\$(project-name)"
       project-folder="$(ccroot)\$(project-name)"
+	  rte="$(ccroot)\$(project-name)\**\RealtimeQualifications.exe;$(ccroot)\$(project-name)\**\j6.Realtime.Service.exe"
       repo-name="$(driver)"
       buildversion="$[$CCNetLabel]"
-      corflags="C:\build\CorFlags.exe"
+      corflagsExe="C:\build\CorFlags.exe"
       initialState="Started"
       />
   
@@ -125,9 +126,9 @@
       external-protect="false"
       external-zip="false"
       tag-completed="false"
-      set-corflags="false"
       createChangesetLog="true"
-      />
+      corflags=""
+	  />
   <cb:define 
       compileless="false"
       archive="false"

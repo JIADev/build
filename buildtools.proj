@@ -294,6 +294,20 @@
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
   </Target>
   
+   <Target Name="SetCorFlags">
+    <Message Text="Executables=$(Executables)" />
+    <Message Text="CorFlags=$(CorFlags)" />
+	 <Message Text="CorFlagsExe=$(CorFlagsExe)" />
+    <Error Text="Missing /p:Executables=&quot;Executables&quot;" Condition="'$(Executables)' == ''" />
+     <Error Text="Missing /p:CorFlagsExe=&quot;CorFlagsExe&quot;" Condition="'$(CorFlagsExe)' == ''" />
+     <ItemGroup>
+      <ExecutablesToSet Include="$(Executables)" />
+     </ItemGroup>
+	 <Message Text="Executable=%(ExecutablesToSet.Identity)" />
+    <Exec Command="$(CorFlagsExe) &quot;%(ExecutablesToSet.Identity)&quot; $(CorFlags)" Condition="Exists('%(ExecutablesToSet.Identity)')" />
+   
+  </Target>
+  
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
     <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
