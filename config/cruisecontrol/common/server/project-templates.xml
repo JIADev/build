@@ -88,13 +88,13 @@
 	  <cb:msbuild-install-patches />
 	  <cb:msbuild-build />
 	</cb:else>
-	<cb:msbuild-set-corflags /> 
 	<cb:msbuild-compileless />
 	<cb:msbuild-jslint />
 	<cb:copy-jslint-reports />
 	<cb:setup-unittests />
 	<cb:run-ncover-f-unittests />
 	<cb:get-reports />
+	<cb:msbuild-set-corflags /> 
 	<cb:msbuild-package />
 	<cb:publish-package />
 	<cb:publish-privatebuild />
