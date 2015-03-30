@@ -35,6 +35,7 @@
       <cb:f-setup f-setup-timeout="600" />
       <cb:f-install-patches f-install-patches-timeout="2700" />
       <cb:f-build />
+	  <cb:msbuild-set-corflags />
       <cb:f-unit-tests />
       <cb:f-package feature="$(relativefeature)" />
       <cb:publish-package />

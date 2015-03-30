@@ -25,6 +25,19 @@
     </msbuild>
   </cb:define>
   
+  <cb:define name="msbuild-set-corflags">
+	<cb:if expr="'$(corflags)' != ''">
+      	<msbuild logger="$(msBuildListenerDll)" description="Junction baseline features"
+		 executable="$(msbuild)"
+		 workingDirectory="$(project-folder)"
+		 projectFile="$(global_feature_dir)\buildtools.proj"
+		 targets="SetCoreflags"
+		 timeout="$(msbuild-setCorFlags-timeout)">
+		 <buildArgs>/p:Executables="$(rte)" /p:CorFlags="$(corflags)" /p:CorFlagsExe="$(corflagsExe)"</buildArgs>
+	 </msbuild>
+	 </cb:if>
+  </cb:define>  
+  
   <cb:define name="update-source">
     <cb:if expr="'$(updateSource)' != 'false'">
       

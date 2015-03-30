@@ -35,6 +35,7 @@
 	<cb:f-setup />
 	<cb:f-install-patches />
 	<cb:f-build />
+	<cb:msbuild-set-corflags />
 	<cb:f-unit-tests />
 	<cb:msbuild-package />
 	<cb:publish-package />
@@ -87,6 +88,7 @@
 	  <cb:msbuild-install-patches />
 	  <cb:msbuild-build />
 	</cb:else>
+	<cb:msbuild-set-corflags /> 
 	<cb:msbuild-compileless />
 	<cb:msbuild-jslint />
 	<cb:copy-jslint-reports />
