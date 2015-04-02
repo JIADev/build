@@ -194,13 +194,13 @@
     
     <ItemGroup>
       <CompletedRC33Reqs Include="2094_REQ079.5b;2094_CR081.001b;2094_CR216.001" />
-      <Active766Reqs Include="2094_CR005" />
+<!--      <Active766Reqs Include="" /> -->
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
-    
+<!--    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(Active766Reqs.Identity);DoMerge=true;DoCommit=true" />
-
+-->
     <!-- These are the branches which don't depend on anything and *don't* need to be published -->
     
     <!-- Then we do the dependency merges -->
