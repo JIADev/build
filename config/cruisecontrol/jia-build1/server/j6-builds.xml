@@ -25,7 +25,7 @@
       j6Version="7.6.5"
       modules="AUTOSHIP"
       package="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
   
   <cb:v76build
@@ -42,7 +42,7 @@
       j6Version="7.6.6"
       modules="AUTOSHIP"
       package="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
   
   <!-- release (tagged) branches -->
@@ -63,7 +63,7 @@
       package="true"
       queueName="Production"
       sourceCheckInterval=""
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   
@@ -80,7 +80,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST069 -->
@@ -96,7 +96,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST077 -->
@@ -115,24 +115,24 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   
   <!-- CUST2069 -->
-<!--  
-  <cb:customerbuild
-      project-name="CUST2069-7.5.3"
-      branch = "tags"
-      tag = "2069_BLD"
-      prodTag="2069_PRD"
-      driver = "CUST2069"
-      repo-name="prod"
-      sourceCheckInterval=""
-      archive="true"
-      package="true"
-      />
--->  
+  <!--  
+       <cb:customerbuild
+       project-name="CUST2069-7.5.3"
+       branch = "tags"
+       tag = "2069_BLD"
+       prodTag="2069_PRD"
+       driver = "CUST2069"
+       repo-name="prod"
+       sourceCheckInterval=""
+       archive="true"
+       package="true"
+       />
+  -->  
   <!-- CUST2082 -->
   
   <cb:customerbuild
@@ -146,7 +146,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2083 -->
@@ -163,7 +163,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2085 -->
@@ -179,7 +179,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2086 -->
@@ -195,7 +195,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2087 -->
@@ -211,7 +211,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2088 -->
@@ -227,7 +227,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2089 -->
@@ -243,7 +243,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2090 -->
@@ -259,7 +259,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   <!-- CUST2092 -->
@@ -275,7 +275,7 @@
       archive="true"
       package="true"
       queueName="Production"
-	  corflags="/32bitreq+"
+      corflags="/32bitreq+"
       />
   
   
@@ -296,12 +296,11 @@
       queue-priority="1700"
       archive="false"
       package="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
   
   <cb:v76build
       driver="CUST2094"
-	  corflags="/32bitpref-"
       project-name="CUST2094-7.6.5"
       branch = '7.6.5'
       platform="AnyCpu"
@@ -313,9 +312,9 @@
       compileless="true"
       archive="false"
       package="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
-	  
+  
   <!-- CUST2095 -->
   
   <cb:v76build
@@ -330,7 +329,7 @@
       package="true"
       queue-priority="750"
       package-privatebuild="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
   
   <cb:v76build
@@ -346,7 +345,7 @@
       package="true"
       queue-priority="1000"
       package-privatebuild="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
   
   <cb:v76build
@@ -361,7 +360,7 @@
       external-zip="true"
       package="true"
       package-privatebuild="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
   
   <cb:v76build
@@ -376,7 +375,7 @@
       package="true"
       package-privatebuild="true"
       queue-priority="750"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
   
   <!-- CUST2096 -->
@@ -391,6 +390,6 @@
       external-zip="true"
       package="true"
       package-privatebuild="true"
-	  corflags="/32bitpref-"
+      corflags="/32bitpref-"
       />
 </cb:config-template>
