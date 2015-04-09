@@ -6,13 +6,12 @@
   <cb:define name="queue1b">
     <cb:define queueName="Queue1" />
     <cb:reqBuild customer="2094" req-number="CR013.001c" />
-    <cb:reqBuild customer="2096" req-number="REQ001" />
+    <cb:reqBuild customer="2096" req-number="RM53069" />
   </cb:define>
   
   <cb:define name="queue1d">
     <cb:define queueName="Queue1" />
     <cb:reqBuild customer="2095" req-number="REQ031.5" />
-    <cb:reqBuild customer="2096" req-number="REQ006" />
   </cb:define>
   
   <cb:define name="queue2b">
@@ -22,10 +21,12 @@
   
   <cb:define name="queue2d">
     <cb:define queueName="Queue2" />
+    <cb:reqBuild customer="2096" req-number="REQ006" />
   </cb:define>
   
   <cb:define name="queue3b">
     <cb:define queueName="Queue3" />
+    <cb:reqBuild customer="2096" req-number="REQ001" />
   </cb:define>
   
   <cb:define name="queue3d">
