@@ -142,8 +142,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <Active2096Reqs Include="2096_REQ004;2096_REQ001;2096_REQ006" />
-      <Active2096ReqsWithDependencies Include="2096_REQ001" />
+      <Active2096Reqs Include="2096_REQ004;2096_REQ001;2096_REQ006;2096_RM53069" />
+      <Active2096ReqsWithDependencies Include="2096_REQ004" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything -->
@@ -166,7 +166,7 @@
     
     <ItemGroup>
 <!--      <NonDependentNoPublish2095RC3 Include="2095_REQ031.5" /> -->
-      <Active2095Reqs Include="2095_TFS06524;2095_TFS06181" />
+      <Active2095Reqs Include="2095_TFS06524" />
       <Active2095_766Reqs Include="2095_REQ031.5" />
     </ItemGroup>
     
