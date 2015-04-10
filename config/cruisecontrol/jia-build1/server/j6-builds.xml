@@ -299,22 +299,6 @@
       corflags="/32bitpref-"
       />
   
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-7.6.5"
-      branch = '7.6.5'
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.5"
-      external-protect="true"
-      external-zip="true"
-      package-privatebuild="true"
-      compileless="true"
-      archive="false"
-      package="true"
-      corflags="/32bitpref-"
-      />
-  
   <!-- CUST2095 -->
   
   <cb:v76build
@@ -363,21 +347,6 @@
       corflags="/32bitpref-"
       />
   
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-7.6.5"
-      branch = '7.6.5'
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.5"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      package-privatebuild="true"
-      queue-priority="750"
-      corflags="/32bitpref-"
-      />
-  
   <!-- CUST2096 -->
   <cb:v76build
       driver="CUST2096"
@@ -392,4 +361,5 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
+
 </cb:config-template>
