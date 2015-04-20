@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace j6.BuildTools
 {
@@ -9,9 +8,9 @@ namespace j6.BuildTools
 	{
 		private static int Main(string[] args)
 		{
-			foreach (var arg in args)
+			foreach (string arg in args)
 			{
-				var errorLevel = PurgeJunctions(arg);
+				int errorLevel = PurgeJunctions(arg);
 				if (errorLevel > 0)
 					return errorLevel;
 			}
@@ -28,8 +27,8 @@ namespace j6.BuildTools
 		{
 			try
 			{
-				var errors = PurgeJunctions(new DirectoryInfo(directory));
-				return errors.Any() ? 5 : 0;
+				Dictionary<string, Exception> errors = PurgeJunctions(new DirectoryInfo(directory));
+				return errors.Count > 1 ? 5 : 0;
 			}
 			catch (Exception ex)
 			{
@@ -41,13 +40,15 @@ namespace j6.BuildTools
 
 		private static Dictionary<string, Exception> PurgeJunctions(DirectoryInfo dir)
 		{
-			var errors = new Dictionary<string, Exception>();
+			Dictionary<string, Exception> errors = new Dictionary<string, Exception>();
 
-			var subdirs = dir.GetDirectories();
+			DirectoryInfo[] subdirs = dir.GetDirectories();
 
-			foreach (var subdir in subdirs.Where(d => !d.Name.StartsWith(".hg")))
+			foreach (DirectoryInfo subdir in subdirs)
 			{
-				var isJunction = subdir.Attributes.HasFlag(FileAttributes.ReparsePoint);
+				if (subdir.Name.StartsWith(".hg"))
+					continue;
+				bool isJunction = (subdir.Attributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
 				if (isJunction)
 				{
 					Console.WriteLine("Deleting junction " + subdir.FullName);
@@ -62,7 +63,11 @@ namespace j6.BuildTools
 					}
 					continue;
 				}
-				errors = errors.Union(PurgeJunctions(subdir)).ToDictionary(e => e.Key, e => e.Value);
+				Dictionary<string, Exception> subdirResults = PurgeJunctions(subdir);
+				foreach (KeyValuePair<string, Exception> result in subdirResults)
+				{
+					errors.Add(result.Key, result.Value);
+				}
 			}
 			return errors;
 		}
