@@ -167,7 +167,7 @@
     <ItemGroup>
 <!--      <NonDependentNoPublish2095RC3 Include="2095_REQ031.5" /> -->
       <Active2095Reqs Include="2095_TFS06524" />
-      <Active2095_766Reqs Include="2095_REQ031.5" />
+<!--      <Active2095_766Reqs Include="2095_REQ031.5" /> -->
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything -->
@@ -181,7 +181,7 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC3.2a;TargetBranch=7.6.6;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(Active2095_766Reqs.Identity);DoMerge=true;DoCommit=true" />
+<!--    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(Active2095_766Reqs.Identity);DoMerge=true;DoCommit=true" /> -->
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_RC3.2a;TargetBranch=%(Active2095Reqs.Identity);DoMerge=true;DoCommit=true" />
     
