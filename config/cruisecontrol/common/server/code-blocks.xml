@@ -405,7 +405,7 @@
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
 		 workingDirectory="$(project-folder)\RELEASE">
-	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver)</buildArgs>
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver) /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
 	</msbuild>
 	
 	<msbuild logger="$(msBuildListenerDll)" description="Flushing RedisCache"
@@ -421,7 +421,7 @@
 		 projectFile="deployment.proj"
 		 targets="InstallSite"
 		 workingDirectory="$(project-folder)\Release">
-	  <buildArgs>/p:SiteName="$(deployment-sitename)" /p:WebServer=$(deployment-webserver) /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
+	  <buildArgs>/p:SiteName="$(deployment-sitename)" /p:WebServer=$(deployment-webserver)</buildArgs>
 	</msbuild>
       </cb:if>
     </cb:if>
