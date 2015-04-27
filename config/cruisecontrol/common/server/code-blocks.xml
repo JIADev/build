@@ -421,7 +421,7 @@
 		 projectFile="deployment.proj"
 		 targets="InstallSite"
 		 workingDirectory="$(project-folder)\Release">
-	  <buildArgs>/p:SiteName="$(deployment-sitename)" /p:WebServer=$(deployment-webserver)</buildArgs>
+	  <buildArgs>/p:SiteName="$(deployment-sitename)" /p:WebServer=$(deployment-webserver) /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
 	</msbuild>
       </cb:if>
     </cb:if>
