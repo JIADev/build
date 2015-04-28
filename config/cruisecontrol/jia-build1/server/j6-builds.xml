@@ -363,17 +363,4 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
-      driver="CUST2096"
-      project-name="CUST2096-REQ001"
-      branch = '2096_REQ001'
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.6"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      corflags="/32bitpref-"
-      />
-
 </cb:config-template>
