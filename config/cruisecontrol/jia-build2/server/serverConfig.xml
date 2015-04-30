@@ -21,6 +21,8 @@
       db-server-2008-instance=""
       db-server-2012="dev-8900sql4"
       db-server-2012-instance="SQL2012"
+	  db-server-2014="dev-8900sql4"
+      db-server-2014-instance="SQL2014"
       ccBuildServer="jia-build2"
       />
 
