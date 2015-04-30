@@ -4,7 +4,7 @@
   <!-- Common definitions for all projects, edit to suit your system -->
   <cb:define 
       hg = "C:\progra~1\Mercurial\hg.exe"
-      sqlCmd="C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\SQLCMD.exe"
+      sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend\NDepend.Console.exe"
       ccroot="f:"
       pkgroot="\\jia-build1\ReleasePackages"
