@@ -239,7 +239,7 @@
   </cb:define>
 
   <cb:define name="reqBuild">
-    <cb:v76build
+    <cb:v76build2
 	driver="CUST$(customer)"
 	project-name="$(driver)-$(req-number)"
 	branch = '$(customer)_$(req-number)'
