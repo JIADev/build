@@ -1,7 +1,6 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $strBin = "$scriptPath\bin"
 $strWhichExe = "$strBin\which.exe"
-echo $scriptPath
 if(test-path $strWhichExe) {
 }
 else {
