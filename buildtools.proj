@@ -170,6 +170,10 @@
     <Csc Sources="$(BuildToolsDirectory)\Code\UpdateStyleSheet.cs" OutputAssembly="$(RepoDirectory)\UpdateStyleSheet.exe" Condition="!Exists('$(RepoDirectory)\UpdateStyleSheet.exe')" />
   </Target>
   
+  <Target Name="BuildWhichExe">
+    <Csc Sources="$(BuildToolsDirectory)\Code\Which.cs" OutputAssembly="$(BuildToolsDirectory)\bin\Which.exe" />
+  </Target>
+  
   <Target Name="BuildEnsureEmpty">
     <Csc Sources="$(BuildToolsDirectory)\Code\EnsureEmpty.cs" OutputAssembly="$(RepoDirectory)\EnsureEmpty.exe" Condition="!Exists('$(RepoDirectory)\EnsureEmpty.exe')" />
   </Target>
