@@ -519,7 +519,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules) /p:PatchLoaderSwitches="--skip-sql --noninteractive"</buildArgs>
 	<targets>FullBuild</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
@@ -601,7 +601,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="patch">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:PatchLoaderSwitches="--skip-sql --noninteractive"</buildArgs>
       <targets>Patch</targets>
       <timeout>$(msbuild-patch-timeout)</timeout>
     </msbuild>
