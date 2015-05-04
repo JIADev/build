@@ -12,8 +12,8 @@
   <!-- CUST000 -->
   
   <cb:v76build
-      project-name="CUST000-7.6.5"
-      branch = '7.6.5'
+      project-name="CUST000-RC3.2a"
+      branch = '2095_RC3.2a'
       driver = 'CUST000'
       clean="true"
       build="true"
@@ -349,6 +349,20 @@
       />
   
   <!-- CUST2096 -->
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096-RC3.2a"
+      branch = '2095_RC3.2a'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+
   <cb:v76build
       driver="CUST2096"
       project-name="CUST2096-7.6.6"
