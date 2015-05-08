@@ -329,7 +329,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queue-priority="750"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
@@ -345,7 +344,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      queue-priority="600"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
@@ -354,6 +352,22 @@
       driver="CUST2095"
       project-name="CUST2095-RC3.2a"
       branch = '2095_RC3.2a'
+      platform="AnyCpu"
+      prodTag="2095_UAT"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      queue-priority="1100"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-RC2015.05.07"
+      branch = '2095_RC2015.05.07'
       platform="AnyCpu"
       prodTag="2095_UAT"
       repo-name="active"
