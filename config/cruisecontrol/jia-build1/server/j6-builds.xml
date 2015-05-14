@@ -376,6 +376,7 @@
       external-zip="true"
       package="true"
       queue-priority="900"
+      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
