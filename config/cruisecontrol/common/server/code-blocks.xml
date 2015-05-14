@@ -125,6 +125,7 @@
       <exec 
 	  executable="$(powershell)" 
 	  baseDirectory="$(project-folder)"
+	  buildTimeoutSeconds="$(revertall-timeout)"
 	  description="Revert all changes in project dir">
 	<buildArgs>/c "$(global_feature_dir)/revertall.ps1"</buildArgs>
       </exec>
