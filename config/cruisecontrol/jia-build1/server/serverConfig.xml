@@ -4,7 +4,7 @@
   <!-- Common definitions for all projects, edit to suit your system -->
   <cb:define 
       hg = "C:\progra~1\Mercurial\hg.exe"
-      sqlCmd="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SQLCMD.exe"
+      sqlCmd="C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
       ccroot="f:"
       pkgroot="\\jia-build1\ReleasePackages"
@@ -21,6 +21,8 @@
       db-server-2008-instance=""
       db-server-2012="dev-8900sql4"
       db-server-2012-instance="SQL2012"
+	  db-server-2014="dev-8900sql4"
+      db-server-2014-instance="SQL2014"
       ccBuildServer="jia-build1"
       />
 
@@ -30,6 +32,8 @@
       db-password-2008=""
       db-user-2012=""
       db-password-2012=""
+	  db-user-2014=""
+      db-password-2014=""
       />
 
   <!-- Misc -->
