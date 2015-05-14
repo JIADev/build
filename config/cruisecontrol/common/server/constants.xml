@@ -96,6 +96,7 @@
       dotNetFrameworkPath="$(dotNet4Path)"
       f-setup-timeout="600"
       f-install-patches-timeout="900"
+      revertall-timeout="900"
       copy-source-timeout="1200"
       configure-db-timeout="1200"
       build-feature-exe-timeout="300"
