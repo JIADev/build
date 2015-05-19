@@ -331,7 +331,6 @@
       j6Version="7.6.5"
       external-protect="true"
       external-zip="true"
-      sourceCheckInterval=""
       archive="true"
       package="true"
       package-privatebuild="true"
