@@ -302,6 +302,24 @@
   
   <cb:v76build
       driver="CUST2095"
+      project-name="CUST2095-7.6.5"
+      branch = 'tags'
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      queueName="7.6 Production"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
       project-name="CUST2095-TFS06524"
       branch = '2095_TFS06524'
       prodTag="2095_PRD"
@@ -342,40 +360,6 @@
       external-zip="true"
       package="true"
       queue-priority="1100"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-RC_Config"
-      branch = '2095_RC_Config'
-      platform="AnyCpu"
-      prodTag="2095_PRD"
-      repo-name="active"
-      j6Version="7.6.5"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      queue-priority="900"
-      queueSuffix="-priority"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-RC2015.05.07"
-      branch = '2095_RC2015.05.07'
-      platform="AnyCpu"
-      prodTag="2095_PRD"
-      repo-name="active"
-      j6Version="7.6.5"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      queue-priority="1000"
-      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
