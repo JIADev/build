@@ -12,9 +12,10 @@
   <!-- CUST000 -->
   
   <cb:v76build
-      project-name="CUST000-RC3.2a"
-      branch = '2095_RC3.2a'
-      driver = 'CUST000'
+      project-name="CUST000-7.6.5"
+      branch = 'tags'
+      driver="CUST000"
+      prodTag="2095_PRD"
       clean="true"
       build="true"
       data-test="true"
@@ -344,22 +345,6 @@
       external-protect="true"
       external-zip="true"
       package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-RC3.2a"
-      branch = '2095_RC3.2a'
-      platform="AnyCpu"
-      prodTag="2095_PRD"
-      repo-name="active"
-      j6Version="7.6.5"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      queue-priority="1100"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
