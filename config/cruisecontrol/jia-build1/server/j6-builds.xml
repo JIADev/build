@@ -15,10 +15,10 @@
       project-name="CUST000-7.6.5"
       branch = 'tags'
       driver="CUST000"
+      tag="2095_BLD"
       prodTag="2095_PRD"
       clean="true"
       build="true"
-      data-test="true"
       platform="AnyCpu"
       repo-name="active"
       external-protect="true"
@@ -305,6 +305,7 @@
       driver="CUST2095"
       project-name="CUST2095-7.6.5"
       branch = 'tags'
+      tag="2095_BLD"
       prodTag="2095_PRD"
       platform="AnyCpu"
       repo-name="active"
