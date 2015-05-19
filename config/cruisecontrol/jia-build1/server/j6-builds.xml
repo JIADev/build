@@ -322,6 +322,24 @@
   
   <cb:v76build
       driver="CUST2095"
+      project-name="CUST2095-UAT-7.6.5"
+      branch = 'tags'
+      tag="2095_UATBLD"
+      prodTag="2095_UAT"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
       project-name="CUST2095-TFS06524"
       branch = '2095_TFS06524'
       prodTag="2095_PRD"
