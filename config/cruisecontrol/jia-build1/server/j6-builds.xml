@@ -307,7 +307,7 @@
       project-name="CUST2095-7.6.5"
       branch = 'tags'
       tag="2095_BLD"
-      prodTag="2095_UAT"
+      prodTag="2095_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.5"
