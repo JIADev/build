@@ -6,14 +6,14 @@ $branches = ''
 $args | foreach { if($_ -eq '--non-interactive'){
       	$interactive = '/p:Interactive=false;'
       } else {
-      	$branches = $branches + '2095_' + $_ + ';'
+      	$branches = $branches + $_ + ';'
       }
 }
 
-$customernumber = 'CustomerNumber=2095;SuppressPrefix="true";'
+$customernumber = 'CustomerNumber=2095;'
 $branches = 'Branches="' + $branches + '"'
-$buildTag = 'BuildTag=2095_UATBLD;'
-$baseTag = 'BaseTag=2095_RC2015.05.07;'
+$buildTag = 'BuildTag=UATBLD;'
+$baseTag = 'BaseTag=RC2015.05.07;'
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
