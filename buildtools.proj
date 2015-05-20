@@ -159,7 +159,7 @@
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeEmptyDirectories.exe" />
   </Target>
   
-  <Target Name="RevertAll" DependsOnTargets="BuildRevertAllExe">
+  <Target Name="RevertAll" DependsOnTargets="UpdateBuildToolsRepo;BuildRevertAllExe">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
     </PropertyGroup>
@@ -430,8 +430,7 @@
   </Target>
 
   <Target Name="UpdateBuildToolsRepo">
-    <Error Text="Missing /p:BuildToolsRepo" Condition="'$(BuildToolsRepo)' == ''" />
-    <Exec WorkingDirectory="$(BuildToolsRepo)" Command="hg pull -u" IgnoreExitCode="true" />
+    <Exec WorkingDirectory="$(BuildToolsDirectory)" Command="hg pull -u" IgnoreExitCode="true" />
   </Target>
 
   <Target Name="MergeAll">
