@@ -563,8 +563,10 @@
     </cb:if>
   </cb:define>
   <cb:define name="copy-jslint-reports">
+  <cb:if expr="'$(jslint)' == 'true'">
     <exec executable="$(powershell)" buildArgs='-c "mkdir $(artifact-folder)\$(buildversion)"' description="Create JSLint report directory" />
     <exec executable="$(powershell)" description = "copy JSLint reports" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\$(buildversion)"' />
+  </cb:if>
   </cb:define>
   <cb:define name="msbuild-bootstrap">
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
@@ -646,9 +648,11 @@
   </cb:define>
   
   <cb:define name="setup-unittests">
+    <cb:if expr="'$(unit-test)' == 'true'">
     <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' description="Create TestResult directory" />
     <cb:if expr="'$(code-coverage)' == 'true'">
       <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' description="Create Coverage directory" />
+    </cb:if>
     </cb:if>
   </cb:define>
   
@@ -698,6 +702,7 @@
   
   <cb:define name="get-reports">
     <cb:if expr="'$(generate-reports)' == 'true'">
+    <cb:if expr="'$(unit-test)' == 'true'">
       <cb:if expr="'$(code-coverage)' == 'true'">
 	<exec>
 	  <description>Generate coverage report</description>
@@ -725,6 +730,7 @@
 	  <publish>true</publish>
 	</ndepend>
       </cb:if>
+    </cb:if>
     </cb:if>
   </cb:define>
   <cb:define name="publish-package">
@@ -814,6 +820,15 @@
   <cb:define name="msbuild-package">
     <cb:if expr="'$(package)' == 'true'">
       <cb:create-revision-txt />
+      <cb:if expr="'$(simulatePackage)' == 'true'">
+          <exec 
+	executable="$(powershell)" 
+	baseDirectory="$(pkgroot)"
+	description="Make RELEASE-UNPROTECTED">
+      <buildArgs>/c "md -F $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
+    </exec>
+      </cb:if>
+      <cb:else>
       <msbuild logger="$(msBuildListenerDll)" description="package build"
 	       executable="$(msbuild)"
 	       projectFile="j6.proj"
@@ -822,7 +837,7 @@
 	       timeout="$(msbuild-protect-timeout)">
 	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(project-folder)</buildArgs>
       </msbuild>
-      
+      </cb:else>
       <conditional description="Copy changeset log to package folder">
 	<conditions>
 	  <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
