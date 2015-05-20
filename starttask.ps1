@@ -10,7 +10,7 @@ $startEnv = 'PRD'
 $revertall = $false
 
 $args | foreach {
-      if('--revertall' -eq $_) {
+      if('--revertall' -eq $_ ) {
         $revertall = $true
       } else {
       if($customernumber -eq '') {
@@ -34,7 +34,9 @@ $startTag = [string]$customerNumber + '_' + $startEnv
 $branchName = [string]$customerNumber + '_' + [string]$taskNumber
 $comment = "Starting task " + [string]$taskNumber
 & hg pull
-& $msbuild /t:RevertAll $scriptPath\buildtools.proj
+if($revertall -eq $true) {
+	      & $msbuild /t:RevertAll $scriptPath\buildtools.proj
+}
 Write-Host "Updating to $startTag"
 & hg up $startTag
 & hg up
