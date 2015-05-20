@@ -314,11 +314,11 @@
       external-protect="true"
       external-zip="true"
       sourceCheckInterval=""
-      archive="true"
+      archive="false"
+      unit-test="false"
       package="true"
-      package-privatebuild="true"
+      package-privatebuild="false"
       queueName="7.6 Production"
-      corflags="/32bitpref-"
       />
   
   <cb:v76build
