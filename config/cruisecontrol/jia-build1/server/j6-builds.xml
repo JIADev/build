@@ -23,6 +23,7 @@
       repo-name="active"
       external-protect="true"
       external-zip="true"
+      sourceCheckInterval=""
       j6Version="7.6.5"
       modules="AUTOSHIP"
       package="true"
