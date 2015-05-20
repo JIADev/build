@@ -4,12 +4,10 @@ $noComment = 'true'
 $args | foreach {
       $noComment = 'false'
 }
-if($noComment -eq 'true') {
-	 Write-Host "You need a comment"
-	 Exit
-}
-& $msbuild /t:UpdateBuildToolsRepo $scriptPath\buildtools.proj
-& hg ci -m "$args"
-& hg ci -m "Completing task" --close-branch
-& hg push
 
+& $msbuild /t:UpdateBuildToolsRepo $scriptPath\buildtools.proj
+if($noComment -eq 'false') {
+	& hg ci -m "$args"
+}
+& hg ci -m "Completing task" --close-branch
+& hg push --new-branch
