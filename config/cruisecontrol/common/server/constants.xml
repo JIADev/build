@@ -78,6 +78,7 @@
       code-coverage="false"
       web-test="false"
       package="false"
+      simulatePackage="false"
       package-privatebuild="false"
       forceclean="true"
       recreate-db="true"
