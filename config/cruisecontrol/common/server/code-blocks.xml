@@ -26,16 +26,16 @@
   </cb:define>
   
   <cb:define name="msbuild-set-corflags">
-	<cb:if expr="'$(corflags)' != ''">
-      	<msbuild logger="$(msBuildListenerDll)" description="Set CorFlags"
-		 executable="$(msbuild)"
-		 workingDirectory="$(project-folder)"
-		 projectFile="$(global_feature_dir)\buildtools.proj"
-		 targets="SetCorFlags"
-		 timeout="$(msbuild-setCorFlags-timeout)">
-		 <buildArgs>/p:Executables="$(rte)" /p:CorFlags="$(corflags)" /p:CorFlagsExe="$(corflagsExe)"</buildArgs>
-	 </msbuild>
-	 </cb:if>
+    <cb:if expr="'$(corflags)' != ''">
+      <msbuild logger="$(msBuildListenerDll)" description="Set CorFlags"
+	       executable="$(msbuild)"
+	       workingDirectory="$(project-folder)"
+	       projectFile="$(global_feature_dir)\buildtools.proj"
+	       targets="SetCorFlags"
+	       timeout="$(msbuild-setCorFlags-timeout)">
+	<buildArgs>/p:Executables="$(rte)" /p:CorFlags="$(corflags)" /p:CorFlagsExe="$(corflagsExe)"</buildArgs>
+      </msbuild>
+    </cb:if>
   </cb:define>  
   
   <cb:define name="update-source">
@@ -77,7 +77,7 @@
 	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
 	      baseDirectory="$(project-folder)"
 	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
-
+	
 	<msbuild logger="$(msBuildListenerDll)" description="Forward-Only Check" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardChangesCheck" workingDirectory="$(project-folder)" timeout="$(msbuild-updatechangelog-timeout)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
 	</msbuild>
@@ -563,10 +563,10 @@
     </cb:if>
   </cb:define>
   <cb:define name="copy-jslint-reports">
-  <cb:if expr="'$(jslint)' == 'true'">
-    <exec executable="$(powershell)" buildArgs='-c "mkdir $(artifact-folder)\$(buildversion)"' description="Create JSLint report directory" />
-    <exec executable="$(powershell)" description = "copy JSLint reports" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\$(buildversion)"' />
-  </cb:if>
+    <cb:if expr="'$(jslint)' == 'true'">
+      <exec executable="$(powershell)" buildArgs='-c "mkdir $(artifact-folder)\$(buildversion)"' description="Create JSLint report directory" />
+      <exec executable="$(powershell)" description = "copy JSLint reports" buildArgs = '-c "cp $(project-folder)\*JSLintReport.html $(artifact-folder)\$(buildversion)"' />
+    </cb:if>
   </cb:define>
   <cb:define name="msbuild-bootstrap">
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
@@ -649,10 +649,10 @@
   
   <cb:define name="setup-unittests">
     <cb:if expr="'$(unit-test)' == 'true'">
-    <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' description="Create TestResult directory" />
-    <cb:if expr="'$(code-coverage)' == 'true'">
-      <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' description="Create Coverage directory" />
-    </cb:if>
+      <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' description="Create TestResult directory" />
+      <cb:if expr="'$(code-coverage)' == 'true'">
+	<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' description="Create Coverage directory" />
+      </cb:if>
     </cb:if>
   </cb:define>
   
@@ -702,35 +702,35 @@
   
   <cb:define name="get-reports">
     <cb:if expr="'$(generate-reports)' == 'true'">
-    <cb:if expr="'$(unit-test)' == 'true'">
-      <cb:if expr="'$(code-coverage)' == 'true'">
-	<exec>
-	  <description>Generate coverage report</description>
-	  <executable>$(ncoverReportingExe)</executable>
-	  <buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
-	  <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
-	  <baseDirectory>$(project-folder)\Coverage</baseDirectory>
-	</exec>
+      <cb:if expr="'$(unit-test)' == 'true'">
+	<cb:if expr="'$(code-coverage)' == 'true'">
+	  <exec>
+	    <description>Generate coverage report</description>
+	    <executable>$(ncoverReportingExe)</executable>
+	    <buildTimeoutSeconds>$(get-reports-timeout)</buildTimeoutSeconds>
+	    <buildArgs>*coverage*.xml //or SymbolModule:Xml</buildArgs>
+	    <baseDirectory>$(project-folder)\Coverage</baseDirectory>
+	  </exec>
+	</cb:if>
+	<exec executable="$(powershell)" description = "copy j6.ndproj from core/private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
+	<cb:if expr="'$(run-ndepend)' == 'true'">
+	  <ndepend>
+	    <project>j6.ndproj</project>
+	    <executable>$(ndepend)</executable>
+	    <description>Run the NDepend analysis</description>
+	    <emitXml>true</emitXml>
+	    <outputDir>NDepend</outputDir>
+	    <inputDirs>
+	      <inputDir>Build</inputDir>
+	    </inputDirs>
+	    <silent>false</silent>
+	    <reportXslt>custom-report.xsl</reportXslt>
+	    <timeout>$(get-reports-timeout)</timeout>
+	    <baseDir>$(project-folder)</baseDir>
+	    <publish>true</publish>
+	  </ndepend>
+	</cb:if>
       </cb:if>
-      <exec executable="$(powershell)" description = "copy j6.ndproj from core/private" buildArgs = '-c "cp $(project-folder)\Core\private\j6.ndproj $(project-folder)"' />
-      <cb:if expr="'$(run-ndepend)' == 'true'">
-	<ndepend>
-	  <project>j6.ndproj</project>
-	  <executable>$(ndepend)</executable>
-	  <description>Run the NDepend analysis</description>
-	  <emitXml>true</emitXml>
-	  <outputDir>NDepend</outputDir>
-	  <inputDirs>
-	    <inputDir>Build</inputDir>
-	  </inputDirs>
-	  <silent>false</silent>
-	  <reportXslt>custom-report.xsl</reportXslt>
-	  <timeout>$(get-reports-timeout)</timeout>
-	  <baseDir>$(project-folder)</baseDir>
-	  <publish>true</publish>
-	</ndepend>
-      </cb:if>
-    </cb:if>
     </cb:if>
   </cb:define>
   <cb:define name="publish-package">
@@ -798,21 +798,25 @@
       
       <cb:remove-delete-me />
       
-      <conditional description="If changeset log exists">
-	<conditions>
-	  <fileExistsCondition file="$(project-folder)\ChangesetLog.xml" />
-	</conditions>
-	<tasks>
-	  <msbuild logger="$(msBuildListenerDll)" description="PublishChangesetLog file"
-		   executable="$(msbuild)"
-		   projectFile="$(global_feature_dir)\buildtools.proj"
-		   targets="PublishChangesetLog"
-		   workingDirectory="$(project-folder)"
-		   timeout="$(msbuild-package-timeout)">
-	    <buildArgs>/p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:TargetDir=$(pkgroot)\$(project-name) /p:SourceFile=$(project-folder)\ChangesetLog.xml</buildArgs>
-	  </msbuild>
-	</tasks>
-      </conditional>
+      <cb:if expr="'$(prodTag)' != ''">
+	<cb:if expr="'$(createChangesetLog)' != 'false'">
+	  <conditional description="If changeset log exists">
+	    <conditions>
+	      <fileExistsCondition file="$(project-folder)\ChangesetLog.xml" />
+	    </conditions>
+	    <tasks>
+	      <msbuild logger="$(msBuildListenerDll)" description="PublishChangesetLog file"
+		       executable="$(msbuild)"
+		       projectFile="$(global_feature_dir)\buildtools.proj"
+		       targets="PublishChangesetLog"
+		       workingDirectory="$(project-folder)"
+		       timeout="$(msbuild-package-timeout)">
+		<buildArgs>/p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:TargetDir=$(pkgroot)\$(project-name) /p:SourceFile=$(project-folder)\ChangesetLog.xml</buildArgs>
+	      </msbuild>
+	    </tasks>
+	  </conditional>
+	</cb:if>
+      </cb:if>
     </cb:if>
   </cb:define>
   
@@ -821,63 +825,67 @@
     <cb:if expr="'$(package)' == 'true'">
       <cb:create-revision-txt />
       <cb:if expr="'$(simulatePackage)' == 'true'">
-          <exec 
-	executable="$(powershell)" 
-	baseDirectory="$(pkgroot)"
-	description="Make RELEASE-UNPROTECTED">
-      <buildArgs>/c "md -F $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
-    </exec>
+        <exec 
+	    executable="$(powershell)" 
+	    baseDirectory="$(pkgroot)"
+	    description="Make RELEASE-UNPROTECTED">
+	  <buildArgs>/c "md -F $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
+	</exec>
       </cb:if>
       <cb:else>
-      <msbuild logger="$(msBuildListenerDll)" description="package build"
-	       executable="$(msbuild)"
-	       projectFile="j6.proj"
-	       targets="Package"
-	       workingDirectory="$(project-folder)"
-	       timeout="$(msbuild-protect-timeout)">
-	<buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(project-folder)</buildArgs>
-      </msbuild>
+	<msbuild logger="$(msBuildListenerDll)" description="package build"
+		 executable="$(msbuild)"
+		 projectFile="j6.proj"
+		 targets="Package"
+		 workingDirectory="$(project-folder)"
+		 timeout="$(msbuild-protect-timeout)">
+	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(project-folder)</buildArgs>
+	</msbuild>
       </cb:else>
-      <conditional description="Copy changeset log to package folder">
-	<conditions>
-	  <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
-	</conditions>
-	<tasks>
-	  <exec 
-	      executable="$(powershell)"
-	      baseDirectory="$(project-folder)"
-	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
-	  </exec>
-	  <exec 
-	      executable="$(powershell)"
-	      baseDirectory="$(project-folder)"
-	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
-	  </exec>
-	</tasks>
-	<elseTasks>
+      <cb:if expr="'$(prodTag)' != ''">
+	<cb:if expr="'$(createChangesetLog)' != 'false'">
 	  <conditional description="Copy changeset log to package folder">
 	    <conditions>
-	      <folderExistsCondition folder="$(project-folder)\RELEASE" />
+	      <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
 	    </conditions>
 	    <tasks>
-	      <exec
+	      <exec 
 		  executable="$(powershell)"
 		  baseDirectory="$(project-folder)"
 		  description="copy changeset log to the package folder">
-		<buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\"</buildArgs>
+		<buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
 	      </exec>
-	      <exec
+	      <exec 
 		  executable="$(powershell)"
 		  baseDirectory="$(project-folder)"
 		  description="copy changeset log to the package folder">
-		<buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
+		<buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
 	      </exec>
 	    </tasks>
+	    <elseTasks>
+	      <conditional description="Copy changeset log to package folder">
+		<conditions>
+		  <folderExistsCondition folder="$(project-folder)\RELEASE" />
+		</conditions>
+		<tasks>
+		  <exec
+		      executable="$(powershell)"
+		      baseDirectory="$(project-folder)"
+		      description="copy changeset log to the package folder">
+		    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\"</buildArgs>
+		  </exec>
+		  <exec
+		      executable="$(powershell)"
+		      baseDirectory="$(project-folder)"
+		      description="copy changeset log to the package folder">
+		    <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
+		  </exec>
+		</tasks>
+	      </conditional>
+	    </elseTasks>
 	  </conditional>
-	</elseTasks>
-      </conditional>
+	</cb:if>
+      </cb:if>
       <cb:if expr="'$(protect)' == 'true'">
 	<cb:if expr="'$(external-protect)' == 'true'">
 	  <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
