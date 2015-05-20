@@ -313,6 +313,8 @@
       j6Version="7.6.5"
       external-protect="true"
       external-zip="true"
+      clean="false"
+      build="false"
       sourceCheckInterval=""
       archive="false"
       unit-test="false"
