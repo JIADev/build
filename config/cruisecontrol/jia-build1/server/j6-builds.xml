@@ -359,7 +359,7 @@
       driver="CUST2095"
       project-name="CUST2095-TFS06524"
       branch = '2095_TFS06524'
-      prodTag="2095_PRD"
+      prodTag="2095_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.5"
@@ -375,7 +375,7 @@
       project-name="CUST2095-TFS06939.B"
       branch = '2095_TFS06939.B'
       platform="AnyCpu"
-      prodTag="2095_PRD"
+      prodTag="2095_UAT"
       repo-name="active"
       j6Version="7.6.5"
       external-protect="true"
