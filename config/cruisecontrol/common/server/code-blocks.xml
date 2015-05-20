@@ -847,13 +847,13 @@
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"
 	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED\"</buildArgs>
+	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
 	  </exec>
 	  <exec 
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"
 	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED\"</buildArgs>
+	    <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
 	  </exec>
 	</tasks>
 	<elseTasks>
