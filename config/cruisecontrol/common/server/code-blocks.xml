@@ -772,7 +772,7 @@
 	    executable="$(powershell)"
 	    baseDirectory="$(project-folder)"
 	    description="move old changeset log to the delete.me folder">
-	  <buildArgs>-c "mv $(pkgroot)\$(project-name)\ChangesetLog.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+	  <buildArgs>-c "mv $(pkgroot)\$(project-name)\Change*.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
 	</exec>
       </cb:else>
       
@@ -832,7 +832,13 @@
 	      executable="$(powershell)"
 	      baseDirectory="$(project-folder)"
 	      description="copy changeset log to the package folder">
-	    <buildArgs>-c "cp $(project-folder)\ChangesetLog*.xml $(project-folder)\RELEASE-UNPROTECTED\"</buildArgs>
+	    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED\"</buildArgs>
+	  </exec>
+	  <exec 
+	      executable="$(powershell)"
+	      baseDirectory="$(project-folder)"
+	      description="copy changeset log to the package folder">
+	    <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED\"</buildArgs>
 	  </exec>
 	</tasks>
 	<elseTasks>
@@ -845,7 +851,13 @@
 		  executable="$(powershell)"
 		  baseDirectory="$(project-folder)"
 		  description="copy changeset log to the package folder">
-		<buildArgs>-c "cp $(project-folder)\ChangesetLog*.xml $(project-folder)\RELEASE\"</buildArgs>
+		<buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\"</buildArgs>
+	      </exec>
+	      <exec
+		  executable="$(powershell)"
+		  baseDirectory="$(project-folder)"
+		  description="copy changeset log to the package folder">
+		<buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
 	      </exec>
 	    </tasks>
 	  </conditional>
