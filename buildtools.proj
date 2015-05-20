@@ -15,10 +15,10 @@
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
   </PropertyGroup>
   
-  <Target Name="Test">
+  <Target Name="Test" DependsOnTargets="UpdateBuildToolsRepo">
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>
-  <Target Name="GetTipChangeset" Outputs="$(Changeset)">
+  <Target Name="GetTipChangeset" Outputs="$(Changeset)" DependsOnTargets="UpdateBuildToolsRepo">
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg tip &gt; $(BuildRepo)\tip.txt" />
     <ReadLinesFromFile File="$(BuildRepo)\tip.txt">
       <Output TaskParameter="Lines" PropertyName="Tip" />
@@ -30,7 +30,7 @@
     </PropertyGroup>
   </Target>
   
-  <Target Name="GetLastModifiedArtifactFile" Outputs="$(LastModified)" DependsOnTargets="BuildGetLastModifiedFile">
+  <Target Name="GetLastModifiedArtifactFile" Outputs="$(LastModified)" DependsOnTargets="UpdateBuildToolsRepo;BuildGetLastModifiedFile">
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\GetLastModifiedFile.exe $(CCNetArtifactDirectory)\buildlogs &gt; $(RepoDirectory)\LastModifiedFile.txt" />
     <ReadLinesFromFile File="$(RepoDirectory)\LastModifiedFile.txt">
       <Output TaskParameter="Lines" PropertyName="Files" />
@@ -40,7 +40,7 @@
     </PropertyGroup>
   </Target>
   
-  <Target Name="ForwardChangesCheck" DependsOnTargets="BuildEnsureEmpty">
+  <Target Name="ForwardChangesCheck" DependsOnTargets="UpdateBuildToolsRepo;BuildEnsureEmpty">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
@@ -48,7 +48,7 @@
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\EnsureEmpty.exe $(RepoDirectory)\RevertedChanges.txt --ShowContents=true &quot;--Message=The following changes were reverted:&quot;" />
   </Target>
 
-  <Target Name="GetMergedChangesets" DependsOnTargets="BuildUpdateStyleSheet">
+  <Target Name="GetMergedChangesets" DependsOnTargets="UpdateBuildToolsRepo;BuildUpdateStyleSheet">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
@@ -66,7 +66,7 @@
 	
  </Target>
   
-  <Target Name="MergeChangesetLog" DependsOnTargets="BuildMergeLog">
+  <Target Name="MergeChangesetLog" DependsOnTargets="UpdateBuildToolsRepo;BuildMergeLog">
     <Error Text="Missing CCNetArtifactDirectory" Condition="'$(CCNetArtifactDirectory)' == ''" />
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <CallTarget Targets="GetLastModifiedArtifactFile">
@@ -75,45 +75,45 @@
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\MergeLog.exe $(RepoDirectory)\ChangesetLog.xml $(CCNetLogFile)" Condition="Exists('$(RepoDirectory)\ChangesetLog.xml')" />
   </Target>
   
-  <Target Name="CleanProjectFiles" DependsOnTargets="BuildCleanProjectFiles">
+  <Target Name="CleanProjectFiles" DependsOnTargets="UpdateBuildToolsRepo;BuildCleanProjectFiles">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
     </PropertyGroup>
     <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\CleanProjectFiles.exe" />
   </Target>
 
-  <Target Name="ReadChangedFiles" DependsOnTargets="BuildChangedFiles">
+  <Target Name="ReadChangedFiles" DependsOnTargets="UpdateBuildToolsRepo;BuildChangedFiles">
     <Error Text="Missing ChangesetLogFile" Condition="'$(ChangesetLogFile)' == ''" />
     <Error Text="Missing OutputFile" Condition="'$(OutputFile)' == ''" />
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\ChangedFiles.exe $(RepoDirectory)\ChangesetLog.xml $(RepoDirectory)\ChangedFiles.txt" />
   </Target>
   
-  <Target Name="DeleteIfEmpty" DependsOnTargets="BuildDeleteIfEmpty">
+  <Target Name="DeleteIfEmpty" DependsOnTargets="UpdateBuildToolsRepo;BuildDeleteIfEmpty">
     <Error Text="Missing File" Condition="'$(File)' == ''" />
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\DeleteIfEmpty.exe $(RepoDirectory)\$(File)" />
   </Target>
   
-  <Target Name="CopyFilesIfDifferent" DependsOnTargets="BuildCopyDiffFiles">
+  <Target Name="CopyFilesIfDifferent" DependsOnTargets="UpdateBuildToolsRepo;BuildCopyDiffFiles">
     <Error Text="Missing SourceDir" Condition="'$(SourceDir)' == ''" />
     <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
     <Exec Command='$(MSBuildStartupDirectory)\CopyDiffFiles.exe "$(SourceDir)" "$(TargetDir)"' />
   </Target>
   
-  <Target Name="Protect" DependsOnTargets="BuildProtect">
+  <Target Name="Protect" DependsOnTargets="UpdateBuildToolsRepo;BuildProtect">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing Directory" Condition="'$(Directory)' == ''" />
     <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\Protect.exe $(Directory)\RELEASE-UNPROTECTED $(Customer)" />
   </Target>
   
-  <Target Name="AssemblePackage" DependsOnTargets="BuildAssemblePackage">
+  <Target Name="AssemblePackage" DependsOnTargets="UpdateBuildToolsRepo;BuildAssemblePackage">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing HgSourceDir" Condition="'$(HgSourceDir)' == ''" />
     <Exec WorkingDirectory="$(Directory)" Command="$(MSBuildStartupDirectory)\AssemblePackage.exe $(Customer) $(MSBuildStartupDirectory) $(HgSourceDir) $(MSBuildStartupDirectory)\RELEASE-UNPROTECTED" />
   </Target>
   
-  <Target Name="CreateZip" DependsOnTargets="BuildZip">
+  <Target Name="CreateZip" DependsOnTargets="UpdateBuildToolsRepo;BuildZip">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing j6Version" Condition="'$(j6Version)' == ''" />
     <Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
@@ -127,7 +127,7 @@
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(MSBuildStartupDirectory)\Zip.exe $(ZipDirectory)-UNPROTECTED $(UnprotectedZipFile)" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
   </Target>
   
-  <Target Name="PublishChangesetLog" >
+  <Target Name="PublishChangesetLog" DependsOnTargets="UpdateBuildToolsRepo">
     <Error Text="Missing Customer" Condition="'$(Customer)' == ''" />
     <Error Text="Missing j6Version" Condition="'$(j6Version)' == ''" />
     <Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
@@ -145,60 +145,60 @@
 	<Copy SourceFiles="@(StyleFiles)" DestinationFiles="@(SourceFiles->'$(TargetDir)\changelog.xsl')" /> 
   </Target>
   
-  <Target Name="UnZip" DependsOnTargets="BuildUnZip">
+  <Target Name="UnZip" DependsOnTargets="UpdateBuildToolsRepo;BuildUnZip">
     <Error Text="Missing ZipFile" Condition="'$(ZipFile)' == ''" />
     <Error Text="Missing TargetDir" Condition="'$(TargetDir)' == ''" />
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command='$(MSBuildStartupDirectory)\UnZip.exe "$(ZipFile)" "$(TargetDir)"' /> 
   </Target>
   
-  <Target Name="CleanJunctions" DependsOnTargets="BuildPurgeJunctionsExe">
+  <Target Name="CleanJunctions" DependsOnTargets="UpdateBuildToolsRepo;BuildPurgeJunctionsExe">
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
   
-  <Target Name="CleanEmptyDirectories" DependsOnTargets="BuildPurgeEmptyDirectoriesExe">
+  <Target Name="CleanEmptyDirectories" DependsOnTargets="UpdateBuildToolsRepo;BuildPurgeEmptyDirectoriesExe">
     <Exec WorkingDirectory="$(MSBuildStartupDirectory)" Command="$(BuildToolsDirectory)\Code\PurgeEmptyDirectories.exe" />
   </Target>
   
-  <Target Name="RevertAll" DependsOnTargets="BuildRevertAllExe">
+  <Target Name="RevertAll" DependsOnTargets="UpdateBuildToolsRepo;BuildRevertAllExe">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
     </PropertyGroup>
     <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
   
-  <Target Name="BuildUpdateStyleSheet">
+  <Target Name="BuildUpdateStyleSheet" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\UpdateStyleSheet.cs" OutputAssembly="$(RepoDirectory)\UpdateStyleSheet.exe" Condition="!Exists('$(RepoDirectory)\UpdateStyleSheet.exe')" />
   </Target>
   
-  <Target Name="BuildWhichExe">
+  <Target Name="BuildWhichExe" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\Which.cs" OutputAssembly="$(BuildToolsDirectory)\bin\Which.exe" />
   </Target>
   
-  <Target Name="BuildEnsureEmpty">
+  <Target Name="BuildEnsureEmpty" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\EnsureEmpty.cs" OutputAssembly="$(RepoDirectory)\EnsureEmpty.exe" Condition="!Exists('$(RepoDirectory)\EnsureEmpty.exe')" />
   </Target>
   
-  <Target Name="BuildExtractChangesets">
+  <Target Name="BuildExtractChangesets" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\ExtractChangesets.cs;$(BuildToolsDirectory)\Code\LogEntry.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(RepoDirectory)\ExtractChangesets.exe" Condition="!Exists('$(RepoDirectory)\ExtractChangesets.exe')" />
   </Target>
   
-  <Target Name="BuildDeleteIfEmpty">
+  <Target Name="BuildDeleteIfEmpty" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\DeleteIfEmpty.cs" OutputAssembly="$(RepoDirectory)\DeleteifEmpty.exe" Condition="!Exists('$(RepoDirectory)\DeleteIfEmpty.exe')" />
   </Target>
   
-  <Target Name="BuildMergeLog">
+  <Target Name="BuildMergeLog" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\MergeLog.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\MergeLog.exe" />
   </Target>
 
-  <Target Name="BuildCleanProjectFiles">
+  <Target Name="BuildCleanProjectFiles" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\CleanProjectFiles.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\Code\CleanProjectFiles.exe" />
   </Target>
   
-  <Target Name="BuildChangedFiles">
+  <Target Name="BuildChangedFiles" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\ChangedFiles.cs;$(BuildToolsDirectory)\Code\LogEntry.cs" OutputAssembly="$(RepoDirectory)\ChangedFiles.exe" Condition="!Exists('$(RepoDirectory)\ChangedFiles.exe')" />
   </Target>
   
-  <Target Name="BuildZip">
+  <Target Name="BuildZip" DependsOnTargets="UpdateBuildToolsRepo">
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
     </ItemGroup>
@@ -206,7 +206,7 @@
     <Csc Sources="$(BuildToolsDirectory)\Code\Zip.cs" OutputAssembly="$(MSBuildStartupDirectory)\Zip.exe" References="@(ReferenceFiles)" />
   </Target>
   
-  <Target Name="BuildUnZip">
+  <Target Name="BuildUnZip" DependsOnTargets="UpdateBuildToolsRepo">
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
     </ItemGroup>
@@ -214,7 +214,7 @@
     <Csc Sources="$(BuildToolsDirectory)\Code\UnZip.cs" OutputAssembly="$(MSBuildStartupDirectory)\UnZip.exe" References="@(ReferenceFiles)" />
   </Target>
   
-  <Target Name="BuildProtect">
+  <Target Name="BuildProtect" DependsOnTargets="UpdateBuildToolsRepo">
     <ItemGroup>
       <ReferenceFiles Include="$(BuildToolsDirectory)\lib\Ionic.Zip.dll" />
     </ItemGroup>
@@ -222,49 +222,49 @@
     <Csc Sources="$(BuildToolsDirectory)\Code\Protect.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(MSBuildStartupDirectory)\Protect.exe" References="@(ReferenceFiles)" />
   </Target>
   
-  <Target Name="BuildCopyDiffFiles">
+  <Target Name="BuildCopyDiffFiles" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\CopyDiffFiles.cs" OutputAssembly="$(MSBuildStartupDirectory)\CopyDiffFiles.exe" />
   </Target>
   
-  <Target Name="BuildAssemblePackage">
+  <Target Name="BuildAssemblePackage" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\AssemblePackage.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(MSBuildStartupDirectory)\AssemblePackage.exe" />
   </Target>
   
-  <Target Name="BuildGetLastModifiedFile">
+  <Target Name="BuildGetLastModifiedFile" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\GetLastModifiedFile.cs" OutputAssembly="$(RepoDirectory)\GetLastModifiedFile.exe" />
   </Target>
   
-  <Target Name="BuildPurgeJunctionsExe">
+  <Target Name="BuildPurgeJunctionsExe" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\PurgeJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeJunctions.exe" />
   </Target>
   
-  <Target Name="BuildPurgeEmptyDirectoriesExe">
+  <Target Name="BuildPurgeEmptyDirectoriesExe" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\PurgeEmptyDirectories.cs" OutputAssembly="$(BuildToolsDirectory)\Code\PurgeEmptyDirectories.exe" />
   </Target>
   
-  <Target Name="BuildRevertAllExe" Condition="!Exists('$(BuildToolsDirectory)\Code\RevertAll.exe')">
+  <Target Name="BuildRevertAllExe" Condition="!Exists('$(BuildToolsDirectory)\Code\RevertAll.exe')" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\RevertAll.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
   
-  <Target Name="BuildFindJunctionsExe">
+  <Target Name="BuildFindJunctionsExe" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\FindJunctions.cs" OutputAssembly="$(BuildToolsDirectory)\FindJunctions.exe" />
   </Target>
   
-  <Target Name="BuildResetXmlEncodingExe">
+  <Target Name="BuildResetXmlEncodingExe" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\ResetXmlEncoding.cs;$(BuildToolsDirectory)\Code\FileEnumerator.cs" OutputAssembly="$(BuildToolsDirectory)\ResetXmlEncoding.exe" />
   </Target>
   
-  <Target Name="ShowMessage">
+  <Target Name="ShowMessage" DependsOnTargets="UpdateBuildToolsRepo">
     <Message Text="$(MyMessage)" />
   </Target>
   
-  <Target Name="MarkBuildDeployed" DependsOnTargets="InitBuildRepo">
+  <Target Name="MarkBuildDeployed" DependsOnTargets="UpdateBuildToolsRepo;InitBuildRepo">
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -r $(ReleaseNumber) $(CustomerNumber)_$(Environment) $(CustomerNumber)_$(Environment)_$(DeployedDate) -f -m "Deployed $(ReleaseNumber) to $(CustomerNumber) $(Environment) at $(DeployedDate)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
   </Target>
   
-  <Target Name="CloseBranches">
+  <Target Name="CloseBranches" DependsOnTargets="UpdateBuildToolsRepo">
     <Error Text="Missing /p:BuildRepo" Condition="'$(BuildRepo)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <ItemGroup>
@@ -273,21 +273,21 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=%(BranchesToClose.Identity)" />
   </Target>
   
-  <Target Name="WriteBranchList">
+  <Target Name="WriteBranchList" DependsOnTargets="UpdateBuildToolsRepo">
     <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg branches -c > $(SourceRepo)\branches.txt" IgnoreExitCode="true" />
   </Target>
   
-  <Target Name="FindClosed" DependsOnTargets="WriteBranchList;BuildFindClosedExe">
+  <Target Name="FindClosed" DependsOnTargets="UpdateBuildToolsRepo;WriteBranchList;BuildFindClosedExe">
     <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch) $(SourceRepo)\branches.txt $(SourceRepo)\closerevision.txt" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="$(BuildToolsDirectory)\Code\FindClosed.exe $(SourceBranch)_pub $(SourceRepo)\branches.txt closepubrevision.txt" />
   </Target>
   
-  <Target Name="BuildFindClosedExe">
+  <Target Name="BuildFindClosedExe" DependsOnTargets="UpdateBuildToolsRepo">
     <Csc Sources="$(BuildToolsDirectory)\Code\FindClosed.cs" OutputAssembly="$(BuildToolsDirectory)\Code\FindClosed.exe" Condition="!Exists('$(BuildToolsDirectory)\Code\FindClosed.exe')" />
   </Target>
   
-  <Target Name="CloseBranch">
+  <Target Name="CloseBranch" DependsOnTargets="UpdateBuildToolsRepo">
     <Message Text="SourceBranch=$(SourceBranch)" />
     <Message Text="SourceRepo=$(SourceRepo)" />
     <Error Text="Missing /p:SourceBranch=&quot;SourceBranch&quot;" Condition="'$(SourceBranch)' == ''" />
@@ -298,7 +298,7 @@
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
   </Target>
   
-   <Target Name="SetCorFlags">
+   <Target Name="SetCorFlags" DependsOnTargets="UpdateBuildToolsRepo">
     <Message Text="Executables=$(Executables)" />
     <Message Text="CorFlags=$(CorFlags)" />
 	 <Message Text="CorFlagsExe=$(CorFlagsExe)" />
@@ -312,7 +312,7 @@
    
   </Target>
   
-  <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
+  <Target Name="CreateBuild" DependsOnTargets="UpdateBuildToolsRepo;InitBuildRepo">
     <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <PropertyGroup>
@@ -344,7 +344,7 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(BuildTag);TargetBranch=$(TrashBranch);ToolArgs=internal:local;ExtraArgs=--noninteractive;DoMerge=true;DoCommit=true;DoPush=false" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
-  <Target Name="Trash" DependsOnTargets="InitRepos;CloseBranch">
+  <Target Name="Trash" DependsOnTargets="UpdateBuildToolsRepo;InitRepos;CloseBranch">
     <Error Text="Missing SourceBranch" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing TrashBranch" Condition="'$(TrashBranch)' == ''" />
@@ -353,7 +353,7 @@
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg merge $(SourceBranch) --tool=internal:other --noninteractive" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Trashing $(SourceBranch)&quot;" />
   </Target>
-  <Target Name="UpdateReqs" DependsOnTargets="InitRepos">
+  <Target Name="UpdateReqs" DependsOnTargets="UpdateBuildToolsRepo;InitRepos">
     <Error Text="Missing CustomerNumber" Condition="'$(CustomerNumber)' == ''" />
     <ItemGroup>
       <BranchesToPublish Include="$(Branches)" />
@@ -362,10 +362,10 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(ActiveRepo);Source=$(CustomerNumber)_%(BranchesToPublish.Identity)" />
   </Target>
   
-  <Target Name="InitRepos" DependsOnTargets="InitActiveRepo">
+  <Target Name="InitRepos" DependsOnTargets="UpdateBuildToolsRepo;InitActiveRepo">
   </Target>
   
-  <Target Name="InitBuildRepo" Condition="'$(SkipInit)' != 'true'">
+  <Target Name="InitBuildRepo" Condition="'$(SkipInit)' != 'true'" DependsOnTargets="UpdateBuildToolsRepo">
     <Error Text="Missing InitSourceRepo" Condition="'$(InitSourceRepo)' == ''" />
     <Message Text="BuildRepo = $(BuildRepo)" />
     <MakeDir Directories="$(WorkingDirectory)" />
@@ -378,20 +378,20 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
   </Target>
   
-  <Target Name="InitActiveRepo" Condition="'$(SkipInit)' != 'true'">
+  <Target Name="InitActiveRepo" Condition="'$(SkipInit)' != 'true'" DependsOnTargets="UpdateBuildToolsRepo">
     <MakeDir Directories="$(WorkingDirectory)" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone repos://active $(ActiveRepo)" Condition="!Exists('$(ActiveRepo)')" />
     <Message Text="WorkingDirectory = $(ActiveRepo)" />
     <Exec WorkingDirectory="$(ActiveRepo)" Command="hg pull" />
   </Target>
   
-  <Target Name="InitRepo">
+  <Target Name="InitRepo" DependsOnTargets="UpdateBuildToolsRepo">
     <MakeDir Directories="$(WorkingDirectory)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(WorkingDirectory)" Command = "hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <CallTarget Targets="RevertAll" />
   </Target>
   
-  <Target Name="MergeBranchesIfChanged">
+  <Target Name="MergeBranchesIfChanged" DependsOnTargets="UpdateBuildToolsRepo">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
@@ -405,7 +405,7 @@
     <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="Exists('$(TargetRepo)\ChangedFiles.txt')" />
   </Target>
   
-  <Target Name="MergeBranches">
+  <Target Name="MergeBranches" DependsOnTargets="UpdateBuildToolsRepo">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <CleanFlag>$([MSBuild]::ValueOrDefault(`$(CleanFlag)`, ' -C'))</CleanFlag>
@@ -429,12 +429,11 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
 
-  <Target Name="UpdateBuildToolsRepo">
-    <Error Text="Missing /p:BuildToolsRepo" Condition="'$(BuildToolsRepo)' == ''" />
-    <Exec WorkingDirectory="$(BuildToolsRepo)" Command="hg pull -u" IgnoreExitCode="true" />
+  <Target Name="UpdateBuildToolsRepo" DependsOnTargets="UpdateBuildToolsRepo">
+    <Exec WorkingDirectory="$(BuildToolsDirectory)" Command="hg pull -u" IgnoreExitCode="true" />
   </Target>
 
-  <Target Name="MergeAll">
+  <Target Name="MergeAll" DependsOnTargets="UpdateBuildToolsRepo">
     <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing /p:TargetRepo" Condition="'$(TargetRepo)' == ''" />
     <Error Text="Missing /p:TargetBranch" Condition="'$(TargetBranch)' == ''" />
@@ -446,14 +445,14 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(SourceRepo);TargetRepo=$(TargetRepo);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(TargetBranch);DoCommit=true;DoMerge=true;Publish=False" />
   </Target>
   
-  <Target Name="Merge">
+  <Target Name="Merge" DependsOnTargets="UpdateBuildToolsRepo">
     <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing /p:SourceBranch" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:TargetBranch" Condition="'$(TargetBranch)' == ''" />
     
   </Target>
   
-  <Target Name="PublishReq">
+  <Target Name="PublishReq" DependsOnTargets="UpdateBuildToolsRepo">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
       <UpdateBackToReqBranch>$([MSBuild]::ValueOrDefault(`$(UpdateBackToReqBranch)`, 'true'))</UpdateBackToReqBranch>
