@@ -8,7 +8,7 @@ if($noComment -eq 'true') {
 	 Write-Host "You need a comment"
 	 Exit
 }
-& $msbuild /t:UpdateBuildToolsRepo $scriptPath\buildtools.proj
+& $msbuild /t:UpdateBuildToolsRepo /p:BuildToolsRepo="$scriptPath" $scriptPath\buildtools.proj
 & hg ci -m "$args"
 & hg ci -m "Completing task" --close-branch
 & hg push
