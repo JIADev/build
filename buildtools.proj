@@ -428,7 +428,12 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PublishReq" Properties="TargetRepo=$(TargetRepo);Source=$(TargetBranch);UpdateBackToReqBranch=$(UpdateBackToReqBranch)" Condition="'$(Publish)' == 'true'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
-  
+
+  <Target Name="UpdateBuildToolsRepo">
+    <Error Text="Missing /p:BuildToolsRepo" Condition="'$(BuildToolsRepo)' == ''" />
+    <Exec WorkingDirectory="$(BuildToolsRepo)" Command="hg pull -u" IgnoreExitCode="true" />
+  </Target>
+
   <Target Name="MergeAll">
     <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing /p:TargetRepo" Condition="'$(TargetRepo)' == ''" />
