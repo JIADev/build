@@ -429,7 +429,7 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg push $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)' AND '$(DoCommit)' == 'true' AND '$(DoPush)' != 'false'" IgnoreExitCode="true" />
   </Target>
 
-  <Target Name="UpdateBuildToolsRepo">
+  <Target Name="UpdateBuildToolsRepo" DependsOnTargets="UpdateBuildToolsRepo">
     <Exec WorkingDirectory="$(BuildToolsDirectory)" Command="hg pull -u" IgnoreExitCode="true" />
   </Target>
 
