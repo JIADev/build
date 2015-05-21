@@ -24,9 +24,9 @@ setupBranch $config.customerNumber $config.taskNumber $config.graftRevision $con
 
 $config.graftRevision | foreach {
 	
-	Write-Host "Grafting $_"
 	hg graft $_
 	
 }
+$currentBranch = getCurrentBranch
 
-Write-Host "Working directory is now marked as branch $branchName"
+Write-Host "Working directory is now marked as branch $currentBranch"
