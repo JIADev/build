@@ -36,14 +36,30 @@ if($uatCustomers -Contains $customerNumber) {
 }
 $startTag = [string]$customerNumber + '_' + $startEnv
 $branchName = [string]$customerNumber + '_' + [string]$taskNumber
-$comment = "Starting task " + [string]$taskNumber
+
 & hg pull
+if($LastExitCode -ne 0) { 
+	Write-Host "hg pull failed"
+	Exit
+}
 if($revertall -eq $true) {
 	      & $msbuild /t:RevertAll $scriptPath\buildtools.proj
 }
 Write-Host "Updating to $startTag"
 & hg up $startTag
+if($LastExitCode -ne 0) { 
+	Write-Host "Cannot update to $startTag"
+	Exit
+}
 & hg up
+if($LastExitCode -ne 0) { 
+	Write-Host "Cannot update to tip of $startTag"
+	Exit
+}
 & hg branch $branchName
-& hg ci -m "$comment"
-Write-Host "Working directory is now on branch $branchName"
+if($LastExitCode -ne 0) { 
+	Write-Host "Cannot mark working directory as $branchName"
+	Exit
+}
+
+Write-Host "This script no longer auto-commits the initial $branchName revision.  (Don't forget to hg commit.)  Working directory is now marked as branch $branchName"
