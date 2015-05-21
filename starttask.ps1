@@ -1,6 +1,9 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-$msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
-& $msbuild /t:UpdateBuildToolsRepo $scriptPath\buildtools.proj
+. "$scriptPath\mercurialTasks.ps1"
+
+Write-Host "Updating $scriptPath"
+$updateSuccess = updateBuildTools
+
 $validCustomers = '000', '065', '069', '077', '2082', '2083', '2085', '2086', '2087', '2088', '2089', '2090', '2092', '2094', '2095', '2096'
 $uatCustomers = '2094', '2095', '2096'
 $usageMessage = 'Usage: starttask <customerNumber> <RM or TFS Number> Example: starttask 2095 TFS01234'
