@@ -120,6 +120,18 @@
     </conditional>
   </cb:define>
   
+  <cb:define name="deleteall">
+    <cb:if expr="'$(updateSource)' != 'false'">
+      <exec 
+	  executable="$(powershell)" 
+	  baseDirectory="$(project-folder)"
+	  buildTimeoutSeconds="$(revertall-timeout)"
+	  description="Delete all changes in project dir">
+	<buildArgs>/c "$(global_feature_dir)/deleteall.ps1"</buildArgs>
+      </exec>
+    </cb:if>    
+  </cb:define>
+  
   <cb:define name="revertall">
     <cb:if expr="'$(updateSource)' != 'false'">
       <exec 

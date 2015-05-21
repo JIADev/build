@@ -166,6 +166,13 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\RevertAll.exe" />
   </Target>
   
+  <Target Name="DeleteAll" DependsOnTargets="UpdateBuildToolsRepo;BuildDeleteAllExe">
+    <PropertyGroup>
+      <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(MSBuildStartupDirectory)'))</TargetRepo>
+    </PropertyGroup>
+    <Exec WorkingDirectory="$(TargetRepo)" Command="$(BuildToolsDirectory)\Code\DeleteAll.exe" />
+  </Target>
+  
   <Target Name="BuildUpdateStyleSheet">
     <Csc Sources="$(BuildToolsDirectory)\Code\UpdateStyleSheet.cs" OutputAssembly="$(RepoDirectory)\UpdateStyleSheet.exe" Condition="!Exists('$(RepoDirectory)\UpdateStyleSheet.exe')" />
   </Target>
@@ -244,6 +251,10 @@
   
   <Target Name="BuildRevertAllExe" Condition="!Exists('$(BuildToolsDirectory)\Code\RevertAll.exe')">
     <Csc Sources="$(BuildToolsDirectory)\Code\RevertAll.cs;$(BuildToolsDirectory)\Code\RunProcess.cs" OutputAssembly="$(BuildToolsDirectory)\Code\RevertAll.exe" />
+  </Target>
+  
+  <Target Name="BuildDeleteAllExe" Condition="!Exists('$(BuildToolsDirectory)\Code\DeleteAll.exe')">
+    <Csc Sources="$(BuildToolsDirectory)\Code\DeleteAll.cs" OutputAssembly="$(BuildToolsDirectory)\Code\DeleteAll.exe" />
   </Target>
   
   <Target Name="BuildFindJunctionsExe">
