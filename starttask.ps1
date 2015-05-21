@@ -13,4 +13,6 @@ $config = parseArgs $args
 validateCustomer $config.customerNumber
 setupBranch $config.customerNumber $config.taskNumber $config.graftRevision $config.revertall
 
-Write-Host "This script no longer auto-commits the initial $branchName revision.  (Don't forget to hg commit.)  Working directory is now marked as branch $branchName"
+$currentBranch = getCurrentBranch
+
+Write-Host "This script no longer auto-commits the initial $currentBranch revision.  (Don't forget to hg commit.)  Working directory is now marked as branch $currentBranch"
