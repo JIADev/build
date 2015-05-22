@@ -8,7 +8,7 @@ namespace j6.BuildTools
 	class Program
 	{
 		private static bool _verbose;
-
+		
 		private static int Main(string[] args)
 		{
 			try
@@ -25,21 +25,39 @@ namespace j6.BuildTools
 				var junctionsDeleted = DeleteJunctions(repoRoot);
 				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
 
-				var infos = repoRoot.GetFileSystemInfos().Where(i => !i.Name.Equals(".hg")).ToArray();
+				var infos =
+					repoRoot.GetFiles()
+					        .Cast<FileSystemInfo>()
+					        .Union(repoRoot.GetDirectories())
+					        .Where(i => !i.Name.Equals(".hg"))
+					        .Select(f => new {Type = f.GetType(), Info = f})
+					        .GroupBy(f => f.Type)
+							.ToDictionary(f => f.Key,
+					                      f => f.Select(i => i.Info).ToArray());
 
-				foreach (var info in infos)
+				foreach (var type in infos.Keys)
 				{
-					if (_verbose)
-						Console.WriteLine(string.Format("Deleting {0}", info));
+					if (type == typeof (FileInfo))
+					{
+						foreach (var info in infos[type].Cast<FileInfo>())
+						{
+							if (_verbose)
+								Console.WriteLine(string.Format("Deleting {0}", info));
+							info.Delete();
+						}
+					}
+					else if (type == typeof (DirectoryInfo))
+					{
+						foreach (var info in infos[type].Cast<DirectoryInfo>())
+						{
+							if (_verbose)
+								Console.WriteLine(string.Format("Deleting {0}", info));
+							info.Delete(true);
+						}
+					}
 					
-					var dirInfo = info as DirectoryInfo;
-					
-					if (dirInfo != null)
-						dirInfo.Delete(true);
-					else
-						info.Delete();
 				}
-				Console.WriteLine("Deleted {0} files and directories.", infos.Length);
+				Console.WriteLine("Deleted {0} files and {1} directories.", infos.ContainsKey(typeof(FileInfo)) ? infos[typeof(FileInfo)].Length : 0, infos.ContainsKey(typeof(DirectoryInfo)) ? infos[typeof(DirectoryInfo)].Length : 0);
 			}
 			catch (Exception ex)
 			{
