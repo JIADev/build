@@ -1,3 +1,5 @@
+. "$scriptPath\mercurialTasks.ps1"
+. "$scriptPath\customerInfo.ps1"
 function parseArgs([array]$params) {
 $config = [pscustomobject]@{
 customerNumber = [string]''
