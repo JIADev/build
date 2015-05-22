@@ -362,7 +362,7 @@
       driver="CUST2095"
       project-name="CUST2095-QA-7.6.5"
       branch = '2095_QA2015.05.19'
-      prodTag="2095_PRD"
+      prodTag="2095_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.5"

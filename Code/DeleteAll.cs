@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 // ReSharper disable RedundantStringFormatCall
 namespace j6.BuildTools
@@ -21,43 +22,15 @@ namespace j6.BuildTools
 					Console.WriteLine("Must be in a mercurial repository.");
 					return 2;
 				}
-				
+
 				var junctionsDeleted = DeleteJunctions(repoRoot);
 				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
 
-				var infos =
-					repoRoot.GetFiles()
-					        .Cast<FileSystemInfo>()
-					        .Union(repoRoot.GetDirectories())
-					        .Where(i => !i.Name.Equals(".hg"))
-					        .Select(f => new {Type = f.GetType(), Info = f})
-					        .GroupBy(f => f.Type)
-							.ToDictionary(f => f.Key,
-					                      f => f.Select(i => i.Info).ToArray());
+				var deleted = DeleteDirectories(repoRoot, new[] {".hg"});
 
-				foreach (var type in infos.Keys)
-				{
-					if (type == typeof (FileInfo))
-					{
-						foreach (var info in infos[type].Cast<FileInfo>())
-						{
-							if (_verbose)
-								Console.WriteLine(string.Format("Deleting {0}", info));
-							info.Delete();
-						}
-					}
-					else if (type == typeof (DirectoryInfo))
-					{
-						foreach (var info in infos[type].Cast<DirectoryInfo>())
-						{
-							if (_verbose)
-								Console.WriteLine(string.Format("Deleting {0}", info));
-							info.Delete(true);
-						}
-					}
-					
-				}
-				Console.WriteLine("Deleted {0} files and {1} directories.", infos.ContainsKey(typeof(FileInfo)) ? infos[typeof(FileInfo)].Length : 0, infos.ContainsKey(typeof(DirectoryInfo)) ? infos[typeof(DirectoryInfo)].Length : 0);
+				Console.WriteLine("Deleted {0} files and {1} directories.",
+				                  deleted[typeof(FileInfo)],
+				                  deleted[typeof(DirectoryInfo)]);
 			}
 			catch (Exception ex)
 			{
@@ -65,6 +38,42 @@ namespace j6.BuildTools
 				return 3;
 			}
 			return 0;
+		}
+
+		private static Dictionary<Type, int> DeleteDirectories(DirectoryInfo directory, string[] exclude)
+		{
+			var fsInfos = directory.GetFileSystemInfos();
+			var returnValue = new Dictionary<Type, int>
+				{
+					{typeof (FileInfo), 0},
+					{typeof (DirectoryInfo), 0}
+				};
+			foreach (var fsInfo in fsInfos)
+			{
+				if(exclude != null && exclude.Contains(fsInfo.Name, StringComparer.InvariantCultureIgnoreCase))
+					continue;
+				
+				var file = fsInfo as FileInfo;
+				var subDir = fsInfo as DirectoryInfo;
+				
+				if (file != null && file.Exists)
+				{
+					returnValue[typeof (FileInfo)]++;
+					file.Delete();
+				}
+
+				if (subDir == null || !subDir.Exists) continue;
+
+				var subResults = DeleteDirectories(subDir, exclude);
+				returnValue[typeof (FileInfo)] += subResults[typeof (FileInfo)];
+				returnValue[typeof (DirectoryInfo)] += subResults[typeof (DirectoryInfo)];
+			}
+			if (!directory.GetFileSystemInfos().Any())
+			{
+				directory.Delete(false);
+				returnValue[typeof (DirectoryInfo)]++;
+			}
+			return returnValue;
 		}
 
 		private static int DeleteJunctions(DirectoryInfo directory)
