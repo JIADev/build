@@ -1,13 +1,10 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
-. "$scriptPath\mercurialTasks.ps1"
-. "$scriptPath\customerInfo.ps1"
+."$scriptPath\startgraftCommon.ps1"
 
 Write-Host "Updating $scriptPath"
 $updateSuccess = updateBuildTools
 $usageMessage = 'Usage: starttask <customerNumber> <RM or TFS Number> Example: starttask 2095 TFS01234'
-
-."$scriptPath\startgraftCommon.ps1"
 
 $config = parseArgs $args
 validateCustomer $config.customerNumber

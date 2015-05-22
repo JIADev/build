@@ -1,7 +1,6 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
-. "$scriptPath\mercurialTasks.ps1"
-. "$scriptPath\customerInfo.ps1"
+."$scriptPath\startgraftCommon.ps1"
 
 Write-Host "Updating $scriptPath"
 $updateSuccess = updateBuildTools
@@ -15,7 +14,6 @@ if($graftRevision.Length -eq 0) {
 }
 }
 
-."$scriptPath\startgraftCommon.ps1"
 
 $config = parseArgs $args
 validateCustomer $config.customerNumber
@@ -30,3 +28,5 @@ $config.graftRevision | foreach {
 $currentBranch = getCurrentBranch
 
 Write-Host "Working directory is now marked as branch $currentBranch"
+
+& "$scriptPath\pushtask.ps1"

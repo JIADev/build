@@ -1,10 +1,10 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 . "$scriptPath\mercurialTasks.ps1"
+. "$scriptPath\startGraftCommon.ps1"
 
 Write-Host "Updating $scriptPath"
 $updateSuccess = updateBuildTools
 
-$ongoingBranch = '2095_QA2015.05.19'
 $noComment = 'true'
 $args | foreach {
       $noComment = 'false'
@@ -24,6 +24,15 @@ if($currentBranch -eq '') {
 	Exit
 }
 
+$customerNumber = $currentBranch.Substring(0, $currentBranch.IndexOf('_'))
+
+if($customerNumber -eq '') {
+	Read-Host "Customer Number? (i.e. 2094, 2095, 2096)"
+}
+
+validateCustomer $customerNumber
+$ongoingBranch = $pushTaskBranches[[string]$customerNumber]
+
 Write-Host "Closing branch $currentBranch"
 & hg ci -m "Completing task" --close-branch
 if($LastExitCode -ne 0) { 
@@ -31,6 +40,7 @@ if($LastExitCode -ne 0) {
 	Exit
 }
 
+if($ongoingBranch -ne '') {
 Write-Host "Updating to branch $ongoingBranch"
 & hg up $ongoingBranch
 if($LastExitCode -ne 0) { 
@@ -47,10 +57,12 @@ if($LastExitCode -ne 0) {
 
 Write-Host "Committing Merge"
 & hg ci -m "@merge $currentBranch"
+}
 
 $currentDir = Convert-Path .
 
-$confirmation = Read-Host "This will push $currentDir to the server. (y/n?)"
+& hg outgoing
+$confirmation = Read-Host "This will push these changes in $currentDir to the server. (y/n?)"
 if($confirmation -eq 'y') {
   & hg push --new-branch
   if($LastExitCode -ne 0) { 
