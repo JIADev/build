@@ -9,7 +9,12 @@ namespace j6.BuildTools
 	class Program
 	{
 		private static bool _verbose;
-		
+		enum FileType
+		{
+			File,
+			Directory,
+			Junction
+		}
 		private static int Main(string[] args)
 		{
 			try
@@ -23,14 +28,12 @@ namespace j6.BuildTools
 					return 2;
 				}
 
-				var junctionsDeleted = DeleteJunctions(repoRoot);
-				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
-
 				var deleted = DeleteDirectories(repoRoot, new[] {".hg"});
 
-				Console.WriteLine("Deleted {0} files and {1} directories.",
-				                  deleted[typeof(FileInfo)],
-				                  deleted[typeof(DirectoryInfo)]);
+				Console.WriteLine("Deleted {0} files, {1} junctions, and {2} directories.",
+				                  deleted[FileType.File],
+				                  deleted[FileType.Junction],
+								  deleted[FileType.Directory]);
 			}
 			catch (Exception ex)
 			{
@@ -40,13 +43,14 @@ namespace j6.BuildTools
 			return 0;
 		}
 
-		private static Dictionary<Type, int> DeleteDirectories(DirectoryInfo directory, string[] exclude)
+		private static Dictionary<FileType, int> DeleteDirectories(DirectoryInfo directory, string[] exclude)
 		{
 			var fsInfos = directory.GetFileSystemInfos();
-			var returnValue = new Dictionary<Type, int>
+			var returnValue = new Dictionary<FileType, int>
 				{
-					{typeof (FileInfo), 0},
-					{typeof (DirectoryInfo), 0}
+					{ FileType.File, 0 },
+					{ FileType.Junction, 0 },
+					{ FileType.Directory, 0 }
 				};
 			foreach (var fsInfo in fsInfos)
 			{
@@ -58,34 +62,36 @@ namespace j6.BuildTools
 				
 				if (file != null && file.Exists)
 				{
-					returnValue[typeof (FileInfo)]++;
 					file.Delete();
+					if(_verbose)
+						Console.WriteLine(string.Format("Deleted {0}", file.FullName));
+					returnValue[FileType.File]++;
 				}
 
 				if (subDir == null || !subDir.Exists) continue;
 
+				if (subDir.Attributes.HasFlag(FileAttributes.ReparsePoint))
+				{
+					subDir.Delete();
+					if (_verbose)
+						Console.WriteLine(string.Format("Deleted Junction {0}", subDir));
+					returnValue[FileType.Junction]++;
+					continue;
+				}
+
 				var subResults = DeleteDirectories(subDir, exclude);
-				returnValue[typeof (FileInfo)] += subResults[typeof (FileInfo)];
-				returnValue[typeof (DirectoryInfo)] += subResults[typeof (DirectoryInfo)];
+				returnValue[FileType.File] += subResults[FileType.File];
+				returnValue[FileType.Junction] += subResults[FileType.Junction];
+				returnValue[FileType.Directory] += subResults[FileType.Directory];
 			}
 			if (!directory.GetFileSystemInfos().Any())
 			{
 				directory.Delete(false);
-				returnValue[typeof (DirectoryInfo)]++;
+				if (_verbose)
+					Console.WriteLine(string.Format("Deleted {0}", directory.FullName));
+				returnValue[FileType.Directory]++;
 			}
 			return returnValue;
-		}
-
-		private static int DeleteJunctions(DirectoryInfo directory)
-		{
-			if (directory.Attributes.HasFlag(FileAttributes.ReparsePoint))
-			{
-				if(_verbose)
-					Console.WriteLine(string.Format("Deleting Junction {0}", directory));
-				directory.Delete();
-				return 1;
-			}
-			return directory.GetDirectories().Sum(dir => DeleteJunctions(dir));
 		}
 
 		private static DirectoryInfo FindRepoRoot(DirectoryInfo directory)
