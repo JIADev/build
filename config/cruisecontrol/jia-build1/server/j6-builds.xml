@@ -408,7 +408,7 @@
       project-name="CUST2095-7.6.6"
       branch = '7.6.6'
       platform="AnyCpu"
-      prodTag="2095_PRD"
+      prodTag="2095_UAT"
       repo-name="active"
       j6Version="7.6.6"
       external-protect="true"
