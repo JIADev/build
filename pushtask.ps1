@@ -27,7 +27,7 @@ if($currentBranch -eq '') {
 $customerNumber = $currentBranch.Substring(0, $currentBranch.IndexOf('_'))
 
 if($customerNumber -eq '') {
-	Read-Host "Customer Number? (i.e. 2094, 2095, 2096)"
+	$customerNumber = Read-Host "Customer Number? (i.e. 2094, 2095, 2096)"
 }
 
 validateCustomer $customerNumber
@@ -35,10 +35,6 @@ $ongoingBranch = $pushTaskBranches[[string]$customerNumber]
 
 Write-Host "Closing branch $currentBranch"
 & hg ci -m "Completing task" --close-branch
-if($LastExitCode -ne 0) { 
-	Write-Host "Closing task branch failed"
-	Exit
-}
 
 if($ongoingBranch -ne '') {
 Write-Host "Updating to branch $ongoingBranch"

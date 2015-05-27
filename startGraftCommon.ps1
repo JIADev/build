@@ -58,9 +58,9 @@ if($LastExitCode -ne 0) {
 }
 & hg up
 
-& hg branch $branchName
-if($LastExitCode -ne 0) { 
-	Write-Host "Cannot mark working directory as $branchName"
+$branchCreated = ensureBranchUp $branchName
+if($branchCreated -ne 0) { 
+	Write-Host "Cannot create or update to $branchName"
 	Exit
 }
 }
