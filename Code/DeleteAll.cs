@@ -45,14 +45,13 @@ namespace j6.BuildTools
 
 		private static Dictionary<FileType, int> DeleteDirectories(DirectoryInfo directory, string[] exclude)
 		{
-			var fsInfos = directory.GetFileSystemInfos();
 			var returnValue = new Dictionary<FileType, int>
 				{
 					{ FileType.File, 0 },
 					{ FileType.Junction, 0 },
 					{ FileType.Directory, 0 }
 				};
-			foreach (var fsInfo in fsInfos)
+			foreach (var fsInfo in directory.GetFileSystemInfos())
 			{
 				if(exclude != null && exclude.Contains(fsInfo.Name, StringComparer.InvariantCultureIgnoreCase))
 					continue;
