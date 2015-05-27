@@ -323,6 +323,24 @@
    
   </Target>
   
+  <Target Name="LabelBuild" DependsOnTargets="InitBuildRepo">
+    <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
+    <Error Text="Missing /p:Changeset=&lt;Changeset&gt;" Condition="'$(Changeset)' == ''" />
+    <Error Text="Missing /p:Tags=&quot;&lt;List;Of;Tags;To;Be;Applied&gt;&quot;" Condition="'$(Tags)' == ''" />
+    <Message Text="Tags=$(Tags)" />
+    <PropertyGroup>
+      <CustomerPrefix Condition="'$(SuppressPrefix)' != 'true'">$([MSBuild]::ValueOrDefault(`$(CustomerPrefix)`, '$(CustomerNumber)_'))</CustomerPrefix>
+      <DateSuffix>_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</DateSuffix>
+    </PropertyGroup>
+    <ItemGroup>
+      <TagsToApply Include="$(Tags)" />
+    </ItemGroup>
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
+    <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(CustomerPrefix)%(TagsToApply.Identity) $(CustomerPrefix)%(TagsToApply.Identity)$(DateSuffix) -m "Labeled revision $(Changeset) as $(CustomerPrefix)%(TagsToApply.Identity)"' />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
+  </Target>
+
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
     <Error Text="Missing /p:CustomerNumber=&lt;Number&gt;" Condition="'$(CustomerNumber)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
