@@ -176,7 +176,7 @@
 
   <cb:define name="reqBuild">
     <cb:if expr="'$(driver)'==''">
-      <cb:define driver="CUST$(customer)"
+      <cb:define driver="CUST$(customer)" />
     </cb:if>
     <cb:v76build
 	project-name="$(driver)-$(req-number)"
