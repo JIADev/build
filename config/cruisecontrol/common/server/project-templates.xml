@@ -175,8 +175,10 @@
   </cb:define>
 
   <cb:define name="reqBuild">
+    <cb:if expr="'$(driver)'==''">
+      <cb:define driver="CUST$(customer)"
+    </cb:if>
     <cb:v76build
-	driver="CUST$(customer)"
 	project-name="$(driver)-$(req-number)"
 	branch = '$(customer)_$(req-number)'
 	platform="AnyCpu"
