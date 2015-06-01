@@ -2,9 +2,7 @@
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   
   <!-- default queue-priority = 2000.  Subtract 1000 if it is part of a track build.  Subtract 50 for each dependency it has -->
-    <cb:if>
-      <cb:define driver="" />
-    </cb:if>
+  <cb:define driver="" />
   
   <cb:define name="queue1b">
     <cb:define queueName="Queue1" />
