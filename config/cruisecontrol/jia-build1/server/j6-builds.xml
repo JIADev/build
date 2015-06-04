@@ -15,8 +15,8 @@
       project-name="CUST000-7.6.5"
       branch = 'tags'
       driver="CUST000"
-      tag="2095_UATBLD"
-      prodTag="2095_UAT"
+      tag="2095_BLD"
+      prodTag="2095_PRD"
       clean="true"
       build="true"
       platform="AnyCpu"
@@ -352,25 +352,6 @@
       package="true"
       package-privatebuild="true"
       queueName="7.6 Production"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-UAT-7.6.5"
-      branch = 'tags'
-      tag="2095_UATBLD"
-      prodTag="2095_UAT"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.5"
-      external-protect="true"
-      external-zip="true"
-      sourceCheckInterval=""
-      archive="true"
-      package="true"
-      queueSuffix="-priority"
-      package-privatebuild="true"
       corflags="/32bitpref-"
       />
   
