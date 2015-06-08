@@ -43,8 +43,11 @@
   <Target Name="ForwardChangesCheck" DependsOnTargets="BuildEnsureEmpty">
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
     <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
+    <ItemGroup>
+      <OriginalChangesets Include="$(OriginalChangeset)" />
+    </ItemGroup>
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;!ancestors('$(NewChangeset)') and ancestors('$(OriginalChangeset)')&quot; > $(RepoDirectory)\RevertedChanges.txt" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;!ancestors('$(NewChangeset)') and ancestors('%(OriginalChangeset.Identity)')&quot; >> $(RepoDirectory)\RevertedChanges.txt" />
     <Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\EnsureEmpty.exe $(RepoDirectory)\RevertedChanges.txt --ShowContents=true &quot;--Message=The following changes were reverted:&quot;" />
   </Target>
 
