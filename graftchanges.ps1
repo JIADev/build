@@ -22,8 +22,11 @@ setupBranch $config.customerNumber $config.taskNumber $config.graftRevision $con
 
 $config.graftRevision | foreach {
 	
-	hg graft $_
-	
+	hg graft $_ --tool=internal:merge
+	if($LastExitCode -ne 0) { 
+		hg resolve --all
+		hg graft --continue	
+	}
 }
 $currentBranch = getCurrentBranch
 
