@@ -46,10 +46,14 @@ if($LastExitCode -ne 0) {
 }
 
 Write-Host "Merging $currentBranch to $ongoingBranch"
-& hg merge $currentBranch
+& hg merge $currentBranch --tool=internal:merge
 if($LastExitCode -ne 0) { 
-	Write-Host "Cannot merge $currentBranch to $ongoingBranch"
-	Exit
+	& hg resolve --all
+	if($LastExitCode -ne 0) { 
+
+		Write-Host "Cannot merge $currentBranch to $ongoingBranch"
+		Exit
+	}
 }
 
 Write-Host "Committing Merge"
