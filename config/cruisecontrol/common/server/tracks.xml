@@ -15,7 +15,6 @@
   
   <cb:define name="queue2b">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild customer="2096" req-number="RM53069" />
   </cb:define>
   
   <cb:define name="queue2d">
