@@ -22,7 +22,7 @@
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
       <cb:sourcecontrol />
       <prebuild>
-	<cb:revertall />
+	<cb:deleteall />
 	<cb:update-source />
       </prebuild>
       <tasks>
