@@ -432,4 +432,18 @@
       corflags="/32bitpref-"
       />
 
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096-RM53689"
+      branch = '000_RM53689'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+
 </cb:config-template>
