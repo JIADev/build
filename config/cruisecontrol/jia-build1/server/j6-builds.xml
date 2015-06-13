@@ -285,7 +285,7 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-UATBLD-7.6.6"
+      project-name="CUST2094-UAT-7.6.6"
       branch = 'tags'
       tag="2094_UATBLD"
       prodTag="2094_UAT"
