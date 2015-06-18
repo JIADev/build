@@ -32,21 +32,18 @@ namespace j6.BuildTools
 				var junctionsDeleted = DeleteJunctions(repoRoot);
 				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
 
-				var hgExe = "hg";
-				RevertAll(hgExe, repoRoot);
-
 				var hgIgnoreFile = repoRoot.GetFiles(".hgignore").Where(f => f.Exists && f.Name.Equals(".hgignore", StringComparison.InvariantCultureIgnoreCase)).Select(f => f.FullName).SingleOrDefault();
 				var tmpIgnoreFile = Path.Combine(repoRoot.FullName, string.Format("{0}.hgignore", Guid.NewGuid()));
 
 				if(hgIgnoreFile != null)
 					File.Move(hgIgnoreFile, tmpIgnoreFile);
 
+				var hgExe = "hg";
 				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile);
 
 				if (hgIgnoreFile != null)
-				{
 					File.Move(tmpIgnoreFile, hgIgnoreFile);
-				}
+
 				var fileCount = 0;
 				foreach (var file in files.Where(f => f.Exists))
 				{
@@ -56,6 +53,8 @@ namespace j6.BuildTools
 					fileCount++;
 				}
 				Console.WriteLine(string.Format("Deleted {0} files.", fileCount));
+				RevertAll(hgExe, repoRoot);
+
 				var emptyDirectories = DeleteEmptyDirectories(repoRoot);
 				Console.WriteLine(string.Format("Deleted {0} empty directories.", emptyDirectories));
 			}
