@@ -318,7 +318,7 @@
       package="true"
       corflags="/32bitpref-"
       />
-  
+<!--  
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-RM53782"
@@ -334,7 +334,7 @@
       package="true"
       corflags="/32bitpref-"
       />
-  
+  -->
   <!-- CUST2095 -->
   
   <cb:v76build
