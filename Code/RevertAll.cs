@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Xml.Linq;
-using System.Xml.XPath;
+using System.Threading.Tasks;
 
 namespace j6.BuildTools
 {
 	class Program
 	{
-		static readonly Regex ChangesetRegex = new Regex("^changeset:.*$", RegexOptions.Multiline);
 		private static bool _verbose;
 
 		private static int Main(string[] args)
@@ -38,21 +31,26 @@ namespace j6.BuildTools
 				if(hgIgnoreFile != null)
 					File.Move(hgIgnoreFile, tmpIgnoreFile);
 
-				var hgExe = "hg";
+				const string hgExe = "hg";
 				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile);
 
 				if (hgIgnoreFile != null)
 					File.Move(tmpIgnoreFile, hgIgnoreFile);
 
-				var fileCount = 0;
-				foreach (var file in files.Where(f => f.Exists))
-				{
-					if(_verbose)
-						Console.WriteLine(string.Format("Deleting {0}", file));
-					file.Delete();
-					fileCount++;
-				}
-				Console.WriteLine(string.Format("Deleted {0} files.", fileCount));
+				var fileCount = new IndexObject();
+
+				files.AsParallel().ForAll(file =>
+					{
+						if (!file.Exists)
+							return;
+						if (_verbose)
+							Console.WriteLine(string.Format("Deleting {0}", file));
+						file.Delete();
+						lock (fileCount)
+							fileCount.Count++;
+					});
+				
+				Console.WriteLine(string.Format("Deleted {0} files.", fileCount.Count));
 				RevertAll(hgExe, repoRoot);
 
 				var emptyDirectories = DeleteEmptyDirectories(repoRoot);
@@ -65,7 +63,10 @@ namespace j6.BuildTools
 			}
 			return 0;
 		}
-
+		private class IndexObject
+		{
+			public int Count { get; set; }
+		}
 		private static int DeleteJunctions(DirectoryInfo directory)
 		{
 			if (directory.Attributes.HasFlag(FileAttributes.ReparsePoint))
@@ -75,12 +76,27 @@ namespace j6.BuildTools
 				directory.Delete();
 				return 1;
 			}
-			return directory.GetDirectories().Sum(dir => DeleteJunctions(dir));
+			var dirCount = new IndexObject();
+			foreach (var dir in directory.GetDirectories())
+			{
+				var count = DeleteJunctions(dir);
+				lock (dirCount)
+					dirCount.Count += count;
+			}
+			return dirCount.Count;
 		}
 
 		private static int DeleteEmptyDirectories(DirectoryInfo directory)
 		{
-			var emptyDirectoriesDeleted = directory.GetDirectories().Sum(dir => DeleteEmptyDirectories(dir));
+			var emptyDirCount = new IndexObject();
+
+			foreach (var dir in directory.GetDirectories())
+			{
+				var count = DeleteEmptyDirectories(dir);
+				lock (emptyDirCount)
+					emptyDirCount.Count += count;
+			}
+			var emptyDirectoriesDeleted = emptyDirCount.Count;
 			
 			if (!directory.GetFileSystemInfos().Any())
 			{
