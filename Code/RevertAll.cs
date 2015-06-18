@@ -29,6 +29,9 @@ namespace j6.BuildTools
 					return 2;
 				}
 				
+				var junctionsDeleted = DeleteJunctions(repoRoot);
+				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
+
 				var hgExe = "hg";
 				RevertAll(hgExe, repoRoot);
 
@@ -37,9 +40,6 @@ namespace j6.BuildTools
 
 				if(hgIgnoreFile != null)
 					File.Move(hgIgnoreFile, tmpIgnoreFile);
-
-				var junctionsDeleted = DeleteJunctions(repoRoot);
-				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
 
 				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile);
 
