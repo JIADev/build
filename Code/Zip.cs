@@ -32,19 +32,35 @@ namespace j6.BuildTools
 
 		private static void CreateZip(FileInfo zipFileInfo, DirectoryInfo zipDirectoryInfo)
 		{
-			var zipFile = new ZipFile();
-			foreach (var directory in zipDirectoryInfo.GetDirectories())
+			using (var zipFile = new ZipFile())
 			{
-				Console.WriteLine("Zipping " + directory.FullName);
-				zipFile.AddDirectory(directory.FullName, directory.Name);
+				foreach (var directory in zipDirectoryInfo.GetDirectories())
+				{
+					Console.WriteLine("Zipping " + directory.FullName);
+					zipFile.AddDirectory(directory.FullName, directory.Name);
+				}
+				var files = zipDirectoryInfo.GetFiles().Select(f => f.FullName).ToArray();
+				foreach (var file in files)
+				{
+					Console.WriteLine("Zipping " + file);
+				}
+				zipFile.AddFiles(files, false, "\\");
+				var bootstrapDir = zipDirectoryInfo.GetDirectories("Bootstrap").SingleOrDefault(d => d.Name.Equals("Bootstrap", StringComparison.InvariantCultureIgnoreCase));
+				
+				if (bootstrapDir != null && bootstrapDir.GetFiles("install.exe", SearchOption.TopDirectoryOnly).SingleOrDefault() != null)
+				{
+					zipFileInfo = new FileInfo(zipFileInfo.FullName.Replace(".zip", ".exe"));
+					zipFile.SaveSelfExtractor(zipFileInfo.FullName,
+					                          new SelfExtractorSaveOptions
+						                          {
+							                          Flavor = SelfExtractorFlavor.WinFormsApplication,
+							                          RemoveUnpackedFilesAfterExecute = true,
+							                          PostExtractCommandLine = "Bootstrap\\Install.exe"
+						                          });
+				}
+				else
+					zipFile.Save(zipFileInfo.FullName);
 			}
-			var files = zipDirectoryInfo.GetFiles().Select(f => f.FullName).ToArray();
-			foreach (var file in files)
-			{
-				Console.WriteLine("Zipping " + file);
-			}
-			zipFile.AddFiles(files, false, "\\");
-			zipFile.Save(zipFileInfo.FullName);
 			Console.WriteLine("Created " + zipFileInfo.FullName);
 		}
 	}
