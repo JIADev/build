@@ -285,10 +285,10 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-UAT-7.6.6"
+      project-name="CUST2094-7.6.6"
       branch = 'tags'
-      tag="2094_UATBLD"
-      prodTag="2094_UAT"
+      tag="2094_BLD"
+      prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
@@ -304,9 +304,9 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-7.6.6"
+      project-name="CUST2094-DEV-7.6.6"
       branch="7.6.6"
-      prodTag="2094_UAT"
+      prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
@@ -323,7 +323,7 @@
       driver="CUST2094"
       project-name="CUST2094-RM53782"
       branch="2094_RM53782"
-      prodTag="2094_UAT"
+      prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
