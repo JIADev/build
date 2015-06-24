@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace j6.BuildTools
 {
@@ -112,7 +112,16 @@ namespace j6.BuildTools
 		{
 			if(_verbose)
 				Console.WriteLine("Reverting all files under " + directory.FullName);
-			BuildSystem.RunProcess(hgExe, "revert --all --no-backup", directory.FullName);
+			const string command = "revert --all --no-backup";
+			try
+			{
+				BuildSystem.RunProcess(hgExe, command, directory.FullName, timeoutSeconds: 90);
+			}
+			catch (TimeoutException)
+			{
+				Thread.Sleep(10 * 1000);
+				BuildSystem.RunProcess(hgExe, command, directory.FullName);
+			}
 		}
 
 		private static DirectoryInfo FindRepoRoot(DirectoryInfo directory)
@@ -130,7 +139,18 @@ namespace j6.BuildTools
 		
 		private static FileInfo[] GetHgStatFiles(string hgExe, DirectoryInfo directory, string tempIgnoreFile)
 		{
-			var output = BuildSystem.RunProcess(hgExe, "status", directory.FullName);
+			string output;
+			
+			try
+			{
+				output = BuildSystem.RunProcess(hgExe, "status", directory.FullName, timeoutSeconds: 45);
+			}
+			catch (TimeoutException)
+			{
+				Thread.Sleep(10 * 1000);
+				output = BuildSystem.RunProcess(hgExe, "status", directory.FullName);
+			}
+
 			var currentAssembly = System.Reflection.Assembly.GetExecutingAssembly().Location;
 			var files = output.Split(new [] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
 							.Select(s => s.TrimStart(new [] { ' ', '?' }).Trim())
