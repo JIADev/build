@@ -34,7 +34,7 @@ validateCustomer $customerNumber
 $ongoingBranch = $pushTaskBranches[[string]$customerNumber]
 
 Write-Host "Closing branch $currentBranch"
-& hg ci -m "Completing task" --close-branch
+& hg ci -m "Completing task @build" --close-branch
 
 if($ongoingBranch) {
 if($ongoingBranch -ne '') {
