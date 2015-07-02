@@ -286,15 +286,13 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-7.6.6"
-      branch = 'tags'
-      tag="2094_BLD"
+      branch = '2094_GoLivePriority'
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
       external-protect="true"
       external-zip="true"
-      sourceCheckInterval=""
       archive="true"
       package="true"
       queueSuffix="-priority"
