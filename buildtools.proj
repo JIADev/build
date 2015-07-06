@@ -55,7 +55,7 @@
     <PropertyGroup>
       <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
     </PropertyGroup>
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and !ancestors('$(OriginalChangeset)') and !merge() and !keyword('@build')&quot; --verbose --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and !ancestors('$(OriginalChangeset)') and !merge() and !keyword('@build') and !closed()&quot; --verbose --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
 	<Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\UpdateStyleSheet.exe" />
 
 	<ItemGroup>
