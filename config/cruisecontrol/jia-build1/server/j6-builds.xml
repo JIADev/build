@@ -47,6 +47,23 @@
       corflags="/32bitpref-"
       />
   
+  <cb:v76build
+      project-name="CUST000-RM53689"
+      branch = '000_RM53689'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      platform="AnyCpu"
+      repo-name="active"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.6"
+      modules="AUTOSHIP"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
   <!-- release (tagged) branches -->
   
   <!-- IH00010 -->
