@@ -333,6 +333,7 @@
       queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
+      sourceCheckInterval=""
       />
   
   <cb:v76build
