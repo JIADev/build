@@ -12,7 +12,7 @@
       project-name="CUST2094-7.6.6-WebTest"
       driver = 'CUST2094'
       web-test="true"
-      project-to-deploy="CUST2094-7.6.6"
+      project-to-deploy="CUST2094-DEV-7.6.6"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_2094_RC3" 
       db-server="DEV-8900sql1"
