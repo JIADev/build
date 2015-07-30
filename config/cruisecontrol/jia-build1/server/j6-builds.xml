@@ -303,7 +303,7 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-7.6.6"
-      branch = '2094_PostGoLive_2015.07.13_1542'
+      branch = '2094_Build_2015.07.30'
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
@@ -334,23 +334,6 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       sourceCheckInterval=""
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-RC-7.6.6"
-      branch = '2094_Build_2015.07.30'
-      prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.6"
-      external-protect="true"
-      external-zip="true"
-      archive="true"
-      package="true"
-      queueSuffix="-priority"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
       />
   
   <cb:v76build
