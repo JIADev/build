@@ -206,7 +206,7 @@
     
     <ItemGroup>
       <CompletedRC33Reqs Include="2094_REQ079.5b;2094_CR081.001b;2094_CR216.001" />
-      <Active766Reqs Include="2094_RM53782;2094_CR012;2094_CR022;2094_CR113_001" />
+      <Active766Reqs Include="2094_RM53782;2094_CR012" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
