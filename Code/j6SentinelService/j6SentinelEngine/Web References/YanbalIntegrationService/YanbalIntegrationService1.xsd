@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CUST2094.Integration.RequestResultObjects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CUST2094.Integration.RequestResultObjects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://uat-j6.yanbalbolivia.com/Integration/YanbalIntegrationService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="AddCurrencyExchangeResult">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Codes" nillable="true" type="q1:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddCurrencyExchangeResult" nillable="true" type="tns:AddCurrencyExchangeResult" />
+</xs:schema>
