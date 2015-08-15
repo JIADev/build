@@ -1,4 +1,7 @@
-﻿using System;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Web.Administration;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -19,7 +22,9 @@ namespace j6SentinelEngine
 
 		const ServiceControllerStatus Stop = ServiceControllerStatus.Stopped;
 		const ServiceControllerStatus Start = ServiceControllerStatus.Running;
-		
+		const ObjectState StartAppPool = ObjectState.Started;
+	    const ObjectState StopAppPool = ObjectState.Stopped;
+
 		public void CheckServers()
 		{
 			foreach (var server in Config.Servers)
@@ -30,7 +35,7 @@ namespace j6SentinelEngine
 					bool pingResult;
 					bool pingResultSpecified;
 					service.Ping(out pingResult, out pingResultSpecified);
-					return;
+					//return;
 				}
 				catch(Exception ex)
 				{
@@ -38,10 +43,43 @@ namespace j6SentinelEngine
 				}
 
 				// If we're down here, the service did not respond to a ping succesfully
-				SetState(server.ServiceName, server.Name, Stop);
-				SetState(server.ServiceName, server.Name, Start);
-				
+				if (!string.IsNullOrWhiteSpace(server.AppPoolName))
+				{
+					if (!string.IsNullOrWhiteSpace(server.Name))
+					{
+						throw new ConfigurationException("Cannot control app pools on remote servers");
+					}
+					AppPoolRecycle(server.AppPoolName);
+					
+				}
+				if (!string.IsNullOrWhiteSpace(server.ServiceName))
+				{
+					SetState(server.ServiceName, server.Name, Stop);
+					SetState(server.ServiceName, server.Name, Start);
+				}
 			}
+		}
+
+		private void AppPoolRecycle(string appPoolName)
+		{
+			using (var serverManager = new ServerManager())
+			{
+				var appPool =
+					serverManager.ApplicationPools.SingleOrDefault(
+						ap => ap.Name.Equals(appPoolName, StringComparison.InvariantCultureIgnoreCase));
+				if (appPool == null)
+					throw new ConfigurationException("App Pool " + appPoolName + " not found");
+				
+				SetAppPoolState(appPool, StopAppPool);
+				SetAppPoolState(appPool, StartAppPool);
+			}
+		}
+
+		private static void WaitForState(ApplicationPool appPool, ObjectState objectState, TimeSpan waitTimeout)
+		{
+			var giveUpTime = DateTime.UtcNow.Add(waitTimeout);
+			while (appPool.State != objectState && DateTime.UtcNow < giveUpTime)
+				Thread.Sleep(100);
 		}
 
 		private static void SetState(string serviceName, string computerName, ServiceControllerStatus state)
@@ -108,5 +146,69 @@ namespace j6SentinelEngine
 				Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} An error occurred: {1}", DateTime.Now, ex));
 			}
 		}
-    }
+
+	    private static void SetAppPoolState(ApplicationPool appPool, ObjectState state)
+	    {
+		    switch (state)
+		    {
+			    case StartAppPool:
+				    RunAppPoolCommand(
+					    appPool,
+					    () => appPool.Start(),
+					    ObjectState.Stopped,
+						ObjectState.Started,
+					    new[] {ObjectState.Starting, ObjectState.Started },
+					    new[] {ObjectState.Stopping},
+					    "Starting",
+					    "Started");
+				    return;
+			    case StopAppPool:
+					RunAppPoolCommand(
+					    appPool,
+					    () => appPool.Stop(),
+					    ObjectState.Started,
+						ObjectState.Stopped,
+						new[] { ObjectState.Stopping, ObjectState.Stopped },
+						new[] { ObjectState.Starting },
+					    "Stopping",
+					    "Stopped");
+				    return;
+		    }
+	    }
+
+		private static void RunAppPoolCommand(ApplicationPool appPool, Action command, ObjectState desiredInitialStatus, ObjectState desiredResultStatus, IEnumerable<ObjectState> alreadyThereStatuses, IEnumerable<ObjectState> waitStatuses, string pendingString, string doneString)
+		{
+			try
+			{
+				var currentStatus = appPool.State;
+				if (waitStatuses.Contains(currentStatus))
+				{
+					Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} App Pool {1} status is now {2}, waiting for {3}", DateTime.Now, appPool.Name,
+												  currentStatus, desiredInitialStatus));
+					WaitForState(appPool, desiredInitialStatus, new TimeSpan(0, 0, 1, 0));
+				}
+				currentStatus = appPool.State;
+				if (currentStatus != desiredInitialStatus)
+				{
+					if (alreadyThereStatuses.Contains(currentStatus))
+					{
+						Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} App Pool {1} is in status {2}, nothing to do.", DateTime.Now, appPool.Name,
+													  currentStatus));
+						return;
+					}
+					Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} App Pool {1} is not in a valid state ({2}) for action", DateTime.Now, appPool.Name,
+												  currentStatus));
+					return;
+				}
+				Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} {1} App Pool {2}", DateTime.Now, pendingString, appPool.Name));
+				command();
+				WaitForState(appPool, desiredResultStatus, new TimeSpan(0, 0, 1, 0));
+				Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} {1} App Pool {2}", DateTime.Now, doneString, appPool.Name));
+			}
+			catch (Exception ex)
+			{
+				Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} An error occurred: {1}", DateTime.Now, ex));
+			}
+		}
+	}
 }

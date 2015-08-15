@@ -35,5 +35,7 @@ namespace j6SentinelEngine
 		public string PingUrl { get; set; }
 		[XmlAttribute]
 		public string ServiceName { get; set; }
+		[XmlAttribute]
+		public string AppPoolName { get; set; }
 	}
 }
