@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.ServiceProcess;
 using j6SentinelEngine;
 using System.Timers;
@@ -25,6 +26,10 @@ namespace j6SentinelService
 			try
 			{
 				engine.CheckServers();
+			}
+			catch (Exception ex)
+			{
+				Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss: Exception:{1}", DateTime.Now, ex));
 			}
 			finally
 			{
