@@ -8,12 +8,14 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
+using System.Net;
 
 namespace j6SentinelEngine
 {
     public class SentinelEngine
     {
-	    public SentinelConfiguration Config
+
+		public SentinelConfiguration Config
 	    {
 			get
 			{
@@ -25,9 +27,11 @@ namespace j6SentinelEngine
 		const ServiceControllerStatus Start = ServiceControllerStatus.Running;
 		const ObjectState StartAppPool = ObjectState.Started;
 	    const ObjectState StopAppPool = ObjectState.Stopped;
-
+	    bool LastPingResult = false;
 		public void CheckServers()
 		{
+			System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+
 			foreach (var server in Config.Servers)
 			{
 				var retryCount = 0;
@@ -36,7 +40,7 @@ namespace j6SentinelEngine
 					try
 					{
 						var ep = new EndpointAddress(server.PingUrl);
-						var binding = new WSHttpBinding(SecurityMode.None);
+						var binding = new WSHttpBinding(SecurityMode.Transport);
 						var test = new ChannelFactory<YanbalIntegrationService.IYanbalIntegrationServiceChannel>(binding);
 						var channel = test.CreateChannel(ep);
 
@@ -44,7 +48,18 @@ namespace j6SentinelEngine
 
 						bool pingResult;
 						bool pingResultProvided;
+						bool lastWasfailed = LastPingResult == false;
+						LastPingResult = false;
 						soap.Ping(out pingResult, out pingResultProvided);
+
+						if (lastWasfailed)
+						{
+							Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss}: Ping success", DateTime.Now));
+						}
+						LastPingResult = pingResult && pingResultProvided;
+						
+
+						//pingResult = pingResultProvided = channel.Ping();
 						if (!pingResult || !pingResultProvided)
 							throw new Exception("Ping returned false");
 						return;
@@ -91,8 +106,12 @@ namespace j6SentinelEngine
 		private static void WaitForState(ApplicationPool appPool, ObjectState objectState, TimeSpan waitTimeout)
 		{
 			var giveUpTime = DateTime.UtcNow.Add(waitTimeout);
+			Trace.WriteLine(string.Format("{0} is in {1}, waiting for {2}", appPool.Name, appPool.State, objectState));
 			while (appPool.State != objectState && DateTime.UtcNow < giveUpTime)
+			{
+				Trace.WriteLine(string.Format("{0} is in {1}, waiting for {2}", appPool.Name, appPool.State, objectState));
 				Thread.Sleep(100);
+			}
 		}
 
 		private static void SetState(string serviceName, string computerName, ServiceControllerStatus state)
