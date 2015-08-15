@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.ServiceModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Web.Administration;
 using System;
@@ -29,19 +30,31 @@ namespace j6SentinelEngine
 		{
 			foreach (var server in Config.Servers)
 			{
-				try
+				var retryCount = 0;
+				while (retryCount < Config.RetryCount)
 				{
-					var service = new YanbalIntegrationService.YanbalIntegrationService {Url = server.PingUrl};
-					bool pingResult;
-					bool pingResultSpecified;
-					service.Ping(out pingResult, out pingResultSpecified);
-					//return;
-				}
-				catch(Exception ex)
-				{
-					Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} Ping exception: {1}", DateTime.Now, ex.Message));
-				}
+					try
+					{
+						var ep = new EndpointAddress(server.PingUrl);
+						var binding = new WSHttpBinding(SecurityMode.None);
+						var test = new ChannelFactory<YanbalIntegrationService.IYanbalIntegrationServiceChannel>(binding);
+						var channel = test.CreateChannel(ep);
 
+						var soap = new SoapYanbalIntegrationService.YanbalIntegrationService {Url = server.PingUrl};
+
+						bool pingResult;
+						bool pingResultProvided;
+						soap.Ping(out pingResult, out pingResultProvided);
+						if (!pingResult || !pingResultProvided)
+							throw new Exception("Ping returned false");
+						return;
+					}
+					catch (Exception ex)
+					{
+						Trace.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss} Ping exception: {1}", DateTime.Now, ex.Message));
+						retryCount++;
+					}
+				}
 				// If we're down here, the service did not respond to a ping succesfully
 				if (!string.IsNullOrWhiteSpace(server.AppPoolName))
 				{

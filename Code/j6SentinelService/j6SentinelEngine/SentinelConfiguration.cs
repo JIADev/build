@@ -14,6 +14,7 @@ namespace j6SentinelEngine
 		public SentinelConfiguration()
 		{
 			PollingInterval = 10;
+			RetryCount = 3;
 		}
 
 		/// <summary>
@@ -21,6 +22,9 @@ namespace j6SentinelEngine
 		/// </summary>
 		[XmlAttribute]
 		public int PollingInterval { get; set; }
+
+		[XmlAttribute]
+		public int RetryCount { get; set; }
 
 		[XmlElement("Server")]
 		public Server[] Servers { get; set; }

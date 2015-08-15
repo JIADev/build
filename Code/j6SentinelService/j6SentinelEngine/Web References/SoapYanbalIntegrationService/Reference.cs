@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace j6SentinelEngine.YanbalIntegrationService {
+namespace j6SentinelEngine.SoapYanbalIntegrationService {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -66,7 +66,7 @@ namespace j6SentinelEngine.YanbalIntegrationService {
         /// <remarks/>
         public YanbalIntegrationService() {
             this.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
-            this.Url = global::j6SentinelEngine.Properties.Settings.Default.j6SentinelEngine_YanbalIntegrationService_YanbalIntegrationService;
+            this.Url = global::j6SentinelEngine.Properties.Settings.Default.j6SentinelEngine_SoapYanbalIntegrationService_YanbalIntegrationService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;

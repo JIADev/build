@@ -25,7 +25,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsdl:import namespace="http://www.jenkon.com/yanbal" location="http://uat-j6.yanbalbolivia.com/Integration/YanbalIntegrationService.svc?wsdl=wsdl0" />
+  <wsdl:import namespace="http://www.jenkon.com/yanbal" location="http://10.10.20.90/Integration/YanbalIntegrationService.svc?wsdl=wsdl0" />
   <wsdl:types />
   <wsdl:binding name="CustomBinding_IYanbalIntegrationService" type="i0:IYanbalIntegrationService">
     <wsp:PolicyReference URI="#CustomBinding_IYanbalIntegrationService_policy" />
