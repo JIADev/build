@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://www.jenkon.com/yanbal" elementFormDefault="qualified" targetNamespace="http://www.jenkon.com/yanbal" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://uat-j6.yanbalbolivia.com/Integration/YanbalIntegrationService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CUST2094.Integration.RequestResultObjects" />
-  <xs:import schemaLocation="http://uat-j6.yanbalbolivia.com/Integration/YanbalIntegrationService.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/CUST2094.RemoteEntityModel.InventoryService" />
-  <xs:import schemaLocation="http://uat-j6.yanbalbolivia.com/Integration/YanbalIntegrationService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CUST2094.Integration.RequestResultObjects" />
+  <xs:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/CUST2094.RemoteEntityModel.InventoryService" />
+  <xs:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:element name="Ping">
     <xs:complexType>
       <xs:sequence />

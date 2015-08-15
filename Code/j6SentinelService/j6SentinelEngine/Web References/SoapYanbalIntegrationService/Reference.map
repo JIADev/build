@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd1" filename="YanbalIntegrationService.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?disco" filename="YanbalIntegrationService.disco" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?wsdl=wsdl1" filename="YanbalIntegrationService.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?wsdl=wsdl0" filename="YanbalIntegrationService0.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?wsdl" filename="YanbalIntegrationService1.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd5" filename="YanbalIntegrationService0.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd4" filename="YanbalIntegrationService1.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd0" filename="YanbalIntegrationService2.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd3" filename="YanbalIntegrationService3.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd2" filename="YanbalIntegrationService4.xsd" />
+  </Results>
+</DiscoveryClientResultsFile>

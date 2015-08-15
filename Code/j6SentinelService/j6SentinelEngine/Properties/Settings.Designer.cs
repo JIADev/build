@@ -26,10 +26,10 @@ namespace j6SentinelEngine.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://uat-j6.yanbalbolivia.com/Integration/YanbalIntegrationService.svc")]
-        public string j6SentinelEngine_YanbalIntegrationService_YanbalIntegrationService {
+        [global::System.Configuration.DefaultSettingValueAttribute("https://yanbalbolivia.com/Integration/YanbalIntegrationService.svc")]
+        public string j6SentinelEngine_SoapYanbalIntegrationService_YanbalIntegrationService {
             get {
-                return ((string)(this["j6SentinelEngine_YanbalIntegrationService_YanbalIntegrationService"]));
+                return ((string)(this["j6SentinelEngine_SoapYanbalIntegrationService_YanbalIntegrationService"]));
             }
         }
     }
