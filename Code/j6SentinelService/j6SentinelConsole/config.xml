@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SentinelConfiguration PollingInterval="10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Server PingUrl="https://10.10.20.90/Integration/YanbalIntegrationService.svc" AppPoolName="CUST2094" />
+</SentinelConfiguration>

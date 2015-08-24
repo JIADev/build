@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://www.jenkon.com/yanbal" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.jenkon.com/yanbal" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.jenkon.com/yanbal/Imports">
+      <xsd:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd0" namespace="http://www.jenkon.com/yanbal" />
+      <xsd:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd2" namespace="http://www.jenkon.com/ErrorHandling" />
+      <xsd:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CUST2094.Integration.RequestResultObjects" />
+      <xsd:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://10.10.20.90/Integration/YanbalIntegrationService.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/CUST2094.RemoteEntityModel.InventoryService" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IYanbalIntegrationService_Ping_InputMessage">
+    <wsdl:part name="parameters" element="tns:Ping" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_Ping_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_Ping_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://www.jenkon.com/ErrorHandling" name="detail" element="q1:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_Ping_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://www.jenkon.com/ErrorHandling" name="detail" element="q2:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AddCurrencyExchanges_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddCurrencyExchanges" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AddCurrencyExchanges_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddCurrencyExchangesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AddCurrencyExchanges_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://www.jenkon.com/ErrorHandling" name="detail" element="q3:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AddCurrencyExchanges_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://www.jenkon.com/ErrorHandling" name="detail" element="q4:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_Fire_InputMessage">
+    <wsdl:part name="parameters" element="tns:Fire" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_Fire_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FireResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_Fire_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://www.jenkon.com/ErrorHandling" name="detail" element="q5:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_Fire_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://www.jenkon.com/ErrorHandling" name="detail" element="q6:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_StatusChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:StatusChange" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_StatusChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StatusChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_StatusChange_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://www.jenkon.com/ErrorHandling" name="detail" element="q7:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_StatusChange_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://www.jenkon.com/ErrorHandling" name="detail" element="q8:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdatePreparedOrderInformation_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePreparedOrderInformation" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdatePreparedOrderInformation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePreparedOrderInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdatePreparedOrderInformation_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q9="http://www.jenkon.com/ErrorHandling" name="detail" element="q9:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdatePreparedOrderInformation_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://www.jenkon.com/ErrorHandling" name="detail" element="q10:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_GetReturnsReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetReturnsReport" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_GetReturnsReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetReturnsReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_GetReturnsReport_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q11="http://www.jenkon.com/ErrorHandling" name="detail" element="q11:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_GetReturnsReport_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q12="http://www.jenkon.com/ErrorHandling" name="detail" element="q12:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateCreditSanctions_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCreditSanctions" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateCreditSanctions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCreditSanctionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateCreditSanctions_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q13="http://www.jenkon.com/ErrorHandling" name="detail" element="q13:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateCreditSanctions_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q14="http://www.jenkon.com/ErrorHandling" name="detail" element="q14:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSanctions_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSanctions" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSanctions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSanctionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSanctions_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q15="http://www.jenkon.com/ErrorHandling" name="detail" element="q15:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSanctions_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q16="http://www.jenkon.com/ErrorHandling" name="detail" element="q16:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AdjustStartingInventory_InputMessage">
+    <wsdl:part name="parameters" element="tns:AdjustStartingInventory" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AdjustStartingInventory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AdjustStartingInventoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AdjustStartingInventory_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q17="http://www.jenkon.com/ErrorHandling" name="detail" element="q17:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_AdjustStartingInventory_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q18="http://www.jenkon.com/ErrorHandling" name="detail" element="q18:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateInventory_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateInventory" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateInventory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateInventoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateInventory_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q19="http://www.jenkon.com/ErrorHandling" name="detail" element="q19:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateInventory_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q20="http://www.jenkon.com/ErrorHandling" name="detail" element="q20:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateSituationReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateSituationReport" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateSituationReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateSituationReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateSituationReport_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q21="http://www.jenkon.com/ErrorHandling" name="detail" element="q21:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateSituationReport_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q22="http://www.jenkon.com/ErrorHandling" name="detail" element="q22:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSituationReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSituationReport" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSituationReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSituationReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSituationReport_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q23="http://www.jenkon.com/ErrorHandling" name="detail" element="q23:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_UpdateSituationReport_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q24="http://www.jenkon.com/ErrorHandling" name="detail" element="q24:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateGimOrderBatch_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateGimOrderBatch" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateGimOrderBatch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateGimOrderBatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateGimOrderBatch_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q25="http://www.jenkon.com/ErrorHandling" name="detail" element="q25:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateGimOrderBatch_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q26="http://www.jenkon.com/ErrorHandling" name="detail" element="q26:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateRefundCreditNote_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRefundCreditNote" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateRefundCreditNote_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRefundCreditNoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateRefundCreditNote_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q27="http://www.jenkon.com/ErrorHandling" name="detail" element="q27:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_CreateRefundCreditNote_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q28="http://www.jenkon.com/ErrorHandling" name="detail" element="q28:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_ProcessCommisionTaxes_InputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessCommisionTaxes" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_ProcessCommisionTaxes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProcessCommisionTaxesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_ProcessCommisionTaxes_WCFApplicationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q29="http://www.jenkon.com/ErrorHandling" name="detail" element="q29:WCFApplicationException" />
+  </wsdl:message>
+  <wsdl:message name="IYanbalIntegrationService_ProcessCommisionTaxes_WCFValidationExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q30="http://www.jenkon.com/ErrorHandling" name="detail" element="q30:WCFValidationException" />
+  </wsdl:message>
+  <wsdl:portType name="IYanbalIntegrationService">
+    <wsdl:operation name="Ping">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/Ping" message="tns:IYanbalIntegrationService_Ping_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/PingResponse" message="tns:IYanbalIntegrationService_Ping_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_Ping_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_Ping_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddCurrencyExchanges">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/AddCurrencyExchanges" message="tns:IYanbalIntegrationService_AddCurrencyExchanges_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/AddCurrencyExchangesResponse" message="tns:IYanbalIntegrationService_AddCurrencyExchanges_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_AddCurrencyExchanges_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_AddCurrencyExchanges_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Fire">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/Fire" message="tns:IYanbalIntegrationService_Fire_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/FireResponse" message="tns:IYanbalIntegrationService_Fire_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_Fire_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_Fire_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StatusChange">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/StatusChange" message="tns:IYanbalIntegrationService_StatusChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/StatusChangeResponse" message="tns:IYanbalIntegrationService_StatusChange_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_StatusChange_WCFValidationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_StatusChange_WCFApplicationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePreparedOrderInformation">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdatePreparedOrderInformation" message="tns:IYanbalIntegrationService_UpdatePreparedOrderInformation_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdatePreparedOrderInformationResponse" message="tns:IYanbalIntegrationService_UpdatePreparedOrderInformation_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_UpdatePreparedOrderInformation_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_UpdatePreparedOrderInformation_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReturnsReport">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/GetReturnsReport" message="tns:IYanbalIntegrationService_GetReturnsReport_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/GetReturnsReportResponse" message="tns:IYanbalIntegrationService_GetReturnsReport_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_GetReturnsReport_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_GetReturnsReport_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCreditSanctions">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateCreditSanctions" message="tns:IYanbalIntegrationService_UpdateCreditSanctions_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateCreditSanctionsResponse" message="tns:IYanbalIntegrationService_UpdateCreditSanctions_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_UpdateCreditSanctions_WCFValidationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_UpdateCreditSanctions_WCFApplicationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSanctions">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateSanctions" message="tns:IYanbalIntegrationService_UpdateSanctions_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateSanctionsResponse" message="tns:IYanbalIntegrationService_UpdateSanctions_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_UpdateSanctions_WCFValidationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_UpdateSanctions_WCFApplicationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AdjustStartingInventory">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/AdjustStartingInventory" message="tns:IYanbalIntegrationService_AdjustStartingInventory_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/AdjustStartingInventoryResponse" message="tns:IYanbalIntegrationService_AdjustStartingInventory_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_AdjustStartingInventory_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_AdjustStartingInventory_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateInventory">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateInventory" message="tns:IYanbalIntegrationService_UpdateInventory_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateInventoryResponse" message="tns:IYanbalIntegrationService_UpdateInventory_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_UpdateInventory_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_UpdateInventory_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateSituationReport">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/CreateSituationReport" message="tns:IYanbalIntegrationService_CreateSituationReport_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/CreateSituationReportResponse" message="tns:IYanbalIntegrationService_CreateSituationReport_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_CreateSituationReport_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_CreateSituationReport_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSituationReport">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateSituationReport" message="tns:IYanbalIntegrationService_UpdateSituationReport_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/UpdateSituationReportResponse" message="tns:IYanbalIntegrationService_UpdateSituationReport_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_UpdateSituationReport_WCFValidationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_UpdateSituationReport_WCFApplicationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateGimOrderBatch">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/CreateGimOrderBatch" message="tns:IYanbalIntegrationService_CreateGimOrderBatch_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/CreateGimOrderBatchResponse" message="tns:IYanbalIntegrationService_CreateGimOrderBatch_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_CreateGimOrderBatch_WCFValidationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_CreateGimOrderBatch_WCFApplicationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateRefundCreditNote">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/CreateRefundCreditNote" message="tns:IYanbalIntegrationService_CreateRefundCreditNote_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/CreateRefundCreditNoteResponse" message="tns:IYanbalIntegrationService_CreateRefundCreditNote_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_CreateRefundCreditNote_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_CreateRefundCreditNote_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessCommisionTaxes">
+      <wsdl:input wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/ProcessCommisionTaxes" message="tns:IYanbalIntegrationService_ProcessCommisionTaxes_InputMessage" />
+      <wsdl:output wsaw:Action="http://www.jenkon.com/yanbal/IYanbalIntegrationService/ProcessCommisionTaxesResponse" message="tns:IYanbalIntegrationService_ProcessCommisionTaxes_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFApplicationExceptionFault" message="tns:IYanbalIntegrationService_ProcessCommisionTaxes_WCFApplicationExceptionFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://www.jenkon.com/ErrorHandling" name="WCFValidationExceptionFault" message="tns:IYanbalIntegrationService_ProcessCommisionTaxes_WCFValidationExceptionFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
