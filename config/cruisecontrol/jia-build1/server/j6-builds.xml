@@ -48,8 +48,8 @@
       />
   
   <cb:v76build
-      project-name="CUST000-RM53689"
-      branch = '000_RM53689'
+      project-name="CUST000-7.6.7"
+      branch = '000_7.6.7'
       driver = 'CUST000'
       clean="true"
       build="true"
@@ -58,7 +58,7 @@
       repo-name="active"
       external-protect="true"
       external-zip="true"
-      j6Version="7.6.6"
+      j6Version="7.6.7"
       modules="AUTOSHIP"
       package="true"
       corflags="/32bitpref-"
@@ -455,11 +455,29 @@
   
   <cb:v76build
       driver="CUST2096"
-      project-name="CUST2096-RM53689"
-      branch = '000_RM53689'
+      project-name="CUST2096-UAT-7.6.7"
+      branch = 'tags'
+      tag="2096_BLD"
+      prodTag="2096_UAT"
       platform="AnyCpu"
       repo-name="active"
-      j6Version="7.6.6"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096-7.6.7"
+      branch = '000_7.6.7'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
       external-protect="true"
       external-zip="true"
       package="true"
