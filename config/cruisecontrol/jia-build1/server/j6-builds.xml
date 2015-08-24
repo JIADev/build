@@ -303,7 +303,7 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-7.6.6"
-      branch = '2094_PostGoLive_2015.08.12'
+      branch = '2094_PostGoLive_2015.08.20'
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
