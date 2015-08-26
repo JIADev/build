@@ -52,7 +52,7 @@
       project-name="CUST000-UAT-7.6.7"
       branch = 'tags'
       tag="2096_BLD"
-      prodTag="2096_UAT"
+      prodTag="2096_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
@@ -476,7 +476,7 @@
       project-name="CUST2096-UAT-7.6.7"
       branch = 'tags'
       tag="2096_BLD"
-      prodTag="2096_UAT"
+      prodTag="2096_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
