@@ -210,7 +210,7 @@
     
     <ItemGroup>
       <CompletedRC33Reqs Include="2094_REQ079.5b;2094_CR081.001b;2094_CR216.001" />
-      <Active766Reqs Include="2094_RM53782;2094_CR009;2094_CR012;2094_CR077.001;2094_PrintPerf" />
+      <Active766Reqs Include="2094_RM53782;2094_CR009;2094_CR012;2094_CR077.001" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
