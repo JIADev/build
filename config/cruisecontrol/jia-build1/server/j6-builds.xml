@@ -373,6 +373,23 @@
   
   <cb:v76build
       driver="CUST2094"
+      project-name="CUST2094-DEV-7.6.7"
+      branch="000_7.6.7"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      package-privatebuild="true"
+      compileless="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
       project-name="CUST2094-CR012"
       branch="2094_CR012"
       prodTag="2094_PRD"
@@ -431,6 +448,21 @@
       prodTag="2095_PRD"
       repo-name="active"
       j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-7.6.7"
+      branch = '000_7.6.7'
+      platform="AnyCpu"
+      prodTag="2095_PRD"
+      repo-name="active"
+      j6Version="7.6.7"
       external-protect="true"
       external-zip="true"
       package="true"
