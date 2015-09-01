@@ -8,6 +8,39 @@
   <!-- req branches -->
   <cb:build2queues />
   
+  <cb:v76build
+      project-name="CUST000-7.6.7"
+      branch = '000_7.6.7'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      platform="AnyCpu"
+      repo-name="active"
+      protect="false"
+      external-zip="false"
+      j6Version="7.6.7"
+      modules="AUTOSHIP"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-7.6.6"
+      branch = '7.6.6'
+      platform="AnyCpu"
+      prodTag="2095_PRD"
+      repo-name="active"
+      j6Version="7.6.6"
+      protect="false"
+      external-zip="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
   <cb:v76deployment
       project-name="CUST2094-7.6.6-WebTest"
       driver = 'CUST2094'
