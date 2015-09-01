@@ -39,11 +39,12 @@
       data-test="true"
       platform="AnyCpu"
       repo-name="active"
-      external-protect="true"
-      external-zip="true"
+      protect="false"
+      external-zip="false"
       j6Version="7.6.6"
       modules="AUTOSHIP"
       package="true"
+      publish="false"
       corflags="/32bitpref-"
       />
   
@@ -74,11 +75,12 @@
       data-test="true"
       platform="AnyCpu"
       repo-name="active"
-      external-protect="true"
-      external-zip="true"
+      protect="false"
+      external-zip="false"
       j6Version="7.6.7"
       modules="AUTOSHIP"
       package="true"
+      publish="false"
       corflags="/32bitpref-"
       />
   
@@ -379,12 +381,12 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
-      external-protect="true"
-      external-zip="true"
-      package-privatebuild="true"
+      protect="false"
+      external-zip="false"
       compileless="true"
       archive="false"
       package="true"
+      publish="false"
       corflags="/32bitpref-"
       />
   
@@ -448,10 +450,10 @@
       prodTag="2095_PRD"
       repo-name="active"
       j6Version="7.6.6"
-      external-protect="true"
-      external-zip="true"
+      protect="false"
+      external-zip="false"
       package="true"
-      package-privatebuild="true"
+      publish="false"
       corflags="/32bitpref-"
       />
   
@@ -479,10 +481,10 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
-      external-protect="true"
-      external-zip="true"
+      protect="false"
+      external-zip="false"
       package="true"
-      package-privatebuild="true"
+      publish="false"
       corflags="/32bitpref-"
       />
   
