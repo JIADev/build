@@ -40,6 +40,38 @@
       />
   
   <cb:v76build
+      driver="CUST000"
+      project-name="CUST000-WebPWS-7.6.7"
+      branch="000_WebPWS"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      protect="false"
+      external-zip="false"
+      compileless="true"
+      archive="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-WebPWS-7.6.7"
+      branch="000_WebPWS"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      protect="false"
+      external-zip="false"
+      compileless="true"
+      archive="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
       driver="CUST2096"
       project-name="CUST2096-7.6.6"
       branch = '7.6.6'
