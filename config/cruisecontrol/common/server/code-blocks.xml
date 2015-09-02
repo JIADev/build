@@ -81,11 +81,13 @@
 	<msbuild logger="$(msBuildListenerDll)" description="Forward-Only Check" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardChangesCheck" workingDirectory="$(project-folder)" timeout="$(msbuild-updatechangelog-timeout)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
 	</msbuild>
-	<cb:if expr="'$(createChangesetLog)' != 'false'">
-	  <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
-		   timeout="$(msbuild-updatechangelog-timeout)">
-	    <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
-	  </msbuild>
+	<cb:if expr="'$(publish)' != 'false'">
+	  <cb:if expr="'$(createChangesetLog)' != 'false'">
+	    <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
+		     timeout="$(msbuild-updatechangelog-timeout)">
+	      <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
+	    </msbuild>
+	  </cb:if>
 	</cb:if>
       </cb:if>
       <exec executable="$(powershell)" 
@@ -857,70 +859,72 @@
 	</msbuild>
       </cb:else>
       <cb:if expr="'$(prodTag)' != ''">
-	<cb:if expr="'$(createChangesetLog)' != 'false'">
-	  <conditional description="Copy changeset log to package folder">
-	    <conditions>
-	      <folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
-	    </conditions>
-	    <tasks>
-	      <exec 
-		  executable="$(powershell)"
-		  baseDirectory="$(project-folder)"
-		  description="copy changeset log to the package folder">
-		<buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
-	      </exec>
-	      <exec 
-		  executable="$(powershell)"
-		  baseDirectory="$(project-folder)"
-		  description="copy changeset log to the package folder">
-		<buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
-	      </exec>
-	    </tasks>
-	    <elseTasks>
-	      <conditional description="Copy changeset log to package folder">
-		<conditions>
-		  <folderExistsCondition folder="$(project-folder)\RELEASE" />
-		</conditions>
-		<tasks>
-		  <exec
-		      executable="$(powershell)"
-		      baseDirectory="$(project-folder)"
-		      description="copy changeset log to the package folder">
-		    <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\"</buildArgs>
-		  </exec>
-		  <exec
-		      executable="$(powershell)"
-		      baseDirectory="$(project-folder)"
-		      description="copy changeset log to the package folder">
-		    <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
-		  </exec>
-		</tasks>
-	      </conditional>
-	    </elseTasks>
-	  </conditional>
+	<cb:if expr="'$(publish)' == 'true'">
+	  <cb:if expr="'$(createChangesetLog)' != 'false'">
+	    <conditional description="Copy changeset log to package folder">
+	      <conditions>
+		<folderExistsCondition folder="$(project-folder)\RELEASE-UNPROTECTED" />
+	      </conditions>
+	      <tasks>
+		<exec 
+		    executable="$(powershell)"
+		    baseDirectory="$(project-folder)"
+		    description="copy changeset log to the package folder">
+		  <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
+		</exec>
+		<exec 
+		    executable="$(powershell)"
+		    baseDirectory="$(project-folder)"
+		    description="copy changeset log to the package folder">
+		  <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
+		</exec>
+	      </tasks>
+	      <elseTasks>
+		<conditional description="Copy changeset log to package folder">
+		  <conditions>
+		    <folderExistsCondition folder="$(project-folder)\RELEASE" />
+		  </conditions>
+		  <tasks>
+		    <exec
+			executable="$(powershell)"
+			baseDirectory="$(project-folder)"
+			description="copy changeset log to the package folder">
+		      <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\"</buildArgs>
+		    </exec>
+		    <exec
+			executable="$(powershell)"
+			baseDirectory="$(project-folder)"
+			description="copy changeset log to the package folder">
+		      <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
+		    </exec>
+		  </tasks>
+		</conditional>
+	      </elseTasks>
+	    </conditional>
+	  </cb:if>
 	</cb:if>
-      </cb:if>
-      <cb:if expr="'$(protect)' == 'true'">
-	<cb:if expr="'$(external-protect)' == 'true'">
-	  <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
+	<cb:if expr="'$(protect)' == 'true'">
+	  <cb:if expr="'$(external-protect)' == 'true'">
+	    <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
+		     executable="$(msbuild)"
+		     projectFile="$(global_feature_dir)\buildtools.proj"
+		     targets="Protect"
+		     workingDirectory="$(project-folder)"
+		     timeout="$(msbuild-external-protect-timeout)">
+	      <buildArgs>/p:Directory="$(project-folder)" /p:Customer=$(driver)</buildArgs>
+	    </msbuild>
+	  </cb:if>
+	</cb:if>
+	<cb:if expr="'$(external-zip)' == 'true'">
+	  <msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
 		   executable="$(msbuild)"
 		   projectFile="$(global_feature_dir)\buildtools.proj"
-		   targets="Protect"
+		   targets="CreateZip"
 		   workingDirectory="$(project-folder)"
-		   timeout="$(msbuild-external-protect-timeout)">
-	    <buildArgs>/p:Directory="$(project-folder)" /p:Customer=$(driver)</buildArgs>
+		   timeout="$(msbuild-package-timeout)">
+	    <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
 	  </msbuild>
 	</cb:if>
-      </cb:if>
-      <cb:if expr="'$(external-zip)' == 'true'">
-	<msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
-		 executable="$(msbuild)"
-		 projectFile="$(global_feature_dir)\buildtools.proj"
-		 targets="CreateZip"
-		 workingDirectory="$(project-folder)"
-		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
-	</msbuild>
       </cb:if>
     </cb:if>
   </cb:define>
