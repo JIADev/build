@@ -24,7 +24,14 @@ if($currentBranch -eq '') {
 	Exit
 }
 
-$customerNumber = $currentBranch.Substring(0, $currentBranch.IndexOf('_'))
+$underscore = $currentBranch.IndexOf('_')
+$customerNumber = ''
+
+if($underscore -lt 1) {
+	Write-Host "Can't determine customer number from branch name: "$currentBranch
+} else {
+  $customerNumber = $currentBranch.Substring(0, $underscore)
+}
 
 if($customerNumber -eq '') {
 	$customerNumber = Read-Host "Customer Number? (i.e. 2094, 2095, 2096)"
@@ -33,43 +40,44 @@ if($customerNumber -eq '') {
 validateCustomer $customerNumber
 $ongoingBranch = $pushTaskBranches[[string]$customerNumber]
 
-Write-Host "Closing branch $currentBranch"
-& hg ci -m "Completing task @build" --close-branch
-
 if($ongoingBranch) {
-if($ongoingBranch -ne '') {
-Write-Host "Updating to branch $ongoingBranch"
-& hg up $ongoingBranch
-if($LastExitCode -ne 0) { 
-	Write-Host "Cannot update to $ongoingBranch"
-	Exit
-}
+	if($currentBranch -ne $ongoingBranch) {
+		Write-Host "Closing branch $currentBranch"
+		& hg ci -m "Completing task @build" --close-branch
+	}
+	if($ongoingBranch -ne '') {
+		Write-Host "Updating to branch $ongoingBranch"
+		& hg up $ongoingBranch
+		if($LastExitCode -ne 0) { 
+			Write-Host "Cannot update to $ongoingBranch"
+			Exit
+		}
 
-Write-Host "Merging $currentBranch to $ongoingBranch"
-& hg merge $currentBranch --tool=internal:merge
-if($LastExitCode -ne 0) { 
-	& hg resolve --all
-	if($LastExitCode -ne 0) { 
+		if($currentBranch -ne $ongoingBranch) {
+			Write-Host "Merging $currentBranch to $ongoingBranch"
+			& hg merge $currentBranch --tool=internal:merge
+			if($LastExitCode -ne 0) { 
+				& hg resolve --all
+				if($LastExitCode -ne 0) { 
+					Write-Host "Cannot merge $currentBranch to $ongoingBranch"
+					Exit
+				}
+			}
+		}
 
-		Write-Host "Cannot merge $currentBranch to $ongoingBranch"
-		Exit
+	Write-Host "Committing Merge"
+	& hg ci -m "@merge $currentBranch"
 	}
 }
 
-Write-Host "Committing Merge"
-& hg ci -m "@merge $currentBranch"
-}}
+
 
 $currentDir = Convert-Path .
 
 & hg outgoing
 $confirmation = Read-Host "This will push these changes in $currentDir to the server. (y/n?)"
 if($confirmation -eq 'y') {
-  & hg push --new-branch
-  if($LastExitCode -ne 0) { 
-	Write-Host "Cannot push"
-	Exit
-  }
+	pushChanges
 } else {
   Write-Host "Not pushed, updating to $currentBranch"
   & hg up $currentBranch

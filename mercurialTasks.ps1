@@ -28,6 +28,38 @@ function getCurrentBranch() {
 	return $currentBranch
 }
 
+function pushChanges() { 
+	 $currentDir = Convert-Path .
+	 $arguments = "push --new-branch"
+	 $hgStartInfo = getHgStartInfo $arguments $currentDir $true $true
+	 $p = runProcess $hgStartInfo
+	 if($p.ExitCode -eq 0) {
+		return $true
+	 }	 
+	$errorOutput = $p.StandardError.ReadLine().Trim()
+	if($errorOutput -match 'abort: push creates new remote head') {
+		& hg pull
+		& hg merge --tool=internal:merge
+		if($LastExitCode -ne 0) {
+			& hg resolve --all
+			if($LastExitCode -ne 0) { 
+				Write-Host "Cannot merge heads"
+				Exit
+			}
+		}
+		Write-Host "Committing Merge"
+		& hg ci -m "@merge"
+		& hg push --new-branch
+		
+  		if($LastExitCode -ne 0) { 
+			Write-Host "Cannot push"
+			Exit
+		}
+	} else {
+		Write-Host "Cannot push"
+	}
+}
+
 function updateBuildTools() {
 	$hgStartInfo = getHgStartInfo "pull -u" $scriptPath $false
 	$p = runProcess $hgStartInfo
