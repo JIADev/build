@@ -144,7 +144,7 @@
     <ItemGroup>
 
       <Active2096Reqs Include="000_7.6.7" />
-      <Active767Branches Include="000_GIFlows" />
+      <Active767Branches Include="000_GIFlows;000_WebPWS" />
 
 <!--
       <Active2096ReqsWithDependencies Include="2096_REQ004" />
