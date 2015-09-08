@@ -314,7 +314,6 @@
       external-zip="true"
       archive="true"
       package="true"
-      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       sourceCheckInterval=""
