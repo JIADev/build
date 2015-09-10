@@ -354,8 +354,8 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-SOProcessingPerf"
-      branch="2094_SOProcessingPerf"
+      project-name="CUST2094-SOPerf"
+      branch="2094_SOPerf"
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
