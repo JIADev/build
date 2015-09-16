@@ -352,22 +352,6 @@
       corflags="/32bitpref-"
       />
   
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-SOPerf"
-      branch="2094_SOPerf"
-      prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.6"
-      external-protect="true"
-      external-zip="true"
-      compileless="true"
-      archive="false"
-      package="true"
-      corflags="/32bitpref-"
-      />
-  
   <!-- CUST2095 -->
   
   <cb:v76build
