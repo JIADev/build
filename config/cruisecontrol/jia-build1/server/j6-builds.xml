@@ -321,6 +321,25 @@
   
   <cb:v76build
       driver="CUST2094"
+      project-name="CUST2094-UNENCRYPTED-7.6.6"
+      branch = 'tags'
+      tag="2094_UAT"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      protect="false"
+      external-protect="false"
+      external-zip="true"
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      sourceCheckInterval=""
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
       project-name="CUST2094-DEV-7.6.6"
       branch="7.6.6"
       prodTag="2094_PRD"
