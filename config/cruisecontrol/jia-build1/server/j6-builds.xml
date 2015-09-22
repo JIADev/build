@@ -31,6 +31,23 @@
       />
   
   <cb:v76build
+      project-name="CUST000-7.6.7"
+      branch = '000_7.6.7'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      platform="AnyCpu"
+      repo-name="active"
+      external-protect="true"
+      external-zip="true"
+      j6Version="7.6.7"
+      modules="AUTOSHIP"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
       driver="CUST000"
       project-name="CUST000-UAT-7.6.7"
       branch = 'tags'
