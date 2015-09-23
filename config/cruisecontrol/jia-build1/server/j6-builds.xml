@@ -43,7 +43,9 @@
       external-zip="true"
       j6Version="7.6.7"
       modules="AUTOSHIP"
-      package="true"
+      archive="true"
+	  package="true"
+	  package-privatebuild="true"
       corflags="/32bitpref-"
       />
   
