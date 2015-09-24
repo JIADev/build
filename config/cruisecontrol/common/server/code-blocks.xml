@@ -858,8 +858,8 @@
 	  <buildArgs>/p:IncludeSource=$(include-source) /p:DefineConstants=$(modules) /p:Configuration=$(configuration) /p:Protect=$(protect) /p:SourcePath=$(project-folder)</buildArgs>
 	</msbuild>
       </cb:else>
-      <cb:if expr="'$(prodTag)' != ''">
-	<cb:if expr="'$(publish)' == 'true'">
+      <cb:if expr="'$(publish)' == 'true'">
+	<cb:if expr="'$(prodTag)' != ''">
 	  <cb:if expr="'$(createChangesetLog)' != 'false'">
 	    <conditional description="Copy changeset log to package folder">
 	      <conditions>
@@ -903,28 +903,28 @@
 	    </conditional>
 	  </cb:if>
 	</cb:if>
-	<cb:if expr="'$(protect)' == 'true'">
-	  <cb:if expr="'$(external-protect)' == 'true'">
-	    <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
-		     executable="$(msbuild)"
-		     projectFile="$(global_feature_dir)\buildtools.proj"
-		     targets="Protect"
-		     workingDirectory="$(project-folder)"
-		     timeout="$(msbuild-external-protect-timeout)">
-	      <buildArgs>/p:Directory="$(project-folder)" /p:Customer=$(driver)</buildArgs>
-	    </msbuild>
-	  </cb:if>
-	</cb:if>
-	<cb:if expr="'$(external-zip)' == 'true'">
-	  <msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
+      </cb:if>
+      <cb:if expr="'$(protect)' == 'true'">
+	<cb:if expr="'$(external-protect)' == 'true'">
+	  <msbuild logger="$(msBuildListenerDll)" description="Protect Build"
 		   executable="$(msbuild)"
 		   projectFile="$(global_feature_dir)\buildtools.proj"
-		   targets="CreateZip"
+		   targets="Protect"
 		   workingDirectory="$(project-folder)"
-		   timeout="$(msbuild-package-timeout)">
-	    <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
+		   timeout="$(msbuild-external-protect-timeout)">
+	    <buildArgs>/p:Directory="$(project-folder)" /p:Customer=$(driver)</buildArgs>
 	  </msbuild>
 	</cb:if>
+      </cb:if>
+      <cb:if expr="'$(external-zip)' == 'true'">
+	<msbuild logger="$(msBuildListenerDll)" description="Create Zip File"
+		 executable="$(msbuild)"
+		 projectFile="$(global_feature_dir)\buildtools.proj"
+		 targets="CreateZip"
+		 workingDirectory="$(project-folder)"
+		 timeout="$(msbuild-package-timeout)">
+	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
+	</msbuild>
       </cb:if>
     </cb:if>
   </cb:define>
