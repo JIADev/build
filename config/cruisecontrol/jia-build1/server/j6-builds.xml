@@ -32,7 +32,7 @@
   
  <cb:v76build
       driver="CUST000"
-      project-name="CUST000- 7.6.7"
+      project-name="CUST000-7.6.7"
       branch = '000_7.6.7'
       platform="AnyCpu"
       repo-name="active"
