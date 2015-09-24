@@ -30,24 +30,21 @@
       corflags="/32bitpref-"
       />
   
-  <cb:v76build
-      project-name="CUST000-7.6.7"
+ <cb:v76build
+      driver="CUST000"
+      project-name="CUST000- 7.6.7"
       branch = '000_7.6.7'
-      driver = 'CUST000'
-      clean="true"
-      build="true"
-      data-test="true"
       platform="AnyCpu"
       repo-name="active"
+      j6Version="7.6.7"
       external-protect="true"
       external-zip="true"
-      j6Version="7.6.7"
       modules="AUTOSHIP"
-      archive="true"
-	  package="true"
-	  package-privatebuild="true"
+      package="true"
+      package-privatebuild="true"
       corflags="/32bitpref-"
       />
+
   
   <cb:v76build
       driver="CUST000"
