@@ -28,12 +28,9 @@ function getCurrentBranch() {
 	return $currentBranch
 }
 
-function pushChanges([string]$branchName) { 
+function pushChanges() { 
 	 $currentDir = Convert-Path .
 	 $arguments = "push --new-branch"
-	 if($branchName -ne '') {
-	 	$arguments = "push -b " + $branchName + " --new-branch"
-	 }
 	 $hgStartInfo = getHgStartInfo $arguments $currentDir $true $true
 	 $p = runProcess $hgStartInfo
 	 if($p.ExitCode -eq 0) {
@@ -52,11 +49,7 @@ function pushChanges([string]$branchName) {
 		}
 		Write-Host "Committing Merge"
 		& hg ci -m "@merge"
-		if($branchName -ne '') {
-			& hg push -b $branchName --new-branch
-		} else {
-		  &hg push --new-branch
-		}
+		& hg push --new-branch
 		
   		if($LastExitCode -ne 0) { 
 			Write-Host "Cannot push"
