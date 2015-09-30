@@ -47,7 +47,6 @@ if($ongoingBranch) {
 	}
 	if($ongoingBranch -ne '') {
 		Write-Host "Updating to branch $ongoingBranch"
-		& hg pull -b $ongoingBranch
 		& hg up $ongoingBranch
 		if($LastExitCode -ne 0) { 
 			Write-Host "Cannot update to $ongoingBranch"
