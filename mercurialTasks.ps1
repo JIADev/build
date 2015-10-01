@@ -31,6 +31,7 @@ function getCurrentBranch() {
 function pushChanges() { 
 	 $currentDir = Convert-Path .
 	 $arguments = "push --new-branch"
+
 	 $hgStartInfo = getHgStartInfo $arguments $currentDir $true $true
 	 $p = runProcess $hgStartInfo
 	 if($p.ExitCode -eq 0) {

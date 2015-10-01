@@ -39,8 +39,10 @@ if($customerNumber -eq '') {
 
 validateCustomer $customerNumber
 $ongoingBranch = $pushTaskBranches[[string]$customerNumber]
+$pushBranch = $currentBranch
 
 if($ongoingBranch) {
+	$pushBranch = $ongoingBranch
 	if($currentBranch -ne $ongoingBranch) {
 		Write-Host "Closing branch $currentBranch"
 		& hg ci -m "Completing task @build" --close-branch
@@ -74,10 +76,10 @@ if($ongoingBranch) {
 
 $currentDir = Convert-Path .
 
-& hg outgoing
+& hg outgoing -b $pushBranch
 $confirmation = Read-Host "This will push these changes in $currentDir to the server. (y/n?)"
 if($confirmation -eq 'y') {
-	pushChanges
+	pushChanges $pushBranch
 } else {
   Write-Host "Not pushed, updating to $currentBranch"
   & hg up $currentBranch

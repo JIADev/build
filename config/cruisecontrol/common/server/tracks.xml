@@ -26,6 +26,7 @@
   
   <cb:define name="queue3b">
     <cb:define queueName="Queue3" />
+	 <cb:reqBuild customer="2090" req-number="Start767" />
   </cb:define>
   
   <cb:define name="queue3d">
