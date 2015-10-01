@@ -183,6 +183,11 @@
 	branch = '$(customer)_$(req-number)'
 	platform="AnyCpu"
 	repo-name="active"
+	package="true"
+	protect="false"
+	external-protect="false"
+	external-zip="false"
+	publish="false"
 	j6Version="7.6.6"
 	queueSuffix="$(queueName)"
 	unit-test="true"
