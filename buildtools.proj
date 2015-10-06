@@ -270,9 +270,14 @@
   </Target>
   
   <Target Name="MarkBuildDeployed" DependsOnTargets="InitBuildRepo">
+    <PropertyGroup>
+      <TagsBranch>$([MSBuild]::ValueOrDefault(`$(TagsBranch)`, 'tags'))</TagsBranch>
+    </PropertyGroup>
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -r $(ReleaseNumber) $(CustomerNumber)_$(Environment) $(CustomerNumber)_$(Environment)_$(DeployedDate) -f -m "Deployed $(ReleaseNumber) to $(CustomerNumber) $(Environment) at $(DeployedDate)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b $(TagsBranch)" />
   </Target>
   
   <Target Name="CloseBranches">
@@ -331,6 +336,7 @@
     <PropertyGroup>
       <CustomerPrefix Condition="'$(SuppressPrefix)' != 'true'">$([MSBuild]::ValueOrDefault(`$(CustomerPrefix)`, '$(CustomerNumber)_'))</CustomerPrefix>
       <DateSuffix>_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</DateSuffix>
+      <TagsBranch>$([MSBuild]::ValueOrDefault(`$(TagsBranch)`, 'tags'))</TagsBranch>
     </PropertyGroup>
     <ItemGroup>
       <TagsToApply Include="$(Tags)" />
