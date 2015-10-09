@@ -5,9 +5,14 @@ $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 Write-Host "Updating $scriptPath"
 $updateSuccess = updateBuildTools
 
+$mergeSwitch = ''
 $noComment = 'true'
 $args | foreach {
-      $noComment = 'false'
+      if([string]$_ -eq '--tool=internal:merge') {
+      	$mergeSwitch = $_
+      } else {
+            $noComment = 'false'
+	}
 }
 
 if($noComment -eq 'false') {
@@ -57,7 +62,7 @@ if($ongoingBranch) {
 
 		if($currentBranch -ne $ongoingBranch) {
 			Write-Host "Merging $currentBranch to $ongoingBranch"
-			& hg merge $currentBranch --tool=internal:merge
+			& hg merge $currentBranch $mergeSwitch
 			if($LastExitCode -ne 0) { 
 				& hg resolve --all
 				if($LastExitCode -ne 0) { 
