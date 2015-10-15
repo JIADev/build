@@ -355,7 +355,7 @@
       driver="CUST2094"
       project-name="CUST2094-UNENCRYPTED-7.6.6"
       branch = 'tags'
-      tag="2094_UAT"
+      tag="2094_UNC"
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
