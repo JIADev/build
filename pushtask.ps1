@@ -43,41 +43,45 @@ if($customerNumber -eq '') {
 }
 
 validateCustomer $customerNumber
-$ongoingBranch = $pushTaskBranches[[string]$customerNumber]
+$ongoingBranches = $pushTaskBranches[[string]$customerNumber]
 $pushBranch = $currentBranch
 
-if($ongoingBranch) {
-	$pushBranch = $ongoingBranch
-	if($currentBranch -ne $ongoingBranch) {
+if($ongoingBranches) {
+	foreach($ongoingBranch in $ongoingBranches) {
+		if($pushBranch -eq $currentBranch -and $pushBranch -ne $ongoingBranch) {
+			Write-Host "Closing branch $currentBranch"
+			& hg ci -m "Completing task @build" --close-branch
+		}
+		if($ongoingBranch -ne '') {
+			Write-Host "Updating to branch $ongoingBranch"
+			& hg up $ongoingBranch
+			if($LastExitCode -ne 0) { 
+				Write-Host "Cannot update to $ongoingBranch"
+				Exit
+			}
+
+			if($pushBranch -ne $ongoingBranch) {
+				Write-Host "Merging $pushBranch to $ongoingBranch"
+				& hg merge $pushBranch $mergeSwitch
+				if($LastExitCode -ne 0) { 
+					& hg resolve --all
+					if($LastExitCode -ne 0) { 
+						Write-Host "Cannot merge $pushBranch to $ongoingBranch"
+						Exit
+					}
+				}
+			}
+			Write-Host "Committing Merge"
+			& hg ci -m "@merge $pushBranch"
+			$pushBranch = $ongoingBranch
+		}
+	}	
+} else {
+	if($pushBranch -eq $currentBranch) {
 		Write-Host "Closing branch $currentBranch"
 		& hg ci -m "Completing task @build" --close-branch
 	}
-	if($ongoingBranch -ne '') {
-		Write-Host "Updating to branch $ongoingBranch"
-		& hg up $ongoingBranch
-		if($LastExitCode -ne 0) { 
-			Write-Host "Cannot update to $ongoingBranch"
-			Exit
-		}
-
-		if($currentBranch -ne $ongoingBranch) {
-			Write-Host "Merging $currentBranch to $ongoingBranch"
-			& hg merge $currentBranch $mergeSwitch
-			if($LastExitCode -ne 0) { 
-				& hg resolve --all
-				if($LastExitCode -ne 0) { 
-					Write-Host "Cannot merge $currentBranch to $ongoingBranch"
-					Exit
-				}
-			}
-		}
-
-	Write-Host "Committing Merge"
-	& hg ci -m "@merge $currentBranch"
-	}
 }
-
-
 
 $currentDir = Convert-Path .
 
