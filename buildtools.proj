@@ -344,7 +344,8 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(CustomerPrefix)%(TagsToApply.Identity) $(CustomerPrefix)%(TagsToApply.Identity)$(DateSuffix) -m "Labeled revision $(Changeset) as $(CustomerPrefix)%(TagsToApply.Identity)"' />
-    <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
+    <Exec WorkingDirectory="$(TagRepo)" Command="hg push -b tags" />
+    <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b tags" />
   </Target>
 
   <Target Name="CreateBuild" DependsOnTargets="InitBuildRepo">
