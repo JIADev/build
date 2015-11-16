@@ -54,14 +54,6 @@
   <!-- 7.6.x build project -->
   
   <cb:define name="v76build">
-    <cb:if expr="'$(project-name)' == ''">
-      <cb:if expr="'$(tag)'!=''">
-	<cb:define project-name="$(driver)-$(tag)" />
-      </cb:if>
-      <cb:else>
-	<cb:define project-name="$(driver)-$(branch)" />
-      </cb:else>
-    </cb:if>
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="ccnet-$(project-name)-DEV" />
     <cb:define feature="$(relativefeature)" />
