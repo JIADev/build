@@ -11,25 +11,6 @@
   
   <!-- CUST000 -->
   
-  <cb:v76build
-      project-name="CUST000-2095_BLD"
-      branch = 'tags'
-      driver="CUST000"
-      tag="2095_BLD"
-      prodTag="2095_PRD"
-      clean="true"
-      build="true"
-      platform="AnyCpu"
-      repo-name="active"
-      external-protect="true"
-      external-zip="true"
-      sourceCheckInterval=""
-      j6Version="7.6.5"
-      modules="AUTOSHIP"
-      package="true"
-      corflags="/32bitpref-"
-      />
-  
  <cb:v76build
       driver="CUST000"
       project-name="CUST000_7.6.7"
@@ -45,24 +26,6 @@
       corflags="/32bitpref-"
       />
 
-  
-  <cb:v76build
-      driver="CUST000"
-      project-name="CUST000-2096_BLD"
-      branch = 'tags'
-      tag="2096_BLD"
-      prodTag="2096_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.7"
-      external-protect="true"
-      external-zip="true"
-      sourceCheckInterval=""
-      archive="true"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
   
   <!-- release (tagged) branches -->
   

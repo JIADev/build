@@ -24,7 +24,7 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-DEV-7.6.7"
+      project-name="CUST2094-000-7.6.7"
       branch="000_7.6.7"
       prodTag="2094_PRD"
       platform="AnyCpu"
@@ -41,7 +41,7 @@
   
   <cb:v76build
       driver="CUST000"
-      project-name="CUST000-WebPWS-7.6.7"
+      project-name="CUST000_WebPWS"
       branch="000_WebPWS"
       platform="AnyCpu"
       repo-name="active"
@@ -57,7 +57,7 @@
   
   <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-WebPWS-7.6.7"
+      project-name="CUST2094-000_WebPWS"
       branch="000_WebPWS"
       platform="AnyCpu"
       repo-name="active"
