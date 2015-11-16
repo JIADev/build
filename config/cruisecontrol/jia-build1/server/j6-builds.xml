@@ -12,7 +12,6 @@
   <!-- CUST000 -->
   
   <cb:v76build
-      project-name="CUST000-7.6.5"
       branch = 'tags'
       driver="CUST000"
       tag="2095_BLD"
