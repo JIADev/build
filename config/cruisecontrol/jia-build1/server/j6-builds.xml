@@ -82,7 +82,7 @@
       />
   
   <!-- CUST077 -->
-  
+<!--  
   <cb:legacybuild
       project-name="CUST077_BLD"
       tag="077_BLD"
@@ -99,7 +99,7 @@
       queueName="Production"
       corflags="/32bitreq+"
       />
-  
+  -->
   
   <!-- CUST2069 -->
   <!--  
@@ -149,7 +149,7 @@
       />
   
   <!-- CUST2085 -->
-  
+  <!--
   <cb:customerbuild
       project-name="CUST2085_BLD"
       branch = "tags"
@@ -163,7 +163,7 @@
       queueName="Production"
       corflags="/32bitreq+"
       />
-  
+  -->
   <!-- CUST2086 -->
   
   <cb:customerbuild
@@ -181,7 +181,7 @@
       />
   
   <!-- CUST2087 -->
-  
+  <!--
   <cb:customerbuild
       project-name="CUST2087_BLD"
       branch = "tags"
@@ -195,9 +195,9 @@
       queueName="Production"
       corflags="/32bitreq+"
       />
-  
+  -->
   <!-- CUST2088 -->
-  
+  <!--
   <cb:customerbuild
       project-name="CUST2088_BLD"
       branch = "tags"
@@ -211,9 +211,9 @@
       queueName="Production"
       corflags="/32bitreq+"
       />
-  
+  -->
   <!-- CUST2089 -->
-  
+  <!--
   <cb:customerbuild
       project-name="CUST2089_BLD"
       branch = "tags"
@@ -227,7 +227,7 @@
       queueName="Production"
       corflags="/32bitreq+"
       />
-  
+  -->
   <!-- CUST2090 -->
   
   <cb:customerbuild
