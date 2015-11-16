@@ -213,7 +213,7 @@
       />
   -->
   <!-- CUST2089 -->
-  <!--
+
   <cb:customerbuild
       project-name="CUST2089_BLD"
       branch = "tags"
@@ -227,7 +227,7 @@
       queueName="Production"
       corflags="/32bitreq+"
       />
-  -->
+
   <!-- CUST2090 -->
   
   <cb:customerbuild
