@@ -38,8 +38,8 @@
     </cb:if>
   </cb:define>  
   
-  <cb:define name="update-source">
-    <cb:if expr="'$(updateSource)' != 'false'">
+  <cb:define name="pull-source">
+    <cb:if expr="'$(pullSource)' != 'false'">
       
       <cb:if expr="'$(prodTag)' != ''">
 	<exec executable="$(powershell)" 
@@ -90,6 +90,12 @@
 	  </cb:if>
 	</cb:if>
       </cb:if>
+    </cb:if>    
+  </cb:define>
+
+  <cb:define name="update-source">
+    <cb:if expr="'$(updateSource)' != 'false'">
+      
       <exec executable="$(powershell)" 
 	    description = "hg update to tag or branch"
 	    buildArgs = '-c "hg update $(newChangeset) -C"' 
