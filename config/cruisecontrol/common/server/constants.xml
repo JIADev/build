@@ -74,6 +74,7 @@
       fullbuild="true"
       jslint="false"
       updateSource="true"
+      pullSource="true"
       unit-test="true"
       code-coverage="false"
       web-test="false"
