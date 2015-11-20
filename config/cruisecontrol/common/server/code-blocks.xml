@@ -81,6 +81,12 @@
 	<msbuild logger="$(msBuildListenerDll)" description="Forward-Only Check" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardChangesCheck" workingDirectory="$(project-folder)" timeout="$(msbuild-updatechangelog-timeout)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
 	</msbuild>
+      </cb:if>
+    </cb:if>    
+  </cb:define>
+  
+  <cb:define name="update-source">
+      <cb:if expr="'$(prodTag)' != ''">
 	<cb:if expr="'$(publish)' != 'false'">
 	  <cb:if expr="'$(createChangesetLog)' != 'false'">
 	    <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
@@ -90,10 +96,6 @@
 	  </cb:if>
 	</cb:if>
       </cb:if>
-    </cb:if>    
-  </cb:define>
-  
-  <cb:define name="update-source">
     <cb:if expr="'$(updateSource)' != 'false'">
       
       <cb:if expr="'$(tag)' != ''">
