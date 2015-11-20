@@ -86,6 +86,13 @@
   </cb:define>
   
   <cb:define name="update-source">
+      <cb:if expr="'$(tag)' != ''">
+	<cb:define newChangeset="$(tag)" />
+      </cb:if>
+      <cb:else>
+	<cb:define newChangeset="$(branch)" />
+      </cb:else>
+      
       <cb:if expr="'$(prodTag)' != ''">
 	<cb:if expr="'$(publish)' != 'false'">
 	  <cb:if expr="'$(createChangesetLog)' != 'false'">
@@ -97,13 +104,6 @@
 	</cb:if>
       </cb:if>
     <cb:if expr="'$(updateSource)' != 'false'">
-      
-      <cb:if expr="'$(tag)' != ''">
-	<cb:define newChangeset="$(tag)" />
-      </cb:if>
-      <cb:else>
-	<cb:define newChangeset="$(branch)" />
-      </cb:else>
       
       <exec executable="$(powershell)" 
 	    description = "hg update to tag or branch"
