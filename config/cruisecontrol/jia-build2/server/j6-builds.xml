@@ -24,21 +24,6 @@
       />
   
   <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095_RM55224"
-      branch = '2095_RM55224'
-      platform="AnyCpu"
-      prodTag="2095_PRD"
-      repo-name="active"
-      j6Version="7.6.5"
-      protect="false"
-      external-zip="false"
-      package="true"
-      publish="false"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
       driver="CUST1000"
       project-name="CUST1000-000_WebPWS"
       branch="000_WebPWS"
