@@ -71,6 +71,22 @@
       corflags="/32bitpref-"
       />
   
+  <cb:v76build
+      driver="CUST000"
+      project-name="CUST000-2096_RM55224.A"
+      branch="2096_RM55224.A"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      protect="false"
+      external-zip="false"
+      compileless="true"
+      archive="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
   <cb:v76deployment
       project-name="CUST2094-7.6.6-WebTest"
       driver = 'CUST2094'
