@@ -255,7 +255,6 @@
       external-zip="true"
       archive="true"
       package="true"
-      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
@@ -310,7 +309,6 @@
       external-zip="true"
       archive="false"
       package="true"
-      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
@@ -327,7 +325,6 @@
       external-zip="true"
       archive="false"
       package="true"
-      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
