@@ -344,6 +344,7 @@
       package="true"
       package-privatebuild="true"
       corflags="/32bitpref-"
+      queueSuffix="-priority"
       sourceCheckInterval=""
       />
   <!--
