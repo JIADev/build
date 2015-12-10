@@ -407,6 +407,25 @@
   
   <cb:v76build
       driver="CUST2095"
+      project-name="CUST2095_BLD"
+      branch = 'tags'
+      tag="2095_BLD2"
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      queueName="7.6 Production"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
       project-name="CUST2095-QA2015.05.19"
       branch = '2095_QA2015.05.19'
       prodTag="2095_PRD"
