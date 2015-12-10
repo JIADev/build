@@ -10,7 +10,7 @@
   
   <cb:define name="queue1d">
     <cb:define queueName="Queue1" />
-	 <cb:reqBuild customer="2096" req-number="RM55224.A" />
+	 <cb:reqBuild customer="2094" req-number="RM55224.B" />
   </cb:define>
   
   <cb:define name="queue2b">
