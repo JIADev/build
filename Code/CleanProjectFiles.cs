@@ -35,63 +35,77 @@ namespace j6.BuildTools
 
 		private static int RemoveDuplicateEntries(string fileName, string outputFile = null)
 		{
-			var xDocument = XDocument.Load(fileName);
-			var root = xDocument.Root;
-			
-			if (root == null)
-				return 0;
-
-			var badNodes =
-				root.Elements()
-				    .Where(
-					    n =>
-					    n.Name.LocalName == "Import" &&
-					    n.Attributes()
-					     .Any(
-						     a =>
-						     a.Name == "Project" &&
-						     a.Value.Equals(@"$(SolutionDir)\.nuget\NuGet.targets", StringComparison.InvariantCulture)))
-				    .Union(
-					    root.Elements()
-					        .Where(
-						        n =>
-						        n.Name.LocalName == "Target" &&
-						        n.Attributes()
-						         .Any(
-							         a =>
-							         a.Name == "Name" && a.Value.Equals("EnsureNuGetPackageBuildImports", StringComparison.InvariantCulture))
-									 &&
-								n.Attributes().Any(
-							         a =>
-							         a.Name == "BeforeTargets" && a.Value.Equals("PrepareForBuild", StringComparison.InvariantCulture)))).ToArray();
-
-			var duplicateNodes =
-				root.Elements()
-					.Where(n => n.Name.LocalName == "ItemGroup")
-					.SelectMany(i => i.Elements())
-					.GroupBy(c => c.Name.LocalName).Where(c => c.Attributes().Any(a => a.Name.LocalName == "Include"))
-					.ToDictionary(c => c.Key, c => c.GroupBy(d => d.Attributes().Single(e => e.Name.LocalName == "Include").Value).Where(f => f.Count() > 1)
-						.ToDictionary(f => f.Key, f => f.ToArray())).SelectMany(f => f.Value.SelectMany(g => g.Value.Skip(1))).ToArray();
-			
-			var fileModified = false;
-
-			foreach (var bad in badNodes)
+			try
 			{
-				bad.Remove();
-				fileModified = true;
-			}
+				var xDocument = XDocument.Load(fileName);
 
-			foreach (var dup in duplicateNodes)
+				var root = xDocument.Root;
+
+				if (root == null)
+					return 0;
+
+				var badNodes =
+					root.Elements()
+					    .Where(
+						    n =>
+						    n.Name.LocalName == "Import" &&
+						    n.Attributes()
+						     .Any(
+							     a =>
+							     a.Name == "Project" &&
+							     a.Value.Equals(@"$(SolutionDir)\.nuget\NuGet.targets", StringComparison.InvariantCulture)))
+					    .Union(
+						    root.Elements()
+						        .Where(
+							        n =>
+							        n.Name.LocalName == "Target" &&
+							        n.Attributes()
+							         .Any(
+								         a =>
+								         a.Name == "Name" && a.Value.Equals("EnsureNuGetPackageBuildImports", StringComparison.InvariantCulture))
+							        &&
+							        n.Attributes().Any(
+								        a =>
+								        a.Name == "BeforeTargets" && a.Value.Equals("PrepareForBuild", StringComparison.InvariantCulture))))
+					    .ToArray();
+
+				var duplicateNodes =
+					root.Elements()
+					    .Where(n => n.Name.LocalName == "ItemGroup")
+					    .SelectMany(i => i.Elements())
+					    .GroupBy(c => c.Name.LocalName).Where(c => c.Attributes().Any(a => a.Name.LocalName == "Include"))
+					    .ToDictionary(c => c.Key,
+					                  c =>
+					                  c.GroupBy(d => d.Attributes().Single(e => e.Name.LocalName == "Include").Value)
+					                   .Where(f => f.Count() > 1)
+					                   .ToDictionary(f => f.Key, f => f.ToArray()))
+					    .SelectMany(f => f.Value.SelectMany(g => g.Value.Skip(1)))
+					    .ToArray();
+
+				var fileModified = false;
+
+				foreach (var bad in badNodes)
+				{
+					bad.Remove();
+					fileModified = true;
+				}
+
+				foreach (var dup in duplicateNodes)
+				{
+					dup.Remove();
+					fileModified = true;
+				}
+
+				if (!fileModified)
+					return 0;
+
+				xDocument.Save(outputFile ?? fileName);
+			}
+			catch (Exception ex)
 			{
-				dup.Remove();
-				fileModified = true;
-			}
-
-			if (!fileModified)
+				Console.WriteLine(string.Format("ERROR: {0} {1}", fileName, ex.Message));
 				return 0;
-
-			xDocument.Save(outputFile ?? fileName);
-			
+			}
 			return 1;
 		}
 	}
