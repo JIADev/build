@@ -434,7 +434,8 @@
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
-		 workingDirectory="$(project-folder)\RELEASE">
+		 workingDirectory="$(project-folder)\RELEASE"
+		 timeout="$(reinstall-database-timeout)">
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver) /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
 	</msbuild>
 	
