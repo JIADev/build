@@ -13,7 +13,9 @@ namespace j6.BuildTools
 			string args,
 			string workingDirectory,
 			Dictionary<string, string> extraEnvVariables = null,
-			int timeoutSeconds = 0)
+			int timeoutSeconds = 0,
+			bool displayStdOut = true,
+			bool displayStdErr = true)
 		{
 			var startInfo =
 				new ProcessStartInfo
@@ -47,7 +49,8 @@ namespace j6.BuildTools
 				lock (proc)
 					while ((line = proc.StandardOutput.ReadLine()) != null)
 					{
-                        Console.WriteLine(line);
+                        if(displayStdOut)
+							Console.WriteLine(line);
 						outputString.WriteLine(line);
 					}
 			});
@@ -57,7 +60,8 @@ namespace j6.BuildTools
 				lock (proc)
 					while ((line = proc.StandardError.ReadLine()) != null)
 					{
-                        Console.Error.WriteLine(line);
+						if(displayStdErr)
+							Console.Error.WriteLine(line);
 						errorBuilder.AppendLine(line);
 					}
 			});
