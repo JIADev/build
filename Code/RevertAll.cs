@@ -143,7 +143,7 @@ namespace j6.BuildTools
 			
 			try
 			{
-				output = BuildSystem.RunProcess(hgExe, "status", directory.FullName, timeoutSeconds: 45);
+				output = BuildSystem.RunProcess(hgExe, "status", directory.FullName, timeoutSeconds: 45, displayStdOut: false);
 			}
 			catch (TimeoutException)
 			{
