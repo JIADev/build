@@ -678,7 +678,6 @@
   
   <cb:define name="setup-unittests">
     <cb:if expr="'$(unit-test)' == 'true'">
-      <exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\TestResult)) { mkdir $(project-folder)\TestResult }}"' description="Create TestResult directory" />
       <cb:if expr="'$(code-coverage)' == 'true'">
 	<exec executable="$(powershell)" buildArgs='-c "&amp; {if (! (test-path $(project-folder)\Coverage)) { mkdir $(project-folder)\Coverage }"}"' description="Create Coverage directory" />
       </cb:if>
