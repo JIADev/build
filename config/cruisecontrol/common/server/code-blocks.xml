@@ -514,7 +514,6 @@
   <!-- Added for 7.6 builds -->
   
   <cb:define name="msbuild-configure">
-    <exec executable="$(powershell)" description = "Clear old config" buildArgs = '-c "rm -force Config.targets*"' />
     <msbuild logger="$(msBuildListenerDll)" description="configure">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>

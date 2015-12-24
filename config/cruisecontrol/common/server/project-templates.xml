@@ -78,7 +78,6 @@
 	<cb:update-source />
       </prebuild>
       <tasks>
-	<cb:set-customer />
 	<cb:copy-logger-local />
 	<cb:msbuild-configure />
 	<cb:if expr="'$(fullbuild)' == 'true'">
