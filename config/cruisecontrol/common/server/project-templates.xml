@@ -92,7 +92,6 @@
 	<cb:msbuild-compileless />
 	<cb:msbuild-jslint />
 	<cb:copy-jslint-reports />
-	<cb:setup-unittests />
 	<cb:run-ncover-f-unittests />
 	<cb:get-reports />
 	<cb:msbuild-set-corflags /> 
@@ -151,7 +150,6 @@
 	<cb:msbuild-build />
 	<cb:msbuild-jslint />
 	<cb:copy-jslint-reports />
-	<cb:setup-unittests />
 	<cb:run-ncover-f-unittests />
 	<cb:get-reports />
 	<cb:msbuild-package />
