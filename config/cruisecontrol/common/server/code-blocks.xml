@@ -86,15 +86,16 @@
   </cb:define>
   
   <cb:define name="update-source">
-      <cb:if expr="'$(tag)' != ''">
-	<cb:define newChangeset="$(tag)" />
-      </cb:if>
-      <cb:else>
-	<cb:define newChangeset="$(branch)" />
-      </cb:else>
-      
-      <cb:if expr="'$(prodTag)' != ''">
-	<cb:if expr="'$(publish)' != 'false'">
+    <cb:if expr="'$(tag)' != ''">
+      <cb:define newChangeset="$(tag)" />
+    </cb:if>
+    <cb:else>
+      <cb:define newChangeset="$(branch)" />
+    </cb:else>
+    
+    <cb:if expr="'$(prodTag)' != ''">
+      <cb:if expr="'$(publish)' != 'false'">
+	<cb:if expr="'$(package)' != 'false'">
 	  <cb:if expr="'$(createChangesetLog)' != 'false'">
 	    <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
 		     timeout="$(msbuild-updatechangelog-timeout)">
@@ -103,6 +104,7 @@
 	  </cb:if>
 	</cb:if>
       </cb:if>
+    </cb:if>
     <cb:if expr="'$(updateSource)' != 'false'">
       
       <exec executable="$(powershell)" 
@@ -762,54 +764,55 @@
     </cb:if>
   </cb:define>
   <cb:define name="publish-package">
+    <exec 
+	executable="$(powershell)" 
+	baseDirectory="$(project-folder)"
+	description="Create Release Package folder if needed">
+      <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
+    </exec>
+    
+    <cb:remove-delete-me />
+    
+    <cb:if expr="'$(archive)' == 'true'">
+      <exec 
+	  executable="$(powershell)" 
+	  baseDirectory="$(project-folder)"
+	  description="Make archive folder">
+	<buildArgs>/c "md -F $(archive-package)\$(project-name)"</buildArgs>
+      </exec>
+      
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="move old release to the archive folder">
+	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(archive-package)\$(project-name)"</buildArgs>
+      </exec>
+    </cb:if>
+    <cb:else>
+      <exec 
+	  executable="$(powershell)" 
+	  baseDirectory="$(project-folder)"
+	  description="Make delete.me folder">
+	<buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+      </exec>
+      
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="move old release to the delete.me folder">
+	<buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+      </exec>
+      
+      <exec 
+	  executable="$(powershell)"
+	  baseDirectory="$(project-folder)"
+	  description="move old changeset log to the delete.me folder">
+	<buildArgs>-c "mv $(pkgroot)\$(project-name)\Change*.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
+      </exec>
+    </cb:else>
+    
     <cb:if expr="'$(publish)' == 'true'">
       <cb:if expr="'$(package)' == 'true'">
-	<exec 
-	    executable="$(powershell)" 
-	    baseDirectory="$(project-folder)"
-	    description="Create Release Package folder if needed">
-	  <buildArgs>/c "md -F $(pkgroot)\$(project-name)"</buildArgs>
-	</exec>
-	
-	<cb:remove-delete-me />
-	
-	<cb:if expr="'$(archive)' == 'true'">
-	  <exec 
-	      executable="$(powershell)" 
-	      baseDirectory="$(project-folder)"
-	      description="Make archive folder">
-	    <buildArgs>/c "md -F $(archive-package)\$(project-name)"</buildArgs>
-	  </exec>
-	  
-	  <exec 
-	      executable="$(powershell)"
-	      baseDirectory="$(project-folder)"
-	      description="move old release to the archive folder">
-	    <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(archive-package)\$(project-name)"</buildArgs>
-	  </exec>
-	</cb:if>
-	<cb:else>
-	  <exec 
-	      executable="$(powershell)" 
-	      baseDirectory="$(project-folder)"
-	      description="Make delete.me folder">
-	    <buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-	  </exec>
-	  
-	  <exec 
-	      executable="$(powershell)"
-	      baseDirectory="$(project-folder)"
-	      description="move old release to the delete.me folder">
-	    <buildArgs>-c "mv $(pkgroot)\$(project-name)\RELEASE* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-	  </exec>
-	  
-	  <exec 
-	      executable="$(powershell)"
-	      baseDirectory="$(project-folder)"
-	      description="move old changeset log to the delete.me folder">
-	    <buildArgs>-c "mv $(pkgroot)\$(project-name)\Change*.* $(pkgroot)\$(project-name)\delete.me"</buildArgs>
-	  </exec>
-	</cb:else>
 	
 	<exec 
 	    executable="$(powershell)"
@@ -824,8 +827,6 @@
 	    description="move new ChangesetLog to the package folder">
 	  <buildArgs>-c "mv $(project-folder)\RELEASE*.xml $(pkgroot)\$(project-name)"</buildArgs>
 	</exec>
-	
-	<cb:remove-delete-me />
 	
 	<cb:if expr="'$(prodTag)' != ''">
 	  <cb:if expr="'$(createChangesetLog)' != 'false'">
@@ -848,6 +849,7 @@
 	</cb:if>
       </cb:if>
     </cb:if>
+    <cb:remove-delete-me />
   </cb:define>
   
   

@@ -309,6 +309,7 @@
       external-zip="true"
       archive="false"
       package="true"
+      publish="false"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
@@ -431,6 +432,7 @@
       external-protect="true"
       external-zip="true"
       package="true"
+      publish="false"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
@@ -466,6 +468,7 @@
       external-protect="true"
       external-zip="true"
       package="true"
+      publish="false"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
