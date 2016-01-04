@@ -59,6 +59,7 @@
       driver="CUST2096"
       project-name="CUST2096-000_WebPWS"
       branch="000_WebPWS"
+      prodTag="2096_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
