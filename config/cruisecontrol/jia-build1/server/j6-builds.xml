@@ -379,7 +379,6 @@
       external-protect="true"
       external-zip="true"
       package-privatebuild="true"
-      compileless="true"
       archive="false"
       package="true"
       corflags="/32bitpref-"
