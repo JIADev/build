@@ -33,6 +33,7 @@ namespace j6.BuildTools
 					try
 					{
 						var newName = string.Format("{0}.ptl", Path.GetFileName(notTooLong));
+						Console.WriteLine(string.Format("Moving {0} to {1}", notTooLong, newName));
 						Directory.Move(notTooLong, newName);
 						Directory.Delete(newName, true);
 					}
