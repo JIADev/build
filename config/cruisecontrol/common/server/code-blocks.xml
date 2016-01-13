@@ -153,13 +153,13 @@
   
   <cb:define name="revertall">
     <cb:if expr="'$(updateSource)' != 'false'">
-      <exec 
-	  executable="$(powershell)" 
-	  baseDirectory="$(project-folder)"
-	  buildTimeoutSeconds="$(revertall-timeout)"
-	  description="Revert all changes in project dir">
-	<buildArgs>/c "$(global_feature_dir)/revertall.ps1"</buildArgs>
-      </exec>
+      <msbuild logger="$(msBuildListenerDll)"
+	       description="Revert all changes in working dir"
+	       executable="$(msbuild)"
+	       workingDirectory="$(project-folder)"
+	       projectFile="$(global_feature_dir)\buildtools.proj"
+	       targets="RevertAll"
+	       timeout="$(revertall-timeout)" />
     </cb:if>    
   </cb:define>
   
