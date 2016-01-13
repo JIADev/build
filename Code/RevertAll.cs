@@ -32,7 +32,7 @@ namespace j6.BuildTools
 				{
 					try
 					{
-						var newName = string.Format("{0}.ptl", Path.GetFileName(notTooLong));
+						var newName = string.Format("{0}\\{1}.ptl", Directory.GetCurrentDirectory(), Path.GetFileName(notTooLong));
 						Console.WriteLine(string.Format("Moving {0} to {1}", notTooLong, newName));
 						Directory.Move(notTooLong, newName);
 						Directory.Delete(newName, true);
@@ -136,8 +136,10 @@ namespace j6.BuildTools
 		private static string FindParentNotTooLong(string directory)
 		{
 			var current = directory;
-			while (current != null && current.Length >= 248)
+			var max = 248 - Directory.GetCurrentDirectory().Length;
+			while (current != null && current.Length >= max)
 			{
+				
 					current = Path.GetDirectoryName(current);
 			}
 			return current;
