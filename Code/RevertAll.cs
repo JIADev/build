@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -21,9 +23,23 @@ namespace j6.BuildTools
 					Console.WriteLine("Must be in a mercurial repository.");
 					return 2;
 				}
-				
-				var junctionsDeleted = DeleteJunctions(repoRoot);
+				string[] pathTooLong;
+				var junctionsDeleted = DeleteJunctions(repoRoot.FullName, out pathTooLong);
 				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
+				var pathNotTooLong =
+					pathTooLong.Select(FindParentNotTooLong).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
+				foreach (var notTooLong in pathNotTooLong)
+				{
+					try
+					{
+						var newName = string.Format("{0}.ptl", Path.GetFileName(notTooLong));
+						Directory.Move(notTooLong, newName);
+						Directory.Delete(newName, true);
+					}
+					catch (DirectoryNotFoundException)
+					{
+					}
+				}
 
 				var hgIgnoreFile = repoRoot.GetFiles(".hgignore").Where(f => f.Exists && f.Name.Equals(".hgignore", StringComparison.InvariantCultureIgnoreCase)).Select(f => f.FullName).SingleOrDefault();
 				var tmpIgnoreFile = Path.Combine(repoRoot.FullName, string.Format("{0}.hgignore", Guid.NewGuid()));
@@ -67,23 +83,63 @@ namespace j6.BuildTools
 		{
 			public int Count { get; set; }
 		}
-		private static int DeleteJunctions(DirectoryInfo directory)
+		private static int DeleteJunctions(string directoryName, out string[] pathTooLong)
 		{
+			var ptl = new List<string>();
+			var directory = new DirectoryInfo(directoryName);
 			if (directory.Attributes.HasFlag(FileAttributes.ReparsePoint))
 			{
 				if(_verbose)
 					Console.WriteLine(string.Format("Deleting Junction {0}", directory));
 				directory.Delete();
+				pathTooLong = ptl.ToArray();
 				return 1;
 			}
 			var dirCount = new IndexObject();
-			foreach (var dir in directory.GetDirectories())
+			string[] subDirs;
+
+			try
 			{
-				var count = DeleteJunctions(dir);
+				subDirs = directory.GetDirectories().Select(d =>
+					{
+						try
+						{
+							return d.FullName;
+						}
+						catch (PathTooLongException)
+						{
+							ptl.Add(directoryName);
+							return null;
+						}
+					}
+					).Where(d => !string.IsNullOrWhiteSpace(d)).ToArray();
+			}
+			catch (PathTooLongException)
+			{
+				ptl.Add(directoryName);
+				subDirs = new string[0];
+			}
+
+			foreach (var dir in subDirs)
+			{
+				string[] subptl;
+				var count = DeleteJunctions(dir, out subptl);
 				lock (dirCount)
 					dirCount.Count += count;
+				ptl.AddRange(subptl);
 			}
+			pathTooLong = ptl.ToArray();
 			return dirCount.Count;
+		}
+
+		private static string FindParentNotTooLong(string directory)
+		{
+			var current = directory;
+			while (current != null && current.Length > 248)
+			{
+					current = Path.GetDirectoryName(current);
+			}
+			return current;
 		}
 
 		private static int DeleteEmptyDirectories(DirectoryInfo directory)
