@@ -136,7 +136,7 @@ namespace j6.BuildTools
 		private static string FindParentNotTooLong(string directory)
 		{
 			var current = directory;
-			while (current != null && current.Length > 248)
+			while (current != null && current.Length >= 248)
 			{
 					current = Path.GetDirectoryName(current);
 			}
