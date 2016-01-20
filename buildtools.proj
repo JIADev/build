@@ -54,8 +54,9 @@
     <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
     <PropertyGroup>
       <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
+      <AdditionalArgs>$([MSBuild]::ValueOrDefault(`$(AdditionalArgs)`, ""))</AdditionalArgs>
     </PropertyGroup>
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and !ancestors('$(OriginalChangeset)') and !merge() and !keyword('@build') and !closed()&quot; --verbose --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
+    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and !ancestors('$(OriginalChangeset)') $(AdditionalArgs)&quot; --verbose --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
 	<Exec WorkingDirectory="$(RepoDirectory)" Command="$(RepoDirectory)\UpdateStyleSheet.exe" />
 
 	<ItemGroup>
@@ -366,7 +367,7 @@
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg up -C" />
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg branch $(BuildBranchName)" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Creating build branch @ignore @build"' />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(BuildBranchName);DoMerge=true;DoCommit=true;DoPush=false" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(BuildBranchName);DoMerge=true;DoCommit=true;DoPush=false" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "Closing $(BuildBranchName) @ignore @build" --close-branch' />
     <CallTarget Targets="GetTipChangeset">
       <Output TaskParameter="TargetOutputs" PropertyName="Changeset" />
@@ -377,7 +378,7 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(Changeset) $(CustomerPrefix)$(BuildTag) $(CustomerPrefix)$(DatedBuildTag) -m "Triggering build for $(CustomerPrefix)$(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(BuildTag);TargetBranch=$(TrashBranch);ToolArgs=internal:local;ExtraArgs=--noninteractive;DoMerge=true;DoCommit=true;DoPush=false" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(BuildTag);TargetBranch=$(TrashBranch);ToolArgs=internal:local;ExtraArgs=--noninteractive;DoMerge=true;DoCommit=true;DoPush=false" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
   <Target Name="Trash" DependsOnTargets="InitRepos;CloseBranch">
@@ -436,12 +437,26 @@
     <Message Text="WorkingDirectory = $(TargetRepo) Source=$(SourceBranch) Target=$(TargetBranch)" />
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="GetMergedChangesets" Properties="RepoDirectory=$(TargetRepo);OriginalChangeset=$(TargetBranch);UpdateToChangeset=$(TargetBranch);NewChangeset=$(SourceBranchPrefix)$(SourceBranch);AdditionalArgs= and !merge() and !keyword('build') and !closed()" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="ReadChangedFiles" Properties="RepoDirectory=$(TargetRepo);ChangesetLogFile=$(TargetRepo)\ChangesetLog.xml;OutputFile=$(TargetRepo)\ChangedFiles.txt" />
+    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="Exists('$(TargetRepo)\ChangedFiles.txt')" />
+  </Target>
+
+  <Target Name="MergeBranches">
+    <PropertyGroup>
+      <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
+      <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
+      <UpdateBackToReqBranch>$([MSBuild]::ValueOrDefault(`$(UpdateBackToReqBranch)`, 'true'))</UpdateBackToReqBranch>
+    </PropertyGroup>
+    <Message Text="WorkingDirectory = $(TargetRepo) Source=$(SourceBranch) Target=$(TargetBranch)" />
+    <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
+    <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="GetMergedChangesets" Properties="RepoDirectory=$(TargetRepo);OriginalChangeset=$(TargetBranch);UpdateToChangeset=$(TargetBranch);NewChangeset=$(SourceBranchPrefix)$(SourceBranch)" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="ReadChangedFiles" Properties="RepoDirectory=$(TargetRepo);ChangesetLogFile=$(TargetRepo)\ChangesetLog.xml;OutputFile=$(TargetRepo)\ChangedFiles.txt" />
-    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="Exists('$(TargetRepo)\ChangedFiles.txt')" />
+    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="Exists('$(TargetRepo)\ChangedFiles.txt')" />
   </Target>
-  
-  <Target Name="MergeBranches">
+
+  <Target Name="DoMergeBranches">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <CleanFlag>$([MSBuild]::ValueOrDefault(`$(CleanFlag)`, ' -C'))</CleanFlag>
@@ -478,7 +493,7 @@
       <BranchesToMerge Include="$(SourceBranches)" />
     </ItemGroup>
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="SourceRepo=$(SourceRepo);TargetRepo=$(TargetRepo);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(TargetBranch);DoCommit=true;DoMerge=true;Publish=False" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="SourceRepo=$(SourceRepo);TargetRepo=$(TargetRepo);SourceBranch=%(BranchesToMerge.Identity);TargetBranch=$(TargetBranch);DoCommit=true;DoMerge=true;Publish=False" />
   </Target>
   
   <Target Name="Merge">
@@ -503,7 +518,7 @@
       <TargetBranch>$(Branch)_pub</TargetBranch>
     </PropertyGroup>
     <Message Text="SourceBranch = $(Branch)" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties='Publish=false;WorkingDirectory=$(TargetRepo);SourceRepo=$(TargetRepo);TargetRepo=$(TargetRepo);SourceBranch=$(Branch);TargetBranch=$(TargetBranch);CleanFlag= "";DoMerge=true;DoCommit=true' ContinueOnError="true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties='Publish=false;WorkingDirectory=$(TargetRepo);SourceRepo=$(TargetRepo);TargetRepo=$(TargetRepo);SourceBranch=$(Branch);TargetBranch=$(TargetBranch);CleanFlag= "";DoMerge=true;DoCommit=true' ContinueOnError="true" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(CurrentBranch)" Condition="'$(UpdateBackToReqBranch)' == 'true'" />
     <Delete Files="$(TargetRepo)\publishbranch.txt" />
   </Target>
