@@ -34,7 +34,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
-      protect="false"
       external-protect="true"
       external-zip="true"
       modules="AUTOSHIP"
