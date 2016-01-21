@@ -939,7 +939,7 @@
 		 targets="CreateZip"
 		 workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildLabel=$(CCNetLabel) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
+	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildLabel=$[CCNetLabel] /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
 	</msbuild>
       </cb:if>
     </cb:if>
