@@ -119,9 +119,10 @@
     <Error Text="Missing j6Version" Condition="'$(j6Version)' == ''" />
     <Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
     <Error Text="Missing ZipDirectory" Condition="'$(ZipDirectory)' == ''" />
+    <Error Text="Missing BuildLabel" Condition="'$(BuildLabel)' == ''" />
     <PropertyGroup>
-      <ZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`)).zip</ZipFile>
-      <UnprotectedZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))-UNPROTECTED.zip</UnprotectedZipFile>
+      <ZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))_$(BuildLabel).zip</ZipFile>
+      <UnprotectedZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))_$(BuildLabel)-UNPROTECTED.zip</UnprotectedZipFile>
     </PropertyGroup>
     <WriteLinesToFile File="$(ZipDirectory)\version.txt" Lines="$(ZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)')" />
     <WriteLinesToFile File="$(ZipDirectory)-UNPROTECTED\version.txt" Lines="$(UnprotectedZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
