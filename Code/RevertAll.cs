@@ -28,25 +28,7 @@ namespace j6.BuildTools.MsBuildTasks
 				string[] pathTooLong;
 				var junctionsDeleted = DeleteJunctions(repoRoot.FullName, out pathTooLong);
 				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
-				var pathNotTooLong =
-					pathTooLong.Select(FindParentNotTooLong).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
-				foreach (var notTooLong in pathNotTooLong)
-				{
-					try
-					{
-						var newName = string.Format("{0}\\{1}.ptl", Directory.GetCurrentDirectory(), Path.GetFileName(notTooLong));
-						while (Directory.Exists(newName))
-						{
-							newName = newName + ".ptl";
-						}
-						Console.WriteLine(string.Format("Moving {0} to {1}", notTooLong, newName));
-						Directory.Move(notTooLong, newName);
-						Directory.Delete(newName, true);
-					}
-					catch (DirectoryNotFoundException)
-					{
-					}
-				}
+				var directoriesDeleted = DeleteTooLong(pathTooLong);
 
 				var hgIgnoreFile = repoRoot.GetFiles(".hgignore").Where(f => f.Exists && f.Name.Equals(".hgignore", StringComparison.InvariantCultureIgnoreCase)).Select(f => f.FullName).SingleOrDefault();
 				var tmpIgnoreFile = Path.Combine(repoRoot.FullName, string.Format("{0}.hgignore", Guid.NewGuid()));
@@ -55,20 +37,23 @@ namespace j6.BuildTools.MsBuildTasks
 					File.Move(hgIgnoreFile, tmpIgnoreFile);
 
 				const string hgExe = "hg";
-				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile);
+				var files = GetHgStatFiles(hgExe, repoRoot, tmpIgnoreFile).ToArray();
 
 				if (hgIgnoreFile != null)
 					File.Move(tmpIgnoreFile, hgIgnoreFile);
 
 				var fileCount = new IndexObject();
+				var filePathTooLong = files.Where(f => f.Length >= 248).ToArray();
+				directoriesDeleted += DeleteTooLong(filePathTooLong);
+				Console.WriteLine("Deleted {0} total directories with path names too long", directoriesDeleted);
 
 				files.AsParallel().ForAll(file =>
 				{
-					if (!file.Exists)
+					if (!File.Exists(file))
 						return;
 					if (Verbose)
 						Console.WriteLine(string.Format("Deleting {0}", file));
-					file.Delete();
+					File.Delete(file);
 					lock (fileCount)
 						fileCount.Count++;
 				});
@@ -85,6 +70,36 @@ namespace j6.BuildTools.MsBuildTasks
 				return false;
 			}
 			return true;
+		}
+
+		private int DeleteTooLong(string[] pathTooLong)
+		{
+			var pathNotTooLong =
+					pathTooLong.Select(FindParentNotTooLong).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
+			var deleted = 0;
+			foreach (var notTooLong in pathNotTooLong)
+			{
+				try
+				{
+					var newName = string.Format("{0}\\{1}.ptl", Directory.GetCurrentDirectory(), Path.GetFileName(notTooLong));
+					while (Directory.Exists(newName))
+					{
+						newName = newName + ".ptl";
+					}
+					if(Verbose)
+						Console.WriteLine(string.Format("Moving {0} to {1}", notTooLong, newName));
+					Directory.Move(notTooLong, newName);
+					if(Verbose)
+						Console.WriteLine(string.Format("Deleting {0}", newName));
+					Directory.Delete(newName, true);
+					deleted++;
+				}
+				catch (DirectoryNotFoundException)
+				{
+				}
+			}
+			return deleted;
+
 		}
 		private class IndexObject
 		{
@@ -145,8 +160,10 @@ namespace j6.BuildTools.MsBuildTasks
 			var max = 248 - Directory.GetCurrentDirectory().Length;
 			while (current != null && current.Length >= max)
 			{
-
-				current = Path.GetDirectoryName(current);
+				var lastIndex = current.LastIndexOfAny(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar});
+				if (lastIndex < 0)
+					throw new InvalidOperationException("No directory separator characters found in " + current);
+				current = current.Substring(0, lastIndex);
 			}
 			return current;
 		}
@@ -202,7 +219,7 @@ namespace j6.BuildTools.MsBuildTasks
 			return null;
 		}
 
-		private static IEnumerable<FileInfo> GetHgStatFiles(string hgExe, DirectoryInfo directory, string tempIgnoreFile)
+		private static IEnumerable<string> GetHgStatFiles(string hgExe, DirectoryInfo directory, string tempIgnoreFile)
 		{
 			string output;
 
@@ -223,7 +240,7 @@ namespace j6.BuildTools.MsBuildTasks
 							{
 								try
 								{
-									var file = new FileInfo(s);
+									var file = Path.Combine(directory.FullName, s);
 									return file;
 								}
 								catch
@@ -231,7 +248,7 @@ namespace j6.BuildTools.MsBuildTasks
 									return null;
 								}
 							})
-							.Where(f => f != null && f.Exists && f.FullName != tempIgnoreFile && !f.FullName.Equals(currentAssembly, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+							.Where(f => !string.IsNullOrWhiteSpace(f) && !f.Equals(tempIgnoreFile, StringComparison.InvariantCultureIgnoreCase) && !f.Equals(currentAssembly, StringComparison.InvariantCultureIgnoreCase)).ToArray();
 			return files;
 		}
 	}
