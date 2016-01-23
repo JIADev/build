@@ -16,6 +16,10 @@
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
   </PropertyGroup>
   
+  <Target Name="Which" DependsOnTargets="CompileBuildTools">
+    <Which Command="$(Command)" />
+  </Target>
+
   <Target Name="Test">
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>

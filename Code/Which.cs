@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
 
 namespace j6.BuildTools.MsBuildTasks
 {
 	public class Which : Task
 	{
+		[Required]
 		public string Command { get; set; }
 
 		public override bool Execute()
@@ -58,6 +60,8 @@ namespace j6.BuildTools.MsBuildTasks
 					instances.AddRange(files);
 				}
 			}
+			Console.ForegroundColor = ConsoleColor.Green;
+			
 			if (instances.Count == 0)
 			{
 				Console.WriteLine("No instances of {0} found in path", Command);
@@ -78,6 +82,7 @@ namespace j6.BuildTools.MsBuildTasks
 					}
 				}
 			}
+			Console.ResetColor();
 			return true;
 		}
 	}
