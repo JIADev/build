@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
+  
+  <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
+  <cb:v76build
+      project-name="CUST000-7.6.6"
+      branch = '7.6.6'
+      driver = 'CUST000'
+      clean="true"
+      build="true"
+      data-test="true"
+      platform="AnyCpu"
+      repo-name="active"
+      protect="false"
+      external-zip="false"
+      j6Version="7.6.6"
+      modules="AUTOSHIP"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-000-7.6.7"
+      branch="000_7.6.7"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      protect="false"
+      external-zip="false"
+      archive="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-000_WebPWS"
+      branch="000_WebPWS"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      protect="false"
+      external-zip="false"
+      archive="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
+  <!-- req branches -->
+  <cb:build4queues />
+
+</cb:config-template>

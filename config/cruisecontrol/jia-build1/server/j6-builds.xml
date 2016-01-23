@@ -1,0 +1,487 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <cb:include href="legacy-templates.xml" xmlns:cb="urn:ccnet.config.builder" />
+  
+  <!-- Source control projects -->
+  
+  <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
+  
+  <!-- version branches -->  
+  
+  <!-- CUST000 -->
+  
+ <cb:v76build
+      driver="CUST000"
+      project-name="CUST000_7.6.7"
+      branch = '000_7.6.7'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      modules="AUTOSHIP"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+
+  
+  <cb:v76build
+      driver="CUST000"
+      project-name="CUST000_WebPWS"
+      branch="000_WebPWS"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      modules="AUTOSHIP"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <!-- release (tagged) branches -->
+  
+  <!-- IH00010 -->
+  
+  <cb:legacybuild
+      project-name="IH00010-010_BLD"
+      branch="tags"
+      tag = "010_BLD"
+      prodTag="010_PRD"
+      driver = "IH00010"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      repo-name="prod"
+      archive="true"
+      package="true"
+      queueName="Production"
+      sourceCheckInterval=""
+      corflags="/32bitreq+"
+      />
+  
+  
+  <!-- CUST065 -->
+  
+  <cb:customerbuild
+      project-name="CUST065_BLD"
+      branch = "tags"
+      tag = "065_BLD"
+      prodTag="065_PRD"
+      driver = "CUST065"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  
+  <!-- CUST069 -->
+  
+  <cb:customerbuild
+      project-name="CUST069_BLD"
+      branch = "tags"
+      tag = "069_BLD"
+      prodTag="069_PRD"
+      driver = "CUST069"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  
+  <!-- CUST077 -->
+<!--  
+  <cb:legacybuild
+      project-name="CUST077_BLD"
+      tag="077_BLD"
+      prodTag="077_PRD"
+      branch="tags"
+      driver = "CUST077"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      sourceCheckInterval=""
+      repo-name="prod"
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  -->
+  
+  <!-- CUST2069 -->
+  <!--  
+       <cb:customerbuild
+       project-name="CUST2069_BLD"
+       branch = "tags"
+       tag = "2069_BLD"
+       prodTag="2069_PRD"
+       driver = "CUST2069"
+       repo-name="prod"
+       sourceCheckInterval=""
+       archive="true"
+       package="true"
+       />
+  -->  
+  <!-- CUST2082 -->
+<!--  
+  <cb:customerbuild
+      project-name="CUST2082_BLD"
+      branch = "tags"
+      tag = "2082_BLD"
+      prodTag="2082_PRD"
+      driver = "CUST2082"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  -->
+  <!-- CUST2083 -->
+  
+  <cb:customerbuild
+      project-name="CUST2083_BLD"
+      branch = "tags"
+      tag = "2083_BLD"
+      prodTag="2083_PRD"
+      driver = "CUST2083"
+      repo-name="prod"
+      exclude-files="false"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  
+  <!-- CUST2085 -->
+  <!--
+  <cb:customerbuild
+      project-name="CUST2085_BLD"
+      branch = "tags"
+      tag = "2085_BLD"
+      prodTag="2085_PRD"
+      driver = "CUST2085"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  -->
+  <!-- CUST2086 -->
+  
+  <cb:customerbuild
+      project-name="CUST2086_BLD"
+      branch = "tags"
+      tag = "2086_BLD"
+      prodTag="2086_PRD"
+      driver = "CUST2086"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  
+  <!-- CUST2087 -->
+  <!--
+  <cb:customerbuild
+      project-name="CUST2087_BLD"
+      branch = "tags"
+      tag = "2087_BLD"
+      prodTag="2087_PRD"
+      driver = "CUST2087"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  -->
+  <!-- CUST2088 -->
+  <!--
+  <cb:customerbuild
+      project-name="CUST2088_BLD"
+      branch = "tags"
+      tag = "2088_BLD"
+      prodTag="2088_PRD"
+      driver = "CUST2088"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  -->
+  <!-- CUST2089 -->
+
+  <cb:customerbuild
+      project-name="CUST2089_BLD"
+      branch = "tags"
+      tag = "2089_BLD"
+      prodTag="2089_PRD"
+      driver = "CUST2089"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+
+  <!-- CUST2090 -->
+  
+  <cb:customerbuild
+      project-name="CUST2090_BLD"
+      branch = "tags"
+      tag = "2090_BLD"
+      prodTag="2090_PRD"
+      driver = "CUST2090"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  
+  <cb:v76build
+      driver="CUST2090"
+      project-name="CUST2090_Start767"
+      branch = '2090_Start767'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <!-- CUST2092 -->
+  
+  <cb:customerbuild
+      project-name="CUST2092_BLD"
+      branch = "tags"
+      tag = "2092_BLD"
+      prodTag="2092_PRD"
+      driver = "CUST2092"
+      repo-name="prod"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueName="Production"
+      corflags="/32bitreq+"
+      />
+  
+  
+  <!-- CUST2094 -->
+  
+<!--
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094_PostGoLive_2015.10.28"
+      branch = '2094_PostGoLive_2015.10.28'
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
+      archive="true"
+      package="true"
+      queueSuffix="-priority"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+-->
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094_RM55389"
+      branch = '2094_RM55389'
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094_BLD"
+      branch = 'tags'
+      tag="2094_BLD"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      queueSuffix="-priority"
+      sourceCheckInterval=""
+      />
+  <!--
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094_UNC-UNENCRYPTED"
+      branch = 'tags'
+      tag="2094_UNC"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      protect="false"
+      external-protect="false"
+      external-zip="true"
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      sourceCheckInterval=""
+      />
+  -->
+  <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-7.6.6"
+      branch="7.6.6"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
+  <!-- CUST2095 -->
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095_BLD"
+      branch = 'tags'
+      tag="2095_BLD"
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      queueName="7.6 Production"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-QA2015.05.19"
+      branch = '2095_QA2015.05.19'
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-000_7.6.7"
+      branch = '000_7.6.7'
+      platform="AnyCpu"
+      prodTag="2095_PRD"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <!-- CUST2096 -->
+  
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096_BLD"
+      branch = 'tags'
+      tag="2096_BLD"
+      prodTag="2096_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096-000_7.6.7"
+      branch = '000_7.6.7'
+      prodTag="2096_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096_7.6.7"
+      branch = '2096_7.6.7'
+      prodTag="2096_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+</cb:config-template>
