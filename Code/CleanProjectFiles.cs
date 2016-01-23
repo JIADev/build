@@ -24,6 +24,7 @@ namespace j6.BuildTools.MsBuildTasks
 
 		public override bool Execute()
 		{
+			InputFiles = InputFiles ?? string.Empty;
 			var fileList = InputFiles.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
 			if (fileList.Length == 0)
 				fileList = GetCsProjFiles().ToArray();
