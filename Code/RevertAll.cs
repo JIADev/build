@@ -28,7 +28,7 @@ namespace j6.BuildTools.MsBuildTasks
 				string[] pathTooLong;
 				var junctionsDeleted = DeleteJunctions(repoRoot.FullName, out pathTooLong);
 				Console.WriteLine("Deleted {0} junctions.", junctionsDeleted);
-				var directoriesDeleted = DeleteTooLong(pathTooLong);
+				var directoriesDeleted = DeleteTooLong(repoRoot.FullName, pathTooLong);
 
 				var hgIgnoreFile = repoRoot.GetFiles(".hgignore").Where(f => f.Exists && f.Name.Equals(".hgignore", StringComparison.InvariantCultureIgnoreCase)).Select(f => f.FullName).SingleOrDefault();
 				var tmpIgnoreFile = Path.Combine(repoRoot.FullName, string.Format("{0}.hgignore", Guid.NewGuid()));
@@ -44,7 +44,7 @@ namespace j6.BuildTools.MsBuildTasks
 
 				var fileCount = new IndexObject();
 				var filePathTooLong = files.Where(f => f.Length >= 248).ToArray();
-				directoriesDeleted += DeleteTooLong(filePathTooLong);
+				directoriesDeleted += DeleteTooLong(repoRoot.FullName, filePathTooLong);
 				Console.WriteLine("Deleted {0} total directories with path names too long", directoriesDeleted);
 
 				files.AsParallel().ForAll(file =>
@@ -72,16 +72,16 @@ namespace j6.BuildTools.MsBuildTasks
 			return true;
 		}
 
-		private int DeleteTooLong(string[] pathTooLong)
+		private int DeleteTooLong(string repoRoot, string[] pathTooLong)
 		{
 			var pathNotTooLong =
-					pathTooLong.Select(FindParentNotTooLong).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
+					pathTooLong.Select(p => FindParentNotTooLong(repoRoot, p)).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
 			var deleted = 0;
 			foreach (var notTooLong in pathNotTooLong)
 			{
 				try
 				{
-					var newName = string.Format("{0}\\{1}.ptl", Directory.GetCurrentDirectory(), Path.GetFileName(notTooLong));
+					var newName = string.Format("{0}\\{1}.ptl", repoRoot, Path.GetFileName(notTooLong));
 					while (Directory.Exists(newName))
 					{
 						newName = newName + ".ptl";
@@ -154,10 +154,10 @@ namespace j6.BuildTools.MsBuildTasks
 			return dirCount.Count;
 		}
 
-		private static string FindParentNotTooLong(string directory)
+		private static string FindParentNotTooLong(string repoRoot, string directory)
 		{
 			var current = directory;
-			var max = 248 - Directory.GetCurrentDirectory().Length;
+			var max = 248 - repoRoot.Length;
 			while (current != null && current.Length >= max)
 			{
 				var lastIndex = current.LastIndexOfAny(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar});
