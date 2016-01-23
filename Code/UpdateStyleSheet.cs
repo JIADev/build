@@ -1,42 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 
-namespace TestCmd
+// ReSharper disable RedundantStringFormatCall
+namespace j6.BuildTools.MsBuildTasks
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-	        string inputFileName = args.Length > 0 ? args[0] : "ChangesetLog.xml";
-	        string stylesheet = args.Length > 1 ? args[1] : "changelog.xsl";
-	        string outputFileName = args.Length > 2 ? args[2] : inputFileName;
+	public class UpdateStyleSheet : Task
+	{
+		[Required]
+		public string InputFileName { get; set; }
+		[Required]
+		public string StyleSheet { get; set; }
+		public string OutputFileName { get; set; }
 
-	    var logInfo = new FileInfo(inputFileName);
+		public override bool Execute()
+		{
+			var logInfo = new FileInfo(InputFileName);
 
-	    if(!logInfo.Exists || logInfo.Length == 0)
-	    {
-	       return;
-	    }
-	    
-            try
-            {
-	            XDocument document;
-				using (StreamReader reader = new StreamReader(logInfo.FullName, Encoding.UTF8))
+			if (!logInfo.Exists || logInfo.Length == 0)
+			{
+				Console.Error.WriteLine(string.Format("Input file {0} does not exist or is empty.", InputFileName));
+				return false;
+			}
+			if (string.IsNullOrWhiteSpace(OutputFileName))
+				OutputFileName = InputFileName;
+			try
+			{
+				XDocument document;
+				using (var reader = new StreamReader(logInfo.FullName, Encoding.UTF8))
 					document = XDocument.Load(reader);
-	            document.Declaration.Encoding = "utf-8";
-            	document.AddFirst(new XProcessingInstruction(
-               	    "xml-stylesheet", string.Format("type=\"text/xsl\" href=\"{0}\"", stylesheet)));
-            	    document.Save(outputFileName);
-	  }
-	  catch(Exception ex)
-	  {
-		Console.WriteLine(ex.ToString());
+				document.Declaration.Encoding = "utf-8";
+				document.AddFirst(new XProcessingInstruction(
+					"xml-stylesheet", string.Format("type=\"text/xsl\" href=\"{0}\"", StyleSheet)));
+				document.Save(OutputFileName);
+			}
+			catch (Exception ex)
+			{
+				Console.Error.WriteLine(ex.ToString());
+				return false;
+			}
+			return true;
+		}
 	}
-        }
-    }
 }

@@ -1,33 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Microsoft.Build.Utilities;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class PurgeJunctions : Task
 	{
-		private static int Main(string[] args)
+		public string Directories { get; set; }
+
+		public override bool Execute()
 		{
-			foreach (string arg in args)
+			var args = Directories.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+
+			if (args.Select(ExecutePurgeJunctions).Any(errorLevel => errorLevel > 0))
 			{
-				int errorLevel = PurgeJunctions(arg);
-				if (errorLevel > 0)
-					return errorLevel;
+				return false;
 			}
 
-			return args.Length == 0 ? PurgeJunctions() : 0;
+			if (args.Length == 0)
+			{
+				return ExecutePurgeJunctions() == 0;
+			}
+			return true;
 		}
-
-		private static int PurgeJunctions()
+		private static int ExecutePurgeJunctions()
 		{
-			return PurgeJunctions(Environment.CurrentDirectory);
+			return ExecutePurgeJunctions(Environment.CurrentDirectory);
 		}
 
-		private static int PurgeJunctions(string directory)
+		private static int ExecutePurgeJunctions(string directory)
 		{
 			try
 			{
-				Dictionary<string, Exception> errors = PurgeJunctions(new DirectoryInfo(directory));
+				var errors = ExecutePurgeJunctions(new DirectoryInfo(directory));
 				return errors.Count > 1 ? 5 : 0;
 			}
 			catch (Exception ex)
@@ -35,20 +42,19 @@ namespace j6.BuildTools
 				Console.WriteLine(ex);
 				return 255;
 			}
-			
 		}
 
-		private static Dictionary<string, Exception> PurgeJunctions(DirectoryInfo dir)
+		private static Dictionary<string, Exception> ExecutePurgeJunctions(DirectoryInfo dir)
 		{
-			Dictionary<string, Exception> errors = new Dictionary<string, Exception>();
+			var errors = new Dictionary<string, Exception>();
 
 			DirectoryInfo[] subdirs = dir.GetDirectories();
 
-			foreach (DirectoryInfo subdir in subdirs)
+			foreach (var subdir in subdirs)
 			{
 				if (subdir.Name.StartsWith(".hg"))
 					continue;
-				bool isJunction = (subdir.Attributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
+				var isJunction = (subdir.Attributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
 				if (isJunction)
 				{
 					Console.WriteLine("Deleting junction " + subdir.FullName);
@@ -63,8 +69,8 @@ namespace j6.BuildTools
 					}
 					continue;
 				}
-				Dictionary<string, Exception> subdirResults = PurgeJunctions(subdir);
-				foreach (KeyValuePair<string, Exception> result in subdirResults)
+				var subdirResults = ExecutePurgeJunctions(subdir);
+				foreach (var result in subdirResults)
 				{
 					errors.Add(result.Key, result.Value);
 				}

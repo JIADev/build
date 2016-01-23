@@ -1,56 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class FindClosed : Task
 	{
-		private static int Main(string[] args)
+		[Required]
+		public string SearchBranch { get; set; }
+		[Required]
+		public string InputFile { get; set; }
+		[Required]
+		public string OutputFile { get; set; }
+		
+		public override bool Execute()
 		{
-		    if (args.Length < 3)
-		    {
-                Console.WriteLine("Need 3 arguments, got " + args.Length);
-		        return -2;
-		    }
+			if (File.Exists(OutputFile))
+				File.Delete(OutputFile);
 
-		    var searchBranch = args[0];
-		    var inputFile = args[1];
-		    var outputFile = args[2];
-            
-            if(File.Exists(outputFile))
-                File.Delete(outputFile);
+			using (var reader = new StreamReader(File.Open(InputFile, FileMode.Open, FileAccess.Read, FileShare.Read)))
+			{
+				while (!reader.EndOfStream)
+				{
+					var line = reader.ReadLine();
 
-            using (var reader = new StreamReader(File.Open(inputFile, FileMode.Open, FileAccess.Read, FileShare.Read)))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    
-                    if (line == null)
-                        return 0;
-                    
-                    var parts = line.Split(new [] {" ", "\t", "\n", "\r"}, StringSplitOptions.RemoveEmptyEntries);
-                    
-                    if (parts.Length < 2)
-                        return 0;
+					if (line == null)
+						return true;
 
-                    if (!parts[0].Trim().Equals(searchBranch, StringComparison.InvariantCulture)) continue;
-                   
-                    if (parts.Last().Equals("(closed)", StringComparison.InvariantCulture))
-                        return 0;
-                    
-                    using (var writer =new StreamWriter(File.Open(outputFile, FileMode.Create, FileAccess.Write, FileShare.Read)))
-                    {
-                        writer.WriteLine(line);
-                        writer.Flush();
-                    }
+					var parts = line.Split(new[] { " ", "\t", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
 
-                }
-            }
-            return 0;
+					if (parts.Length < 2)
+						return true;
+
+					if (!parts[0].Trim().Equals(SearchBranch, StringComparison.InvariantCulture)) continue;
+
+					if (parts.Last().Equals("(closed)", StringComparison.InvariantCulture))
+						return true;
+
+					using (var writer = new StreamWriter(File.Open(OutputFile, FileMode.Create, FileAccess.Write, FileShare.Read)))
+					{
+						writer.WriteLine(line);
+						writer.Flush();
+					}
+
+				}
+			}
+			return true;
 		}
 	}
 }

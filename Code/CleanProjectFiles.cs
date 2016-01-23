@@ -3,34 +3,44 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
 
-namespace j6.BuildTools
+// ReSharper disable RedundantStringFormatCall
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class CleanProjectFiles : Task
 	{
-		private static int Main(string[] args)
+		[Required]
+		public string RepositoryDirectory { get; set; }
+		public string OutputFile { get; set; }
+		public string InputFiles { get; set; }
+		public string FeatureExe { get; set; }
+
+		public CleanProjectFiles()
 		{
-			var outputFile = args.Length > 1 ? args[1] : null;
-			var fileList = new List<string>();
-			if (args.Length > 0)
-				fileList.Add(args[0]);
-			else
-			{
-				fileList.AddRange(GetCsProjFiles());
-			}
-			var filesModified = fileList.Sum(f => RemoveDuplicateEntries(f, outputFile));
-			Console.WriteLine(string.Format("Modified {0} project files", filesModified));
-			var featureExe = @"Core\boot\feature.exe";
-			if (File.Exists(featureExe))
-			{
-				BuildSystem.RunProcess(featureExe, "cleanpatches", Environment.CurrentDirectory);
-			}
-			return 0;
+			FeatureExe = @"Core\boot\feature.exe";
 		}
 
-		private static IEnumerable<string> GetCsProjFiles()
+		public override bool Execute()
 		{
-			return Directory.GetFiles(Environment.CurrentDirectory, "*.csproj", SearchOption.AllDirectories);
+			var fileList = InputFiles.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+			if (fileList.Length == 0)
+				fileList = GetCsProjFiles().ToArray();
+
+			var filesModified = fileList.Sum(f => RemoveDuplicateEntries(f, OutputFile));
+			Console.WriteLine(string.Format("Modified {0} project files", filesModified));
+			
+			if (File.Exists(FeatureExe))
+			{
+				BuildSystem.RunProcess(FeatureExe, "cleanpatches", Environment.CurrentDirectory);
+			}
+			return true;
+		}
+
+		private IEnumerable<string> GetCsProjFiles()
+		{
+			return Directory.GetFiles(RepositoryDirectory, "*.csproj", SearchOption.AllDirectories);
 		}
 
 		private static int RemoveDuplicateEntries(string fileName, string outputFile = null)
@@ -103,7 +113,7 @@ namespace j6.BuildTools
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(string.Format("ERROR: {0} {1}", fileName, ex.Message));
+				Console.WriteLine(String.Format("ERROR: {0} {1}", fileName, ex.Message));
 				return 0;
 			}
 			return 1;

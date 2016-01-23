@@ -1,32 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class MergeLog : Task
 	{
-		private static int Main(string[] args)
+		[Required]
+		public string InputFile { get; set; }
+		[Required]
+		public string BuildLogFile { get; set; }
+		
+		public override bool Execute()
 		{
 			try
 			{
-
-				var inputFile = args[0];
-				var buildLogFile = args[1];
-
-				var xml = ReadXml(inputFile);
-				MergeXml(buildLogFile, xml);
+				var xml = ReadXml(InputFile);
+				MergeXml(BuildLogFile, xml);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
-				return 1;
+				Console.Error.WriteLine(ex);
+				return false;
 			}
-			return 0;
+			return true;
 		}
 
 		private static XDocument ReadXml(string inputFile)

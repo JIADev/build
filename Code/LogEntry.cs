@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
 	public class LogEntry
 	{

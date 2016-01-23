@@ -2,33 +2,36 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Build.Utilities;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class FindJunctions : Task
 	{
-		private static int Main(string[] args)
+		public string Sources { get; set; }
+		public override bool Execute()
 		{
-			foreach (var arg in args)
-			{
-				var errorLevel = FindJunctions(arg);
-				if (errorLevel > 0)
-					return errorLevel;
-			}
+			var args = Sources.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
 
-			return args.Length == 0 ? FindJunctions() : 0;
+			if (args.Select(ExecuteFindJunctions).Any(errorLevel => errorLevel > 0))
+				return false;
+
+			if (args.Length == 0)
+				return ExecuteFindJunctions() == 0;
+
+			return true;
 		}
 
-		private static int FindJunctions()
+		private static int ExecuteFindJunctions()
 		{
-			return FindJunctions(Environment.CurrentDirectory);
+			return ExecuteFindJunctions(Environment.CurrentDirectory);
 		}
 
-		private static int FindJunctions(string directory)
+		private static int ExecuteFindJunctions(string directory)
 		{
 			try
 			{
-				var errors = FindJunctions(new DirectoryInfo(directory));
+				var errors = ExecuteFindJunctions(new DirectoryInfo(directory));
 				return errors.Any() ? 5 : 0;
 			}
 			catch (Exception ex)
@@ -36,10 +39,10 @@ namespace j6.BuildTools
 				Console.WriteLine(ex);
 				return 255;
 			}
-			
+
 		}
 
-		private static Dictionary<string, Exception> FindJunctions(DirectoryInfo dir)
+		private static Dictionary<string, Exception> ExecuteFindJunctions(DirectoryInfo dir)
 		{
 			var errors = new Dictionary<string, Exception>();
 
@@ -53,7 +56,7 @@ namespace j6.BuildTools
 					Console.WriteLine(subdir.FullName);
 					continue;
 				}
-				errors = errors.Union(FindJunctions(subdir)).ToDictionary(e => e.Key, e => e.Value);
+				errors = errors.Union(ExecuteFindJunctions(subdir)).ToDictionary(e => e.Key, e => e.Value);
 			}
 			return errors;
 		}

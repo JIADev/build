@@ -2,48 +2,51 @@
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
 
 // ReSharper disable RedundantStringFormatCall
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class DeleteAll : Task
 	{
-		private static bool _verbose;
+		public bool Verbose { get; set; }
+		[Required]
+		public string BaseDirectory { get; set; }
+
 		enum FileType
 		{
 			File,
 			Directory,
 			Junction
 		}
-		private static int Main(string[] args)
+		
+		public override bool Execute()
 		{
 			try
 			{
-				_verbose = args.Any(a => a.Equals("--verbose", StringComparison.InvariantCultureIgnoreCase));
-
-				var repoRoot = FindRepoRoot(new DirectoryInfo(Environment.CurrentDirectory));
+				var repoRoot = FindRepoRoot(new DirectoryInfo(BaseDirectory));
 				if (repoRoot == null)
 				{
-					Console.WriteLine("Must be in a mercurial repository.");
-					return 2;
+					Console.Error.WriteLine("Must be in a mercurial repository.");
+					return false;
 				}
 
-				var deleted = DeleteDirectories(repoRoot, new[] {".hg"});
+				var deleted = DeleteDirectories(repoRoot, new[] { ".hg" });
 
 				Console.WriteLine("Deleted {0} files, {1} junctions, and {2} directories.",
-				                  deleted[FileType.File],
-				                  deleted[FileType.Junction],
+								  deleted[FileType.File],
+								  deleted[FileType.Junction],
 								  deleted[FileType.Directory]);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
-				return 3;
+				Console.Error.WriteLine(ex);
+				return false;
 			}
-			return 0;
+			return true;
 		}
-
-		private static Dictionary<FileType, int> DeleteDirectories(DirectoryInfo directory, string[] exclude)
+		private Dictionary<FileType, int> DeleteDirectories(DirectoryInfo directory, string[] exclude)
 		{
 			var returnValue = new Dictionary<FileType, int>
 				{
@@ -53,16 +56,16 @@ namespace j6.BuildTools
 				};
 			foreach (var fsInfo in directory.GetFileSystemInfos())
 			{
-				if(exclude != null && exclude.Contains(fsInfo.Name, StringComparer.InvariantCultureIgnoreCase))
+				if (exclude != null && exclude.Contains(fsInfo.Name, StringComparer.InvariantCultureIgnoreCase))
 					continue;
-				
+
 				var file = fsInfo as FileInfo;
 				var subDir = fsInfo as DirectoryInfo;
-				
+
 				if (file != null && file.Exists)
 				{
 					file.Delete();
-					if(_verbose)
+					if (Verbose)
 						Console.WriteLine(string.Format("Deleted {0}", file.FullName));
 					returnValue[FileType.File]++;
 				}
@@ -72,7 +75,7 @@ namespace j6.BuildTools
 				if (subDir.Attributes.HasFlag(FileAttributes.ReparsePoint))
 				{
 					subDir.Delete();
-					if (_verbose)
+					if (Verbose)
 						Console.WriteLine(string.Format("Deleted Junction {0}", subDir));
 					returnValue[FileType.Junction]++;
 					continue;
@@ -86,7 +89,7 @@ namespace j6.BuildTools
 			if (!directory.GetFileSystemInfos().Any())
 			{
 				directory.Delete(false);
-				if (_verbose)
+				if (Verbose)
 					Console.WriteLine(string.Format("Deleted {0}", directory.FullName));
 				returnValue[FileType.Directory]++;
 			}
