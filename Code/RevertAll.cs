@@ -102,35 +102,6 @@ namespace j6.BuildTools.MsBuildTasks
 
 		}
 
-		private static int DeleteTooLong(string[] pathTooLong)
-		{
-			var pathNotTooLong =
-					pathTooLong.Select(FindParentNotTooLong).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
-			var deleted = 0;
-			foreach (var notTooLong in pathNotTooLong)
-			{
-				try
-				{
-					var newName = string.Format("{0}\\{1}.ptl", Directory.GetCurrentDirectory(), Path.GetFileName(notTooLong));
-					while (Directory.Exists(newName))
-					{
-						newName = newName + ".ptl";
-					}
-					if(_verbose)
-						Console.WriteLine(string.Format("Moving {0} to {1}", notTooLong, newName));
-					Directory.Move(notTooLong, newName);
-					if(_verbose)
-						Console.WriteLine(string.Format("Deleting {0}", newName));
-					Directory.Delete(newName, true);
-					deleted++;
-				}
-				catch (DirectoryNotFoundException)
-				{
-				}
-			}
-			return deleted;
-
-		}
 		private class IndexObject
 		{
 			public int Count { get; set; }
