@@ -1,28 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
+using Microsoft.Build.Utilities;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class DeleteIfEmpty : Task
 	{
-		private static int Main(string[] args)
+		public string Files { get; set; }
+
+		public override bool Execute()
 		{
-			var files = args;
+			var files = Files.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+			
 			if (files.Length == 0)
 				files = Directory.GetFiles(Environment.CurrentDirectory, "*.*");
 
-			foreach (var file in files)
+			foreach (var info in files.Select(file => new FileInfo(file)).Where(info => info.Exists).Where(info => info.Length == 0))
 			{
-				var info = new FileInfo(file);
-				if(!info.Exists)
-					continue;
-				if(info.Length == 0)
-					info.Delete();
+				info.Delete();
 			}
-			return 0;
+			return true;
 		}
 	}
 }

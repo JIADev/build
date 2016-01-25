@@ -1,32 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Ionic.Zip;
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class Zip : Task
 	{
-		private static int Main(string[] args)
+		[Required]
+		public string Directory { get; set; }
+		[Required]
+		public string FileName { get; set; }
+
+		public override bool Execute()
 		{
 			try
 			{
-				if (args.Length < 2)
-				{
-					Console.WriteLine("Usage: Zip <directory> <zipFileName>");
-					return 1;
-				}
-				var zipFile = new FileInfo(args[1]);
-				var zipDirectory = new DirectoryInfo(args[0]);
+				
+				var zipFile = new FileInfo(FileName);
+				var zipDirectory = new DirectoryInfo(Directory);
 				CreateZip(zipFile, zipDirectory);
-				return 0;
+				return true;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("ERROR: " + ex.Message);
-				return 255;
+				Console.Error.WriteLine("ERROR: " + ex.Message);
+				return false;
 			}
 		}
 
@@ -46,7 +47,7 @@ namespace j6.BuildTools
 				}
 				zipFile.AddFiles(files, false, "\\");
 				var bootstrapDir = zipDirectoryInfo.GetDirectories("Bootstrap").SingleOrDefault(d => d.Name.Equals("Bootstrap", StringComparison.InvariantCultureIgnoreCase));
-				
+
 				if (bootstrapDir != null && bootstrapDir.GetFiles("install.exe", SearchOption.TopDirectoryOnly).SingleOrDefault() != null)
 				{
 					zipFileInfo = new FileInfo(zipFileInfo.FullName.Replace(".zip", ".exe"));

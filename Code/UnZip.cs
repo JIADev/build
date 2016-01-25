@@ -1,36 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using Ionic.Zip;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class UnZip : Task
 	{
-		private static int Main(string[] args)
+		[Required]
+		public string ZipFiles { get; set; }
+		[Required]
+		public string TargetDirectory { get; set; }
+		
+		public override bool Execute()
 		{
 			try
 			{
-				if (args.Length != 2)
-				{
-					Console.WriteLine("Usage: ExtractZip <zipfile(s)> [<targetDirectory>]");
-					return 1;
-				}
-				var zipFiles = GetFiles(args[0]);
-				
+				var zipFiles = GetFiles(ZipFiles);
+
 				foreach (var zipFile in zipFiles)
 				{
-					Extract(zipFile, args[1]);
+					Extract(zipFile, TargetDirectory);
 				}
 
-				return 0;
+				return true;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("ERROR: " + ex.Message);
-				return 0;
+				Console.Error.WriteLine("ERROR: " + ex.Message);
+				return false;
 			}
 		}
 
@@ -38,9 +38,14 @@ namespace j6.BuildTools
 		{
 			if (File.Exists(searchParam))
 			{
-				return new [] { new FileInfo(searchParam) };
+				return new[] { new FileInfo(searchParam) };
 			}
-			var searchPath = Path.GetDirectoryName(searchParam).Trim(new [] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
+			var directoryName = Path.GetDirectoryName(searchParam);
+			
+			if (directoryName == null)
+				return new FileInfo[0];
+			
+			var searchPath = directoryName.Trim(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
 			var searchText = searchParam.Substring(searchPath.Length).Trim(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
 			var searchDir = new DirectoryInfo(searchPath);
 			var files = searchDir.GetFiles(searchText);
@@ -55,7 +60,7 @@ namespace j6.BuildTools
 				Console.WriteLine("Creating " + targetDirectory);
 				targetDir.Create();
 			}
-			
+
 			using (var zipFile = ZipFile.Read(zipFileInfo.FullName))
 			{
 				Console.WriteLine("Extracting " + zipFileInfo.FullName + " to " + targetDir.FullName);

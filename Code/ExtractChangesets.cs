@@ -1,62 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Microsoft.Build.Utilities;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class ExtractChangesets : Task
 	{
 		static readonly Regex ChangesetRegex = new Regex("^changeset:.*$", RegexOptions.Multiline);
 
-		private static int Main(string[] args)
+		public string InputFile { get; set; }
+		public string OutputFile { get; set; }
+		public string PathToHg { get; set; }
+
+		public ExtractChangesets()
+		{
+			PathToHg = "hg";
+		}
+		public override bool Execute()
 		{
 			try
 			{
-				var hgExe = "hg";
-				if (args.Length < 0)
+				if (!File.Exists(InputFile))
 				{
-					Console.WriteLine("Usage ExtractChangesets.exe <mergedRevisions.txt.file> <outputFile.xml> [<path.to.hg.exe>] (defaults to {0})",
-						hgExe);
-					return 1;
+					Console.WriteLine("InputFile {0} doesn't exist", InputFile);
+					return false;
 				}
-				var mergedRevisionFile = args[0];
-
-				if (!File.Exists(mergedRevisionFile))
-				{
-					Console.WriteLine("{0} doesn't exist", mergedRevisionFile);
-					return 2;
-				}
-				string outputFile = null;
 				
-				if (args.Length > 1)
-				{
-					outputFile = args[1];
-				}
+				var changesets = GetChangesets(InputFile);
+				GenerateXml(PathToHg, OutputFile, changesets);
 
-				if (args.Length > 2)
-				{
-					hgExe = args[2];
-				}
-
-				var changesets = GetChangesets(mergedRevisionFile);
-				GenerateXml(hgExe, outputFile, changesets);
-				
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
-				return 3;
+				Console.Error.WriteLine(ex);
+				return false;
 			}
-			return 0;
+			return true;
 		}
-		
+
 		private static void GenerateXml(string hgExe, string outputFile, string[] changesets)
 		{
 			var docList = new List<XDocument>();
@@ -68,26 +54,26 @@ namespace j6.BuildTools
 				foreach (var arg in args)
 				{
 					var xmlInput = BuildSystem.RunProcess(hgExe, arg, Environment.CurrentDirectory);
-					if (string.IsNullOrEmpty(xmlInput))
+					if (String.IsNullOrEmpty(xmlInput))
 						xmlInput = "<log />";
 					var xDoc = XDocument.Parse(xmlInput);
 					var remove = xDoc.XPathSelectElements("/log/logentry").ToArray()
-						.Select(le =>
-						new
-						{
-							logEntry = le,
-							msgElement = le == null
-								  ? null
-								  : le.XPathSelectElement("msg")
-						})
-						.Select(e => new
-						{
-							e.logEntry,
-							msg = e.msgElement == null
-								? string.Empty
-								: e.msgElement.Value ?? string.Empty
-						})
-						.Where(m => m.msg.Contains("@build")).Select(e => e.logEntry);
+					                 .Select(le =>
+					                         new
+						                         {
+							                         logEntry = le,
+							                         msgElement = le == null
+								                                      ? null
+								                                      : le.XPathSelectElement("msg")
+						                         })
+					                 .Select(e => new
+						                 {
+							                 e.logEntry,
+							                 msg = e.msgElement == null
+								                       ? String.Empty
+								                       : e.msgElement.Value
+						                 })
+					                 .Where(m => m.msg.Contains("@build")).Select(e => e.logEntry);
 					foreach (var entry in remove)
 					{
 						entry.Remove();
@@ -99,7 +85,7 @@ namespace j6.BuildTools
 				return;
 
 			var firstDoc = docList[0];
-			
+
 			if (docList.Count == 1)
 			{
 				firstDoc.Save(outputFile);
@@ -118,18 +104,18 @@ namespace j6.BuildTools
 		private static IEnumerable<string> CreateArgs(string[] changesets)
 		{
 			var list = new List<string>();
-			const int BUFFER_SIZE = 1000;
+			const int bufferSize = 1000;
 
-			for (var i = 0; i < changesets.Length; i += BUFFER_SIZE)
-				list.Add(string.Format("log {0} -v --no-merges --style xml", string.Join(" ", changesets.Skip(i).Take(BUFFER_SIZE).Select(c => string.Format("-r {0}", c)))));
-			
+			for (var i = 0; i < changesets.Length; i += bufferSize)
+				list.Add(String.Format("log {0} -v --no-merges --style xml", String.Join(" ", changesets.Skip(i).Take(bufferSize).Select(c => String.Format("-r {0}", c)))));
+
 			return list;
 		}
 
 		private static string[] GetChangesets(string mergedRevisionFile)
 		{
 			using (var stream = new FileStream(mergedRevisionFile, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using(var reader = new StreamReader(stream))
+			using (var reader = new StreamReader(stream))
 			{
 				var fileContents = reader.ReadToEnd();
 				var changesets = ChangesetRegex.Matches(fileContents).Cast<Match>().Select(m => m.Value.Substring(m.Value.LastIndexOf(':') + 1).Trim()).ToArray();

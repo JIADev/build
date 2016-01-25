@@ -2,33 +2,38 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Build.Utilities;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class PurgeEmptyDirectories : Task
 	{
-		private static int Main(string[] args)
+		public string Directories { get; set; }
+
+		public override bool Execute()
 		{
-			foreach (var arg in args)
+			var args = Directories.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+			if (args.Select(PurgeEmptyDirs).Any(errorLevel => errorLevel > 0))
 			{
-				var errorLevel = PurgeEmptyDirectories(arg);
-				if (errorLevel > 0)
-					return errorLevel;
+				return false;
 			}
 
-			return args.Length == 0 ? PurgeEmptyDirectories() : 0;
+			if (args.Length == 0)
+			{
+				return PurgeEmptyDirs() == 0;
+			}
+			return true;
 		}
-
-		private static int PurgeEmptyDirectories()
+		private static int PurgeEmptyDirs()
 		{
-			return PurgeEmptyDirectories(Environment.CurrentDirectory);
+			return PurgeEmptyDirs(Environment.CurrentDirectory);
 		}
 
-		private static int PurgeEmptyDirectories(string directory)
+		private static int PurgeEmptyDirs(string directory)
 		{
 			try
 			{
-				var errors = PurgeEmptyDirectories(new DirectoryInfo(directory));
+				var errors = PurgeEmptyDirs(new DirectoryInfo(directory));
 				return errors.Any() ? 5 : 0;
 			}
 			catch (Exception ex)
@@ -36,10 +41,10 @@ namespace j6.BuildTools
 				Console.WriteLine(ex);
 				return 255;
 			}
-			
+
 		}
 
-		private static Dictionary<string, Exception> PurgeEmptyDirectories(DirectoryInfo dir)
+		private static Dictionary<string, Exception> PurgeEmptyDirs(DirectoryInfo dir)
 		{
 			var errors = new Dictionary<string, Exception>();
 
@@ -52,21 +57,18 @@ namespace j6.BuildTools
 				{
 					continue;
 				}
-				errors = errors.Union(PurgeEmptyDirectories(subdir)).ToDictionary(e => e.Key, e => e.Value);
+				errors = errors.Union(PurgeEmptyDirs(subdir)).ToDictionary(e => e.Key, e => e.Value);
 				var isEmpty = !subdir.GetFileSystemInfos().Any();
-				if(isEmpty)
+				if (!isEmpty) continue;
+				Console.WriteLine("Deleting empty directory " + subdir.FullName);
+				try
 				{
-					Console.WriteLine("Deleting empty directory " + subdir.FullName);
-					try
-					{
-						subdir.Delete();
-						continue;
-					}
-					catch (Exception ex)
-					{
-						Console.Error.WriteLine("Unable to delete {0}: {1}", subdir.FullName, ex.Message);
-						errors.Add(subdir.FullName, ex);
-					}
+					subdir.Delete();
+				}
+				catch (Exception ex)
+				{
+					Console.Error.WriteLine("Unable to delete {0}: {1}", subdir.FullName, ex.Message);
+					errors.Add(subdir.FullName, ex);
 				}
 			}
 			return errors;
