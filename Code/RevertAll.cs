@@ -70,7 +70,7 @@ namespace j6.BuildTools
 			return 0;
 		}
 
-		private int DeleteTooLong(string[] pathTooLong)
+		private static int DeleteTooLong(string[] pathTooLong)
 		{
 			var pathNotTooLong =
 					pathTooLong.Select(FindParentNotTooLong).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
@@ -84,10 +84,10 @@ namespace j6.BuildTools
 					{
 						newName = newName + ".ptl";
 					}
-					if(Verbose)
+					if(_verbose)
 						Console.WriteLine(string.Format("Moving {0} to {1}", notTooLong, newName));
 					Directory.Move(notTooLong, newName);
-					if(Verbose)
+					if(_verbose)
 						Console.WriteLine(string.Format("Deleting {0}", newName));
 					Directory.Delete(newName, true);
 					deleted++;
@@ -217,7 +217,7 @@ namespace j6.BuildTools
 			return null;
 		}
 		
-		private static FileInfo[] GetHgStatFiles(string hgExe, DirectoryInfo directory, string tempIgnoreFile)
+		private static string[] GetHgStatFiles(string hgExe, DirectoryInfo directory, string tempIgnoreFile)
 		{
 			string output;
 			
