@@ -25,7 +25,7 @@
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-000-7.6.7"
-      branch="000_7.6.7"
+      branch="7.6.7"
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"

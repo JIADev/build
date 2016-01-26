@@ -143,7 +143,7 @@
     
     <ItemGroup>
 
-      <Active2096Reqs Include="000_7.6.7" />
+      <Active2096Reqs Include="7.6.7" />
       <Active767Branches Include="000_RM55614;000_WebPWS;2090_Start767" />
 
 <!--
@@ -166,9 +166,11 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=2096_7.6.7;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_7.6.7;TargetBranch=000_7.6.7;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_7.6.7;TargetBranch=7.6.7;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=000_7.6.7;TargetBranch=%(Active767Branches.Identity);DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=000_7.6.7;TargetBranch=7.6.7;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=%(Active767Branches.Identity);DoMerge=true;DoCommit=true" />
 
   </Target>
   
