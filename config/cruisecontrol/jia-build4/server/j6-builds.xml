@@ -39,7 +39,7 @@
       />
   
   <cb:v76build
-      driver="CUST2094"
+      driver="CUST2094.BOT"
       project-name="CUST2094_RM55997"
       branch="2094_RM55997"
       prodTag="2094_PRD"
