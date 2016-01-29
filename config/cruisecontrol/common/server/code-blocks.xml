@@ -539,7 +539,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform) /p:Package=$(package)"</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform)" /p:Package=$(package)</buildArgs>
 	<targets>Build</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
