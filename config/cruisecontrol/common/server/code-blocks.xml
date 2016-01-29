@@ -551,7 +551,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules) /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules) /p:PatchLoaderSwitches="--noninteractive" /p:Package=$(package)</buildArgs>
 	<targets>FullBuild</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
