@@ -144,7 +144,7 @@
     <ItemGroup>
 
       <Active2096Reqs Include="7.6.7" />
-      <Active767Branches Include="2094_RM55997;000_RM55614;000_WebPWS;2090_Start767" />
+      <Active767Branches Include="2094_RM55997.B;000_RM55614;000_WebPWS;2090_Start767" />
 
 <!--
       <Active2096ReqsWithDependencies Include="2096_REQ004" />
