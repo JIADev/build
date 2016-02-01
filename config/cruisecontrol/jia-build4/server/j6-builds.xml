@@ -57,7 +57,7 @@
   <cb:v76build
       driver="CUST2094.BOT"
       project-name="CUST2094.BOT_RM55997"
-      branch="2094_RM55997"
+      branch="2094_RM55997.B"
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
