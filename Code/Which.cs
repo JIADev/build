@@ -2,18 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
 
-namespace Sandbox
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class Which : Task
 	{
-		static void Main(string[] args)
-		{
-			if (args.Length == 0)
-			{
-				return;
-			}
+		[Required]
+		public string Command { get; set; }
 
+		public override bool Execute()
+		{
 			var envVariables = Environment.GetEnvironmentVariables();
 			var path = string.Empty;
 			var pathExt = string.Empty;
@@ -37,17 +38,14 @@ namespace Sandbox
 			var pathExts = pathExt.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries);
 			var instances = new List<string>();
 
-			foreach (var dirPath in paths)
+			foreach (var dirPath in paths.Where(Directory.Exists))
 			{
-				if (!Directory.Exists(dirPath))
-					continue;
-
 				{
-					var filePath = Path.Combine(dirPath, args[0]);
+					var filePath = Path.Combine(dirPath, Command);
 
 					if (File.Exists(filePath))
 					{
-						var files = Directory.GetFiles(dirPath, args[0]);
+						var files = Directory.GetFiles(dirPath, Command);
 
 						instances.Add(files[0]);
 					}
@@ -55,16 +53,18 @@ namespace Sandbox
 				
 				foreach (var pe in pathExts)
 				{
-					var filePath = Path.Combine(dirPath, args[0] + pe);
+					var filePath = Path.Combine(dirPath, Command + pe);
 					if (!File.Exists(filePath)) continue;
 
-					var files = Directory.GetFiles(dirPath, args[0] + pe);
+					var files = Directory.GetFiles(dirPath, Command + pe);
 					instances.AddRange(files);
 				}
 			}
+			Console.ForegroundColor = ConsoleColor.Green;
+			
 			if (instances.Count == 0)
 			{
-				Console.WriteLine("No instances of {0} found in path", args[0]);
+				Console.WriteLine("No instances of {0} found in path", Command);
 			}
 			else
 			{
@@ -82,6 +82,8 @@ namespace Sandbox
 					}
 				}
 			}
+			Console.ResetColor();
+			return true;
 		}
 	}
 }

@@ -2,38 +2,37 @@
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
-	class Program
+	public class CopyDiffFiles : Task
 	{
-		private static int Main(string[] args)
+		[Required]
+		public string Source { get; set; }
+		[Required]
+		public string Target { get; set; }
+
+		public override bool Execute()
 		{
 			try
 			{
-				if (args.Length != 2)
-				{
-					Console.WriteLine("Usage: CopyDiffFiles <sourceDirectory> <targetDirectory>");
-					return 2;
-				}
-				var source = args[0];
-				var target = args[1];
-
-				var sourceDir = new DirectoryInfo(source);
-				var targetDir = new DirectoryInfo(target);
+				var sourceDir = new DirectoryInfo(Source);
+				var targetDir = new DirectoryInfo(Target);
 				if (!sourceDir.Exists)
 				{
-					Console.WriteLine("Source Directory " + source + " does not exist!");
-					return 3;
+					Console.Error.WriteLine("Source Directory " + Source + " does not exist!");
+					return false;
 				}
 				CopyIfDifferent(sourceDir, targetDir);
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
-				return 1;
+				Console.Error.WriteLine(ex);
+				return false;
 			}
-			return 0;
+			return true;
 		}
 
 		private static void CopyIfDifferent(DirectoryInfo sourceDir, DirectoryInfo targetDir)
@@ -47,7 +46,7 @@ namespace j6.BuildTools
 			foreach (var sourceFile in files)
 			{
 				var targetFile = new FileInfo(Path.Combine(targetDir.FullName, sourceFile.Name));
-				
+
 				if (!targetFile.Exists)
 				{
 					Console.WriteLine("Copying " + sourceFile.FullName + " to " + targetFile.FullName);
@@ -67,17 +66,16 @@ namespace j6.BuildTools
 
 		private static bool IsDifferent(FileInfo sourceFile, FileInfo targetFile)
 		{
-			using(var sourceStream = sourceFile.OpenRead())
+			using (var sourceStream = sourceFile.OpenRead())
 			using (var targetStream = targetFile.OpenRead())
 			{
 				var sourceHash = Hash.ComputeHash(sourceStream);
 				var targetHash = Hash.ComputeHash(targetStream);
-				
+
 				if (sourceHash.Where((t, i) => t != targetHash[i]).Any())
 					return true;
 			}
 			return false;
 		}
-
 	}
 }

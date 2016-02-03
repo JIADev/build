@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-namespace j6.BuildTools
+namespace j6.BuildTools.MsBuildTasks
 {
 	public static class BuildSystem
 	{
