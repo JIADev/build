@@ -136,6 +136,40 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.1;TargetBranch=$(TargetBranch);DoMerge=true;DoCommit=true" />
   </Target>    
   
+  <Target Name="ForwardMerge_768" DependsOnTargets="ForwardMerge_76;InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    
+    <ItemGroup>
+
+      <Active768Reqs Include="7.6.8" />
+      <Active768Branches Include="" />
+
+<!--
+      <Active2096ReqsWithDependencies Include="2096_REQ004" />
+-->
+    </ItemGroup>
+    
+    <!-- These are the branches which don't depend on anything -->
+
+    <!-- These are the branches which don't depend on anything but need to be published -->
+    
+<!--    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranchesIfChanged" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(Active2096ReqsWithDependencies.Identity);DoMerge=true;DoCommit=true" />
+-->        
+    <!-- Then we do the dependency merges -->
+    <CallTarget Targets="DependencyMerge_768" />
+
+<!--    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_RM53069;TargetBranch=7.6.6;DoMerge=true;DoCommit=true" />
+-->
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
+<!--
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=%(Active767Branches.Identity);DoMerge=true;DoCommit=true" />
+-->
+  </Target>
+  
   <Target Name="ForwardMerge_2096" DependsOnTargets="ForwardMerge_76;InitRepos">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
@@ -238,7 +272,7 @@
   <Target Name="PreForwardMergeActive" DependsOnTargets="InitRepos">
   </Target>
 
-  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;PreForwardMergeActive;ForwardMerge_2095;ForwardMerge_2094;ForwardMerge_2096">
+  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;PreForwardMergeActive;ForwardMerge_2095;ForwardMerge_2094;ForwardMerge_2096;ForwardMerge_768">
   </Target>
 
 </Project>

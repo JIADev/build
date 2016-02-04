@@ -33,4 +33,11 @@
     
   </Target>
   
+  <Target Name="DependencyMerge_768" DependsOnTargets="InitRepos">
+    <PropertyGroup>
+      <TargetRepo>$(SourceRepo)</TargetRepo>
+    </PropertyGroup>
+    
+  </Target>
+  
 </Project>
