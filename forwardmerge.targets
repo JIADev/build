@@ -144,8 +144,9 @@
     <ItemGroup>
 
       <Active768Reqs Include="7.6.8" />
+<!--
       <Active768Branches Include="" />
-
+-->
 <!--
       <Active2096ReqsWithDependencies Include="2096_REQ004" />
 -->
