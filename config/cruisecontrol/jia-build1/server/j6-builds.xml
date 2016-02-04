@@ -27,6 +27,22 @@
       />
 
   
+ <cb:v76build
+      driver="CUST000"
+      project-name="CUST000_7.6.8"
+      branch = '7.6.8'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-protect="true"
+      external-zip="true"
+      modules="AUTOSHIP"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+
+  
   <cb:v76build
       driver="CUST000"
       project-name="CUST000_WebPWS"
@@ -315,6 +331,22 @@
   
   <cb:v76build
       driver="CUST2094"
+      project-name="CUST2094_RM55389"
+      branch = '2094_RM55389'
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-protect="true"
+      external-zip="true"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
       project-name="CUST2094_BLD"
       branch = 'tags'
       tag="2094_BLD"
@@ -367,7 +399,23 @@
       corflags="/32bitpref-"
       />
   
-  <!-- CUST2095 -->
+    <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094_7.6.8"
+      branch="7.6.8"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      protect="false"
+      external-zip="false"
+      archive="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
+<!-- CUST2095 -->
   
   <cb:v76build
       driver="CUST2095"
@@ -418,6 +466,21 @@
       corflags="/32bitpref-"
       />
   
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-7.6.8"
+      branch = '7.6.8'
+      platform="AnyCpu"
+      prodTag="2095_PRD"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
   <!-- CUST2096 -->
   
   <cb:v76build
@@ -446,6 +509,21 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096-7.6.8"
+      branch = '7.6.8'
+      prodTag="2096_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
       external-protect="true"
       external-zip="true"
       package="true"
