@@ -23,16 +23,9 @@
   <Target Name="Test">
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>
-  <Target Name="GetTipChangeset" Outputs="$(Changeset)">
-    <Exec WorkingDirectory="$(BuildRepo)" Command="hg tip &gt; $(BuildRepo)\tip.txt" />
-    <ReadLinesFromFile File="$(BuildRepo)\tip.txt">
-      <Output TaskParameter="Lines" PropertyName="Tip" />
-    </ReadLinesFromFile>
-    <PropertyGroup>
-      <ChangesetLine>$([System.Text.RegularExpressions.Regex]::Match(`$(Tip)`, 'changeset:[^;]*').Value)</ChangesetLine>
-      <ChangesetPosition>$([MSBuild]::ValueOrDefault(`$(ChangesetLine)`, ':').LastIndexOf(':'))</ChangesetPosition>
-      <Changeset>$([MSBuild]::ValueOrDefault(`$(ChangesetLine)`, '').Substring($(ChangesetPosition)).Trim(':'))</Changeset>
-    </PropertyGroup>
+
+  <Target Name="GetTipChangeset" Outputs="$(Changeset)" DependsOnTargets="CompileBuildTools">
+    <GetTipChangeset />
   </Target>
   
   <Target Name="ForwardChangesCheck" DependsOnTargets="CompileBuildTools">
@@ -40,15 +33,13 @@
   </Target>
 
   <Target Name="GetMergedChangesets" DependsOnTargets="CompileBuildTools">
-    <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
-    <Error Text="Missing OriginalChangeset" Condition="'$(OriginalChangeset)' == ''" />
-    <Error Text="Missing NewChangeset" Condition="'$(NewChangeset)' == ''" />
-    <PropertyGroup>
-      <UpdateToChangeset>$([MSBuild]::ValueOrDefault(`$(UpdateToChangeset)`, '$(NewChangeset)'))</UpdateToChangeset>
-      <AdditionalArgs>$([MSBuild]::ValueOrDefault(`$(AdditionalArgs)`, ""))</AdditionalArgs>
-    </PropertyGroup>
-    <Exec WorkingDirectory="$(RepoDirectory)" Command="hg log --rev &quot;ancestors('$(NewChangeset)') and !ancestors('$(OriginalChangeset)') $(AdditionalArgs)&quot; --verbose --style=xml > $(RepoDirectory)\ChangesetLog.xml" />
-    <UpdateStyleSheet InputFileName="$(RepoDirectory)\ChangesetLog.xml" StyleSheet="$(RepoDirectory)\changelog.xsl" />
+    <GetMergedChangesets RepoDirectory="$(RepoDirectory)"
+			 OriginalChangeset="$(OriginalChangeset)"
+			 NewChangeset="$(NewChangeset)"
+			 UpdateToChangeset="$(UpdateToChangeset)"
+			 AdditionalArgs="$(AdditionalArgs)"
+			 OutputFile="$(ChangesetLogFile)"
+			 StyleSheet="$(ChangesetStyleSheet)" />
     
     <ItemGroup>
       <SourceFiles Include= "$(MSBuildProjectDirectory)\changelog.xsl" />
@@ -74,13 +65,6 @@
     <CleanProjectFiles RepositoryDirectory="$(TargetRepo)" />
   </Target>
   
-  <Target Name="ReadChangedFiles" DependsOnTargets="CompileBuildTools">
-    <Error Text="Missing ChangesetLogFile" Condition="'$(ChangesetLogFile)' == ''" />
-    <Error Text="Missing OutputFile" Condition="'$(OutputFile)' == ''" />
-    <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
-    <ChangedFiles InputFile="$(RepoDirectory)\ChangesetLog.xml" OutputFile="$(RepoDirectory)\ChangedFiles.txt" />
-  </Target>
-  
   <Target Name="DeleteIfEmpty" DependsOnTargets="CompileBuildTools">
     <Error Text="Missing File" Condition="'$(File)' == ''" />
     <Error Text="Missing RepoDirectory" Condition="'$(RepoDirectory)' == ''" />
@@ -103,12 +87,16 @@
     <Error Text="Missing BuildTime" Condition="'$(BuildTime)' == ''" />
     <Error Text="Missing ZipDirectory" Condition="'$(ZipDirectory)' == ''" />
     <Error Text="Missing BuildLabel" Condition="'$(BuildLabel)' == ''" />
-    <PropertyGroup>
-      <ZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))_$(BuildLabel).zip</ZipFile>
-      <UnprotectedZipFile>RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))_$(BuildLabel)-UNPROTECTED.zip</UnprotectedZipFile>
+	<PropertyGroup>
+      <ZipFile>$(ZipDirectory)\..\RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))_$(BuildLabel).zip</ZipFile>
+      <UnprotectedZipFile>$(ZipDirectory)-UNPROTECTED\..\RELEASE-$(Customer)-$(j6Version).0-$([System.DateTime]::Parse(`$(BuildTime)`).ToString(`yyyyMMddHHmmss`))-UNPROTECTED_$(BuildLabel).zip</UnprotectedZipFile>
     </PropertyGroup>
-    <WriteLinesToFile File="$(ZipDirectory)\version.txt" Lines="$(ZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)')" />
-    <WriteLinesToFile File="$(ZipDirectory)-UNPROTECTED\version.txt" Lines="$(UnprotectedZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
+	<Message Text="$(ZipFile)" />
+	<Message Text="$(UnprotectedZipFile)" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" />
+	  <WriteLinesToFile File="$(ZipDirectory)\version.txt" Lines="$(ZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)')" />
+	  <WriteLinesToFile File="$(ZipDirectory)-UNPROTECTED\version.txt" Lines="$(UnprotectedZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" />
+	  <WriteLinesToFile File="$(ZipDirectory)\Shared\version.txt" Lines="$(ZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)')" />
+    <WriteLinesToFile File="$(ZipDirectory)-UNPROTECTED\Shared\version.txt" Lines="$(UnprotectedZipFile)" Overwrite="true" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
     <Zip Directory="$(ZipDirectory)" FileName="$(ZipFile)" Condition="Exists('$(ZipDirectory)')" /> 
     <Zip Directory="$(ZipDirectory)-UNPROTECTED" FileName="$(UnprotectedZipFile)" Condition="Exists('$(ZipDirectory)-UNPROTECTED')" /> 
   </Target>
@@ -317,7 +305,7 @@
     <CallTarget Targets="RevertAll" />
   </Target>
   
-  <Target Name="MergeBranchesIfChanged">
+  <Target Name="MergeBranchesIfChanged" DependsOnTargets="CompileBuildTools">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
@@ -326,12 +314,13 @@
     <Message Text="WorkingDirectory = $(TargetRepo) Source=$(SourceBranch) Target=$(TargetBranch)" />
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="GetMergedChangesets" Properties="RepoDirectory=$(TargetRepo);OriginalChangeset=$(TargetBranch);UpdateToChangeset=$(TargetBranch);NewChangeset=$(SourceBranchPrefix)$(SourceBranch);AdditionalArgs= and !merge() and !keyword('build') and !closed()" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="ReadChangedFiles" Properties="RepoDirectory=$(TargetRepo);ChangesetLogFile=$(TargetRepo)\ChangesetLog.xml;OutputFile=$(TargetRepo)\ChangedFiles.txt" />
-    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="Exists('$(TargetRepo)\ChangedFiles.txt')" />
+	  <GetChangedFiles RepoDirectory="$(TargetRepo)" OriginalChangeset="$(TargetBranch)" NewChangeset="$(SourceBranchPrefix)$(SourceBranch)" AdditionalArgs=" and !merge() and !keyword('build') and !closed()">
+		  <Output TaskParameter="ChangedFiles" PropertyName="ChangedFiles" />
+	  </GetChangedFiles>
+    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="'$(ChangedFiles)' != ''" />
   </Target>
   
-  <Target Name="MergeBranches">
+  <Target Name="MergeBranches" DependsOnTargets="CompileBuildTools">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
@@ -340,9 +329,10 @@
     <Message Text="WorkingDirectory = $(TargetRepo) Source=$(SourceBranch) Target=$(TargetBranch)" />
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="GetMergedChangesets" Properties="RepoDirectory=$(TargetRepo);OriginalChangeset=$(TargetBranch);UpdateToChangeset=$(TargetBranch);NewChangeset=$(SourceBranchPrefix)$(SourceBranch)" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="ReadChangedFiles" Properties="RepoDirectory=$(TargetRepo);ChangesetLogFile=$(TargetRepo)\ChangesetLog.xml;OutputFile=$(TargetRepo)\ChangedFiles.txt" />
-    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="Exists('$(TargetRepo)\ChangedFiles.txt')" />
+	  <GetChangedFiles RepoDirectory="$(TargetRepo)" OriginalChangeset="$(TargetBranch)" NewChangeset="$(SourceBranchPrefix)$(SourceBranch)">
+		  <Output TaskParameter="ChangedFiles" PropertyName="ChangedFiles" />
+	  </GetChangedFiles>
+    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="'$(ChangedFiles)' != ''"  />
   </Target>
   
   <Target Name="DoMergeBranches">

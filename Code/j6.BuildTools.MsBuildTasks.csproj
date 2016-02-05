@@ -56,7 +56,11 @@
     <Compile Include="FindClosed.cs" />
     <Compile Include="FindJunctions.cs" />
     <Compile Include="ForwardChangesCheck.cs" />
+    <Compile Include="GetChangedFiles.cs" />
     <Compile Include="GetLastModifiedFile.cs" />
+    <Compile Include="GetMergedChangesets.cs" />
+    <Compile Include="GetTipChangeset.cs" />
+    <Compile Include="HgTask.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="MergeLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,7 +76,9 @@
     <Compile Include="Zip.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="j6.BuildTasks.targets" />
+    <None Include="j6.BuildTasks.targets">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
