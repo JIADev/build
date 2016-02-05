@@ -76,7 +76,7 @@
       prodTag="2095_PRD"
       repo-name="active"
       j6Version="7.6.8"
-      external-protect="true"
+      external-protect="false"
       external-zip="true"
       package="true"
       package-privatebuild="true"
