@@ -25,7 +25,7 @@
   <cb:v76build
       driver="CUST1001"
       project-name="CUST1001_7.6.8"
-      branch="1001_7.6.8"
+      branch="7.6.8"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
