@@ -99,7 +99,7 @@
 	  <cb:if expr="'$(createChangesetLog)' != 'false'">
 	    <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
 		     timeout="$(msbuild-updatechangelog-timeout)">
-	      <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:AdditionalArgs=" and !merge() and !closed() and !keyword('@build')"</buildArgs>
+	      <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:AdditionalArgs=" and !merge() and !closed() and !keyword('@build')" /p:OutputFile=$(project-folder)\ChangesetLog.xml /p:StyleSheet=$(project-folder)\changelog.xsl</buildArgs>
 	    </msbuild>
 	  </cb:if>
 	</cb:if>
