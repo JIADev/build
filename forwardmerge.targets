@@ -144,11 +144,11 @@
     <ItemGroup>
 
       <Active768Reqs Include="7.6.8" />
+
+      <Active768Branches Include="1001_7.6.8" />
+
 <!--
-      <Active768Branches Include="" />
--->
-<!--
-      <Active2096ReqsWithDependencies Include="2096_REQ004" />
+      <Active768ReqsWithDependencies Include="" />
 -->
     </ItemGroup>
     
@@ -161,14 +161,12 @@
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_768" />
 
-<!--    
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_RM53069;TargetBranch=7.6.6;DoMerge=true;DoCommit=true" />
--->
-
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
-<!--
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=%(Active767Branches.Identity);DoMerge=true;DoCommit=true" />
--->
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=%(Active768Branches.Identity);DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_7.6.8;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
+
   </Target>
   
   <Target Name="ForwardMerge_2096" DependsOnTargets="ForwardMerge_76;InitRepos">
