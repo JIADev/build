@@ -145,7 +145,7 @@
 
       <Active768Reqs Include="7.6.8" />
 
-      <Active768Branches Include="1001_7.6.8" />
+      <Active768Branches Include="000_RM55614;1001_7.6.8" />
 
 <!--
       <Active768ReqsWithDependencies Include="" />
@@ -177,7 +177,7 @@
     <ItemGroup>
 
       <Active2096Reqs Include="7.6.7" />
-      <Active767Branches Include="000_RM55614;000_WebPWS;2090_Start767" />
+      <Active767Branches Include="000_WebPWS" />
 
 <!--
       <Active2096ReqsWithDependencies Include="2096_REQ004" />
