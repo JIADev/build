@@ -278,14 +278,14 @@
   
   <cb:v76build
       driver="CUST2090"
-      project-name="CUST2090_Start767"
-      branch = '2090_Start767'
+      project-name="CUST2090-7.6.8"
+      branch = '7.6.8'
       platform="AnyCpu"
       repo-name="active"
-      j6Version="7.6.7"
+      j6Version="7.6.8"
       external-protect="true"
       external-zip="true"
-      archive="true"
+      archive="false"
       package="true"
       package-privatebuild="true"
       corflags="/32bitpref-"
