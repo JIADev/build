@@ -32,9 +32,7 @@ namespace j6.BuildTools.MsBuildTasks
 				XDocument document;
 				using (var reader = new StreamReader(logInfo.FullName, Encoding.UTF8))
 					document = XDocument.Load(reader);
-				document.Declaration.Encoding = "utf-8";
-				document.AddFirst(new XProcessingInstruction(
-					"xml-stylesheet", string.Format("type=\"text/xsl\" href=\"{0}\"", StyleSheet)));
+				AddStyleSheet(document, StyleSheet);
 				document.Save(OutputFileName);
 			}
 			catch (Exception ex)
@@ -43,6 +41,14 @@ namespace j6.BuildTools.MsBuildTasks
 				return false;
 			}
 			return true;
+		}
+
+		public static void AddStyleSheet(XDocument document, string styleSheet)
+		{
+			document.Declaration.Encoding = "utf-8";
+			document.AddFirst(new XProcessingInstruction(
+				"xml-stylesheet", string.Format("type=\"text/xsl\" href=\"{0}\"", styleSheet)));
+			
 		}
 	}
 }
