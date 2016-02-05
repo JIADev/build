@@ -13,7 +13,7 @@
   
  <cb:v76build
       driver="CUST000"
-      project-name="CUST000_7.6.7"
+      project-name="CUST000-7.6.7"
       branch = '7.6.7'
       platform="AnyCpu"
       repo-name="active"
@@ -29,7 +29,7 @@
   
  <cb:v76build
       driver="CUST000"
-      project-name="CUST000_7.6.8"
+      project-name="CUST000-7.6.8"
       branch = '7.6.8'
       platform="AnyCpu"
       repo-name="active"
