@@ -8,6 +8,22 @@
   <!-- req branches -->
   <cb:build2queues />
   
+    <cb:v76build
+      driver="CUST2094"
+      project-name="CUST2094-7.6.8"
+      branch="7.6.8"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      protect="false"
+      external-zip="false"
+      archive="false"
+      package="true"
+      publish="false"
+      corflags="/32bitpref-"
+      />
+  
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-7.6.6"
