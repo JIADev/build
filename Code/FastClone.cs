@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Microsoft.Build.Framework;
 using System.IO;
 
 namespace j6.BuildTools.MsBuildTasks
 {
-	public class FastClone : HgTask
+	public class FastClone : HgTask, ICancelableTask
 	{
+		public FastClone()
+		{
+			CancelTimeout = 5;
+		}
+		private bool _cancelRequested;
+		private List<Thread> _runningThreads = new List<Thread>(); 
 		private readonly Dictionary<string, string> _prefixes = new Dictionary<string, string> { { "repos://", @"\\repo.jenkon.com\repo$\" } };
 
 		[Required]
@@ -18,6 +26,8 @@ namespace j6.BuildTools.MsBuildTasks
 
 		[Required]
 		public string ParentLocation { get; set; }
+
+		public int CancelTimeout { get; set; }
 
 		public override bool Execute()
 		{
@@ -39,6 +49,12 @@ namespace j6.BuildTools.MsBuildTasks
 
 		private bool CopyDirectory(DirectoryInfo source, DirectoryInfo target)
 		{
+			if (!_runningThreads.Contains(Thread.CurrentThread))
+				lock (_runningThreads)
+				{
+					_runningThreads.Add(Thread.CurrentThread);
+				}
+
 			try
 			{
 				Console.Write(".");
@@ -49,6 +65,11 @@ namespace j6.BuildTools.MsBuildTasks
 
 				foreach (var sourceFile in sourceFiles)
 				{
+					if (_cancelRequested)
+					{
+						return false;
+					}
+
 					var directory = sourceFile as DirectoryInfo;
 					var file = sourceFile as FileInfo;
 
@@ -96,6 +117,29 @@ namespace j6.BuildTools.MsBuildTasks
 				return false;
 			}
 			return true;
+		}
+
+		public void Cancel()
+		{
+			WriteError("Cancel requested by user");
+			_cancelRequested = true;
+
+			var timeout = DateTime.UtcNow.AddSeconds(CancelTimeout);
+			
+			while (_runningThreads.Any(t => t.IsAlive) && DateTime.UtcNow < timeout)
+				Thread.Sleep(100);
+
+			var livingThread = _runningThreads.FirstOrDefault(t => t.IsAlive);
+			timeout = DateTime.UtcNow.AddSeconds(CancelTimeout);
+			while (livingThread != null && DateTime.UtcNow < timeout)
+			{
+				livingThread.Abort();
+				Thread.Sleep(100);
+				livingThread = _runningThreads.FirstOrDefault(t => t.IsAlive);
+			}
+			var currentProcess = Process.GetCurrentProcess();
+			WriteError(string.Format("Killing {0} (PID {1})", currentProcess.ProcessName, currentProcess.Id));
+			currentProcess.Kill();
 		}
 	}
 }
