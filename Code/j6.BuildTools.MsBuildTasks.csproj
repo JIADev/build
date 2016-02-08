@@ -52,6 +52,7 @@
     <Compile Include="DeleteIfEmpty.cs" />
     <Compile Include="EnsureEmpty.cs" />
     <Compile Include="ExtractChangesets.cs" />
+    <Compile Include="FastClone.cs" />
     <Compile Include="FileEnumerator.cs" />
     <Compile Include="FindClosed.cs" />
     <Compile Include="FindJunctions.cs" />

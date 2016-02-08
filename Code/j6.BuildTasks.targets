@@ -24,6 +24,7 @@
 	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.GetTipChangeset" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
 	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.GetMergedChangesets" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
 	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.GetChangedFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.FastClone" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
 
 	<Target Name="UpdateBuildToolsRepo">
     <Exec WorkingDirectory="$(BuildToolsDirectory)" Command="hg pull -u" IgnoreExitCode="true" />

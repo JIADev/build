@@ -40,5 +40,12 @@ namespace j6.BuildTools.MsBuildTasks
 			using (var reader = new StringReader(RunHg(string.Format("{0} --style=xml --verbose", args))))
 				return XDocument.Load(reader);
 		}
+
+		public void WriteError(string errorText)
+		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(errorText);
+			Console.ResetColor();
+		}
 	}
 }
