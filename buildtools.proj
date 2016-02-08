@@ -24,6 +24,10 @@
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>
 
+  <Target Name="FastClone" DependsOnTargets="CompileBuildTools">
+    <FastClone Repository="$(Repository)" LocalDir="$(LocalDir)" ParentLocation="$(Location)" />
+  </Target>
+
   <Target Name="GetTipChangeset" Outputs="$(Changeset)" DependsOnTargets="CompileBuildTools">
     <GetTipChangeset />
   </Target>
@@ -34,7 +38,7 @@
 
   <Target Name="GetMergedChangesets" DependsOnTargets="CompileBuildTools">
     <GetMergedChangesets RepoDirectory="$(RepoDirectory)"
-			 OriginalChangeset="$(OriginalChangeset)"
+			 OriginalChangeset="$emac(OriginalChangeset)"
 			 NewChangeset="$(NewChangeset)"
 			 UpdateToChangeset="$(UpdateToChangeset)"
 			 AdditionalArgs="$(AdditionalArgs)"
