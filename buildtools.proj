@@ -38,7 +38,7 @@
 
   <Target Name="GetMergedChangesets" DependsOnTargets="CompileBuildTools">
     <GetMergedChangesets RepoDirectory="$(RepoDirectory)"
-			 OriginalChangeset="$emac(OriginalChangeset)"
+			 OriginalChangeset="$(OriginalChangeset)"
 			 NewChangeset="$(NewChangeset)"
 			 UpdateToChangeset="$(UpdateToChangeset)"
 			 AdditionalArgs="$(AdditionalArgs)"
