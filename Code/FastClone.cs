@@ -63,7 +63,7 @@ namespace j6.BuildTools.MsBuildTasks
 				if (!target.Exists)
 					target.Create();
 
-				foreach (var sourceFile in sourceFiles)
+				foreach (var sourceFile in sourceFiles.GroupBy(f => f.FullName, StringComparer.InvariantCultureIgnoreCase).Select(f => f.First()))
 				{
 					if (_cancelRequested)
 					{

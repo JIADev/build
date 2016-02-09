@@ -50,7 +50,6 @@
     </ItemGroup>
     <Message Text="Copying @(SourceFiles)" />
     <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(RepoDirectory)\changelog.xsl')" /> 	
-    
   </Target>
   
   <Target Name="MergeChangesetLog" DependsOnTargets="CompileBuildTools">
