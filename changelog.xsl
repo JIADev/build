@@ -28,12 +28,14 @@
     <tr bgcolor="#9acd32">
 	  <th>Operation</th>
 	  <th>Path</th>
+	  <th>Author(s)</th>
     </tr>
-    <xsl:for-each select="log/logentry/paths/path">
-	<xsl:sort select="text()" />
+    <xsl:for-each select="log/modifiedfiles/file">
+	<xsl:sort select="@date" order="descending" />
 	<tr>
-      <td><xsl:value-of select="@action"/></td>
-	  <td><xsl:value-of select="text()"/></td>
+      <td><xsl:value-of select="@actions"/></td>
+	  <td><xsl:value-of select="@path"/></td>
+      <td><xsl:value-of select="@authors"/></td>
     </tr>
     </xsl:for-each>
   </table>
