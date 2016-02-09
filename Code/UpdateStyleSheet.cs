@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using System.IO;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using System.Diagnostics;
 
 // ReSharper disable RedundantStringFormatCall
 namespace j6.BuildTools.MsBuildTasks
@@ -46,8 +47,16 @@ namespace j6.BuildTools.MsBuildTasks
 		public static void AddStyleSheet(XDocument document, string styleSheet)
 		{
 			document.Declaration.Encoding = "utf-8";
+#if DEBUG
+			Debugger.Break();
+#endif
+			XDocument styleDoc;
+			using (var reader = new StreamReader(styleSheet, Encoding.UTF8))
+				styleDoc = XDocument.Load(reader);
+			var log = document.Root;
+			log.AddFirst(styleDoc.Root);
 			document.AddFirst(new XProcessingInstruction(
-				"xml-stylesheet", string.Format("type=\"text/xsl\" href=\"{0}\"", styleSheet)));
+				"xml-stylesheet", "type=\"text/xsl\" href=\"#changelogStyle\""));
 			
 		}
 	}
