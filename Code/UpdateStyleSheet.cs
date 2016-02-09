@@ -47,9 +47,6 @@ namespace j6.BuildTools.MsBuildTasks
 		public static void AddStyleSheet(XDocument document, string styleSheet)
 		{
 			document.Declaration.Encoding = "utf-8";
-#if DEBUG
-			Debugger.Break();
-#endif
 			XDocument styleDoc;
 			using (var reader = new StreamReader(styleSheet, Encoding.UTF8))
 				styleDoc = XDocument.Load(reader);
