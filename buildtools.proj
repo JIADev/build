@@ -36,7 +36,7 @@
     <ForwardChangesCheck RepoDirectory="$(RepoDirectory)" OriginalChangeset="$(OriginalChangeset)" NewChangeset="$(NewChangeset)" />
   </Target>
 
-  <Target Name="GetMergedChangesets" DependsOnTargets="CompileBuildTools">
+  <Target Name="GetMergedChangesets">
     <GetMergedChangesets RepoDirectory="$(RepoDirectory)"
 			 OriginalChangeset="$(OriginalChangeset)"
 			 NewChangeset="$(NewChangeset)"
