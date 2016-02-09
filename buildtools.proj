@@ -45,11 +45,6 @@
 			 OutputFile="$(ChangesetLogFile)"
 			 StyleSheet="$(ChangesetStyleSheet)" />
     
-    <ItemGroup>
-      <SourceFiles Include= "$(MSBuildProjectDirectory)\changelog.xsl" />
-    </ItemGroup>
-    <Message Text="Copying @(SourceFiles)" />
-    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(RepoDirectory)\changelog.xsl')" /> 	
   </Target>
   
   <Target Name="MergeChangesetLog" DependsOnTargets="CompileBuildTools">
@@ -115,11 +110,9 @@
     </PropertyGroup>
     <ItemGroup>
       <SourceFiles Include="$(SourceFile)" />
-      <StyleFiles Include= "$(MSBuildProjectDirectory)\changelog.xsl" />
     </ItemGroup>
     <Message Text="Copying @(SourceFiles)" />
     <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(TargetDir)\$(DestFile)')" /> 
-    <Copy SourceFiles="@(StyleFiles)" DestinationFiles="@(SourceFiles->'$(TargetDir)\changelog.xsl')" /> 
   </Target>
   
   <Target Name="UnZip" DependsOnTargets="CompileBuildTools">
