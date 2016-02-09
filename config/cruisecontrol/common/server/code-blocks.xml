@@ -888,12 +888,19 @@
 		    description="copy changeset log to the package folder">
 		  <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
 		</exec>
-		<exec 
-		    executable="$(powershell)"
-		    baseDirectory="$(project-folder)"
-		    description="copy changeset log to the package folder">
-		  <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
-		</exec>
+		<conditional description="If changelog.xsl exists">
+		  <conditions>
+		    <fileExistsCondition file="$(project-folder)\Changelog.xsl" />
+		  </conditions>
+		  <tasks>
+		    <exec 
+			executable="$(powershell)"
+			baseDirectory="$(project-folder)"
+			description="copy changeset log to the package folder">
+		      <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
+		    </exec>
+		  </tasks>
+		</conditional>
 	      </tasks>
 	      <elseTasks>
 		<conditional description="Copy changeset log to package folder">
@@ -907,12 +914,19 @@
 			description="copy changeset log to the package folder">
 		      <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\"</buildArgs>
 		    </exec>
-		    <exec
-			executable="$(powershell)"
-			baseDirectory="$(project-folder)"
-			description="copy changeset log to the package folder">
-		      <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
-		    </exec>
+		    <conditional description="If changelog.xsl exists">
+		      <conditions>
+			<fileExistsCondition file="$(project-folder)\Changelog.xsl" />
+		      </conditions>
+		      <tasks>
+			<exec
+			    executable="$(powershell)"
+			    baseDirectory="$(project-folder)"
+			    description="copy changeset log to the package folder">
+			  <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
+			</exec>
+		      </tasks>
+		    </conditional>
 		  </tasks>
 		</conditional>
 	      </elseTasks>
