@@ -21,6 +21,7 @@
       archive="false"
       package="true"
       publish="false"
+      queueName="Queue1"
       corflags="/32bitpref-"
       />
   
@@ -36,6 +37,7 @@
       external-zip="false"
       package="true"
       publish="false"
+      queueName="Queue2"
       corflags="/32bitpref-"
       />
   
@@ -51,6 +53,7 @@
       archive="false"
       package="true"
       publish="false"
+      queueName="Queue3"
       corflags="/32bitpref-"
       />
   
@@ -66,6 +69,7 @@
       archive="false"
       package="true"
       publish="false"
+      queueName="Queue2"
       corflags="/32bitpref-"
       />
   
@@ -82,6 +86,7 @@
       archive="false"
       package="true"
       publish="false"
+      queueName="Queue3"
       corflags="/32bitpref-"
       />
   
