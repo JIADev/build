@@ -51,9 +51,11 @@ namespace j6.BuildTools.MsBuildTasks
 			using (var reader = new StreamReader(styleSheet, Encoding.UTF8))
 				styleDoc = XDocument.Load(reader);
 			var log = document.Root;
+			// ReSharper disable PossibleNullReferenceException
 			log.AddFirst(styleDoc.Root);
-			document.AddFirst(new XProcessingInstruction(
-				"xml-stylesheet", "type=\"text/xsl\" href=\"#changelogStyle\""));
+			// ReSharper restore PossibleNullReferenceException
+			document.AddFirst(new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"#changelogStyle\""));
+			document.AddFirst(new XDocumentType("browsers", null, null, "<!ATTLIST xsl:stylesheet id ID #REQUIRED>"));
 			
 		}
 	}
