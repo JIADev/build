@@ -60,7 +60,6 @@
     <Compile Include="GetChangedFiles.cs" />
     <Compile Include="GetLastModifiedFile.cs" />
     <Compile Include="GetMergedChangesets.cs" />
-    <Compile Include="GetTipChangeset.cs" />
     <Compile Include="HgTask.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="MergeLog.cs" />
