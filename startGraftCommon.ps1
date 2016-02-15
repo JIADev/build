@@ -56,7 +56,6 @@ if($LastExitCode -ne 0) {
 	Write-Host "Cannot update to $startTag"
 	Exit
 }
-& hg up
 
 $branchCreated = ensureBranchUp $branchName
 if($branchCreated -ne 0) { 
