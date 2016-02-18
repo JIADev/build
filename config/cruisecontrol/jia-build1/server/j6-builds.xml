@@ -310,25 +310,6 @@
   
   <!-- CUST2094 -->
   
-<!--
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094_PostGoLive_2015.10.28"
-      branch = '2094_PostGoLive_2015.10.28'
-      prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.6"
-      external-protect="true"
-      external-zip="true"
-      archive="true"
-      package="true"
-      queueSuffix="-priority"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
--->
-  
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094_RM55389"
@@ -363,26 +344,7 @@
       queueSuffix="-priority"
       sourceCheckInterval=""
       />
-  <!--
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094_UNC-UNENCRYPTED"
-      branch = 'tags'
-      tag="2094_UNC"
-      prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.6"
-      protect="false"
-      external-protect="false"
-      external-zip="true"
-      archive="true"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      sourceCheckInterval=""
-      />
-  -->
+
   <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-7.6.6"
@@ -416,7 +378,7 @@
       archive="true"
       package="true"
       package-privatebuild="true"
-      queueName="7.6 Production"
+      queueSuffix="-priority"
       corflags="/32bitpref-"
       />
   
@@ -466,7 +428,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      queueName="7.6 Production"
+      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
