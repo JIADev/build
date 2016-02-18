@@ -43,8 +43,8 @@
   
   <cb:v76build
       driver="CUST1000"
-      project-name="CUST1000-000_WebPWS"
-      branch="000_WebPWS"
+      project-name="CUST1000-000_WebPWS_7.6.8"
+      branch="000_WebPWS_7.6.8"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
@@ -58,18 +58,18 @@
       />
   
   <cb:v76build
-      driver="CUST1000"
-      project-name="CUST1000-000_WebPWS_7.6.8"
-      branch="000_WebPWS_7.6.8"
+      driver="CUST1001"
+      project-name="CUST1001-7.6.8"
+      branch="7.6.8"
       platform="AnyCpu"
       repo-name="active"
-      j6Version="7.6.7"
+      j6Version="7.6.8"
       protect="false"
       external-zip="false"
       archive="false"
       package="true"
       publish="false"
-      queueName="Queue3"
+      queueName="Queue2"
       corflags="/32bitpref-"
       />
   
@@ -118,7 +118,7 @@
       archive="false"
       package="true"
       publish="false"
-      queueName="Queue3"
+      queueName="Queue1"
       corflags="/32bitpref-"
       />
   

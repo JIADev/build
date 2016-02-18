@@ -24,12 +24,12 @@
       />
   
   <cb:v76build
-      driver="CUST1001"
-      project-name="CUST1001-7.6.8"
-      branch="7.6.8"
+      driver="CUST1000"
+      project-name="CUST1000-000_WebPWS"
+      branch="000_WebPWS"
       platform="AnyCpu"
       repo-name="active"
-      j6Version="7.6.8"
+      j6Version="7.6.7"
       protect="false"
       external-zip="false"
       archive="false"
