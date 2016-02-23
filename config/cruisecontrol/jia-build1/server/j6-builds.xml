@@ -133,6 +133,23 @@
       />
   -->
   
+  <!-- CUST1001 -->
+  <cb:v76build
+      driver="CUST1001"
+      project-name="CUST1001-7.6.8"
+      branch="7.6.8"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      protect="false"
+      external-zip="true"
+      archive="false"
+      package="true"
+      publish="true"
+      queueName="Queue2"
+      corflags="/32bitpref-"
+      />
+  
   <!-- CUST2069 -->
   <!--  
        <cb:customerbuild
