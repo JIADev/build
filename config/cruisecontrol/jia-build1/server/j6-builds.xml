@@ -141,7 +141,7 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
-      protect="false"
+      protect="true"
       external-zip="true"
       archive="false"
       package="true"
