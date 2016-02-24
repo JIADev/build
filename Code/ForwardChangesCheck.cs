@@ -18,7 +18,8 @@ namespace j6.BuildTools.MsBuildTasks
 
 		public override bool Execute()
 		{
-			var output = RunHg(string.Format("log --rev \"ancestors('{0}') and !ancestors('{1}')\"", OriginalChangeset, NewChangeset));
+			var originalChangesets = OriginalChangeset.Split(new[] { ' ', ';', ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
+			var output = RunHg(string.Format("log --rev \"({0}) and !ancestors('{1}')\"", string.Join(" or ", originalChangesets.Select(c => string.Format("ancestors('{0}')", c))), NewChangeset));
 			
 			if (!string.IsNullOrWhiteSpace(output))
 			{
