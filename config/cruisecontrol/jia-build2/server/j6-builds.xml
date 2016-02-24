@@ -44,6 +44,7 @@
   <cb:v76build
       driver="CUST1000"
       project-name="CUST1000-000_WebPWS_7.6.8"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch="000_WebPWS_7.6.8"
       platform="AnyCpu"
       repo-name="active"

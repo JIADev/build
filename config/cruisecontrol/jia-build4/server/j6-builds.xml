@@ -6,6 +6,7 @@
   <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
   <cb:v76build
       project-name="CUST000-7.6.6"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch = '7.6.6'
       driver = 'CUST000'
       clean="true"
@@ -26,6 +27,7 @@
   <cb:v76build
       driver="CUST1000"
       project-name="CUST1000-000_WebPWS"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch="000_WebPWS"
       platform="AnyCpu"
       repo-name="active"
@@ -42,6 +44,7 @@
   <cb:v76build
       driver="CUST1001"
       project-name="CUST1001-000_WebPWS_7.6.8"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch="000_WebPWS_7.6.8"
       platform="AnyCpu"
       repo-name="active"
