@@ -32,8 +32,9 @@ namespace j6.BuildTools.MsBuildTasks
 		
 		public override bool Execute()
 		{
-			var output = RunHgXmlOutput(string.Format("log --rev \"ancestors('{0}') and !ancestors({1}) {2}\"", NewChangeset,
-			                             OriginalChangeset, AdditionalArgs));
+			var originalChangesets = OriginalChangeset.Split(new[] { ' ', ';', ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
+			var output = RunHgXmlOutput(string.Format("log --rev \"ancestors('{0}') and !({1}) {2}\"", NewChangeset,
+										 string.Join(" or ", originalChangesets.Select(c => string.Format("ancestors('{0}')", c))), AdditionalArgs));
 			if (string.IsNullOrWhiteSpace(OutputFile)) return true;
 			
 			var log =
