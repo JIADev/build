@@ -141,12 +141,10 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
-      protect="true"
+      external-protect="true"
       external-zip="true"
       archive="false"
       package="true"
-      publish="true"
-      queueName="Queue2"
       corflags="/32bitpref-"
       />
   
