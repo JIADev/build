@@ -59,12 +59,6 @@
       </cb:else>
       
       <cb:if expr="'$(prodTag)' != ''">
-	<exec executable="$(powershell)" 
-	      description = "hg pull prod tag changes"
-	      buildArgs = '-c "hg pull -r $(prodTag) $(source)"' 
-	      baseDirectory="$(project-folder)"
-	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
-	
 	<msbuild logger="$(msBuildListenerDll)" description="Forward-Only Check" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardChangesCheck" workingDirectory="$(project-folder)" timeout="$(msbuild-updatechangelog-timeout)">
 	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:Source=$(source)</buildArgs>
 	</msbuild>
