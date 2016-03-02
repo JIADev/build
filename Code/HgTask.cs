@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.Build.Utilities;
 using System.Xml;
+using System.Diagnostics;
 
 namespace j6.BuildTools.MsBuildTasks
 {
@@ -19,6 +20,8 @@ namespace j6.BuildTools.MsBuildTasks
 		protected HgTask()
 		{
 			HgExe = "hg";
+			var tl = new ConsoleTraceListener();
+			Trace.Listeners.Add(tl);
 		}
 
 		public string[] RunHgArrayOutput(string args)
