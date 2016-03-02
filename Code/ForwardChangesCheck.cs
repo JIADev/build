@@ -34,7 +34,7 @@ namespace j6.BuildTools.MsBuildTasks
 				if (!string.IsNullOrWhiteSpace(TagsBranch))
 					RunHg(string.Format("pull -r {0} {1}", TagsBranch, Source));
 
-				RunHg(string.Format("pull -r {0} {1}",
+				RunHg(string.Format("pull {0} {1}",
 				                    string.Join(" ", originalChangesets.Select(oc => string.Format("-r {0}", oc))),
 				                    Source));
 			}
