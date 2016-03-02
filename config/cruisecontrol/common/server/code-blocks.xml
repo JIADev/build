@@ -41,14 +41,7 @@
   <cb:define name="pull-source">
     <cb:if expr="'$(pullSource)' != 'false'">
       
-      <cb:if expr="'$(prodTag)' != ''">
-	<exec executable="$(powershell)" 
-	      description = "hg pull tags branch"
-	      buildArgs = '-c "hg pull -b tags $(source)"' 
-	      baseDirectory="$(project-folder)"
-	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
-      </cb:if>
-      <cb:else>
+      <cb:if expr="'$(prodTag)' == ''">
 	<cb:if expr="'$(tag)' != ''">
 	  <exec executable="$(powershell)" 
 		description = "hg pull tags branch"
@@ -56,15 +49,9 @@
 		baseDirectory="$(project-folder)" 
 		buildTimeoutSeconds="$(sourcecontrol-timeout)" />
 	</cb:if>
-      </cb:else>
+      </cb:if>
       
       <cb:if expr="'$(tag)' != ''">
-	<exec executable="$(powershell)" 
-	      description = "hg pull tag changes"
-	      buildArgs = '-c "hg pull -r $(tag) $(source)"' 
-	      baseDirectory="$(project-folder)"
-	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
-	
 	<cb:define newChangeset="$(tag)" />
       </cb:if>
       <cb:else>
@@ -79,7 +66,7 @@
 	      buildTimeoutSeconds="$(sourcecontrol-timeout)" />
 	
 	<msbuild logger="$(msBuildListenerDll)" description="Forward-Only Check" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardChangesCheck" workingDirectory="$(project-folder)" timeout="$(msbuild-updatechangelog-timeout)">
-	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder)</buildArgs>
+	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:Source=$(source)</buildArgs>
 	</msbuild>
       </cb:if>
     </cb:if>    
