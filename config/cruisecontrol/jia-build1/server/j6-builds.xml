@@ -14,6 +14,7 @@
  <cb:v76build
       driver="CUST000"
       project-name="CUST000-7.6.7"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch = '7.6.7'
       platform="AnyCpu"
       repo-name="active"
@@ -30,6 +31,7 @@
  <cb:v76build
       driver="CUST000"
       project-name="CUST000-7.6.8"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch = '7.6.8'
       platform="AnyCpu"
       repo-name="active"
@@ -46,6 +48,7 @@
   <cb:v76build
       driver="CUST000"
       project-name="CUST000_WebPWS"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch="000_WebPWS"
       platform="AnyCpu"
       repo-name="active"
@@ -137,6 +140,7 @@
   <cb:v76build
       driver="CUST1001"
       project-name="CUST1001-7.6.8"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
       branch="7.6.8"
       platform="AnyCpu"
       repo-name="active"
