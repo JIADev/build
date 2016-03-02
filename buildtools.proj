@@ -29,7 +29,7 @@
   </Target>
 
   <Target Name="ForwardChangesCheck" DependsOnTargets="CompileBuildTools">
-    <ForwardChangesCheck RepoDirectory="$(RepoDirectory)" OriginalChangeset="$(OriginalChangeset)" NewChangeset="$(NewChangeset)" />
+    <ForwardChangesCheck RepoDirectory="$(RepoDirectory)" OriginalChangeset="$(OriginalChangeset)" NewChangeset="$(NewChangeset)" Source="$(Source)" />
   </Target>
 
   <Target Name="GetMergedChangesets" DependsOnTargets="CompileBuildTools">
