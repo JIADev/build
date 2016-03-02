@@ -35,10 +35,10 @@ namespace j6.BuildTools.MsBuildTasks
 				if (!string.IsNullOrWhiteSpace(Source))
 				{
 					if (!string.IsNullOrWhiteSpace(TagsBranch))
-						output = RunHg(string.Format("pull -r {0} {1}", TagsBranch, Source));
+						output = RunHg(string.Format("pull -b {0} {1}", TagsBranch, Source));
 
 					output = RunHg(string.Format("pull {0} {1}",
-										string.Join(" ", originalChangesets.Select(oc => string.Format("-r {0}", oc))),
+										string.Join(" ", originalChangesets.Union(new [] { NewChangeset }).Distinct().Select(oc => string.Format("-r {0}", oc))),
 										Source));
 				}
 
