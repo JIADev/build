@@ -27,30 +27,49 @@ namespace j6.BuildTools.MsBuildTasks
 
 		public override bool Execute()
 		{
-			var originalChangesets = OriginalChangeset.Split(new[] { ' ', ';', ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
-
-			if (!string.IsNullOrWhiteSpace(Source))
+			string output = string.Empty;
+			try
 			{
-				if (!string.IsNullOrWhiteSpace(TagsBranch))
-					RunHg(string.Format("pull -r {0} {1}", TagsBranch, Source));
+				var originalChangesets = OriginalChangeset.Split(new[] { ' ', ';', ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
 
-				RunHg(string.Format("pull {0} {1}",
-				                    string.Join(" ", originalChangesets.Select(oc => string.Format("-r {0}", oc))),
-				                    Source));
+				if (!string.IsNullOrWhiteSpace(Source))
+				{
+					if (!string.IsNullOrWhiteSpace(TagsBranch))
+						output = RunHg(string.Format("pull -r {0} {1}", TagsBranch, Source));
+
+					output = RunHg(string.Format("pull {0} {1}",
+										string.Join(" ", originalChangesets.Select(oc => string.Format("-r {0}", oc))),
+										Source));
+				}
+
+				output = RunHg(string.Format("log --rev \"({0}) and !ancestors('{1}')\"", string.Join(" or ", originalChangesets.Select(c => string.Format("ancestors('{0}')", c))), NewChangeset));
+
+				if (!string.IsNullOrWhiteSpace(output))
+				{
+					Console.ForegroundColor = ConsoleColor.Red;
+
+					Console.Error.WriteLine("The following changes were reverted:");
+					Console.WriteLine(output);
+
+					Console.ResetColor();
+					return false;
+				}
 			}
-
-			var output = RunHg(string.Format("log --rev \"({0}) and !ancestors('{1}')\"", string.Join(" or ", originalChangesets.Select(c => string.Format("ancestors('{0}')", c))), NewChangeset));
-			
-			if (!string.IsNullOrWhiteSpace(output))
+			catch (Exception ex)
 			{
 				Console.ForegroundColor = ConsoleColor.Red;
+
+				Console.Error.WriteLine("Error during ForwardChangesCheck /p:RepoDirectory={0};OriginalChangeset{1};NewChangeset={2};TagsBranch={3};Source={4}");
 				
-				Console.Error.WriteLine("The following changes were reverted:");
-				Console.WriteLine(output);
+				if(!string.IsNullOrWhiteSpace(output))
+					Console.Error.WriteLine("Last hg output: {0}", output);
+
+				Console.Error.WriteLine("Exception: {0}", ex);
 
 				Console.ResetColor();
 				return false;
 			}
+			
 			return true;
 		}
 	}
