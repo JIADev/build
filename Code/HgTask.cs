@@ -1,18 +1,37 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Xml.Linq;
 using Microsoft.Build.Utilities;
-using System.Xml;
 using System.Diagnostics;
 
 namespace j6.BuildTools.MsBuildTasks
 {
 	public abstract class HgTask : Task
 	{
+		private ConsoleTraceListener _traceListener;
+
 		public string RepoDirectory { get; set; }
 
 		public string HgExe { get; set; }
+
+		public bool Verbose
+		{
+			get { return _traceListener != null; }
+			set
+			{
+				if (_traceListener == null && value)
+				{
+					_traceListener = new ConsoleTraceListener();
+					Trace.Listeners.Add(_traceListener);
+				}
+				else if (_traceListener != null && !value)
+				{
+					Trace.Listeners.Remove(_traceListener);
+					_traceListener = null;
+				}
+			}
+		}
+
 
 		private string _additionalHgArgs;
 		public string AdditionalHgArgs { get { return _additionalHgArgs ?? string.Empty; } set { _additionalHgArgs = value; } }
@@ -20,8 +39,6 @@ namespace j6.BuildTools.MsBuildTasks
 		protected HgTask()
 		{
 			HgExe = "hg";
-			var tl = new ConsoleTraceListener();
-			Trace.Listeners.Add(tl);
 		}
 
 		public string[] RunHgArrayOutput(string args)
