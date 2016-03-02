@@ -6,7 +6,7 @@
   <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
   <cb:v76build
       project-name="CUST000-7.6.6"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      prodTag="2094_PRD;2095_PRD"
       branch = '7.6.6'
       driver = 'CUST000'
       clean="true"
