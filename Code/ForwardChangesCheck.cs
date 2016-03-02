@@ -59,7 +59,7 @@ namespace j6.BuildTools.MsBuildTasks
 			{
 				Console.ForegroundColor = ConsoleColor.Red;
 
-				Console.Error.WriteLine("Error during ForwardChangesCheck /p:RepoDirectory={0};OriginalChangeset{1};NewChangeset={2};TagsBranch={3};Source={4}");
+				Console.Error.WriteLine("Error during ForwardChangesCheck /p:RepoDirectory={0};OriginalChangeset{1};NewChangeset={2};TagsBranch={3};Source={4}", RepoDirectory, OriginalChangeset, NewChangeset, TagsBranch, Source);
 				
 				if(!string.IsNullOrWhiteSpace(output))
 					Console.Error.WriteLine("Last hg output: {0}", output);
