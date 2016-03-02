@@ -60,7 +60,7 @@
       
       <cb:if expr="'$(prodTag)' != ''">
 	<msbuild logger="$(msBuildListenerDll)" description="Forward-Only Check" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="ForwardChangesCheck" workingDirectory="$(project-folder)" timeout="$(msbuild-updatechangelog-timeout)">
-	  <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:Source=$(source)</buildArgs>
+	  <buildArgs>/p:OriginalChangeset="$(prodTag)" /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:Source=$(source)</buildArgs>
 	</msbuild>
       </cb:if>
     </cb:if>    
@@ -80,7 +80,7 @@
 	  <cb:if expr="'$(createChangesetLog)' != 'false'">
 	    <msbuild logger="$(msBuildListenerDll)" description="Update changelog" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="GetMergedChangesets" workingDirectory="$(project-folder)"
 		     timeout="$(msbuild-updatechangelog-timeout)">
-	      <buildArgs>/p:OriginalChangeset=$(prodTag) /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:AdditionalArgs=" and !merge() and !closed() and !keyword('@build')" /p:ChangesetLogFile=$(project-folder)\ChangesetLog.xml /p:ChangesetStyleSheet=changelog.xsl</buildArgs>
+	      <buildArgs>/p:OriginalChangeset="$(prodTag)" /p:NewChangeset=$(newChangeset) /p:RepoDirectory=$(project-folder) /p:AdditionalArgs=" and !merge() and !closed() and !keyword('@build')" /p:ChangesetLogFile=$(project-folder)\ChangesetLog.xml /p:ChangesetStyleSheet=changelog.xsl</buildArgs>
 	    </msbuild>
 	  </cb:if>
 	</cb:if>
