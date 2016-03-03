@@ -118,7 +118,7 @@
       msbuild-recreatedb-timeout="300"
       msbuild-patch-timeout="1200"
       msbuild-ncover-timeout="900"
-      msbuild-updatechangelog-timeout="1500"
+      msbuild-updatechangelog-timeout="4500"
       msbuild-md5-timeout="600"
       msbuild-setCorFlags-timeout="600"
       ncover-timeout="900"
