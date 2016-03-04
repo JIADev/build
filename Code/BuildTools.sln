@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "j6.BuildTools.MsBuildTasks", "j6.BuildTools.MsBuildTasks.csproj", "{45BD4A9E-DAA6-4C99-AF91-43B895C70B4B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD38920B-9921-4466-B130-9B553B9EE5BD}"
@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeploymentTool", "DeploymentTool\DeploymentTool.csproj", "{4F3354D7-1291-41E8-B7B1-19DB4F66035D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeploymentConfiguration", "DeploymentConfiguration\DeploymentConfiguration.csproj", "{B5680311-82EE-47A0-95DE-E76D785E8502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,16 @@ Global
 		{4F3354D7-1291-41E8-B7B1-19DB4F66035D}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4F3354D7-1291-41E8-B7B1-19DB4F66035D}.Release|x86.ActiveCfg = Release|x86
 		{4F3354D7-1291-41E8-B7B1-19DB4F66035D}.Release|x86.Build.0 = Release|x86
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B5680311-82EE-47A0-95DE-E76D785E8502}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
