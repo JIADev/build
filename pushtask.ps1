@@ -48,6 +48,8 @@ $pushBranch = $currentBranch
 
 if($ongoingBranches) {
 	foreach($ongoingBranch in $ongoingBranches) {
+		Write-Host "Pulling from server"
+		& hg pull
 		if($pushBranch -eq $currentBranch -and $pushBranch -ne $ongoingBranch) {
 			Write-Host "Closing branch $currentBranch"
 			& hg ci -m "Completing task @build" --close-branch
