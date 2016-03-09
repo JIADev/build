@@ -31,6 +31,8 @@
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.environmentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnBrowseSqlSettings = new System.Windows.Forms.Button();
 			this.txtReleasePackage = new System.Windows.Forms.TextBox();
 			this.lblReleasePackage = new System.Windows.Forms.Label();
@@ -38,18 +40,17 @@
 			this.lblTargetEnvironment = new System.Windows.Forms.Label();
 			this.cboTargetEnvironment = new System.Windows.Forms.ComboBox();
 			this.sltPreviewPanels = new System.Windows.Forms.SplitContainer();
+			this.btnRunCheckedItems = new System.Windows.Forms.Button();
 			this.lvPatchList = new System.Windows.Forms.ListView();
 			this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.colDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tabsResults = new System.Windows.Forms.TabControl();
 			this.tabPatchResults = new System.Windows.Forms.TabPage();
 			this.tabPatchRun = new System.Windows.Forms.TabControl();
-			this.tabErrors = new System.Windows.Forms.TabPage();
-			this.rtbErrors = new System.Windows.Forms.RichTextBox();
 			this.tabLog = new System.Windows.Forms.TabPage();
 			this.rtbPatchLog = new System.Windows.Forms.RichTextBox();
-			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.environmentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tabErrors = new System.Windows.Forms.TabPage();
+			this.rtbErrors = new System.Windows.Forms.RichTextBox();
 			this.mainMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.sltPreviewPanels)).BeginInit();
 			this.sltPreviewPanels.Panel1.SuspendLayout();
@@ -58,8 +59,8 @@
 			this.tabsResults.SuspendLayout();
 			this.tabPatchResults.SuspendLayout();
 			this.tabPatchRun.SuspendLayout();
-			this.tabErrors.SuspendLayout();
 			this.tabLog.SuspendLayout();
+			this.tabErrors.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// mainMenuStrip
@@ -84,9 +85,24 @@
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			// 
+			// optionsToolStripMenuItem
+			// 
+			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.environmentsToolStripMenuItem});
+			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+			this.optionsToolStripMenuItem.Text = "&Options";
+			// 
+			// environmentsToolStripMenuItem
+			// 
+			this.environmentsToolStripMenuItem.Name = "environmentsToolStripMenuItem";
+			this.environmentsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.environmentsToolStripMenuItem.Text = "&Environments...";
+			this.environmentsToolStripMenuItem.Click += new System.EventHandler(this.environmentsToolStripMenuItem_Click);
 			// 
 			// btnBrowseSqlSettings
 			// 
@@ -154,6 +170,7 @@
 			// 
 			// sltPreviewPanels.Panel1
 			// 
+			this.sltPreviewPanels.Panel1.Controls.Add(this.btnRunCheckedItems);
 			this.sltPreviewPanels.Panel1.Controls.Add(this.lvPatchList);
 			// 
 			// sltPreviewPanels.Panel2
@@ -162,6 +179,17 @@
 			this.sltPreviewPanels.Size = new System.Drawing.Size(694, 489);
 			this.sltPreviewPanels.SplitterDistance = 249;
 			this.sltPreviewPanels.TabIndex = 8;
+			// 
+			// btnRunCheckedItems
+			// 
+			this.btnRunCheckedItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnRunCheckedItems.Location = new System.Drawing.Point(593, 209);
+			this.btnRunCheckedItems.Name = "btnRunCheckedItems";
+			this.btnRunCheckedItems.Size = new System.Drawing.Size(95, 23);
+			this.btnRunCheckedItems.TabIndex = 1;
+			this.btnRunCheckedItems.Text = "Run Checked";
+			this.btnRunCheckedItems.UseVisualStyleBackColor = true;
+			this.btnRunCheckedItems.Click += new System.EventHandler(this.btnRunCheckedItems_Click);
 			// 
 			// lvPatchList
 			// 
@@ -173,7 +201,7 @@
             this.colName,
             this.colDescription});
 			this.lvPatchList.FullRowSelect = true;
-			this.lvPatchList.Location = new System.Drawing.Point(0, 30);
+			this.lvPatchList.Location = new System.Drawing.Point(0, 3);
 			this.lvPatchList.MultiSelect = false;
 			this.lvPatchList.Name = "lvPatchList";
 			this.lvPatchList.Size = new System.Drawing.Size(690, 200);
@@ -223,27 +251,6 @@
 			this.tabPatchRun.Size = new System.Drawing.Size(678, 202);
 			this.tabPatchRun.TabIndex = 0;
 			// 
-			// tabErrors
-			// 
-			this.tabErrors.Controls.Add(this.rtbErrors);
-			this.tabErrors.Location = new System.Drawing.Point(4, 22);
-			this.tabErrors.Name = "tabErrors";
-			this.tabErrors.Padding = new System.Windows.Forms.Padding(3);
-			this.tabErrors.Size = new System.Drawing.Size(1330, 202);
-			this.tabErrors.TabIndex = 1;
-			this.tabErrors.Text = "Errors";
-			this.tabErrors.UseVisualStyleBackColor = true;
-			// 
-			// rtbErrors
-			// 
-			this.rtbErrors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtbErrors.Location = new System.Drawing.Point(3, 3);
-			this.rtbErrors.Name = "rtbErrors";
-			this.rtbErrors.ReadOnly = true;
-			this.rtbErrors.Size = new System.Drawing.Size(1324, 196);
-			this.rtbErrors.TabIndex = 1;
-			this.rtbErrors.Text = "";
-			// 
 			// tabLog
 			// 
 			this.tabLog.Controls.Add(this.rtbPatchLog);
@@ -264,20 +271,26 @@
 			this.rtbPatchLog.TabIndex = 1;
 			this.rtbPatchLog.Text = "";
 			// 
-			// optionsToolStripMenuItem
+			// tabErrors
 			// 
-			this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.environmentsToolStripMenuItem});
-			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-			this.optionsToolStripMenuItem.Text = "&Options";
+			this.tabErrors.Controls.Add(this.rtbErrors);
+			this.tabErrors.Location = new System.Drawing.Point(4, 22);
+			this.tabErrors.Name = "tabErrors";
+			this.tabErrors.Padding = new System.Windows.Forms.Padding(3);
+			this.tabErrors.Size = new System.Drawing.Size(670, 176);
+			this.tabErrors.TabIndex = 1;
+			this.tabErrors.Text = "Errors";
+			this.tabErrors.UseVisualStyleBackColor = true;
 			// 
-			// environmentsToolStripMenuItem
+			// rtbErrors
 			// 
-			this.environmentsToolStripMenuItem.Name = "environmentsToolStripMenuItem";
-			this.environmentsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-			this.environmentsToolStripMenuItem.Text = "&Environments...";
-			this.environmentsToolStripMenuItem.Click += new System.EventHandler(this.environmentsToolStripMenuItem_Click);
+			this.rtbErrors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rtbErrors.Location = new System.Drawing.Point(3, 3);
+			this.rtbErrors.Name = "rtbErrors";
+			this.rtbErrors.ReadOnly = true;
+			this.rtbErrors.Size = new System.Drawing.Size(664, 170);
+			this.rtbErrors.TabIndex = 1;
+			this.rtbErrors.Text = "";
 			// 
 			// MainForm
 			// 
@@ -304,8 +317,8 @@
 			this.tabsResults.ResumeLayout(false);
 			this.tabPatchResults.ResumeLayout(false);
 			this.tabPatchRun.ResumeLayout(false);
-			this.tabErrors.ResumeLayout(false);
 			this.tabLog.ResumeLayout(false);
+			this.tabErrors.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -335,6 +348,7 @@
 		private System.Windows.Forms.RichTextBox rtbErrors;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem environmentsToolStripMenuItem;
+		private System.Windows.Forms.Button btnRunCheckedItems;
 	}
 }
 

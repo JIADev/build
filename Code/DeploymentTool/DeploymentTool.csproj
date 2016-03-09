@@ -80,11 +80,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ScriptTargets.proj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeploymentConfiguration\DeploymentConfiguration.csproj">
       <Project>{b5680311-82ee-47a0-95de-e76d785e8502}</Project>
       <Name>DeploymentConfiguration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeploymentMsBuildTasks\DeploymentMsBuildTasks.csproj">
+      <Project>{f324c4ec-c029-4c9c-b44b-076c50384db9}</Project>
+      <Name>DeploymentMsBuildTasks</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
