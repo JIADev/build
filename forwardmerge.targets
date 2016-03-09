@@ -145,7 +145,7 @@
 
       <Active768Reqs Include="7.6.8" />
 
-      <Active768Branches Include="000_RM55614;1001_WebPWS" />
+      <Active768Branches Include="1001_WebPWS" />
 
 <!--
       <Active768ReqsWithDependencies Include="" />
