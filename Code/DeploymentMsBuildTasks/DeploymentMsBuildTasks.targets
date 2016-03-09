@@ -6,4 +6,5 @@
 	<UsingTask TaskName="DeploymentMsBuildTasks.ConfirmNextStep" AssemblyFile="DeploymentMsBuildTasks.dll" />
 	<UsingTask TaskName="DeploymentMsBuildTasks.Sleep" AssemblyFile="DeploymentMsBuildTasks.dll" />
 	<UsingTask TaskName="DeploymentMsBuildTasks.DatabaseBackup" AssemblyFile="DeploymentMsBuildTasks.dll" />
+	<UsingTask TaskName="DeploymentMsBuildTasks.DatabaseRestore" AssemblyFile="DeploymentMsBuildTasks.dll" />
 </Project>

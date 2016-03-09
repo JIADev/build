@@ -11,6 +11,7 @@
 		<!--<Sleep Seconds="10" />-->
 		<CallParallelTargets Targets="BackupSiteFiles;BackupRTEFiles" />
 		<CallTarget Targets="BackupDatabase" />
+		<CallTarget Targets="RestoreDatabase" />
 		<CallTarget Targets="StartWebServices" />
 		<CallTarget Targets="StartRTEServices" />
 	</Target>
@@ -32,5 +33,8 @@
 	</Target>
 	<Target Name="BackupDatabase">
 		<DatabaseBackup DatabaseName="$(Environment_Database_Name)" DatabaseServer="$(Environment_Database_Server_HostName)" SqlInstance="$(Environment_Database_Server_SqlInstance)" BackupLocation="$(Environment_Database_Server_BackupLocation)" />
+	</Target>
+	<Target Name="RestoreDatabase">
+		<DatabaseRestore  DatabaseName="$(Environment_Database_Name)" DatabaseServer="$(Environment_Database_Server_HostName)" SqlInstance="$(Environment_Database_Server_SqlInstance)" RestoreLocation="$(Environment_Database_Server_BackupLocation)" BackupFileName="cvs_2094_7.6.6_PriorToRelease_2016-03-09_024957" />
 	</Target>
 </Project>

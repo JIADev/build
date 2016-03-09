@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="CallParallelTargets.cs" />
     <Compile Include="ConfirmNextStep.cs" />
+    <Compile Include="DatabaseRestore.cs" />
     <Compile Include="DatabaseBackup.cs" />
     <Compile Include="jBackup.cs" />
     <Compile Include="MsBuild.cs" />
