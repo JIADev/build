@@ -43,9 +43,9 @@
   
   <cb:v76build
       driver="CUST1000"
-      project-name="CUST1000-000_WebPWS_7.6.8"
+      project-name="CUST1000-1001_WebPWS"
       prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch="000_WebPWS_7.6.8"
+      branch="1001_WebPWS"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
@@ -76,8 +76,8 @@
   
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-000_WebPWS_7.6.8"
-      branch="000_WebPWS_7.6.8"
+      project-name="CUST2095-1001_WebPWS"
+      branch="1001_WebPWS"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
@@ -109,8 +109,8 @@
   
   <cb:v76build
       driver="CUST2096"
-      project-name="CUST2096-000_WebPWS_7.6.8"
-      branch="000_WebPWS_7.6.8"
+      project-name="CUST2096-1001_WebPWS"
+      branch="1001_WebPWS"
       prodTag="2096_PRD"
       platform="AnyCpu"
       repo-name="active"
