@@ -1,17 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace DeploymentTool
 {
-	public abstract class AppServer : Server
+	public class AppServer : Server
 	{
+		[XmlAttribute]
+		public string ServiceName { get; set; }
+
 		[XmlAttribute]
 		public string AppLocation { get; set; }
 
 		[XmlAttribute]
 		public string BackupLocation { get; set; }
+
+		public override object Clone()
+		{
+			return new AppServer
+			{
+				AppLocation = AppLocation,
+				BackupLocation = BackupLocation,
+				HostName = HostName,
+				ServiceName = ServiceName
+			};
+		}
 	}
 }

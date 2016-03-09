@@ -1,0 +1,36 @@
+﻿<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<Import Project="DeploymentMsBuildTasks.targets" />
+	<ItemGroup>
+		<None Label="FullDeploymentTargets" Include="StopServices" />
+		<None Label="DatabaseOverlayTargets" Include="StopServices" />
+	</ItemGroup>
+	<Target Name="Main">
+		<CallTarget Targets="StopServices" />
+		<ConfirmNextStep Text="Backup Site files and RTE files" />
+		<!--<Sleep Seconds="10" />-->
+		<CallParallelTargets Targets="BackupSiteFiles;BackupRTEFiles" />
+		<CallTarget Targets="BackupDatabase" />
+		<CallTarget Targets="StartWebServices" />
+		<CallTarget Targets="StartRTEServices" />
+	</Target>
+	<Target Name="StopServices">
+		<WinServiceControl AppServers="$(Environment_RTE)" RequestedOperation="Stop" />
+		<WinServiceControl AppServers="$(Environment_Web)" RequestedOperation="Stop" />
+	</Target>
+	<Target Name="StartWebServices">
+		<WinServiceControl AppServers="$(Environment_Web)" RequestedOperation="Start" />
+	</Target>
+	<Target Name="StartRTEServices">
+		<WinServiceControl AppServers="$(Environment_RTE)" RequestedOperation="Start" />
+	</Target>
+	<Target Name="BackupSiteFiles">
+		<jBackup AppServers="$(Environment_Web)" SkipNonExistant="true" />
+	</Target>
+	<Target Name="BackupRTEFiles">
+		<jBackup AppServers="$(Environment_RTE)" SkipNonExistant="true" />
+	</Target>
+	<Target Name="BackupDatabase">
+		<DatabaseBackup DatabaseName="$(Environment_Database_Name)" DatabaseServer="$(Environment_Database_Server_HostName)" SqlInstance="$(Environment_Database_Server_SqlInstance)" BackupLocation="$(Environment_Database_Server_BackupLocation)" />
+	</Target>
+</Project>

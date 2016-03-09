@@ -8,9 +8,6 @@ namespace DeploymentTool
 {
 	public class RTEServer : AppServer
 	{
-		[XmlAttribute]
-		public string ServiceName { get; set; }
-
 		public override string ToString()
 		{
 			return string.Format("{0}/{1}", base.ToString(), ServiceName);
