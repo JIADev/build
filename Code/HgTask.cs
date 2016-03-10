@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Build.Utilities;
 using System.Diagnostics;
@@ -57,10 +58,12 @@ namespace j6.BuildTools.MsBuildTasks
 
 		public XDocument RunHgXmlOutput(string args)
 		{
-			using (var reader = new StringReader(RunHg(string.Format("{0} --style=xml --verbose", args))))
+			var xmlText = RunHg(string.Format("{0} --style=xml --verbose", args));
+			if (string.IsNullOrWhiteSpace(xmlText))
+				return null;
+			using (var reader = new StringReader(xmlText))
 			{
-				var xmlText = reader.ReadToEnd();
-				return string.IsNullOrWhiteSpace(xmlText) ? null : XDocument.Load(xmlText);
+				return XDocument.Load(reader);
 			}
 		}
 
