@@ -36,7 +36,9 @@ namespace j6.BuildTools.MsBuildTasks
 			var output = RunHgXmlOutput(string.Format("log --rev \"ancestors('{0}') and !({1}) {2}\"", NewChangeset,
 										 string.Join(" or ", originalChangesets.Select(c => string.Format("ancestors('{0}')", c))), AdditionalArgs));
 			if (string.IsNullOrWhiteSpace(OutputFile)) return true;
-			
+			if (output == null)
+				return true;
+
 			var log =
 				output.Elements("log").Single();
 
