@@ -58,7 +58,10 @@ namespace j6.BuildTools.MsBuildTasks
 		public XDocument RunHgXmlOutput(string args)
 		{
 			using (var reader = new StringReader(RunHg(string.Format("{0} --style=xml --verbose", args))))
-				return XDocument.Load(reader);
+			{
+				var xmlText = reader.ReadToEnd();
+				return string.IsNullOrWhiteSpace(xmlText) ? null : XDocument.Load(xmlText);
+			}
 		}
 
 		public void WriteError(string errorText)
