@@ -37,7 +37,10 @@ namespace j6.BuildTools.MsBuildTasks
 										 string.Join(" or ", originalChangesets.Select(c => string.Format("ancestors('{0}')", c))), AdditionalArgs));
 			if (string.IsNullOrWhiteSpace(OutputFile)) return true;
 			if (output == null)
-				return true;
+			{
+				using (File.Create(OutputFile)) 
+					return true;
+			}
 
 			var log =
 				output.Elements("log").Single();
