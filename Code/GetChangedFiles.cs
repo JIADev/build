@@ -27,7 +27,7 @@ namespace j6.BuildTools.MsBuildTasks
 			
 			ChangedFiles = new string[0];
 
-			if (!output.Root.HasElements && !output.Root.HasAttributes)
+			if (output == null || output.Root == null || (!output.Root.HasElements && !output.Root.HasAttributes))
 				return true;
 
 			ChangedFiles = output.Elements("log").SelectMany(log => log.Elements("logentry")).SelectMany(logentry => logentry.Elements("paths")).SelectMany(paths => paths.Elements("path")).Select(p => p.Value).Distinct(StringComparer.InvariantCultureIgnoreCase).ToArray();
