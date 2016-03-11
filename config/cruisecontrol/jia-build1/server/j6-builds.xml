@@ -122,9 +122,9 @@
   <!-- CUST1001 -->
   <cb:v76build
       driver="CUST1001"
-      project-name="CUST1001-7.6.8"
+      project-name="CUST1001-WebPWS"
       prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch="7.6.8"
+      branch="1001_WebPWS"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
