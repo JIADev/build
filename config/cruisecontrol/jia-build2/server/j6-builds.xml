@@ -20,6 +20,7 @@
       external-zip="true"
       archive="false"
       package="true"
+      queueName="Queue2"
       corflags="/32bitpref-"
       />
     <cb:v76build
@@ -83,6 +84,7 @@
       external-protect="true"
       external-zip="true"
       package="true"
+      queueName="Queue1"
       package-privatebuild="false"
       corflags="/32bitpref-"
       />
@@ -132,6 +134,7 @@
       external-zip="true"
       package="true"
       package-privatebuild="false"
+      queueName="Queue3"
       corflags="/32bitpref-"
       />
   
