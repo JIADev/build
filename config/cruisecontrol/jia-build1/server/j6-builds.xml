@@ -45,23 +45,6 @@
       />
 
   
-  <cb:v76build
-      driver="CUST000"
-      project-name="CUST000_WebPWS"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch="000_WebPWS"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.7"
-      external-protect="true"
-      external-zip="true"
-      modules="AUTOSHIP"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
   <!-- release (tagged) branches -->
   
   <!-- IH00010 -->
