@@ -53,6 +53,7 @@
       archive="false"
       package="true"
       package-privatebuild="false"
+      queueName="Queue3"
       corflags="/32bitpref-"
       />
   
@@ -118,6 +119,7 @@
       external-zip="true"
       package="true"
       package-privatebuild="false"
+      queueName="Queue2"
       corflags="/32bitpref-"
       />
   
@@ -133,6 +135,7 @@
       external-zip="true"
       package="true"
       package-privatebuild="false"
+      queueName="Queue1"
       corflags="/32bitpref-"
       />
   
