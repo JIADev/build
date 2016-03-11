@@ -42,43 +42,10 @@
       />
   
   <cb:v76build
-      driver="CUST1000"
-      project-name="CUST1000-000_WebPWS"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch="000_WebPWS"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.7"
-      protect="false"
-      external-zip="false"
-      archive="false"
-      package="true"
-      publish="false"
-      queueName="Queue2"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-7.6.7"
       branch="7.6.7"
       prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.7"
-      protect="false"
-      external-zip="false"
-      archive="false"
-      package="true"
-      publish="false"
-      queueName="Queue1"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-000_WebPWS"
-      branch="000_WebPWS"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
