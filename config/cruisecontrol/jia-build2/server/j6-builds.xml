@@ -19,7 +19,7 @@
       external-protect="true"
       external-zip="true"
       archive="false"
-      package="false"
+      package="true"
       corflags="/32bitpref-"
       />
     <cb:v76build
@@ -30,8 +30,8 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
-      protect="false"
-      external-zip="false"
+      external-protect="true"
+      external-zip="true"
       archive="false"
       package="true"
       publish="false"
@@ -47,8 +47,8 @@
       prodTag="2095_PRD"
       repo-name="active"
       j6Version="7.6.6"
-      protect="false"
-      external-zip="false"
+      external-protect="true"
+      external-zip="true"
       package="true"
       publish="false"
       queueName="Queue2"
@@ -63,12 +63,27 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
-      protect="false"
-      external-zip="false"
+      external-protect="true"
+      external-zip="true"
       archive="false"
       package="true"
       publish="false"
       queueName="Queue3"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-7.6.7"
+      branch = '7.6.7'
+      platform="AnyCpu"
+      prodTag="2095_PRD"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="false"
       corflags="/32bitpref-"
       />
   
@@ -79,8 +94,8 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
-      protect="false"
-      external-zip="false"
+      external-protect="true"
+      external-zip="true"
       archive="false"
       package="true"
       publish="false"
@@ -96,12 +111,27 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
-      protect="false"
-      external-zip="false"
+      external-protect="true"
+      external-zip="true"
       archive="false"
       package="true"
       publish="false"
       queueName="Queue3"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2096"
+      project-name="CUST2096-7.6.7"
+      branch = '7.6.7'
+      prodTag="2096_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="true"
+      external-zip="true"
+      package="true"
+      package-privatebuild="false"
       corflags="/32bitpref-"
       />
   
