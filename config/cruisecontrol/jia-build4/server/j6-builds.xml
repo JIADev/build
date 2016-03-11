@@ -24,6 +24,24 @@
       corflags="/32bitpref-"
       />
   
+ <cb:v76build
+      driver="CUST000"
+      project-name="CUST000-7.6.7"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      branch = '7.6.7'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.7"
+      external-protect="false"
+      external-zip="false"
+      modules="AUTOSHIP"
+      package="false"
+      package-privatebuild="true"
+      queueName="Queue3"
+      corflags="/32bitpref-"
+      />
+
+  
   <cb:v76build
       driver="CUST000"
       project-name="CUST000-1001_WebPWS"
