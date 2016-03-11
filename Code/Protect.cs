@@ -119,14 +119,16 @@ namespace j6.BuildTools.MsBuildTasks
 				var zipFileInfo = zip.Key;
 				var zipDirectoryInfo = zip.Value;
 				Console.WriteLine(String.Format("Recreating file {0} from {1}", zipFileInfo.Name, zipDirectoryInfo.FullName));
-				var zipFile = new ZipFile();
-				foreach (var directory in zipDirectoryInfo.GetDirectories())
+				using (var zipFile = new ZipFile())
 				{
-					Console.WriteLine(String.Format("Zipping {0}", directory.FullName));
-					zipFile.AddDirectory(directory.FullName, directory.Name);
+					foreach (var directory in zipDirectoryInfo.GetDirectories())
+					{
+						Console.WriteLine(String.Format("Zipping {0}", directory.FullName));
+						zipFile.AddDirectory(directory.FullName, directory.Name);
+					}
+					zipFile.AddFiles(zipDirectoryInfo.GetFiles().Select(f => f.FullName), false, "\\");
+					zipFile.Save(zipFileInfo.FullName);
 				}
-				zipFile.AddFiles(zipDirectoryInfo.GetFiles().Select(f => f.FullName), false, "\\");
-				zipFile.Save(zipFileInfo.FullName);
 				Console.WriteLine(String.Format("Closing file {0}", zipFileInfo.FullName));
 			}
 		}
@@ -139,8 +141,8 @@ namespace j6.BuildTools.MsBuildTasks
 			{
 				var extractedDirectory = Path.Combine(tempDir, zipFileInfo.Name.Substring(0, zipFileInfo.Name.Length - ".zip".Length));
 				Console.WriteLine(String.Format("Extracting: {0} to {1}", zipFileInfo.FullName, extractedDirectory));
-				var zipFile = ZipFile.Read(zipFileInfo.FullName);
-				zipFile.ExtractAll(extractedDirectory);
+				using (var zipFile = ZipFile.Read(zipFileInfo.FullName))
+					zipFile.ExtractAll(extractedDirectory);
 				extractedList.Add(zipFileInfo, new DirectoryInfo(extractedDirectory));
 			}
 			return extractedList;
