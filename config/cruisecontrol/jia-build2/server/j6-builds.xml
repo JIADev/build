@@ -8,6 +8,24 @@
   <!-- req branches -->
   <cb:build2queues />
   
+ <cb:v76build
+      driver="CUST000"
+      project-name="CUST000-7.6.8"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      branch = '7.6.8'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-protect="true"
+      external-zip="true"
+      modules="AUTOSHIP"
+      package="true"
+      package-privatebuild="true"
+      queueName="Queue1"
+      corflags="/32bitpref-"
+      />
+
+  
   <cb:v76build
       driver="CUST1001"
       project-name="CUST1001-7.6.8"
