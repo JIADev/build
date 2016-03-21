@@ -171,14 +171,14 @@
       <tasks>
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
-	      description="Copy release package"
+	      description="Copy RELEASE to TEST"
 	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE\*" "$(project-folder)\TEST"' />
       </tasks>
       <elseTasks>
 	<exec executable="$(cmdExe)" 
 	      baseDirectory="$(ccroot)"
-	      description="Copy release package"
+	      description="Copy RELEASE-UNPROTECTED to TEST"
 	      buildTimeoutSeconds="$(copy-source-timeout)"
 	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE-UNPROTECTED\*" "$(project-folder)\TEST"' />
       </elseTasks>
