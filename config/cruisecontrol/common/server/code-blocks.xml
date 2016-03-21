@@ -147,7 +147,7 @@
   <cb:define name="force-clean-deployment-project">
     <conditional description="Delete entire project folder">
       <conditions>
-	<folderExistsCondition folder="$(project-folder)" />>
+	<folderExistsCondition folder="$(project-folder)" />
       </conditions>
       <tasks>
 	<exec executable="$(cmdExe)" 
@@ -167,24 +167,35 @@
     
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
-	  description="Copy deployment package to project folder"
+	  description="Copy release package"
 	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE*.zip" "$(project-folder)"' />
-    
-    <msbuild logger="$(msBuildListenerDll)" description="Extract Release Package"
-	     executable="$(msbuild)"
-	     projectFile="$(global_feature_dir)\buildtools.proj"
-	     targets="UnZip"
-	     workingDirectory="$(project-folder)"
-	     timeout="$(msbuild-protect-timeout)">
-      <buildArgs>/p:ZipFile="$(project-folder)\RELEASE*.zip" /p:TargetDir="$(project-folder)\RELEASE"</buildArgs>
-    </msbuild>
-    
+	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE*" "$(project-folder)"' />
+
+    <conditional description="Rename RELEASE to TEST">
+      <conditions>
+	<folderExistsCondition folder="$(project-folder)\RELEASE" />
+      </conditions>
+      <tasks>
+	<exec executable="$(cmdExe)" 
+	  baseDirectory="$(ccroot)"
+	  description="Rename RELEASE to TEST"
+	  buildTimeoutSeconds="$(copy-source-timeout)"
+	  buildArgs='/c move "$(project-folder)\RELEASE" "$(project-folder)\TEST"' />
+      </tasks>
+      <elsetasks>
+	<exec executable="$(cmdExe)" 
+	  baseDirectory="$(ccroot)"
+	  description="Rename RELEASE-UNPROTECTED to TEST"
+	  buildTimeoutSeconds="$(copy-source-timeout)"
+	  buildArgs='/c move "$(project-folder)\RELEASE-UNPROTECTED" "$(project-folder)\TEST"' />
+      </elsetasks>
+    </conditional>
+
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
 	  description="Copy private build to project folder"
 	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(private-build-root)\$(project-to-deploy)" "$(project-folder)"' />
+	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\PrivateBuild" "$(project-folder)"' />
     
   </cb:define>
   <cb:define name="copy-logger-local">
@@ -363,45 +374,6 @@
     </conditional>
   </cb:define>
   
-  <cb:define name="publish-privatebuild">
-    <cb:if expr="'$(package)' == 'true'">
-      <cb:if expr="'$(package-privatebuild)' == 'true'">
-	<exec 
-	    executable="$(powershell)" 
-	    baseDirectory="$(project-folder)"
-	    description="Create PrivateBuild Root Folder if needed">
-	  <buildArgs>/c "md -F $(private-build-root)\$(project-name)"</buildArgs>
-	</exec>
-	
-	<conditional>
-	  <conditions>
-	    <folderExistsCondition folder="$(private-build-root)\$(project-name)\PrivateBuild" />
-	  </conditions>
-	  <tasks Description="Remove old PrivateBuild">
-	    <exec
-		executable="$(powershell)"
-		baseDirectory="$(project-folder)"
-		description = "remove old PrivateBuild">
-	      <buildArgs>-c "rm -r -fo $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
-	    </exec>
-	  </tasks>
-	</conditional>    
-	<exec 
-	    executable="$(powershell)" 
-	    baseDirectory="$(project-folder)"
-	    description="Create PrivateBuild SubFolder if needed">
-	  <buildArgs>/c "md -F $(private-build-root)\$(project-name)\PrivateBuild"</buildArgs>
-	</exec>
-	
-	<exec 
-	    executable="$(powershell)"
-	    baseDirectory="$(project-folder)"
-	    description="copy private build to the privatebuild folder"
-	    buildArgs='/c xcopy /s/e/y/q/i "$(project-folder)\PrivateBuild" "$(private-build-root)\$(project-name)\PrivateBuild"' />
-      </cb:if>
-    </cb:if>
-  </cb:define>
-  
   <cb:define name="msdeploy">
     <cb:if expr="'$(deployment-webserver)' != ''">
       <cb:if expr="'$(deployment-sitename)' != ''">
@@ -409,7 +381,7 @@
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="Configure"
-		 workingDirectory="$(project-folder)\RELEASE">
+		 workingDirectory="$(project-folder)\TEST">
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver) /p:CacheServer=$(redis-server) /p:CacheDatabase=$(redis-db)</buildArgs>
 	</msbuild>
 	
@@ -417,7 +389,7 @@
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="ForceReinstallDatabase"
-		 workingDirectory="$(project-folder)\RELEASE"
+		 workingDirectory="$(project-folder)\TEST"
 		 timeout="$(reinstall-database-timeout)">
 	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver) /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
 	</msbuild>
@@ -426,7 +398,7 @@
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="FlushRedis"
-		 workingDirectory="$(project-folder)\Release">
+		 workingDirectory="$(project-folder)\TEST">
 	  <buildArgs>/p:CacheDatabase=$(redis-db) /p:CacheServer=$(redis-server) /p:Cust=$(driver)</buildArgs>
 	</msbuild>
 	
@@ -434,7 +406,7 @@
 		 executable="$(msbuild)"
 		 projectFile="deployment.proj"
 		 targets="InstallSite"
-		 workingDirectory="$(project-folder)\Release">
+		 workingDirectory="$(project-folder)\TEST">
 	  <buildArgs>/p:SiteName="$(deployment-sitename)" /p:WebServer=$(deployment-webserver)</buildArgs>
 	</msbuild>
       </cb:if>
@@ -447,7 +419,7 @@
 	<cb:if expr="'$(deployment-sitename)' != ''">
 	  <exec executable="$(cmdExe)" 
 		description="Copy sql-settings file into PrivateBuild"
-		buildArgs='/c copy /y "$(project-folder)\Release\sql-settings.xml" "$(project-folder)\PrivateBuild"' />
+		buildArgs='/c copy /y "$(project-folder)\TEST\sql-settings.xml" "$(project-folder)\PrivateBuild"' />
 	  <conditional description="Create output folder if needed">
 	    <conditions>
 	      <folderExistsCondition folder="$(pkgroot)\$(project-name)" />>
@@ -466,7 +438,7 @@
 	      logger="$(msBuildListenerDll)"
 	      description="Run Web Tests for deployed site"
 	      executable="$(msbuild)"
-	      projectFile="$(project-folder)\RELEASE\deployment.proj"
+	      projectFile="$(project-folder)\TEST\deployment.proj"
 	      targets="CCWebTest"
 	      workingDirectory="$(project-folder)\privateBuild"
 	      buildArgs='/p:Driver=$(driver) /p:OutputDir="$(pkgroot)\$(project-name)" /p:NUnitConsole="$(nunit)\nunit-console.exe"'

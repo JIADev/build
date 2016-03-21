@@ -7,8 +7,6 @@
       sqlCmd="C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\SQLCMD.exe"
       ndepend="C:\Program Files (x86)\NDepend_4.1.0.6871\NDepend.Console.exe"
       ccroot="f:"
-      pkgroot="\\jia-build1\ReleasePackages"
-      private-build-root="\\jia-build1\PrivateBuild$"
       srcroot="f:\src"
       artifactroot="e:\artifacts"
       ccNetLogDir="e:\ccnet.log" 
