@@ -81,7 +81,6 @@
       package="false"
       publish="true"
       simulatePackage="false"
-      package-privatebuild="false"
       forceclean="true"
       recreate-db="true"
       install-patches="true"

@@ -170,6 +170,7 @@
       triggerTime="20:02"
       queueName="WebTests"
       package="true"
+      sourceBuildServer="jia-build1"
       />
   
   <cb:v76deployment
@@ -186,6 +187,7 @@
       triggerTime="20:03"
       queueName="WebTests"
       package="true"
+      sourceBuildServer="jia-build2"
       />
 	  
   <cb:v76deployment
@@ -202,6 +204,7 @@
       triggerTime="20:04"
       queueName="WebTests"
       package="true"
+      sourceBuildServer="jia-build2"
       />
   
 </cb:config-template>
