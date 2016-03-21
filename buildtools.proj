@@ -296,7 +296,7 @@
     <CallTarget Targets="RevertAll" />
   </Target>
   
-  <Target Name="MergeBranchesIfChanged" DependsOnTargets="CompileBuildTools">
+  <Target Name="MergeBranchesIfChanged">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
@@ -311,7 +311,7 @@
     <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="'$(ChangedFiles)' != ''" />
   </Target>
   
-  <Target Name="MergeBranches" DependsOnTargets="CompileBuildTools">
+  <Target Name="MergeBranches">
     <PropertyGroup>
       <TargetRepo>$([MSBuild]::ValueOrDefault(`$(TargetRepo)`, '$(SourceRepo)'))</TargetRepo>
       <Publish>$([MSBuild]::ValueOrDefault(`$(Publish)`, 'false'))</Publish>
