@@ -164,19 +164,30 @@
 	description="Recreate project folder">
       <buildArgs>/c "md -F $(project-folder)"</buildArgs>
     </exec>
-    
-    <exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)"
-	  description="Copy release package"
-	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE*" "$(project-folder)\TEST"' />
-
-    <exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)"
-	  description="Copy private build to project folder"
-	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\PrivateBuild" "$(project-folder)"' />
-    
+    <conditional description="If protected, copy the protected package">
+      <conditions>
+	<folderExistsCondition folder="$(pkgroot)\$(project-to-deploy)\RELEASE" />
+      </conditions>
+      <tasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy release package"
+	      buildTimeoutSeconds="$(copy-source-timeout)"
+	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE\*" "$(project-folder)\TEST"' />
+      </tasks>
+      <elseTasks>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy release package"
+	      buildTimeoutSeconds="$(copy-source-timeout)"
+	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE-UNPROTECTED\*" "$(project-folder)\TEST"' />
+      </elseTasks>
+    </conditional>
+	<exec executable="$(cmdExe)" 
+	      baseDirectory="$(ccroot)"
+	      description="Copy private build to project folder"
+	      buildTimeoutSeconds="$(copy-source-timeout)"
+	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\PrivateBuild" "$(project-folder)"' />
   </cb:define>
   <cb:define name="copy-logger-local">
     <exec executable = "$(cmdExe)"
