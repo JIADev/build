@@ -169,27 +169,7 @@
 	  baseDirectory="$(ccroot)"
 	  description="Copy release package"
 	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE*" "$(project-folder)"' />
-
-    <conditional description="Rename RELEASE to TEST">
-      <conditions>
-	<folderExistsCondition folder="$(project-folder)\RELEASE" />
-      </conditions>
-      <tasks>
-	<exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)"
-	  description="Rename RELEASE to TEST"
-	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c move "$(project-folder)\RELEASE" "$(project-folder)\TEST"' />
-      </tasks>
-      <elseTasks>
-	<exec executable="$(cmdExe)" 
-	  baseDirectory="$(ccroot)"
-	  description="Rename RELEASE-UNPROTECTED to TEST"
-	  buildTimeoutSeconds="$(copy-source-timeout)"
-	  buildArgs='/c move "$(project-folder)\RELEASE-UNPROTECTED" "$(project-folder)\TEST"' />
-      </elseTasks>
-    </conditional>
+	  buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\RELEASE*" "$(project-folder)\TEST"' />
 
     <exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
