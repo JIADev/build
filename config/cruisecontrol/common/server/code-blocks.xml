@@ -182,13 +182,13 @@
 	  buildTimeoutSeconds="$(copy-source-timeout)"
 	  buildArgs='/c move "$(project-folder)\RELEASE" "$(project-folder)\TEST"' />
       </tasks>
-      <elsetasks>
+      <elseTasks>
 	<exec executable="$(cmdExe)" 
 	  baseDirectory="$(ccroot)"
 	  description="Rename RELEASE-UNPROTECTED to TEST"
 	  buildTimeoutSeconds="$(copy-source-timeout)"
 	  buildArgs='/c move "$(project-folder)\RELEASE-UNPROTECTED" "$(project-folder)\TEST"' />
-      </elsetasks>
+      </elseTasks>
     </conditional>
 
     <exec executable="$(cmdExe)" 
