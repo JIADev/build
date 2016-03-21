@@ -54,7 +54,7 @@
       archive="false"
       package="true"
       publish="false"
-      queueName="Queue1"
+      queueName="Queue3"
       corflags="/32bitpref-"
       />
   
@@ -136,7 +136,7 @@
       archive="false"
       package="true"
       publish="false"
-      queueName="Queue3"
+      queueName="Queue1"
       corflags="/32bitpref-"
       />
   
