@@ -187,7 +187,7 @@
 	      baseDirectory="$(ccroot)"
 	      description="Copy private build to project folder"
 	      buildTimeoutSeconds="$(copy-source-timeout)"
-	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\PrivateBuild" "$(project-folder)"' />
+	      buildArgs='/c xcopy /s/e/y/q/i "$(pkgroot)\$(project-to-deploy)\PrivateBuild" "$(project-folder)\PrivateBuild"' />
   </cb:define>
   <cb:define name="copy-logger-local">
     <exec executable = "$(cmdExe)"
