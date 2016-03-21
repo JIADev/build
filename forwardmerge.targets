@@ -279,7 +279,7 @@
   <Target Name="PreForwardMergeActive" DependsOnTargets="InitRepos">
   </Target>
 
-  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos;PreForwardMergeActive;ForwardMerge_2095;ForwardMerge_2094;ForwardMerge_2096;ForwardMerge_768">
+  <Target Name="ForwardMerge_Active" DependsOnTargets="CompileBuildTools;InitRepos;PreForwardMergeActive;ForwardMerge_2095;ForwardMerge_2094;ForwardMerge_2096;ForwardMerge_768">
   </Target>
 
 </Project>
