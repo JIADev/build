@@ -132,7 +132,7 @@
       tag-completed="false"
       createChangesetLog="true"
       corflags=""
-      pkgroot=""
+      pkgroot="\\jia-build1\ReleasePackages"
 	  />
   <cb:define 
       compileless="false"
