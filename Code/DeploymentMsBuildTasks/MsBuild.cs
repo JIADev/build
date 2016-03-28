@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using DeploymentTool;
 using j6.BuildTools.MsBuildTasks;
 using Environment = System.Environment;
+using System.IO;
+using System.Xml.Linq;
 
 namespace DeploymentMsBuildTasks
 {
@@ -39,6 +41,35 @@ namespace DeploymentMsBuildTasks
 			return buildSystem.ExitCode != 0;
 		}
 
+		public Tuple<string,string>[] GetTargets(string processName)
+		{
+			var projFiles = Directory.GetFiles(Environment.CurrentDirectory, "*.proj");
+			var projFile = projFiles.Single();
+			XDocument projContents;
+			using (var stream = new StreamReader(projFile))
+				projContents = XDocument.Load(stream);
+
+			var itemGroups = projContents.Root.Elements().Where(e => e.Name.LocalName.Equals("ItemGroup"));
+			var targetElements = projContents.Root.Elements().Where(e => e.Name.LocalName.Equals("Target"));
+			var none = itemGroups.Elements().Where(e => e.Name.LocalName.Equals("None"));
+			var element = none.Single(e => e.Attribute("Label").Value.Equals(processName));
+			var targets = element.Attribute("Include").Value.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+			var returnValue = targets.Select(t => targetElements.Where(te => t.Equals(te.Attribute("Name").Value))
+							  .Select(e => new Tuple<string, string>(e.Attribute("Name").Value, GetDescription(e))).Single()).ToArray();
+			return returnValue;
+			//return new string[0];
+		}
+
+		private string GetDescription(XElement targetElement)
+		{
+			var descriptionElement = targetElement.Elements()
+			             .Where(e => e.Name.LocalName.Equals("PropertyGroup"))
+			             .SelectMany(e1 => e1.Elements().Where(e => e.Name.LocalName.Equals("TargetDescription")))
+			             .SingleOrDefault();
+			if (descriptionElement == null)
+				return null;
+			return descriptionElement.Value;
+		}
 		private string[] GenerateParameters(DeploymentTool.Environment buildEnvironment)
 		{
 			var parameterDictionary = new Dictionary<string, string>
