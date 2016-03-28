@@ -73,21 +73,40 @@ namespace DeploymentTool
 		{
 			rtbPatchLog.Clear();
 			rtbErrors.Clear();
-			var selectedItem = (Environment)cboTargetEnvironment.SelectedItem;
+			var selectedEnvironment = (Environment)cboTargetEnvironment.SelectedItem;
+			var selectedTargets = lvPatchList.CheckedItems.Cast<ListViewItem>().Select(lvi => lvi.Text).ToArray();
 			Task.Run(() =>
 				{
 					var msbuild = new MsBuild();
-					try
+					foreach (var target in selectedTargets)
 					{
-						msbuild.Run(ProcessTextReceived, "Main", selectedItem);
-					}
-					catch (Exception ex)
-					{
-						var message = string.Format("Error when running MyTarget: {0}{1}", ex, System.Environment.NewLine);
-						rtbErrors.AppendText(message);
-						MessageBox.Show(message, "Error Occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						try
+						{
+
+							var returnValue = msbuild.Run(ProcessTextReceived, target, selectedEnvironment);
+							if (!returnValue)
+								throw new Exception(string.Format("MSBuild Target Failed"));
+						}
+						catch (Exception ex)
+						{
+							var message = string.Format("Error when running {0}: {1}{2}", target, ex, System.Environment.NewLine);
+							AppendErrorBox(this, new ProcessTextReceivedEventArgs { Text = message, IsError = true });
+							MessageBox.Show(message, "Error Occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							break;
+						}
 					}
 				});
+		}
+
+		private void AppendErrorBox(object sender, ProcessTextReceivedEventArgs args)
+		{
+			if (rtbErrors.InvokeRequired)
+			{
+				var d = new BuildSystem.ProcessTextReceivedDelegate(AppendErrorBox);
+				BeginInvoke(d, new[] {sender, args});
+				return;
+			}
+			rtbErrors.AppendText(args.Text);
 		}
 
 		private void ProcessTextReceived(object sender, ProcessTextReceivedEventArgs args)
@@ -111,6 +130,20 @@ namespace DeploymentTool
 				}
 
 			}
+		}
+
+		private void txtReleasePackage_TextChanged(object sender, EventArgs e)
+		{
+			RecreateSteps();
+		}
+
+		private void RecreateSteps()
+		{
+			var msBuild = new MsBuild();
+			var targets = msBuild.GetTargets("FullDeploymentTargets");
+			var addItems = targets.Select(ai => new ListViewItem(new[] { ai.Item1, ai.Item2 }) { Checked = true }).ToArray();
+			lvPatchList.Items.Clear();
+			lvPatchList.Items.AddRange(addItems);
 		}
 	}
 }

@@ -124,6 +124,7 @@
 			this.txtReleasePackage.ReadOnly = true;
 			this.txtReleasePackage.Size = new System.Drawing.Size(513, 20);
 			this.txtReleasePackage.TabIndex = 4;
+			this.txtReleasePackage.TextChanged += new System.EventHandler(this.txtReleasePackage_TextChanged);
 			// 
 			// lblReleasePackage
 			// 
