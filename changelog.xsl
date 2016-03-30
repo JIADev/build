@@ -47,7 +47,7 @@
                   <xsl:value-of select="@path" />
                 </td>
                 <td>
-                  <xsl:value-of select="@authors" />
+                  <xsl:value-of select="@authorBranches" />
                 </td>
               </tr>
             </xsl:for-each>
