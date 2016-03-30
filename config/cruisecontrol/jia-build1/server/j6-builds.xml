@@ -350,21 +350,6 @@
       corflags="/32bitpref-"
       />
   
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-QA2016.03.09"
-      branch = '2095_QA2016.03.09'
-      prodTag="2095_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.5"
-      external-protect="true"
-      external-zip="true"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
   <!-- CUST2096 -->
   
   <cb:v76build
