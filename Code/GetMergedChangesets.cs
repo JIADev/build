@@ -68,6 +68,7 @@ namespace j6.BuildTools.MsBuildTasks
 							  Actions = p.Select(p1 => p1.Action).Distinct().ToArray(),
 							  Branches = p.Select(p1 => p1.Branch).Where(b => b != null).Select(b => b.Value).Distinct().ToArray(),
 							  Authors = p.Select(p1 => p1.Author).Where(a => a != null).Select(a => a.Value).Distinct().ToArray(),
+							  AuthorBranches = p.Select(p1 => new { p1.Author, p1.Branch }).Where(a => a.Author != null && a.Branch != null).Select(a => string.Format("{0} ({1})", a.Author.Value, a.Branch.Value)).Distinct().ToArray(),
 							  Path = p.Key,
 							  Entries = p
 								  .Select(p1 => new
@@ -89,10 +90,12 @@ namespace j6.BuildTools.MsBuildTasks
 										  var path = new XAttribute("path", p.Path);
 										  var branches = new XAttribute("branches", string.Join(", ", p.Branches));
 										  var authors = new XAttribute("authors", string.Join(", ", p.Authors));
+										  var authorBranches = new XAttribute("authorBranches", string.Join(", ", p.AuthorBranches));
 										  file.Add(actions);
 										  file.Add(path);
 										  file.Add(branches);
 										  file.Add(authors);
+										  file.Add(authorBranches);
 										  var fileLogEntries = p.Entries.Select(p1 =>
 											  {
 												  var logEntry = new XElement("logentry");
