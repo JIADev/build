@@ -1,5 +1,6 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 . "$scriptPath\mercurialTasks.ps1"
+. "$scriptPath\customerInfo.ps1"
 . "$scriptPath\startGraftCommon.ps1"
 
 Write-Host "Updating $scriptPath"
