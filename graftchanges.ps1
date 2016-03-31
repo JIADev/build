@@ -1,5 +1,6 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
+. "$scriptPath\customerInfo.ps1"
 ."$scriptPath\startgraftCommon.ps1"
 Write-Host "Updating $scriptPath"
 $updateSuccess = updateBuildTools $scriptPath
