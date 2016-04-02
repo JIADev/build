@@ -53,7 +53,7 @@
       platform="AnyCpu"
       configuration="Release"
       include-source="false"
-      protect="true" />
+      protect="false" />
   
   <!-- Other defaults -->
   <!-- 14400 seconds = 4 hours -->
@@ -127,7 +127,7 @@
       triggerTime="20:00"
       triggerTime2=""
       run-ndepend="false"
-      external-protect="false"
+      external-protect="true"
       external-zip="false"
       tag-completed="false"
       createChangesetLog="true"
