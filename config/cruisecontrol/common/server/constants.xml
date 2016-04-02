@@ -53,7 +53,7 @@
       platform="AnyCpu"
       configuration="Release"
       include-source="false"
-      protect="false" />
+      />
   
   <!-- Other defaults -->
   <!-- 14400 seconds = 4 hours -->
