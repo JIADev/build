@@ -26,6 +26,7 @@
       install-patches="true"
       repo-name="prod"
       archive="true"
+      external-protect="false"
       package="true"
       queueName="Production"
       sourceCheckInterval=""
@@ -45,6 +46,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -61,6 +63,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -80,6 +83,7 @@
       repo-name="prod"
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -94,7 +98,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
-      external-protect="true"
       external-zip="true"
       archive="false"
       package="true"
@@ -113,6 +116,7 @@
        sourceCheckInterval=""
        archive="true"
        package="true"
+       external-protect="false"
        />
   -->  
   <!-- CUST2082 -->
@@ -127,6 +131,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -144,6 +149,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -160,6 +166,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -176,6 +183,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -192,6 +200,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -208,6 +217,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -224,6 +234,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -240,6 +251,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -256,6 +268,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
+      external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
@@ -272,7 +285,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
-      external-protect="true"
       external-zip="true"
       archive="true"
       package="true"
@@ -290,7 +302,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
-      external-protect="true"
       external-zip="true"
       package-privatebuild="true"
       archive="false"
@@ -306,7 +317,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.6"
-      external-protect="true"
       external-zip="true"
       package-privatebuild="true"
       archive="false"
@@ -325,7 +335,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.5"
-      external-protect="true"
       external-zip="true"
       sourceCheckInterval=""
       archive="true"
@@ -343,7 +352,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.5"
-      external-protect="true"
       external-zip="true"
       package="true"
       package-privatebuild="true"
@@ -361,7 +369,6 @@
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.7"
-      external-protect="true"
       external-zip="true"
       sourceCheckInterval=""
       archive="true"
