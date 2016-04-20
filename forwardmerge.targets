@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <Import Project="releasecandidate.targets" Condition="Exists('releasecandidate.targets')"/>
-  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge_72;ForwardMerge_73;ForwardMerge_74;ForwardMerge_75;ForwardMerge_76;ForwardMerge_Active" />
+  <Target Name="ForwardMerge" DependsOnTargets="InitRepos;ForwardMerge_Active" />
   <Target Name="ForwardMerge_74" DependsOnTargets="ForwardMerge_740;ForwardMerge_741;ForwardMerge_744;ForwardMerge_745" />
   <Target Name="ForwardMerge_75" DependsOnTargets="ForwardMerge_750;ForwardMerge_752;ForwardMerge_753;ForwardMerge_754;ForwardMerge_755" />
   <Target Name="ForwardMerge_76" DependsOnTargets="ForwardMerge_760;OutwardMerge_000_760;OutwardMerge_2094_760;OutwardMerge_2095_760;ForwardMerge_761" />
@@ -171,7 +171,7 @@
 
   </Target>
   
-  <Target Name="ForwardMerge_2096" DependsOnTargets="ForwardMerge_76;InitRepos">
+  <Target Name="ForwardMerge_2096" DependsOnTargets="InitRepos">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
@@ -211,7 +211,7 @@
 
   </Target>
   
-  <Target Name="ForwardMerge_2095" DependsOnTargets="ForwardMerge_76;InitRepos">
+  <Target Name="ForwardMerge_2095" DependsOnTargets="InitRepos">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
@@ -230,6 +230,10 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=2095_QA2015.05.19;DoMerge=true;DoCommit=true" />
 
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=2095_REQ27;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_REQ27;TargetBranch=2095_REQ27-6181;DoMerge=true;DoCommit=true" />
+
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_2095" />
     
@@ -243,7 +247,7 @@
 -->    
   </Target>
   
-  <Target Name="ForwardMerge_2094" DependsOnTargets="ForwardMerge_76;OutwardMerge_2094_RC1;InitRepos">
+  <Target Name="ForwardMerge_2094" DependsOnTargets="InitRepos">
     <PropertyGroup>
       <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
