@@ -12,6 +12,15 @@ $config = parseArgs $args
 validateCustomer $config.customerNumber
 setupBranch $config.customerNumber $config.taskNumber $config.graftRevision $config.revertall
 
+$config.graftRevision | foreach {
+	$mergeBranch = [string]$config.customerNumber + '_' + $_
+	
+	hg merge $mergeBranch --tool=internal:merge
+	if($LastExitCode -ne 0) { 
+		hg resolve --all
+	}
+	hg ci -m "@merge $mergeBranch"
+}
 $currentBranch = getCurrentBranch
 
 Write-Host "This script no longer auto-commits the initial $currentBranch revision.  (Don't forget to hg commit.)  Working directory is now marked as branch $currentBranch"
