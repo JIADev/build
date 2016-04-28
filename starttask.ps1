@@ -6,7 +6,11 @@ $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
 Write-Host "Updating $scriptPath"
 $updateSuccess = updateBuildTools $scriptPath
 
-$usageMessage = 'Usage: starttask <customerNumber> <RM or TFS Number> Example: starttask 2095 TFS01234'
+$usageMessage = 'Usage: starttask <customerNumber> <RM or TFS Number> [<additional Revisions>]
+Examples:
+ starttask 2095 TFS01234
+ starttask 2094 RM23456 RM12345
+ starttask 2094 RM34567 UAT'
 
 $config = parseArgs $args
 validateCustomer $config.customerNumber
