@@ -16,10 +16,12 @@
   
   <cb:define name="queue2b">
     <cb:define queueName="Queue2" />
+    <cb:reqBuild customer="1001" req-number="enrollment_configs" />
   </cb:define>
   
   <cb:define name="queue2d">
     <cb:define queueName="Queue2" />
+    <cb:reqBuild customer="1001" req-number="EnrollmentWebPWS" />
   </cb:define>
   
   <cb:define name="queue3b">
