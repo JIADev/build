@@ -176,8 +176,8 @@
       <cb:define driver="CUST$(customer)" />
     </cb:if>
     <cb:v76build
-	project-name="$(driver)-$(req-number)"
-	branch = '$(customer)_$(req-number)'
+	project-name="$(projectName)"
+	branch = '$(branchName)'
 	platform="AnyCpu"
 	repo-name="active"
 	package="true"
