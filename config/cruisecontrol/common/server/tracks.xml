@@ -6,22 +6,22 @@
   
   <cb:define name="queue1b">
     <cb:define queueName="Queue1" />
-    <cb:reqBuild customer="2095" req-number="REQ27" />
+    <cb:reqBuild projectName="CUST2095-REQ27" customer="2095" branchName="2095_REQ27" />
   </cb:define>
   
   <cb:define name="queue1d">
     <cb:define queueName="Queue1" />
-    <cb:reqBuild customer="2095" req-number="REQ27-6181" />
+    <cb:reqBuild projectName="CUST2095-REQ27-6181" customer="2095" branchName="2095_REQ27-6181" />
   </cb:define>
   
   <cb:define name="queue2b">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild customer="1001" req-number="enrollment_configs" />
+    <cb:reqBuild projectName="CUST1001-enrollment_configs" customer="1001" branchName="1001_enrollment_configs" />
   </cb:define>
   
   <cb:define name="queue2d">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild customer="1001" req-number="EnrollmentWebPWS" />
+    <cb:reqBuild projectName="CUST1001-EnrollmentWebPWS" customer="1001" branchName="1001_EnrollmentWebPWS" />
   </cb:define>
   
   <cb:define name="queue3b">
