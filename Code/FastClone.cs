@@ -62,8 +62,9 @@ namespace j6.BuildTools.MsBuildTasks
 
 				if (!target.Exists)
 					target.Create();
+				var fileSystemInfoComparer = new FileSystemInfoComparer();
 
-				foreach (var sourceFile in sourceFiles.GroupBy(f => f.FullName, StringComparer.InvariantCultureIgnoreCase).Select(f => f.First()))
+				foreach (var sourceFile in sourceFiles.Distinct(fileSystemInfoComparer).GroupBy(f => f.FullName, StringComparer.InvariantCultureIgnoreCase).Select(f => f.First()))
 				{
 					if (_cancelRequested)
 					{

@@ -54,6 +54,7 @@
     <Compile Include="ExtractChangesets.cs" />
     <Compile Include="FastClone.cs" />
     <Compile Include="FileEnumerator.cs" />
+    <Compile Include="FileSystemInfoComparer.cs" />
     <Compile Include="FindClosed.cs" />
     <Compile Include="FindJunctions.cs" />
     <Compile Include="ForwardChangesCheck.cs" />
