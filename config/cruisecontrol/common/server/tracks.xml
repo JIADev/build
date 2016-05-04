@@ -16,7 +16,6 @@
   
   <cb:define name="queue2b">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild projectName="CUST1001-enrollment_configs" customer="1001" branchName="1001_enrollment_configs" />
   </cb:define>
   
   <cb:define name="queue2d">
