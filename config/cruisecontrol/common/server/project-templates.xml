@@ -176,6 +176,7 @@
       <cb:define driver="CUST$(customer)" />
     </cb:if>
     <cb:v76build
+	project-folderName="$(projectFolderName)"
 	project-name="$(projectName)"
 	branch = '$(branchName)'
 	platform="AnyCpu"
