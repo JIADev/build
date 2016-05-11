@@ -311,6 +311,21 @@
   
   <cb:v76build
       driver="CUST2094"
+      project-name="CUST2094-RM56297"
+      branch="2094_RM56297"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.6"
+      external-zip="true"
+      package-privatebuild="false"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2094"
       project-name="CUST2094_MemoryPerf_cache"
       branch="2094_MemoryPerf_cache"
       prodTag="2094_PRD"
