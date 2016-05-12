@@ -373,6 +373,34 @@
       corflags="/32bitpref-"
       />
   
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-REQ27"
+      branch = '2095_REQ27'
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-REQ27-6181"
+      branch = '2095_REQ27-6181'
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.5"
+      external-zip="true"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
   <!-- CUST2096 -->
   
   <cb:v76build
