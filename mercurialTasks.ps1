@@ -115,3 +115,18 @@ function ensureBranchUp($branch) {
 	$p = runProcess $hgStartInfo  
 	return $p.ExitCode
 }
+
+function ensureBranchIncludes($branch) {
+	$currentDir = Convert-Path .
+	Write-Host "Merging $branch"
+	& hg merge $branch --tool=internal:merge
+	if($LastExitCode -ne 0) {
+		& hg resolve --all
+		if($LastExitCode -ne 0) { 
+			Write-Host "Cannot merge heads"
+			Exit
+		}
+	}
+	Write-Host "Committing Merge"
+	& hg ci -m "@merge $branch"
+}

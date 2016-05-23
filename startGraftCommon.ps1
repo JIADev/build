@@ -61,6 +61,7 @@ if($branchCreated -ne 0) {
 	Write-Host "Cannot create or update to $branchName"
 	Exit
 }
+ensureBranchIncludes $startTag
 }
 
 
