@@ -123,7 +123,7 @@ function ensureBranchIncludes($branch) {
 	if($LastExitCode -ne 0) {
 		& hg resolve --all
 		if($LastExitCode -ne 0) { 
-			Write-Host "Cannot merge heads"
+			Write-Host "Looks like $branch is already an ancestor, No problem"
 			Exit
 		}
 	}
