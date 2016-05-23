@@ -27,4 +27,4 @@ $config.graftRevision | foreach {
 }
 $currentBranch = getCurrentBranch
 
-Write-Host "This script no longer auto-commits the initial $currentBranch revision.  (Don't forget to hg commit.)  Working directory is now marked as branch $currentBranch"
+Write-Host "Don't forget to hg commit.  Working directory is now branch $currentBranch"
