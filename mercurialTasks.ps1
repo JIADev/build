@@ -124,7 +124,7 @@ function ensureBranchIncludes($branch) {
 		& hg resolve --all
 		if($LastExitCode -ne 0) { 
 			Write-Host "Looks like $branch is already an ancestor, No problem"
-			Exit
+			return
 		}
 	}
 	Write-Host "Committing Merge"
