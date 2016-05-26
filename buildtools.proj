@@ -10,6 +10,7 @@
     <InitSourceRepo>$([MSBuild]::ValueOrDefault(`$(InitSourceRepo)`, 'prod')</InitSourceRepo>
     <BuildRepo>$(WorkingDirectory)\build$(InitSourceRepo)Repo</BuildRepo>
     <TagRepo>$(WorkingDirectory)\tag$(InitSourceRepo)Repo</TagRepo>
+    <TrashRepo>$(WorkingDirectory)\trash$(InitSourceRepo)Repo</TrashRepo>
     <SourceRepo>$([MSBuild]::ValueOrDefault(`$(SourceRepo)`, '$(ActiveRepo)'))</SourceRepo>
     <TrashBranch>$([MSBuild]::ValueOrDefault(`$(TrashBranch)`, 'trash'))</TrashBranch>
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
@@ -244,7 +245,10 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg up $(TagsBranch) -C" />
     <Exec WorkingDirectory="$(TagRepo)" Command='hg tag -f -r $(BuildBranchName) $(CustomerPrefix)$(BuildTag) $(CustomerPrefix)$(DatedBuildTag) -m "Triggering build for $(CustomerPrefix)$(BuildTag)"' />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="SourceRepo=$(BuildRepo);SourceBranchPrefix=$(CustomerPrefix);SourceBranch=$(BuildTag);TargetBranch=$(TrashBranch);ToolArgs=internal:local;ExtraArgs=--noninteractive;DoMerge=true;DoCommit=true;DoPush=false" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg up $(TrashBranch) -C" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command='hg merge $(BuildBranchName) --tool=internal:local --noninteractive' />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
 	
@@ -252,10 +256,12 @@
     <Error Text="Missing SourceBranch" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing TrashBranch" Condition="'$(TrashBranch)' == ''" />
-    <Message Text="SourceRepo=$(SourceRepo)" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(TrashBranch)" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg merge $(SourceBranch) --tool=internal:local --noninteractive" />
-    <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Trashing $(SourceBranch)&quot;" />
+    <Message Text="TrashRepo=$(TrashRepo)" />
+   <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg up $(TrashBranch)" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg merge $(SourceBranch) --tool=internal:local --noninteractive" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg ci -m &quot;Trashing $(SourceBranch)&quot;" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg push" />
   </Target>
 	
   <Target Name="UpdateReqs" DependsOnTargets="InitRepos">
@@ -281,6 +287,9 @@
     <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone $(BuildRepo) $(TagRepo)" Condition="!Exists('$(TagRepo)')" />
     <Message Text="WorkingDirectory = $(TagRepo)" />
     <Exec WorkingDirectory="$(TagRepo)" Command="hg pull" />
+    <Exec WorkingDirectory="$(WorkingDirectory)" Command="hg clone $(BuildRepo) $(TrashRepo)" Condition="!Exists('$(TrashRepo)')" />
+    <Message Text="WorkingDirectory = $(TrashRepo)" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull" />
   </Target>
   
   <Target Name="InitActiveRepo" Condition="'$(SkipInit)' != 'true'">
