@@ -248,6 +248,7 @@
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull" />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg up $(TrashBranch) -C" />
     <Exec WorkingDirectory="$(TrashRepo)" Command='hg merge $(BuildBranchName) --tool=internal:local --noninteractive' />
+    <Exec WorkingDirectory="$(BuildRepo)" Command='hg ci -m "@merge $(BuildBranchName)"' />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
