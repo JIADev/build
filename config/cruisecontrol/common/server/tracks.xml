@@ -7,31 +7,37 @@
   <cb:define name="queue1b">
     <cb:define queueName="Queue1" />
     <cb:reqBuild projectName="CUST2095-1001_EnrollmentWebPWS" projectFolderName="CUST2095-EPWS" customer="2095" branchName="1001_EnrollmentWebPWS" />
+    <cb:reqBuild projectName="CUST2095-1001_BlueSprint" projectFolderName="CUST2095-Blue" customer="2095" branchName="1001_BlueSprint" />
   </cb:define>
   
   <cb:define name="queue1d">
     <cb:define queueName="Queue1" />
     <cb:reqBuild projectName="CUST2096-1001_EnrollmentWebPWS" projectFolderName="CUST2096-EPWS" customer="2096" branchName="1001_EnrollmentWebPWS" />
+    <cb:reqBuild projectName="CUST2096-1001_BlueSprint" projectFolderName="CUST2096-Blue" customer="2096" branchName="1001_BlueSprint" />
   </cb:define>
   
   <cb:define name="queue2b">
     <cb:define queueName="Queue2" />
     <cb:reqBuild projectName="CUST1000-1001_EnrollmentWebPWS" projectFolderName="CUST1000-EPWS" customer="1000" branchName="1001_EnrollmentWebPWS" />
+    <cb:reqBuild projectName="CUST1000-1001_BlueSprint" projectFolderName="CUST1000-Blue" customer="1000" branchName="1001_BlueSprint" />
   </cb:define>
   
   <cb:define name="queue2d">
     <cb:define queueName="Queue2" />
     <cb:reqBuild projectName="CUST1001-EnrollmentWebPWS" customer="1001" branchName="1001_EnrollmentWebPWS" />
+    <cb:reqBuild projectName="CUST1001_BlueSprint" projectFolderName="CUST1001-Blue" customer="1001" branchName="1001_BlueSprint" />
   </cb:define>
   
   <cb:define name="queue3b">
     <cb:define queueName="Queue3" />
     <cb:reqBuild projectName="CUST000-1001_EnrollmentWebPWS" projectFolderName="CUST000-EPWS" customer="000" branchName="1001_EnrollmentWebPWS" />
+    <cb:reqBuild projectName="CUST000-1001_BlueSprint" projectFolderName="CUST000-Blue" customer="000" branchName="1001_BlueSprint" />
   </cb:define>
   
   <cb:define name="queue3d">
     <cb:define queueName="Queue3" />
     <cb:reqBuild projectName="CUST2094-1001_EnrollmentWebPWS" projectFolderName="CUST2094-EPWS" customer="2094" branchName="1001_EnrollmentWebPWS" />
+    <cb:reqBuild projectName="CUST2094-1001_BlueSprint" projectFolderName="CUST2094-Blue" customer="2094" branchName="1001_BlueSprint" />
   </cb:define>
   
   <cb:define name="build2queues">
