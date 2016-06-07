@@ -146,7 +146,7 @@
       <Active768Reqs Include="7.6.8" />
 
       <Active768Branches Include="1001_WebPWS" />
-      <ActivePwsBranches Include="1001_SprintPWS;1001_BlueSprint;1001_EnrollmentPWS" />
+      <ActivePwsBranches Include="1001_SprintPWS;1001_BlueSprint;1001_EnrollmentWebPWS" />
 
 <!--
       <Active768ReqsWithDependencies Include="" />
@@ -169,8 +169,6 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=%(Active768Branches.Identity);DoMerge=true;DoCommit=true" />
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_WebPWS;TargetBranch=%(ActivePwsBranches.Identity);DoMerge=true;DoCommit=true" />
-
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_enrollment_configs;TargetBranch=1001_EnrollmentWebPWS;DoMerge=true;DoCommit=true" />
 
   </Target>
   
