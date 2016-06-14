@@ -177,22 +177,6 @@
   
   <cb:v76build
       driver="CUST2096"
-      project-name="CUST2096_7.6.7"
-      branch = '2096_7.6.7'
-      prodTag="2096_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.7"
-      external-protect="false"
-      external-zip="false"
-      package="true"
-      package-privatebuild="false"
-      queueName="Queue2"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2096"
       project-name="CUST2096-7.6.8"
       branch = '7.6.8'
       prodTag="2096_PRD"
