@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
+using System.Threading;
 using DeploymentTool;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using System.Diagnostics;
 
 // ReSharper disable RedundantStringFormatCall
 namespace DeploymentMsBuildTasks
@@ -28,6 +30,9 @@ namespace DeploymentMsBuildTasks
 
 		public override bool Execute()
 		{
+#if DEBUG
+			Thread.Sleep(10000);
+#endif
 			if(!(AppServers == null || AppServers.Any()) && ((ServiceName != null && ServiceName.Any()) || (ComputerName != null && ComputerName.Any())))
 				throw new ArgumentException("You must specify either the AppServers parameter or both the ServiceName and ComputerName parameters");
 
