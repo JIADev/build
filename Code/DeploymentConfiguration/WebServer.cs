@@ -4,16 +4,16 @@ namespace DeploymentTool
 {
 	public class WebServer : AppServer
 	{
+		public WebServer()
+		{
+			ServiceName = "w3svc";
+		}
+
 		[XmlAttribute]
 		public string SiteName { get; set; }
 
 		[XmlAttribute]
 		public string ServerUrl { get; set; }
-
-		[XmlAttribute]
-// ReSharper disable ValueParameterNotUsed
-		public new string ServiceName { get { return "w3svc"; } set { } }
-// ReSharper restore ValueParameterNotUsed
 
 		public override object Clone()
 		{
