@@ -247,7 +247,8 @@
     <Exec WorkingDirectory="$(TagRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull" />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg up $(TrashBranch) -C" />
-    <Exec WorkingDirectory="$(TrashRepo)" Command='hg merge $(BuildBranchName) --tool=internal:local --noninteractive' />
+    <Exec WorkingDirectory="$(TrashRepo)" Command='hg merge $(BuildBranchName) --tool :local --noninteractive' />
+    <Exec WorkingDirectory="$(TrashRepo)" Command='hg revert --all --rev .' />
     <Exec WorkingDirectory="$(TrashRepo)" Command='hg ci -m "@merge $(BuildBranchName)"' />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg push" />
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
@@ -260,7 +261,8 @@
     <Message Text="TrashRepo=$(TrashRepo)" />
    <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull" />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg up $(TrashBranch)" />
-    <Exec WorkingDirectory="$(TrashRepo)" Command="hg merge $(SourceBranch) --tool=internal:local --noninteractive" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg merge $(SourceBranch) --tool :local --noninteractive" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command='hg revert --all --rev .' />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg ci -m &quot;Trashing $(SourceBranch)&quot;" />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg push" />
   </Target>
