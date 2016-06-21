@@ -254,7 +254,18 @@
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
 	
-  <Target Name="Trash" DependsOnTargets="InitRepos;CloseBranch">
+  <Target Name="Trash" DependsOnTargets="InitRepos;CloseBranch;TrashBranch" />
+
+  <Target Name="TrashBranches" DependsOnTargets="InitRepos;CloseBranches">
+    <Error Text="Missing /p:BuildRepo" Condition="'$(BuildRepo)' == ''" />
+    <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
+    <ItemGroup>
+      <BranchesToTrash Include="$(Branches)" />
+    </ItemGroup>
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="TrashBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=%(BranchesToTrash.Identity)" />
+  </Target>
+  
+  <Target Name="TrashBranch">
     <Error Text="Missing SourceBranch" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing TrashBranch" Condition="'$(TrashBranch)' == ''" />
