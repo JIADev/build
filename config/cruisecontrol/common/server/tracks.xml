@@ -15,12 +15,14 @@
     <cb:define queueName="Queue1" />
     <cb:reqBuild projectName="CUST2096-1001_EnrollmentWebPWS" projectFolderName="CUST2096-EPWS" customer="2096" branchName="1001_EnrollmentWebPWS" />
     <cb:reqBuild projectName="CUST2096-1001_BlueSprint" projectFolderName="CUST2096-Blue" customer="2096" branchName="1001_BlueSprint" />
+    <cb:reqBuild projectName="CUST2094-CR_NEW_041" projectFolderName="CUST2094-CR041" customer="2094" branchName="2094_CR_NEW_041" />
   </cb:define>
   
   <cb:define name="queue2b">
     <cb:define queueName="Queue2" />
     <cb:reqBuild projectName="CUST1000-1001_EnrollmentWebPWS" projectFolderName="CUST1000-EPWS" customer="1000" branchName="1001_EnrollmentWebPWS" />
     <cb:reqBuild projectName="CUST1000-1001_BlueSprint" projectFolderName="CUST1000-Blue" customer="1000" branchName="1001_BlueSprint" />
+    <cb:reqBuild projectName="CUST2094-CR035" projectFolderName="CUST2094-CR035" customer="2094" branchName="2094_CR035" />
   </cb:define>
   
   <cb:define name="queue2d">
