@@ -155,13 +155,14 @@
     <Exec WorkingDirectory="$(BuildRepo)" Command="hg push -b $(TagsBranch)" />
   </Target>
   
-  <Target Name="CloseBranches">
-    <Error Text="Missing /p:BuildRepo" Condition="'$(BuildRepo)' == ''" />
+  <Target Name="CloseBranches" DependsOnTargets="CompileBuildTools;WriteBranchList" >
+    <Message Text="Branches=$(Branches)" />
+    <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <ItemGroup>
       <BranchesToClose Include="$(Branches)" />
     </ItemGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="CloseBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=%(BranchesToClose.Identity)" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="DoCloseBranch" Properties="SourceRepo=$(SourceRepo);SourceBranch=%(BranchesToClose.Identity)" />
   </Target>
   
   <Target Name="WriteBranchList">
@@ -169,17 +170,22 @@
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg branches -c > $(SourceRepo)\branches.txt" IgnoreExitCode="true" />
   </Target>
   
-  <Target Name="FindClosed" DependsOnTargets="CompileBuildTools;WriteBranchList">
+  <Target Name="FindClosed" DependsOnTargets="CompileBuildTools;WriteBranchList;ExeFindClosed">
+  </Target>
+  
+  <Target Name="ExeFindClosed">
     <FindClosed SearchBranch="$(SourceBranch)" InputFile="$(SourceRepo)\branches.txt" OutputFile="$(SourceRepo)\closerevision.txt" />
     <FindClosed SearchBranch="$(SourceBranch)_pub" InputFile="$(SourceRepo)\branches.txt" OutputFile="closepubrevision.txt" />
   </Target>
-  
-  <Target Name="CloseBranch">
+
+  <Target Name="CloseBranch" DependsOnTargets="CompileBuildTools;WriteBranchList;DoCloseBranch" />
+
+  <Target Name="DoCloseBranch">
     <Message Text="SourceBranch=$(SourceBranch)" />
     <Message Text="SourceRepo=$(SourceRepo)" />
     <Error Text="Missing /p:SourceBranch=&quot;SourceBranch&quot;" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing /p:SourceRepo=&quot;SourceRepo&quot;" Condition="'$(SourceRepo)' == ''" />
-    <CallTarget Targets="FindClosed" Condition="'$(Force)' != 'true'" />
+    <CallTarget Targets="ExeFindClosed" Condition="'$(Force)' != 'true'" />
     
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg up $(SourceBranch) -C" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
     <Exec WorkingDirectory="$(SourceRepo)" Command="hg ci -m &quot;Closing $(SourceBranch)&quot; --close-branch" Condition="Exists('$(SourceRepo)\closerevision.txt') OR '$(Force)' == 'true'" />
@@ -254,29 +260,40 @@
     <Exec WorkingDirectory="$(BuildRepo)" Command='"c:\Program Files\TortoiseHg\thgw.exe"' Condition="'$(Interactive)' == 'true'"/>
   </Target>
 	
-  <Target Name="Trash" DependsOnTargets="InitRepos;CloseBranch;TrashBranch" />
+  <Target Name="Trash" DependsOnTargets="InitRepos;CloseBranch;PullForTrashBranch;TrashBranch;PushForTrashBranch" />
 
   <Target Name="TrashBranches" DependsOnTargets="InitRepos;CloseBranches">
-    <Error Text="Missing /p:BuildRepo" Condition="'$(BuildRepo)' == ''" />
+    <Message Text="Branches=$(Branches)" />
+    <Error Text="Missing /p:SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing /p:Branches=&quot;&lt;Redmine;Branch;List&gt;&quot;" Condition="'$(Branches)' == ''" />
     <ItemGroup>
       <BranchesToTrash Include="$(Branches)" />
     </ItemGroup>
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="TrashBranch" Properties="SourceRepo=$(BuildRepo);SourceBranch=%(BranchesToTrash.Identity)" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PullForTrashBranch" Properties="SourceRepo=$(SourceRepo)" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="TrashBranch" Properties="SourceRepo=$(SourceRepo);SourceBranch=%(BranchesToTrash.Identity)" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="PushForTrashBranch" Properties="SourceRepo=$(SourceRepo)" />
   </Target>
   
+  <Target Name="PullForTrashBranch">
+    <Error Text="Missing SourceRepo" Condition="'$(SourceRepo)' == ''" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull $(SourceRepo)" />
+  </Target>
+
+  <Target Name="PushForTrashBranch">
+    <Error Text="Missing SourceRepo" Condition="'$(SourceRepo)' == ''" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg push $(SourceRepo)" IgnoreExitCode="True" />
+  </Target>
+
   <Target Name="TrashBranch">
     <Error Text="Missing SourceBranch" Condition="'$(SourceBranch)' == ''" />
     <Error Text="Missing SourceRepo" Condition="'$(SourceRepo)' == ''" />
     <Error Text="Missing TrashBranch" Condition="'$(TrashBranch)' == ''" />
     <Message Text="SourceRepo=$(SourceRepo)" />
     <Message Text="TrashRepo=$(TrashRepo)" />
-    <Exec WorkingDirectory="$(TrashRepo)" Command="hg pull $(SourceRepo)" />
     <Exec WorkingDirectory="$(TrashRepo)" Command="hg up $(TrashBranch)" />
-    <Exec WorkingDirectory="$(TrashRepo)" Command="hg merge $(SourceBranch) --tool :local --noninteractive" />
-    <Exec WorkingDirectory="$(TrashRepo)" Command='hg revert --all --rev .' />
-    <Exec WorkingDirectory="$(TrashRepo)" Command="hg ci -m &quot;Trashing $(SourceBranch)&quot;" />
-    <Exec WorkingDirectory="$(TrashRepo)" Command="hg push $(SourceRepo)" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg merge $(SourceBranch) --tool :local --noninteractive" IgnoreExitCode="True" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command='hg revert --all --rev .' IgnoreExitCode="True" />
+    <Exec WorkingDirectory="$(TrashRepo)" Command="hg ci -m &quot;Trashing $(SourceBranch)&quot;" IgnoreExitCode="True" />
   </Target>
 	
   <Target Name="UpdateReqs" DependsOnTargets="InitRepos">

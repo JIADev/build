@@ -104,6 +104,21 @@
       corflags="/32bitpref-"
       />
   
+  <!-- CUST1002 -->
+  <cb:v76build
+      driver="CUST1002"
+      project-name="CUST1002-WebPWS"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      branch="1002_WebPWS"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
   <!-- CUST2069 -->
   <!--  
        <cb:customerbuild
