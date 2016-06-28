@@ -146,7 +146,7 @@
       <Active768Reqs Include="7.6.8" />
 
       <Active768Branches Include="1001_WebPWS" />
-      <ActivePwsBranches Include="1001_SprintPWS;1001_BlueSprint;1001_EnrollmentWebPWS" />
+      <ActivePwsBranches Include="1002_WebPWS;1001_SprintPWS;1001_BlueSprint;1001_EnrollmentWebPWS" />
 
 <!--
       <Active768ReqsWithDependencies Include="" />
