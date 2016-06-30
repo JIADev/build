@@ -346,8 +346,8 @@
   
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-QA2015.05.19"
-      branch = '2095_QA2015.05.19'
+      project-name="CUST2095-7.6.5"
+      branch = '7.6.5'
       prodTag="2095_PRD"
       platform="AnyCpu"
       repo-name="active"
