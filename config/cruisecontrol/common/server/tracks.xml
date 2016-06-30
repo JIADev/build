@@ -43,6 +43,7 @@
     <cb:define queueName="Queue3" />
     <cb:reqBuild projectName="CUST2094-1001_EnrollmentWebPWS" projectFolderName="CUST2094-EPWS" customer="2094" branchName="1001_EnrollmentWebPWS" />
     <cb:reqBuild projectName="CUST2094-1001_BlueSprint" projectFolderName="CUST2094-Blue" customer="2094" branchName="1001_BlueSprint" />
+    <cb:reqBuild projectName="CUST2094-PublishPending" projectFolderName="CUST2094-PublishPending" customer="2094" branchName="2094_PublishPending" />
   </cb:define>
   
   <cb:define name="build2queues">
