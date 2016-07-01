@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ChangedFiles.cs" />
     <Compile Include="CleanProjectFiles.cs" />
+    <Compile Include="ConsolidatePackageConfigs.cs" />
     <Compile Include="CopyDiffFiles.cs" />
     <Compile Include="DeleteAll.cs" />
     <Compile Include="DeleteIfEmpty.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="RunProcess.cs" />
     <Compile Include="UnZip.cs" />
     <Compile Include="UpdateStyleSheet.cs" />
+    <Compile Include="VersionComparer.cs" />
     <Compile Include="Which.cs" />
     <Compile Include="Zip.cs" />
   </ItemGroup>
