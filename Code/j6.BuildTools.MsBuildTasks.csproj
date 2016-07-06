@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ChangedFiles.cs" />
     <Compile Include="CleanProjectFiles.cs" />
+    <Compile Include="ConsolidateAssemblyVersions.cs" />
     <Compile Include="ConsolidatePackageConfigs.cs" />
     <Compile Include="CopyDiffFiles.cs" />
     <Compile Include="DeleteAll.cs" />
