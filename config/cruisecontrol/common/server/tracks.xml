@@ -9,7 +9,7 @@
     <cb:reqBuild projectName="CUST2095-1001_EnrollmentWebPWS" projectFolderName="CUST2095-EPWS" customer="2095" branchName="1001_EnrollmentWebPWS" />
     <cb:reqBuild projectName="CUST2095-1001_BlueSprint" projectFolderName="CUST2095-Blue" customer="2095" branchName="1001_BlueSprint" />
     <cb:reqBuild projectName="CUST2094-REQ218" projectFolderName="CUST2094-REQ218" customer="2094" branchName="2094_REQ218" />
-    <cb:reqBuild projectName="CUST2094-REQ095_002" projectFolderName="CUST2094-REQ095_002" customer="2094" branchName="2094_REQ095_002" />
+    <cb:reqBuild projectName="CUST2094-REQ095_002" projectFolderName="CUST2094-REQ095_002" customer="2094" branchName="2094_REQ_095_002" />
   </cb:define>
   
   <cb:define name="queue1d">
