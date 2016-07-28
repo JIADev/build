@@ -25,11 +25,11 @@
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>
   <Target Name="ConsolidatePackageConfig">
-    <ConsolidatePackageConfigs Root="c:\dev\repos\buildActiveRepo" MasterPackageConfig="$(MSBuildStartupDirectory)\.nuget\packages.config" />
+    <ConsolidatePackageConfigs Root="c:\dev\nuGetj6" MasterPackageConfig="$(MSBuildStartupDirectory)\.nuget\packages.config" />
   </Target>
 
   <Target Name="ConsolidateAssemblyVersions" DependsOnTargets="ConsolidatePackageConfig">
-    <ConsolidateAssemblyVersions Root="c:\dev\repos\buildActiveRepo" />
+    <ConsolidateAssemblyVersions Root="c:\dev\nuGetj6" />
   </Target>
   <Target Name="FastClone" DependsOnTargets="CompileBuildTools">
     <FastClone Repository="$(Repository)" LocalDir="$(LocalDir)" ParentLocation="$(Location)" />

@@ -786,7 +786,7 @@
 			   targets="PublishChangesetLog"
 			   workingDirectory="$(project-folder)"
 			   timeout="$(msbuild-package-timeout)">
-		    <buildArgs>/p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:TargetDir=$(pkgroot)\$(project-name) /p:SourceFile=$(project-folder)\ChangesetLog.xml</buildArgs>
+		    <buildArgs>/p:Customer=$(driver) /p:j6Version=$(j6Version).$[$CCNetLabel] /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:TargetDir=$(pkgroot)\$(project-name) /p:SourceFile=$(project-folder)\ChangesetLog.xml</buildArgs>
 		  </msbuild>
 		</tasks>
 	      </conditional>
@@ -899,7 +899,7 @@
 		 targets="CreateZip"
 		 workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version) /p:BuildLabel=$[$CCNetLabel] /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
+	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version).$[$CCNetLabel] /p:BuildLabel=$[$CCNetLabel] /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
 	</msbuild>
       </cb:if>
     </cb:if>
