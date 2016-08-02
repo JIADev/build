@@ -22,7 +22,6 @@
       package="true"
       package-privatebuild="true"
       queueName="Queue1"
-      projectFolderName="Q1"
       corflags="/32bitpref-"
       />
 
@@ -40,7 +39,6 @@
       archive="false"
       package="true"
       queueName="Queue2"
-      projectFolderName="Q2"
       corflags="/32bitpref-"
       />
     <cb:v76build
@@ -57,7 +55,6 @@
       package="true"
       publish="false"
       queueName="Queue3"
-      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
   
@@ -74,7 +71,6 @@
       package="true"
       publish="false"
       queueName="Queue2"
-      projectFolderName="Q2"
       corflags="/32bitpref-"
       />
   
@@ -92,7 +88,6 @@
       package="true"
       publish="false"
       queueName="Queue3"
-      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
   
@@ -110,7 +105,6 @@
       package="true"
       publish="false"
       queueName="Queue3"
-      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
   
@@ -126,7 +120,6 @@
       external-zip="false"
       package="true"
       queueName="Queue1"
-      projectFolderName="Q1"
       package-privatebuild="false"
       corflags="/32bitpref-"
       />
@@ -144,7 +137,6 @@
       package="true"
       publish="false"
       queueName="Queue2"
-      projectFolderName="Q2"
       corflags="/32bitpref-"
       />
   
@@ -161,7 +153,6 @@
       package="true"
       publish="false"
       queueName="Queue2"
-      projectFolderName="Q2"
       corflags="/32bitpref-"
       />
   
@@ -179,7 +170,6 @@
       package="true"
       publish="false"
       queueName="Queue1"
-      projectFolderName="Q1"
       corflags="/32bitpref-"
       />
   
@@ -197,7 +187,6 @@
       package="true"
       publish="false"
       queueName="Queue1"
-      projectFolderName="Q1"
       corflags="/32bitpref-"
       />
   
@@ -214,7 +203,6 @@
       package="true"
       package-privatebuild="false"
       queueName="Queue3"
-      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
   
