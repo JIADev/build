@@ -21,6 +21,7 @@
       package="true"
       publish="false"
       queueName="Queue3"
+      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
   
@@ -38,6 +39,7 @@
       package="false"
       package-privatebuild="true"
       queueName="Queue3"
+      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
 
@@ -56,14 +58,15 @@
       package="true"
       publish="false"
       queueName="Queue2"
+      projectFolderName="Q2"
       corflags="/32bitpref-"
       />
   
   <cb:v76build
       driver="CUST000"
-      project-name="CUST000-1001_SprintPWS"
+      project-name="CUST000-1002_SprintPWS"
       prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch="1001_SprintPWS"
+      branch="1002_SprintPWS"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
@@ -73,14 +76,15 @@
       package="true"
       publish="false"
       queueName="Queue2"
+      projectFolderName="Q2"
       corflags="/32bitpref-"
       />
   
   <cb:v76build
-      driver="CUST1001"
-      project-name="CUST1001-SprintPWS"
+      driver="CUST1002"
+      project-name="CUST1002-SprintPWS"
       prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch="1001_SprintPWS"
+      branch="1002_SprintPWS"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
@@ -89,6 +93,24 @@
       archive="false"
       package="true"
       queueName="Queue3"
+      projectFolderName="Q3"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST1001"
+      project-name="CUST1001-1002_SprintPWS"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      branch="1002_SprintPWS"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-protect="false"
+      external-zip="true"
+      archive="false"
+      package="true"
+      queueName="Queue3"
+      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
   
@@ -105,6 +127,7 @@
       package="true"
       package-privatebuild="false"
       queueName="Queue3"
+      projectFolderName="Q3"
       corflags="/32bitpref-"
       />
   
@@ -122,6 +145,7 @@
       package="true"
       publish="false"
       queueName="Queue1"
+      projectFolderName="Q1"
       corflags="/32bitpref-"
       />
   
@@ -139,13 +163,14 @@
       package="true"
       publish="false"
       queueName="Queue1"
+      projectFolderName="Q1"
       corflags="/32bitpref-"
       />
   
     <cb:v76build
       driver="CUST2094"
-      project-name="CUST2094-1001_SprintPWS"
-      branch="1001_SprintPWS"
+      project-name="CUST2094-1002_SprintPWS"
+      branch="1002_SprintPWS"
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
@@ -156,6 +181,7 @@
       package="true"
       publish="false"
       queueName="Queue1"
+      projectFolderName="Q1"
       corflags="/32bitpref-"
       />
   
@@ -172,6 +198,7 @@
       package="true"
       package-privatebuild="false"
       queueName="Queue2"
+      projectFolderName="Q2"
       corflags="/32bitpref-"
       />
   
@@ -188,6 +215,7 @@
       package="true"
       package-privatebuild="false"
       queueName="Queue1"
+      projectFolderName="Q1"
       corflags="/32bitpref-"
       />
   
