@@ -25,7 +25,6 @@
       corflags="/32bitpref-"
       />
 
-  
   <cb:v76build
       driver="CUST1001"
       project-name="CUST1001-7.6.8"
@@ -160,23 +159,6 @@
       driver="CUST2096"
       project-name="CUST2096-1001_WebPWS"
       branch="1001_WebPWS"
-      prodTag="2096_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-protect="false"
-      external-zip="false"
-      archive="false"
-      package="true"
-      publish="false"
-      queueName="Queue1"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2096"
-      project-name="CUST2096-1002_SprintPWS"
-      branch="1002_SprintPWS"
       prodTag="2096_PRD"
       platform="AnyCpu"
       repo-name="active"
