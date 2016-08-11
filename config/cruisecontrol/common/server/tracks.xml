@@ -10,6 +10,7 @@
     <cb:reqBuild projectName="CUST2094-1002_WebPWS" customer="2094" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST1000-1001_WebPWS" customer="1000" branchName="1001_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST1001-1002_SprintPWS" customer="1001" branchName="1002_SprintPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <cb:reqBuild projectName="CUST2094_REQ_081_006" customer="2094" branchName="2094_REQ_081_006" prodTag="2094_PRD" />
   </cb:define>
   
   <cb:define name="queue1d">
@@ -18,6 +19,7 @@
     <cb:reqBuild projectName="CUST2095-1002_WebPWS" customer="2095" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2094-1001_WebPWS" customer="2094" branchName="1001_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST1002_SprintPWS" customer="1002" branchName="1002_SprintPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <!-- Next build entry should go here -->
   </cb:define>
   
   <cb:define name="queue2b">
