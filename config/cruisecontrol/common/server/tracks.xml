@@ -6,11 +6,11 @@
   
   <cb:define name="queue1b">
     <cb:define queueName="Queue1" />
-    <cb:reqBuild projectName="CUST2094-REQ308_001" customer="2094" branchName="2094_REQ308_001" />
+    <cb:reqBuild projectName="CUST2094_RM55884" customer="2094" branchName="2094_RM55884" prodTag="2094_PRD" />
     <cb:reqBuild projectName="CUST2094-1002_WebPWS" customer="2094" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST1000-1001_WebPWS" customer="1000" branchName="1001_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST1001-1002_SprintPWS" customer="1001" branchName="1002_SprintPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild projectName="CUST2094_REQ081_006" customer="2094" branchName="2094_REQ081_006" prodTag="2094_PRD" />
+    <cb:reqBuild projectName="CUST2094_REQ_095_003" customer="2094" branchName="2094_REQ_095_003" prodTag="2094_PRD" />
   </cb:define>
   
   <cb:define name="queue1d">
