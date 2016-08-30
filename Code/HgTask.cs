@@ -73,5 +73,25 @@ namespace j6.BuildTools.MsBuildTasks
 			Console.WriteLine(errorText);
 			Console.ResetColor();
 		}
+
+		protected string HumanReadableSize(double bytesRead)
+		{
+			var sizes = new[]
+				{
+					"bytes",
+					"KiB",
+					"MiB",
+					"GiB",
+					"TiB",
+					"PiB"
+				};
+			var index = 0;
+			while (bytesRead > 1024 && sizes.Length > index)
+			{
+				index++;
+				bytesRead = bytesRead / 1024;
+			}
+			return string.Format("{0:0.00} {1}", bytesRead, sizes[index]);
+		}
 	}
 }
