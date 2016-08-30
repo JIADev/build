@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Build.Framework;
 using System.IO;
@@ -15,7 +14,11 @@ namespace j6.BuildTools.MsBuildTasks
 			CancelTimeout = 5;
 		}
 		private bool _cancelRequested;
-		private readonly Dictionary<string, string> _prefixes = new Dictionary<string, string> { { "repos://", @"\\repo.jenkon.com\repo$\" } };
+	    private long _totalBytesCopied;
+	    private long? _totalSize;
+	    private string _totalSizeString;
+	    private DateTime? _startTime;
+        private readonly Dictionary<string, string> _prefixes = new Dictionary<string, string> { { "repos://", @"\\repo.jenkon.com\repo$\" } };
 
 		[Required]
 		public string Repository { get; set; }
@@ -43,20 +46,17 @@ namespace j6.BuildTools.MsBuildTasks
 			if (hgDir == null || !hgDir.Exists)
 				return false;
 			Console.WriteLine("Cloning {0} to {1}, please wait", Repository, localDir);
-			long bytesRead = 0;
 			var errorOccurred = false;
-			var startTime = default(DateTime?);
 			var wasCancelled = false;
 			var targetDir = new DirectoryInfo(Path.Combine(localDir.FullName, ".hg"));
 			try
 			{
-				var totalToCopy = default(long?);
-				var task = new Task(() =>
+			    var task = new Task(() =>
 					{
 						try
 						{
-							totalToCopy = GetSize(hgDir);
-							return;
+						    _totalSize = GetSize(hgDir);
+                            _totalSizeString = HumanReadableSize(_totalSize.Value);
 						}
 // ReSharper disable EmptyGeneralCatchClause
 						catch
@@ -66,8 +66,8 @@ namespace j6.BuildTools.MsBuildTasks
 						}
 					});
 				task.Start();
-				startTime = DateTime.UtcNow;
-				bytesRead = CopyDirectory(hgDir, targetDir, out wasCancelled, ref totalToCopy, startTime.Value);
+				_startTime = DateTime.UtcNow;
+				CopyDirectory(hgDir, targetDir, out wasCancelled);
 			}
 			catch (Exception ex)
 			{
@@ -75,12 +75,12 @@ namespace j6.BuildTools.MsBuildTasks
 				errorOccurred = true;
 			}
 			Console.WriteLine();
-			if (startTime.HasValue)
+			if (_startTime.HasValue)
 			{
-				var runningTime = DateTime.UtcNow - startTime.Value;
+				var runningTime = DateTime.UtcNow - _startTime.Value;
 
-				Console.WriteLine("{0} cloned in {1} ({2}/sec)", HumanReadableSize(bytesRead), runningTime,
-				                  HumanReadableSize(bytesRead/runningTime.TotalSeconds));
+				Console.WriteLine("{0} cloned in {1} ({2}/sec)", HumanReadableSize(_totalBytesCopied), runningTime,
+                                  HumanReadableSize(_totalBytesCopied / runningTime.TotalSeconds));
 			}
 			if (wasCancelled && targetDir.Exists)
 			{
@@ -121,24 +121,21 @@ namespace j6.BuildTools.MsBuildTasks
 			return size;
 		}
 
-		private long CopyDirectory(DirectoryInfo source, DirectoryInfo target, out bool cancelled, ref long? totalSize, DateTime? startTime = default(DateTime?))
+		private void CopyDirectory(DirectoryInfo source, DirectoryInfo target, out bool cancelled)
 		{
 			if (_cancelRequested)
 			{
 				cancelled = true;
-				return 0;
+				return;
 			}
 			var fileSystemInfoComparer = new FileSystemInfoComparer();
 
-			var sourceFiles = source.GetFileSystemInfos().Distinct(fileSystemInfoComparer).GroupBy(f => f.Name, StringComparer.InvariantCultureIgnoreCase).Select(f => new { f.Key, Files = f.ToArray() });
+			var sourceFiles = source.GetFileSystemInfos().Distinct(fileSystemInfoComparer).GroupBy(f => f.Name, StringComparer.InvariantCultureIgnoreCase).Select(f => new { f.Key, Files = f.ToArray() })
+                .OrderByDescending(s => s.Files.Length).ThenBy(s => s.Files.First() is DirectoryInfo ? 0 : 1).ToArray();
 			
 				if (!target.Exists)
 					target.Create();
-			long bytesCopied = 0;
-			var totalSizeString = totalSize.HasValue
-				                      ? HumanReadableSize(totalSize.Value)
-				                      : default(string);
-
+			
 			foreach (var sf in sourceFiles)
 			{
 				if(sf.Files.Length > 1)
@@ -147,30 +144,31 @@ namespace j6.BuildTools.MsBuildTasks
 				if (_cancelRequested)
 				{
 					cancelled = true;
-					return bytesCopied;
+					return;
 				}
 
 				var directory = sourceFile as DirectoryInfo;
 				var file = sourceFile as FileInfo;
 				bool wasCancelled;
 				if (directory != null)
-					bytesCopied += CopyDirectory(directory, new DirectoryInfo(Path.Combine(target.FullName, directory.Name)), out wasCancelled, ref totalSize, startTime);
+					CopyDirectory(directory, new DirectoryInfo(Path.Combine(target.FullName, directory.Name)), out wasCancelled);
 
 				if (file == null) continue;
 
 				var outputFile = Path.Combine(target.FullName, file.Name);
-				var completed = CopyIncrementally(file, outputFile, bytesCopied, startTime, ref totalSize, ref totalSizeString, (bytesRead, runningTime, totSize, totSizeString) =>
-					{
+				var completed = CopyIncrementally(file, outputFile, bytesRead =>
+				    {
+                        _totalBytesCopied += bytesRead; 
+                        var runningTime = _startTime.HasValue ? (DateTime.UtcNow - _startTime.Value) : default(TimeSpan?);
 						Console.SetCursorPosition(0, Console.CursorTop);
-						if (totSizeString == default(string) && totSize.HasValue)
-							totSizeString = HumanReadableSize(totSize.Value);
-						var total = totSize.HasValue
-							            ? string.Format("{0}/{1} ({2}%)", HumanReadableSize(bytesRead), totSizeString,
-														(bytesRead * 100) / totSize.Value)
-							            : HumanReadableSize(bytesRead);
+						
+                        var total = _totalSize.HasValue && !string.IsNullOrWhiteSpace(_totalSizeString)
+							            ? string.Format("{0}/{1} ({2}%)", HumanReadableSize(_totalBytesCopied), _totalSizeString,
+														(_totalBytesCopied * 100) / _totalSize.Value)
+                                        : HumanReadableSize(_totalBytesCopied);
 
-						var message = runningTime.HasValue 
-							              ? string.Format("{0} copied ({1}/sec.)", total, HumanReadableSize(bytesRead/runningTime.Value.TotalSeconds))
+						var message = runningTime.HasValue
+                                          ? string.Format("{0} copied ({1}/sec.)", total, HumanReadableSize(_totalBytesCopied / runningTime.Value.TotalSeconds))
 							              : string.Format("{0} copied.", total);
 							
 						if (message.Length > Console.WindowWidth - 1)
@@ -183,16 +181,19 @@ namespace j6.BuildTools.MsBuildTasks
 						Console.Write(message);
 						return _cancelRequested;
 					});
-				if(completed)
-					bytesCopied += file.Length;
-				else if(File.Exists(outputFile))
-					File.Delete(outputFile);
+
+			    if (completed) continue;
+
+			    var fileCopied = new FileInfo(outputFile);
+			    if (!fileCopied.Exists) continue;
+
+			    _totalBytesCopied -= fileCopied.Length;
+			    File.Delete(outputFile);
 			}
 			cancelled = false;
-			return bytesCopied;
 		}
 
-		private bool CopyIncrementally(FileInfo file, string targetFile, long bytesCopied, DateTime? startTime, ref long? totalSize, ref string totalSizeString, Func<long, TimeSpan?, long?, string, bool> cancelCallback)
+		private static bool CopyIncrementally(FileInfo file, string targetFile, Func<long, bool> cancelCallback)
 		{
 			var buffer = new byte[4096];
 				
@@ -203,7 +204,7 @@ namespace j6.BuildTools.MsBuildTasks
 				{
 					var bytesRead = input.Read(buffer, 0, buffer.Length);
 					output.Write(buffer, 0, bytesRead);
-					if (cancelCallback != null && cancelCallback(bytesCopied + input.Position, startTime.HasValue ? (DateTime.UtcNow - startTime.Value) : default(TimeSpan?), totalSize, totalSizeString))
+					if (cancelCallback != null && cancelCallback(bytesRead))
 						return false;
 				}
 			}
