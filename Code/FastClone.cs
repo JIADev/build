@@ -100,32 +100,25 @@ namespace j6.BuildTools.MsBuildTasks
 			var sourceDirs = sourceInfos.Distinct(fileSystemInfoComparer)
 							   .GroupBy(f => f.FullName, StringComparer.InvariantCultureIgnoreCase)
 							   .Select(f => f.First()).OfType<DirectoryInfo>().ToArray();
-			long[] size = {0};
+			long size = 0;
 
 			foreach (var file in sourceFiles)
 			{
 				if (_cancelRequested)
-					return size[0];
+					return size;
 
-				size[0] += file.Length;
+				size += file.Length;
 			}
 
-			var index = 0;
-			const int take = 2;
-			while(index < sourceDirs.Length)
+			foreach (var sourceDir in sourceDirs)
 			{
-				var dirs = sourceDirs.Skip(index).Take(take).ToArray();
-				dirs.AsParallel().ForAll(sourceDir =>
-								   {
-									   if (_cancelRequested)
-										   return;
-									   
-									   size[0] += GetSize(sourceDir);
-								   });
-				index += dirs.Length;
+				if (_cancelRequested)
+					return size;
+
+				size += GetSize(sourceDir);
 			}
-			
-			return size[0];
+
+			return size;
 		}
 
 		private long CopyDirectory(DirectoryInfo source, DirectoryInfo target, out bool cancelled, ref long? totalSize, DateTime? startTime = default(DateTime?))
@@ -135,18 +128,22 @@ namespace j6.BuildTools.MsBuildTasks
 				cancelled = true;
 				return 0;
 			}
+			var fileSystemInfoComparer = new FileSystemInfoComparer();
 
-			var sourceFiles = source.GetFileSystemInfos();
-
+			var sourceFiles = source.GetFileSystemInfos().Distinct(fileSystemInfoComparer).GroupBy(f => f.Name, StringComparer.InvariantCultureIgnoreCase).Select(f => new { f.Key, Files = f.ToArray() });
+			
 				if (!target.Exists)
 					target.Create();
-				var fileSystemInfoComparer = new FileSystemInfoComparer();
 			long bytesCopied = 0;
 			var totalSizeString = totalSize.HasValue
 				                      ? HumanReadableSize(totalSize.Value)
 				                      : default(string);
-			foreach (var sourceFile in sourceFiles.Distinct(fileSystemInfoComparer).GroupBy(f => f.FullName, StringComparer.InvariantCultureIgnoreCase).Select(f => f.First()))
+
+			foreach (var sf in sourceFiles)
 			{
+				if(sf.Files.Length > 1)
+					Console.WriteLine("Duplicate file name: {0}: ", string.Join(", ", sf.Files.Select(s => s.FullName)));
+				var sourceFile = sf.Files.First();
 				if (_cancelRequested)
 				{
 					cancelled = true;
