@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Build.Framework;
 using System.IO;
+using System.Threading;
 
 namespace j6.BuildTools.MsBuildTasks
 {
@@ -156,59 +157,119 @@ namespace j6.BuildTools.MsBuildTasks
 				if (file == null) continue;
 
 				var outputFile = Path.Combine(target.FullName, file.Name);
-				var completed = CopyIncrementally(file, outputFile, bytesRead =>
+				CopyIncrementally(file, outputFile, bytesRead =>
 				    {
                         _totalBytesCopied += bytesRead; 
                         var runningTime = _startTime.HasValue ? (DateTime.UtcNow - _startTime.Value) : default(TimeSpan?);
-						Console.SetCursorPosition(0, Console.CursorTop);
-						
-                        var total = _totalSize.HasValue && !string.IsNullOrWhiteSpace(_totalSizeString)
-							            ? string.Format("{0}/{1} ({2}%)", HumanReadableSize(_totalBytesCopied), _totalSizeString,
-														(_totalBytesCopied * 100) / _totalSize.Value)
-                                        : HumanReadableSize(_totalBytesCopied);
+					    lock (this)
+					    {
+						    Console.SetCursorPosition(0, Console.CursorTop);
 
-						var message = runningTime.HasValue
-                                          ? string.Format("{0} copied ({1}/sec.)", total, HumanReadableSize(_totalBytesCopied / runningTime.Value.TotalSeconds))
-							              : string.Format("{0} copied.", total);
-							
-						if (message.Length > Console.WindowWidth - 1)
-							message = message.Substring(Console.WindowWidth - 1);
-						var newMessageLength = message.Length;
-						var blanksNeeded = Console.WindowWidth - newMessageLength - 1;
-						var chars = new string(new char[blanksNeeded].Select(c => ' ').ToArray());
-						message = string.Format("{0}{1}", message, chars);
-						
-						Console.Write(message);
-						return _cancelRequested;
+						    var total = _totalSize.HasValue && !string.IsNullOrWhiteSpace(_totalSizeString)
+							                ? string.Format("{0}/{1} ({2}%)", HumanReadableSize(_totalBytesCopied), _totalSizeString,
+							                                (_totalBytesCopied*100)/_totalSize.Value)
+							                : HumanReadableSize(_totalBytesCopied);
+
+						    var message = runningTime.HasValue
+							                  ? string.Format("{0} copied ({1}/sec.)", total,
+							                                  HumanReadableSize(_totalBytesCopied/runningTime.Value.TotalSeconds))
+							                  : string.Format("{0} copied.", total);
+
+						    if (message.Length > Console.WindowWidth - 1)
+							    message = message.Substring(Console.WindowWidth - 1);
+						    var newMessageLength = message.Length;
+						    var blanksNeeded = Console.WindowWidth - newMessageLength - 1;
+						    var chars = new string(new char[blanksNeeded].Select(c => ' ').ToArray());
+						    message = string.Format("{0}{1}", message, chars);
+
+						    Console.Write(message);
+					    }
+					    return _cancelRequested;
 					});
-
-			    if (completed) continue;
-
-			    var fileCopied = new FileInfo(outputFile);
-			    if (!fileCopied.Exists) continue;
-
-			    _totalBytesCopied -= fileCopied.Length;
-			    File.Delete(outputFile);
 			}
 			cancelled = false;
 		}
-
-		private static bool CopyIncrementally(FileInfo file, string targetFile, Func<long, bool> cancelCallback)
+		private class DataBuffer
 		{
-			var buffer = new byte[4096];
-				
-			using(var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (var output = new FileStream(targetFile, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+			public byte[] Buffer { get; private set; }
+			public int BytesRead { get; set; }
+
+			public DataBuffer()
+				:this(4096)
 			{
+				
+			}
+
+			private DataBuffer(int bufferLength)
+			{
+				Buffer = new byte[bufferLength];
+			}
+		}
+		private class TargetInfo
+		{
+			public string File { get; set; }
+			public long Length { get; set; }
+			public Queue<DataBuffer> Queue { get; private set; }
+			public Func<long, bool> CancellationCallback { get; set; } 
+			public TargetInfo()
+			{
+				Queue = new Queue<DataBuffer>();
+			}
+		}
+		private void CopyIncrementally(FileInfo file, string targetFile, Func<long, bool> cancelCallback)
+		{
+			using(var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+			{
+				var targetInfo = new TargetInfo {File = targetFile, Length = input.Length, CancellationCallback = cancelCallback};
+				var writeTask = new Task(WriteTask, targetInfo);
+				
 				while (input.Position < input.Length)
 				{
-					var bytesRead = input.Read(buffer, 0, buffer.Length);
-					output.Write(buffer, 0, bytesRead);
-					if (cancelCallback != null && cancelCallback(bytesRead))
-						return false;
+					var dBuffer = new DataBuffer();
+
+					dBuffer.BytesRead = input.Read(dBuffer.Buffer, 0, dBuffer.Buffer.Length);
+					targetInfo.Queue.Enqueue(dBuffer);
+					
+					if (_cancelRequested)
+						return;
+
+					if (writeTask.Status == TaskStatus.Created)
+						writeTask.Start();
 				}
 			}
-			return true;
+		}
+
+		private void WriteTask(object target)
+		{
+			var targetInfo = target as TargetInfo;
+			if (targetInfo == null)
+				return;
+			var wasCancelled = false;
+			using (var output = new FileStream(targetInfo.File, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+			{
+				var bytesWritten = 0;
+				while (!wasCancelled && bytesWritten < targetInfo.Length)
+				{
+					DataBuffer buffer;
+					do
+					{
+						buffer = targetInfo.Queue.Count == 0 ? null : targetInfo.Queue.Dequeue();
+						if (buffer == null)
+							Thread.Sleep(10);
+					} while (buffer == null);
+					output.Write(buffer.Buffer, 0, buffer.BytesRead);
+					bytesWritten += buffer.BytesRead;
+					if (targetInfo.CancellationCallback != null && targetInfo.CancellationCallback(buffer.BytesRead))
+					{
+						if (bytesWritten < targetInfo.Length)
+							wasCancelled = true;
+					}
+				}
+			}
+			if (wasCancelled)
+			{
+				File.Delete(targetInfo.File);
+			}
 		}
 
 		private DirectoryInfo GetSourceLocation(string repository)
