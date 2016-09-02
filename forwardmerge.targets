@@ -233,6 +233,8 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=2095_NuGet765;DoMerge=true;DoCommit=true" />
 
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_NuGet765;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
+
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_2095" />
     
@@ -264,6 +266,8 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(Active766Reqs.Identity);DoMerge=true;DoCommit=true" />
 -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=7.6.6;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
 
     <!-- These are the branches which don't depend on anything and *don't* need to be published -->
     
