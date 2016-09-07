@@ -182,8 +182,6 @@
     <ItemGroup>
 
       <Active2096Reqs Include="7.6.7" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
-
 <!--      <Active767Branches Include="" /> -->
 
 <!--
@@ -191,6 +189,7 @@
 -->
     </ItemGroup>
     
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
     <!-- These are the branches which don't depend on anything -->
 
     <!-- These are the branches which don't depend on anything but need to be published -->
