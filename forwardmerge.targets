@@ -182,6 +182,8 @@
     <ItemGroup>
 
       <Active2096Reqs Include="7.6.7" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
+
 <!--      <Active767Branches Include="" /> -->
 
 <!--
@@ -234,6 +236,8 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=2095_NuGet765;DoMerge=true;DoCommit=true" />
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_NuGet765;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_NuGet766;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
 
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_2095" />
