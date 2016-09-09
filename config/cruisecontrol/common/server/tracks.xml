@@ -21,7 +21,6 @@
     <cb:reqBuild projectName="CUST1002_SprintPWS" customer="1002" branchName="1002_SprintPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2095_NuGet765" customer="2095" branchName="2095_NuGet765" prodTag="2095_PRD" />
     <cb:reqBuild projectName="CUST2095-2094_NuGet766" customer="2095" branchName="2094_NuGet766" prodTag="2095_PRD" />
-    
     <cb:reqBuild projectName="CUST2096_NuGet767" customer="2096" branchName="2096_NuGet767" prodTag="2096_PRD" />
   </cb:define>
   
@@ -32,7 +31,6 @@
     <cb:reqBuild projectName="CUST2095-1001_WebPWS" customer="2095" branchName="1001_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2094-1002_SprintPWS" customer="2094" branchName="1002_SprintPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2094_REQ011_001" customer="2094" branchName="2094_REQ011_001" prodTag="2094_PRD" />
-    
     <cb:reqBuild projectName="CUST2095-2096_NuGet767" customer="2095" branchName="2096_NuGet767" prodTag="2095_PRD" />
   </cb:define>
   
@@ -43,7 +41,6 @@
     <cb:reqBuild projectName="CUST2095-1002_SprintPWS" customer="2095" branchName="1002_SprintPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST000-2095_NuGet765" customer="000" branchName="2095_NuGet765" prodTag="2095_PRD" />
     <cb:reqBuild projectName="CUST000-2094_NuGet766" customer="000" branchName="2094_NuGet766" prodTag="2095_PRD;2094_PRD" />
-    
     <cb:reqBuild projectName="CUST2094-2096_NuGet767" customer="2094" branchName="2096_NuGet767" prodTag="2094_PRD" />
   </cb:define>
   
@@ -54,7 +51,6 @@
     <cb:reqBuild projectName="CUST2096-1001_WebPWS" customer="2096" branchName="1001_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2096-1002_SprintPWS" customer="2096" branchName="1002_SprintPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2094_REQ024b" customer="2094" branchName="2094_REQ024b" prodTag="2094_PRD" />
-    
     <cb:reqBuild projectName="CUST000-2096_NuGet767" customer="000" branchName="2096_NuGet767" prodTag="2094_PRD;2095_PRD;2096_PRD" />
   </cb:define>
   
@@ -65,6 +61,7 @@
     <cb:reqBuild projectName="CUST000-1001_WebPWS" customer="000" branchName="1001_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2094_NuGet766" customer="2094" branchName="2094_NuGet766" prodTag="2094_PRD" />
     <cb:reqBuild projectName="CUST2094_REQ029b" customer="2094" branchName="2094_REQ029b" prodTag="2094_PRD" />
+    <cb:reqBuild projectName="CUST2094_REQ038b" customer="2094" branchName="2094_REQ038b" prodTag="2094_PRD" />
   </cb:define>
   
   <cb:define name="build2queues">
