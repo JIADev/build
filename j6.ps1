@@ -67,6 +67,7 @@ function load-visualstudio {
 		""," (x86)" | %{ load-vcvars -vsver $vsver -vscpu $_ -vsdrive $drive }
 	}
 }
+function load-vs2015 { load-visualstudio -vsver "14.0" }
 function load-vs2012 { load-visualstudio -vsver "11.0" }
 function load-vs2010 { load-visualstudio -vsver "10.0" }
 function load-vs2008 { load-visualstudio -vsver "9.0" }
@@ -76,6 +77,7 @@ function load-vs2005 { load-visualstudio -vsver "8" }
 if ($args -contains "-2005") { load-vs2005 } 
 elseif ($args -contains "-2008") { load-vs2008 } 
 elseif ($args -contains "-2010") { load-vs2010 } 
+elseif ($args -contains "-2015") { load-vs2015 } 
 else { load-vs2012 }
 
 
