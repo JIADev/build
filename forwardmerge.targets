@@ -256,18 +256,17 @@
       <TargetRepo>$(SourceRepo)</TargetRepo>
     </PropertyGroup>
     
-<!--
     <ItemGroup>
+<!--
       <CompletedRC33Reqs Include="" />
-      <Active766Reqs Include="" />
-    </ItemGroup>
 -->
+      <Active2094Reqs Include="REQ_095_003;REQ081_005;REQ036b;REQ011_001;RM56553;REQ024b;REQ029b;REQ038b" />
+    </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
 
-<!--
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.6;TargetBranch=%(Active766Reqs.Identity);DoMerge=true;DoCommit=true" />
--->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=%(Active2094Reqs.Identity);DoMerge=true;DoCommit=true" />
+
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=7.6.6;DoMerge=true;DoCommit=true" />
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
