@@ -25,7 +25,7 @@
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>
   <Target Name="ConsolidatePackageConfig">
-    <ConsolidatePackageConfigs Root="c:\dev\nuGetj6" MasterPackageConfig="$(MSBuildStartupDirectory)\.nuget\packages.config" />
+    <ConsolidatePackageConfigs Root="$(MSBuildStartupDirectory)" MasterPackageConfig="$(MSBuildStartupDirectory)\.nuget\packages.config" />
   </Target>
 
   <Target Name="ConsolidateAssemblyVersions" DependsOnTargets="ConsolidatePackageConfig">
