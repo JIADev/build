@@ -146,7 +146,7 @@
       <Active768Reqs Include="7.6.8" />
 
       <Active768Branches Include="1001_WebPWS;1001_NuGet768" />
-      <ActivePwsBranches Include="1002_WebPWS" />
+      <ActivePwsBranches Include="1002_WebPWS;1001_NuGetWebPWS" />
       <ActiveEventPwsBranches Include="1002_SprintPWS;1002_BPEventsMerge" />
 <!--
       <Active768ReqsWithDependencies Include="" />
@@ -191,6 +191,7 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_NuGet767;TargetBranch=1001_NuGet768;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_NuGet768;TargetBranch=1001_NuGetWebPWS;DoMerge=true;DoCommit=true" />
     <!-- These are the branches which don't depend on anything -->
 
     <!-- These are the branches which don't depend on anything but need to be published -->
