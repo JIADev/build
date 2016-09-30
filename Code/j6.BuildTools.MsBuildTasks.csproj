@@ -47,12 +47,14 @@
   <ItemGroup>
     <Compile Include="ChangedFiles.cs" />
     <Compile Include="CleanProjectFiles.cs" />
+    <Compile Include="ConditionJunctionedFiles.cs" />
     <Compile Include="ConsolidateAssemblyVersions.cs" />
     <Compile Include="ConsolidatePackageConfigs.cs" />
     <Compile Include="CopyDiffFiles.cs" />
     <Compile Include="DeleteAll.cs" />
     <Compile Include="DeleteIfEmpty.cs" />
     <Compile Include="EnsureEmpty.cs" />
+    <Compile Include="ExistsUnderPath.cs" />
     <Compile Include="ExtractChangesets.cs" />
     <Compile Include="FastClone.cs" />
     <Compile Include="FileEnumerator.cs" />
