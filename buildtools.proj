@@ -24,6 +24,11 @@
   <Target Name="Test">
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>
+
+  <Target Name="ConditionJunctionedFiles" DependsOnTargets="CompileBuildTools">
+    <Error Text="Missing Project File" Condition="'$(ProjectFile)' == ''" />
+    <ConditionJunctionedFiles ProjectFile="$(ProjectFile)" WorkingDirectory="$(MSBuildStartupDirectory)" />
+  </Target>
   <Target Name="ConsolidatePackageConfig">
     <ConsolidatePackageConfigs Root="$(MSBuildStartupDirectory)" MasterPackageConfig="$(MSBuildStartupDirectory)\.nuget\packages.config" />
   </Target>
