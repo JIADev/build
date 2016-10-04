@@ -13,8 +13,9 @@
     <cb:reqBuild projectName="CUST2094_REQ081_005" customer="2094" branchName="2094_REQ081_005" prodTag="2094_PRD" />
     <cb:reqBuild projectName="CUST2090-1001_NuGet768" customer="2090" branchName="1001_NuGet768" />
     <cb:reqBuild projectName="CUST2090-1001_NuGetWebPWS" customer="2090" branchName="1001_NuGetWebPWS" />
-    <cb:reqBuild projectName="CUST1000-1001_NuGetWebPWS" customer="1000" branchName="1001_NuGetWebPWS" />
-    <cb:reqBuild projectName="CUST1002_BPEventsMerge" customer="1002" branchName="1002_BPEventsMerge" />
+    <cb:reqBuild projectName="CUST1000-1001_NuGetWebPWS" customer="1000" branchName="1001_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <cb:reqBuild projectName="CUST1002_BPEventsMerge" customer="1002" branchName="1002_BPEventsMerge" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <cb:reqBuild projectName="CUST2090-1002_NuGetWebPWS" customer="2090" branchName="1002_NuGetWebPWS" />
   </cb:define>
   
   <cb:define name="queue1d">
@@ -28,6 +29,7 @@
     <cb:reqBuild projectName="CUST2096_NuGet767" customer="2096" branchName="2096_NuGet767" prodTag="2096_PRD" />
     <cb:reqBuild projectName="CUST000-1001_NuGet768" customer="000" branchName="1001_NuGet768" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST000-1001_NuGetWebPWS" customer="000" branchName="1001_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <cb:reqBuild projectName="CUST2094-1002_NuGetWebPWS" customer="2094" branchName="1002_NuGetWebPWS" prodTag="2094_PRD" />
   </cb:define>
   
   <cb:define name="queue2b">
@@ -40,6 +42,8 @@
     <cb:reqBuild projectName="CUST2094_REQ141_002" customer="2094" branchName="2094_REQ141_002" prodTag="2094_PRD" />
     <cb:reqBuild projectName="CUST2094-1001_NuGet768" customer="2094" branchName="1001_NuGet768" prodTag="2094_PRD" />
     <cb:reqBuild projectName="CUST2094-1001_NuGetWebPWS" customer="2094" branchName="1001_NuGetWebPWS" prodTag="2094_PRD" />
+    <cb:reqBuild projectName="CUST000-1002_NuGetWebPWS" customer="000" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <cb:reqBuild projectName="CUST2095-1002_NuGetWebPWS" customer="2095" branchName="1002_NuGetWebPWS" prodTag="2095_PRD" />
   </cb:define>
   
   <cb:define name="queue2d">
@@ -52,6 +56,8 @@
     <cb:reqBuild projectName="CUST2094-2096_NuGet767" customer="2094" branchName="2096_NuGet767" prodTag="2094_PRD" />
     <cb:reqBuild projectName="CUST2095-1001_NuGet768" customer="2095" branchName="1001_NuGet768" prodTag="2095_PRD" />
     <cb:reqBuild projectName="CUST2095-1001_NuGetWebPWS" customer="2095" branchName="1001_NuGetWebPWS" prodTag="2095_PRD" />
+    <cb:reqBuild projectName="CUST1000-1002_NuGetWebPWS" customer="1000" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <cb:reqBuild projectName="CUST2096-1002_NuGetWebPWS" customer="2096" branchName="1002_NuGetWebPWS" prodTag="2096_PRD" />
   </cb:define>
   
   <cb:define name="queue3b">
@@ -64,6 +70,7 @@
     <cb:reqBuild projectName="CUST000-2096_NuGet767" customer="000" branchName="2096_NuGet767" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2096-1001_NuGet768" customer="2096" branchName="1001_NuGet768" prodTag="2096_PRD" />
     <cb:reqBuild projectName="CUST2096-1001_NuGetWebPWS" customer="2096" branchName="1001_NuGetWebPWS" prodTag="2096_PRD" />
+    <cb:reqBuild projectName="CUST1001-1002_NuGetWebPWS" customer="1001" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
   </cb:define>
   
   <cb:define name="queue3d">
@@ -76,6 +83,7 @@
     <cb:reqBuild projectName="CUST2094_REQ038b" customer="2094" branchName="2094_REQ038b" prodTag="2094_PRD" />
     <cb:reqBuild projectName="CUST1001_NuGet768" customer="1001" branchName="1001_NuGet768" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST1001_NuGetWebPWS" customer="1001" branchName="1001_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
+    <cb:reqBuild projectName="CUST1002_NuGetWebPWS" customer="1002" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
   </cb:define>
   
   <cb:define name="build2queues">

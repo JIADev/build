@@ -145,8 +145,8 @@
 
       <Active768Reqs Include="7.6.8" />
 
-      <Active768Branches Include="1001_WebPWS;1001_NuGet768" />
-      <ActivePwsBranches Include="1002_WebPWS;1001_NuGetWebPWS" />
+      <Active768Branches Include="1001_WebPWS" />
+      <ActivePwsBranches Include="1002_WebPWS" />
       <ActiveEventPwsBranches Include="1002_BPEventsMerge" />
 <!--
       <Active768ReqsWithDependencies Include="" />
@@ -172,6 +172,15 @@
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1002_WebPWS;TargetBranch=%(ActiveEventPwsBranches.Identity);DoMerge=true;DoCommit=true" />
 
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=2095_NuGet765;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_NuGet765;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_NuGet766;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_NuGet767;TargetBranch=1001_NuGet768;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_NuGet768;TargetBranch=1001_NuGetWebPWS;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_NuGetWebPWS;TargetBranch=1002_NuGetWebPWS;DoMerge=true;DoCommit=true" />
+
   </Target>
   
   <Target Name="ForwardMerge_2096" DependsOnTargets="InitRepos">
@@ -189,9 +198,6 @@
 -->
     </ItemGroup>
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_NuGet767;TargetBranch=1001_NuGet768;DoMerge=true;DoCommit=true" />
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_NuGet768;TargetBranch=1001_NuGetWebPWS;DoMerge=true;DoCommit=true" />
     <!-- These are the branches which don't depend on anything -->
 
     <!-- These are the branches which don't depend on anything but need to be published -->
@@ -234,12 +240,6 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=7.6.5;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=2095_NuGet765;DoMerge=true;DoCommit=true" />
-
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_NuGet765;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
-
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_NuGet766;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
-
     <!-- Then we do the dependency merges -->
     <CallTarget Targets="DependencyMerge_2095" />
     
@@ -270,8 +270,6 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_%(Active2094Reqs.Identity);DoMerge=true;DoCommit=true" />
 
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=7.6.6;DoMerge=true;DoCommit=true" />
-
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_NuGet766;DoMerge=true;DoCommit=true" />
 
     <!-- These are the branches which don't depend on anything and *don't* need to be published -->
     
