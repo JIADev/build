@@ -61,6 +61,7 @@
     <cb:reqBuild projectName="CUST2095-1001_NuGetWebPWS" customer="2095" branchName="1001_NuGetWebPWS" prodTag="2095_PRD" />
     <cb:reqBuild projectName="CUST1000-1002_NuGetWebPWS" customer="1000" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild projectName="CUST2096-1002_NuGetWebPWS" customer="2096" branchName="1002_NuGetWebPWS" prodTag="2096_PRD" />
+    <cb:reqBuild projectName="CUST1002_pws_sprint_rcarruthers" customer="1002" branchName="1002_pws_sprint_rcarruthers" />
   </cb:define>
   
   <cb:define name="queue3b">
