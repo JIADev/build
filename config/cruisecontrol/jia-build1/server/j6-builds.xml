@@ -378,4 +378,28 @@
       corflags="/32bitpref-"
       />
   
+    <project name="EngineCore" category="EngineCore" queue="EngineCore" queuePriority="1" initialState="$(initialState)">
+        <cb:if expr="'$(sourceCheckInterval)'!=''">
+	<triggers>
+	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
+	</triggers>
+      </cb:if>
+      <prebuild>
+	<cb:pull-source />
+	<cb:revertall />
+	<cb:update-source />
+      </prebuild>
+      <tasks>
+	<cb:copy-logger-local />
+	<msbuild logger="$(msBuildListenerDll)" description="GenerateNuGet">
+	  <executable>$(msbuild)</executable>
+	  <projectFile>default.proj</projectFile>
+	  <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseInstance=$(db-instance) /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(project-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)" /p:Customer="$(driver)"</buildArgs> 
+	  <targets>GenerateNuGet</targets>
+	  <timeout>$(msbuild-build-timeout)</timeout>
+	</msbuild>
+      </tasks>
+      
+    </project>
+
 </cb:config-template>
