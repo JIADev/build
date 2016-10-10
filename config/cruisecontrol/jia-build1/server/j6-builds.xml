@@ -377,9 +377,10 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
-  
-    <project name="EngineCore" category="EngineCore" queue="EngineCore" queuePriority="1" initialState="$(initialState)">
-        <cb:if expr="'$(sourceCheckInterval)'!=''">
+
+  <cb:define name="v8build">
+    <project name="$(project-name)" category="$(project-name)" queue="Queue1" queuePriority="1" initialState="$(initialState)">
+      <cb:if expr="'$(sourceCheckInterval)'!=''">
 	<triggers>
 	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
 	</triggers>
@@ -394,12 +395,23 @@
 	<msbuild logger="$(msBuildListenerDll)" description="GenerateNuGet">
 	  <executable>$(msbuild)</executable>
 	  <projectFile>default.proj</projectFile>
-	  <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseInstance=$(db-instance) /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(project-folder) /p:CacheDatabase="$(redis-db)" /p:DriverFeature="$(driver)" /p:Customer="$(driver)"</buildArgs> 
+	  <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseInstance=$(db-instance) /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(project-folder) /p:CacheDatabase="$(redis-db)"</buildArgs> 
 	  <targets>GenerateNuGet</targets>
 	  <timeout>$(msbuild-build-timeout)</timeout>
 	</msbuild>
       </tasks>
-      
     </project>
-
+  </cb:define>
+  
+  <cb:v8build
+      project-name="EngineCore"
+      db-name="ccnet-EngineCore"
+      db-server="dev-8900sql4"
+      db-instance="sql2014"
+      db-user=""
+      db-password=""
+      redis-server=""
+      redis-db=""
+      />
+  
 </cb:config-template>
