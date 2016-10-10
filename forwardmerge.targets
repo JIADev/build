@@ -178,7 +178,10 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_NuGet766;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=2096_NuGet767;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_NuGet767;TargetBranch=1001_NuGet768;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=1001_NuGet768;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_NuGet768;TargetBranch=1001_NuGetWebPWS;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_WebPWS;TargetBranch=1001_NuGetWebPWS;DoMerge=true;DoCommit=true" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1002_WebPWS;TargetBranch=1002_NuGetWebPWS;DoMerge=true;DoCommit=true" />
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_NuGetWebPWS;TargetBranch=1002_NuGetWebPWS;DoMerge=true;DoCommit=true" />
 
   </Target>
@@ -262,7 +265,7 @@
 <!--
       <CompletedRC33Reqs Include="" />
 -->
-      <Active2094Reqs Include="REQ_095_003;REQ081_005;REQ141_002;REQ011_001;RM56553;REQ024b;REQ029b;REQ038b" />
+      <Active2094Reqs Include="REQ_095_003;REQ081_005;REQ141_002;REQ011_001;RM56553;REQ024b;REQ029b;REQ038b;REQ076_001" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
