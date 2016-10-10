@@ -386,7 +386,7 @@
     <cb:define db-user="$(db-user-2014)" />
     <cb:define db-password="$(db-password-2014)" />
     <cb:define db-instance="$(db-server-2014-instance)" />
-    
+    <cb:define driver="" />
     <project name="$(project-name)" category="$(project-name)" queue="Queue1" queuePriority="1" initialState="$(initialState)">
       <cb:if expr="'$(sourceCheckInterval)'!=''">
 	<triggers>
