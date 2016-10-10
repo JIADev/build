@@ -134,6 +134,18 @@
   
   <cb:define name="revertall">
     <cb:if expr="'$(updateSource)' != 'false'">
+    <conditional description="Ensure project folder exists">
+      <conditions>
+	<folderNotExistsCondition folder="$(project-folder)" />
+      </conditions>
+      <tasks>
+	<exec 
+	    executable="$(powershell)" 
+	    baseDirectory="$(pkgroot)"
+	    description="Recreate project folder">
+	  <buildArgs>/c "md -F $(project-folder)"</buildArgs>
+	</exec>
+      </tasks>
       <msbuild logger="$(msBuildListenerDll)"
 	       description="Revert all changes in working dir"
 	       executable="$(msbuild)"
@@ -141,6 +153,7 @@
 	       projectFile="$(global_feature_dir)\buildtools.proj"
 	       targets="RevertAll"
 	       timeout="$(revertall-timeout)" />
+    </conditional>
     </cb:if>    
   </cb:define>
   
