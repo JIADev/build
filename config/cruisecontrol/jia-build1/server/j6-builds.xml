@@ -399,6 +399,7 @@
       <prebuild>
 	<cb:pull-source />
 	<cb:revertall />
+	<cb:update-source />
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
