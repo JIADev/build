@@ -377,45 +377,5 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
-
-  <cb:define name="v8build">
-    <cb:define project-root="$(project-name)" />
-    <cb:define db-name="ccnet-$(project-name)-DEV" />
-    <cb:define feature="$(relativefeature)" />
-    <cb:define db-server="$(db-server-2014)" />
-    <cb:define db-user="$(db-user-2014)" />
-    <cb:define db-password="$(db-password-2014)" />
-    <cb:define db-instance="$(db-server-2014-instance)" />
-    <cb:define driver="" />
-    <cb:define source="https://restricted-source.jenkon.com/hg/hgweb.cgi/CGEngineCore" />
-    <cb:define branch="2095_NuGet765" />
-    <project name="$(project-name)" category="$(project-name)" queue="Queue1" queuePriority="1" initialState="$(initialState)">
-      <cb:if expr="'$(sourceCheckInterval)'!=''">
-	<triggers>
-	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
-	</triggers>
-      </cb:if>
-      <workingDirectory>$(project-folder)</workingDirectory>
-      <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <cb:sourcecontrol />
-      <prebuild>
-	<cb:pull-source />
-	<cb:revertall />
-	<cb:update-source />
-      </prebuild>
-      <tasks>
-	<cb:copy-logger-local />
-	<msbuild logger="$(msBuildListenerDll)" description="GenerateNuGet">
-	  <executable>$(msbuild)</executable>
-	  <projectFile>default.proj</projectFile>
-	  <buildArgs>/p:DatabaseName="$(db-name)" /p:DatabaseServer="$(db-server)" /p:DatabaseInstance=$(db-instance) /p:DatabaseUser="$(db-user)" /p:DatabasePassword="$(db-password)" /p:CacheServer="$(redis-server)" /p:SourceDir=$(project-folder) /p:CacheDatabase="$(redis-db)"</buildArgs> 
-	  <targets>GenerateNuGet</targets>
-	  <timeout>$(msbuild-build-timeout)</timeout>
-	</msbuild>
-      </tasks>
-    </project>
-  </cb:define>
-  
-  <cb:v8build project-name="EngineCore" />
   
 </cb:config-template>
