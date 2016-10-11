@@ -385,8 +385,7 @@
       project-name="EngineCore"
       branch = '2095_NuGet765'
       platform="AnyCpu"
-      repo-source-root="https://restricted-source.jenkon.com/hg/hgweb.cgi"
-      repo-name="CGEngineCore"
+      source="https://restricted-source.jenkon.com/hg/hgweb.cgi/CGEngineCore"
       j6Version="8.0.0"
       external-zip="true"
       sourceCheckInterval=""
