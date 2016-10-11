@@ -388,7 +388,7 @@
     <cb:define db-instance="$(db-server-2014-instance)" />
     <cb:define driver="" />
     <cb:define source="https://restricted-source.jenkon.com/hg/hgweb.cgi/CGEngineCore" />
-    
+    <cb:define branch="2095_NuGet765" />
     <project name="$(project-name)" category="$(project-name)" queue="Queue1" queuePriority="1" initialState="$(initialState)">
       <cb:if expr="'$(sourceCheckInterval)'!=''">
 	<triggers>
