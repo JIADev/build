@@ -378,4 +378,21 @@
       corflags="/32bitpref-"
       />
   
+  <!-- V8 -->
+  
+  <cb:v8build
+      driver="CUST2095"
+      project-name="EngineCore"
+      branch = '2095_NuGet765'
+      platform="AnyCpu"
+      repo-source-root="https://restricted-source.jenkon.com/hg/hgweb.cgi"
+      repo-name="CGEngineCore"
+      j6Version="8.0.0"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
 </cb:config-template>
