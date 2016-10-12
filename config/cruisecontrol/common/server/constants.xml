@@ -43,6 +43,7 @@
   <cb:define
       repo-source-root="\\repo.jenkon.com\repo$"
       source="$(repo-source-root)\$(repo-name)"
+      nugetPublishLocation="\\repo.jenkon.com\NuGet"
       mailhost="mail.jenkon.com"
       ccwebroot="http://jia-build1/ccnet/"
       deployment-webserver=""
