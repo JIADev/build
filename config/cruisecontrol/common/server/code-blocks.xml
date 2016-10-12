@@ -678,7 +678,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="recreatedb">
       <executable>$(msbuild)</executable>
       <projectFile>default.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform=$(platform) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
       <targets>RecreateDb</targets>
       <timeout>$(msbuild-recreatedb-timeout)
       </timeout>
@@ -688,7 +688,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>default.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
 	<targets>GenerateNuGet</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
