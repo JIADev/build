@@ -276,6 +276,7 @@
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
+	<cb:msbuild-generatepackage />
       </tasks>
       <publishers>
 	<merge>
