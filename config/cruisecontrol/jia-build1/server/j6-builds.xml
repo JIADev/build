@@ -389,7 +389,6 @@
       repo-name="CGEngineCore"
       j6Version="8.0.0"
       external-zip="true"
-      sourceCheckInterval=""
       archive="false"
       package="true"
       corflags="/32bitpref-"
