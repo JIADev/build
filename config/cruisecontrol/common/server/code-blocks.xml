@@ -674,7 +674,17 @@
     </cb:if>
   </cb:define>
   
-  <cb:define name="msbuild-generatepackage">
+  <cb:define name="msbuild-publishNuPkg">
+      <msbuild logger="$(msBuildListenerDll)" description="build">
+	<executable>$(msbuild)</executable>
+	<projectFile>default.proj</projectFile>
+	<buildArgs>/p:Configuration=$(configuration) /p:PublishLocation=$(nugetPublishLocation) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
+	<targets>PublishNuGet</targets>
+	<timeout>$(msbuild-build-timeout)</timeout>
+      </msbuild>
+  </cb:define>
+
+  <cb:define name="msbuild-generateNuPkg">
     <msbuild logger="$(msBuildListenerDll)" description="recreatedb">
       <executable>$(msbuild)</executable>
       <projectFile>default.proj</projectFile>
@@ -755,7 +765,7 @@
     </cb:if>
     <cb:else>
       <exec 
-	  executable="$(powershell)" 
+	  executable="$(powpppershell)" 
 	  baseDirectory="$(project-folder)"
 	  description="Make delete.me folder">
 	<buildArgs>/c "md -F $(pkgroot)\$(project-name)\delete.me"</buildArgs>
