@@ -381,7 +381,7 @@
   <!-- V8 -->
   
   <cb:v8build
-      driver="CUST2095"
+      driver="EngineCore"
       project-name="EngineCore"
       branch = '2095_NuGet765'
       platform="AnyCpu"
