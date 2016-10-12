@@ -678,7 +678,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>default.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:PublishLocation=$(nugetPublishLocation) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:NuPkgPublishLocation=$(nupkgPublishLocation) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
 	<targets>PublishNuGet</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
