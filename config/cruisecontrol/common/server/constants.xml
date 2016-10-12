@@ -52,7 +52,6 @@
   <cb:define
       modules="NONE" 
       platform="AnyCpu"
-      anyCPU="Any CPU"
       configuration="Release"
       include-source="false"
       />
