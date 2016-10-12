@@ -276,24 +276,6 @@
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
-	<cb:msbuild-configure />
-	<cb:if expr="'$(fullbuild)' == 'true'">
-	  <cb:msbuild-fullbuild />
-	</cb:if>
-	<cb:else>
-	  <cb:msbuild-bootstrap />
-	  <cb:msbuild-setup />
-	  <cb:msbuild-install-patches />
-	  <cb:msbuild-build />
-	</cb:else>
-	<cb:msbuild-compileless />
-	<cb:msbuild-jslint />
-	<cb:copy-jslint-reports />
-	<cb:run-ncover-f-unittests />
-	<cb:get-reports />
-	<cb:msbuild-set-corflags /> 
-	<cb:msbuild-package />
-	<cb:publish-package />
       </tasks>
       <publishers>
 	<merge>
