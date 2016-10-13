@@ -265,7 +265,7 @@
 <!--
       <CompletedRC33Reqs Include="" />
 -->
-      <Active2094Reqs Include="REQ_095_003;REQ081_005;REQ141_002;REQ011_001;RM56553;REQ024b;REQ029b;REQ038b;REQ076_001" />
+      <Active2094Reqs Include="REQ141_002;REQ129.A" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
