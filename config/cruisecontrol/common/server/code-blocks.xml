@@ -588,7 +588,27 @@
   <cb:define name="copy-dlls-to-privatebuild"> 
     <exec executable="$(cmdExe)" buildArgs= '/C copy $(project-folder)\Build\*.dll $(project-folder)\PrivateBuild' />
   </cb:define>
-  
+
+  <cb:define name="msbuild-unittest">
+    <cb:if expr="'$(unit-test)' == 'true'">
+      <cb:if expr="'$(code-coverage)' == 'true'">
+	<cb:define unit-test-target="NCover" />
+	<cb:define unit-test-description="NCover Unit Tests" />
+      </cb:if>
+      <cb:else>
+	<cb:define unit-test-target="UnitTest" />
+	<cb:define unit-test-description="Run Unit Tests" />
+      </cb:else>
+      <msbuild logger="$(msBuildListenerDll)" description="$(unit-test-description)">
+	<executable>$(msbuild)</executable>
+	<projectFile>default.proj</projectFile>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
+	<targets>$(unit-test-target)</targets>
+	<timeout>$(msbuild-ncover-timeout)</timeout>
+      </msbuild>
+    </cb:if>
+</cb:define>
+
   <cb:define name="run-ncover-f-unittests">
     <cb:if expr="'$(unit-test)' == 'true'">
       <cb:if expr="'$(code-coverage)' == 'true'">

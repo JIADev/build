@@ -277,6 +277,7 @@
       <tasks>
 	<cb:copy-logger-local />
 	<cb:msbuild-generateNuPkg />
+	<cb:msbuild-unittest />
 	<cb:msbuild-publishNuPkg />
       </tasks>
       <publishers>
