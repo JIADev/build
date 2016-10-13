@@ -602,7 +602,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="$(unit-test-description)">
 	<executable>$(msbuild)</executable>
 	<projectFile>default.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance)</buildArgs>
 	<targets>$(unit-test-target)</targets>
 	<timeout>$(msbuild-ncover-timeout)</timeout>
       </msbuild>
