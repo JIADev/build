@@ -695,7 +695,7 @@
   </cb:define>
   
   <cb:define name="msbuild-publishNuPkg">
-      <msbuild logger="$(msBuildListenerDll)" description="build">
+      <msbuild logger="$(msBuildListenerDll)" description="Package NuPkg">
 	<executable>$(msbuild)</executable>
 	<projectFile>default.proj</projectFile>
 	<buildArgs>/p:Configuration=$(configuration) /p:NuPkgPublishLocation=$(nupkgPublishLocation) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
