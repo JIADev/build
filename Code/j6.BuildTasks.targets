@@ -27,6 +27,7 @@
   <UsingTask TaskName="j6.BuildTools.MsBuildTasks.ConsolidatePackageConfigs" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
   <UsingTask TaskName="j6.BuildTools.MsBuildTasks.ConsolidateAssemblyVersions" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
   <UsingTask TaskName="j6.BuildTools.MsBuildTasks.ConditionJunctionedFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.SortArtifacts" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
 
   <Target Name="UpdateBuildToolsRepo">
     <Exec WorkingDirectory="$(BuildToolsDirectory)" Command="hg pull -u" IgnoreExitCode="true" />

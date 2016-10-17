@@ -16,7 +16,10 @@
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
   </PropertyGroup>
-  
+
+  <Target Name="SortArtifacts">
+    <SortArtifacts />
+  </Target>
   <Target Name="Which" DependsOnTargets="CompileBuildTools">
     <Which Command="$(Command)" />
   </Target>

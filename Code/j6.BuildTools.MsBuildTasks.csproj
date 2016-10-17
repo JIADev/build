@@ -75,6 +75,7 @@
     <Compile Include="ResetXmlEncoding.cs" />
     <Compile Include="RevertAll.cs" />
     <Compile Include="RunProcess.cs" />
+    <Compile Include="SortArtifacts.cs" />
     <Compile Include="UnZip.cs" />
     <Compile Include="UpdateStyleSheet.cs" />
     <Compile Include="VersionComparer.cs" />
