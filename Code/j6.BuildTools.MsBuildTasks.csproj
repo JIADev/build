@@ -50,6 +50,7 @@
     <Compile Include="ConditionJunctionedFiles.cs" />
     <Compile Include="ConsolidateAssemblyVersions.cs" />
     <Compile Include="ConsolidatePackageConfigs.cs" />
+    <Compile Include="SortPackageConfigs.cs" />
     <Compile Include="CopyDiffFiles.cs" />
     <Compile Include="DeleteAll.cs" />
     <Compile Include="DeleteIfEmpty.cs" />
