@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using System;
@@ -21,72 +23,31 @@ namespace j6.BuildTools.MsBuildTasks
         {
             var root = new DirectoryInfo(Root);
             var packageConfigs = root.GetFiles("packages.config", SearchOption.AllDirectories);
-            var masterPackageConfig = new FileInfo(MasterPackageConfig);
-            
-            if (!masterPackageConfig.Exists)
-            {
-                Console.Error.WriteLine(string.Format("File does not exist: {0}", MasterPackageConfig));
-                return false;
-            }
 
-            var childConfigs = packageConfigs.Where(pc => !pc.FullName.Equals(masterPackageConfig.FullName));
-            var master = XDocument.Load(masterPackageConfig.FullName);
-            
-            var masterPackage = master.Root;
-            if (masterPackage == null)
-            {
-                Console.Error.WriteLine(string.Format("Unable to load {0}", MasterPackageConfig));
-                return false;
-            }
+			var allPackages = packageConfigs.Select(Packages.Load).Where(p => p.Items != null).ToArray();
+	        var vc = new VersionComparer();
+	        var allPackageNodes = allPackages.SelectMany(p => p.Items).GroupBy(p => new {p.Id, p.TargetFramework})
+	                                         .ToDictionary(p => p.Key, p => p.OrderByDescending(p1 => p1.VersionString, vc).FirstOrDefault());
+			var masterPackage = new Packages(allPackageNodes.Values);
+			
+			masterPackage.SortDistinct();
+			masterPackage.Save(MasterPackageConfig, new XmlSerializerNamespaces(new[]
+				{
+					new XmlQualifiedName(string.Empty, string.Empty), 
+				}), Encoding.UTF8);
 
-            var allPackageNodes = new List<XElement>();
-            foreach (var child in childConfigs.Select(cc => new { FileInfo = cc, Xml = XDocument.Load(cc.FullName) }))
-            {
-                if (child == null || child.Xml == null || child.Xml.Root == null ||
-                    !child.Xml.Root.Name.LocalName.Equals("packages", StringComparison.InvariantCultureIgnoreCase))
-                    continue;
-
-                allPackageNodes.AddRange(child.Xml.Root.Elements());
-                child.Xml.Root.RemoveAll();
-                child.Xml.Save(child.FileInfo.FullName);
-            }
-
-            masterPackage.RemoveAll();
-            var allDescendants = allPackageNodes.GroupBy(e => e.Attribute("id").Value, e => e, StringComparer.InvariantCultureIgnoreCase).ToDictionary(e => e.Key, e => e.ToArray(), StringComparer.InvariantCultureIgnoreCase);
-            foreach (var package in allDescendants.OrderBy(p => p.Key))
-            {
-                var versionComparer = new VersionComparer();
-                var byVersion =
-                    package.Value.GroupBy(v => v.Attribute("version").Value, v => v,
-                                          StringComparer.InvariantCultureIgnoreCase).OrderBy(v => v.Key, versionComparer)
-                                          .ToDictionary(v => v.Key, v => v.OrderBy(v1 => v1.Attribute("targetFramework") == null ? 0 : 1).ToArray(), StringComparer.InvariantCultureIgnoreCase);
-                if(!byVersion.Any())
-                    continue;
-                var latestVersion = byVersion.LastOrDefault();
-                var latestVersionNodes = latestVersion.Value.Select(v => new
-                    {
-                        Id = v.Attribute("id").Value,
-                        Version = v.Attribute("version").Value,
-                        targetFramework = v.Attribute("targetFramework") == null ? null : v.Attribute("targetFramework").Value
-                    }).Distinct();
-
-                var add = latestVersionNodes.Select(
-                    n =>
-                    latestVersion.Value.First(
-                        lv =>
-                            {
-                                var tfn = lv.Attribute("targetFramework");
-                                var tf = (tfn == null ? null : tfn.Value);
-                                return
-                                    lv.Attribute("id").Value.Equals(n.Id) &&
-                                    lv.Attribute("version").Value.Equals(n.Version) &&
-                                    string.Equals(tf, n.targetFramework);
-                            }
-                        )).Cast<object>().ToArray();
-                masterPackage.Add(add);
-            }
-            master.Save(MasterPackageConfig);
-            return true;
+	        var childPackages = allPackages.Where(p => p.FileName != MasterPackageConfig);
+	        
+			foreach (var childPackage in childPackages)
+			{
+				childPackage.Items = null;
+				childPackage.Save(new XmlSerializerNamespaces(new[]
+					{
+						new XmlQualifiedName(string.Empty, string.Empty),
+					}), Encoding.UTF8);
+			}
+			
+			return true;
         }
     }
 }
