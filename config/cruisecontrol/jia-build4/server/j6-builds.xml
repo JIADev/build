@@ -24,24 +24,6 @@
       corflags="/32bitpref-"
       />
   
- <cb:v76build
-      driver="CUST000"
-      project-name="CUST000-7.6.7"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch = '7.6.7'
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.7"
-      external-protect="false"
-      external-zip="false"
-      modules="AUTOSHIP"
-      package="false"
-      package-privatebuild="true"
-      queueName="Queue3"
-      corflags="/32bitpref-"
-      />
-
-  
   <cb:v76build
       driver="CUST2090"
       project-name="CUST2090-7.6.8"
@@ -55,23 +37,6 @@
       package="true"
       package-privatebuild="false"
       queueName="Queue3"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-7.6.7"
-      branch="7.6.7"
-      prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.7"
-      external-protect="false"
-      external-zip="false"
-      archive="false"
-      package="true"
-      publish="false"
-      queueName="Queue1"
       corflags="/32bitpref-"
       />
   
