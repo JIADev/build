@@ -25,21 +25,6 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
-      driver="CUST1001"
-      project-name="CUST1001-7.6.8"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
-      branch="7.6.8"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-protect="false"
-      external-zip="false"
-      archive="false"
-      package="true"
-      queueName="Queue2"
-      corflags="/32bitpref-"
-      />
     <cb:v76build
       driver="CUST2094"
       project-name="CUST2094-7.6.8"
