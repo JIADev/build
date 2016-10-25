@@ -20,7 +20,7 @@
   <Target Name="SortArtifacts">
     <SortArtifacts />
   </Target>
-  <Target Name="SortPackageConfigs">
+  <Target Name="SortPackageConfigs" Condition="'$(TargetRepo)' != ''">
     <SortPackageConfigs Root="$(TargetRepo)" />
   </Target>
   <Target Name="Which" DependsOnTargets="CompileBuildTools">
