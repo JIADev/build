@@ -25,23 +25,6 @@
       corflags="/32bitpref-"
       />
 
-    <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094-7.6.8"
-      branch="7.6.8"
-      prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-protect="false"
-      external-zip="false"
-      archive="false"
-      package="true"
-      publish="false"
-      queueName="Queue3"
-      corflags="/32bitpref-"
-      />
-  
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-7.6.6"
@@ -59,10 +42,10 @@
       />
   
   <cb:v76deployment
-      project-name="CUST2094-7.6.6-WebTest"
+      project-name="CUST2094-7.6.8-WebTest"
       driver = 'CUST2094'
       web-test="true"
-      project-to-deploy="CUST2094-7.6.6"
+      project-to-deploy="CUST2094-7.6.8"
       deployment-webserver="DEV-8900WEB1"
       deployment-sitename="DEV_8900_2094_RC3" 
       db-server="DEV-8900sql1"
