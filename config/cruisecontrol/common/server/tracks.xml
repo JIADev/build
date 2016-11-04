@@ -6,10 +6,6 @@
   
   <cb:define name="queue1b">
     <cb:define queueName="Queue1" />
-    <cb:reqBuild queue-priority="2600" projectName="CUST2096-1002_NuGetWebPWS" customer="2096" branchName="1002_NuGetWebPWS" prodTag="2096_PRD" />
-    <cb:reqBuild queue-priority="2600" projectName="CUST1000-1002_NuGetWebPWS" customer="1000" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild queue-priority="2500" projectName="CUST1001_NuGetWebPWS" customer="1001" branchName="1001_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild queue-priority="2300" projectName="CUST000-2096_NuGet767" customer="000" branchName="2096_NuGet767" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild queue-priority="1950" projectName="CUST1002_pws_sprint_rcarruthers" customer="1002" branchName="1002_pws_sprint_rcarruthers" projectFolderName="rc" />
     <cb:reqBuild queue-priority="1900" projectName="CUST2096-1002_SprintPWS" customer="2096" branchName="1002_SprintPWS" />
     <cb:reqBuild queue-priority="1900" projectName="CUST000-1002_SprintPWS" customer="000" branchName="1002_SprintPWS" />
@@ -20,9 +16,6 @@
   
   <cb:define name="queue1d">
     <cb:define queueName="Queue1" />
-    <cb:reqBuild queue-priority="2600" projectName="CUST1001-1002_NuGetWebPWS" customer="1001" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild queue-priority="2300" projectName="CUST2094_NuGet768" customer="2094" branchName="2094_NuGet768" prodTag="2094_PRD" />
-    <cb:reqBuild queue-priority="2100" projectName="CUST000-2095_NuGet765" customer="000" branchName="2095_NuGet765" prodTag="2095_PRD" />
     <cb:reqBuild queue-priority="1950" projectName="CUST1002_SprintPWS_cweber" customer="1002" branchName="1002_SprintPWS_cweber" projectFolderName="cw" />
     <cb:reqBuild queue-priority="1900" projectName="CUST1000-1002_SprintPWS" customer="1000" branchName="1002_SprintPWS" />
     <cb:reqBuild queue-priority="1800" projectName="CUST1001-1002_WebPWS" customer="1001" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
@@ -32,10 +25,6 @@
   
   <cb:define name="queue2b">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild queue-priority="2600" projectName="CUST1002_NuGetWebPWS" customer="1002" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild queue-priority="2500" projectName="CUST2094-1001_NuGetWebPWS" customer="2094" branchName="1001_NuGetWebPWS" prodTag="2094_PRD" />
-    <cb:reqBuild queue-priority="2300" projectName="CUST2095-2096_NuGet767" customer="2095" branchName="2096_NuGet767" prodTag="2095_PRD" />
-    <cb:reqBuild queue-priority="2100" projectName="CUST2095_NuGet765" customer="2095" branchName="2095_NuGet765" prodTag="2095_PRD" />
     <cb:reqBuild queue-priority="1950" projectName="CUST1002_SprintPWS_jbair" customer="1002" branchName="1002_SprintPWS_jbair" projectFolderName="jb" />
     <cb:reqBuild queue-priority="1900" projectName="CUST1001-1002_SprintPWS" customer="1001" branchName="1002_SprintPWS" />
     <cb:reqBuild queue-priority="1800" projectName="CUST2094-1002_WebPWS" customer="2094" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
@@ -45,10 +34,6 @@
   
   <cb:define name="queue2d">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild queue-priority="2500" projectName="CUST2095-1001_NuGetWebPWS" customer="2095" branchName="1001_NuGetWebPWS" prodTag="2095_PRD" />
-    <cb:reqBuild queue-priority="2400" projectName="CUST2096-2094_NuGet768" customer="2096" branchName="2094_NuGet768" prodTag="2096_PRD" />
-    <cb:reqBuild queue-priority="2300" projectName="CUST2096_NuGet767" customer="2096" branchName="2096_NuGet767" prodTag="2096_PRD" />
-    <cb:reqBuild queue-priority="2200" projectName="CUST000-2094_NuGet768" customer="000" branchName="2094_NuGet768" prodTag="2095_PRD;2094_PRD" />
     <cb:reqBuild queue-priority="1950" projectName="CUST1002_SprintPWS_rdevaney" customer="1002" branchName="1002_SprintPWS_rdevaney" projectFolderName="rd" />
     <cb:reqBuild queue-priority="1900" projectName="CUST1002_SprintPWS" customer="1002" branchName="1002_SprintPWS" />
     <cb:reqBuild queue-priority="1800" projectName="CUST2095-1002_WebPWS" customer="2095" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
@@ -58,10 +43,6 @@
   
   <cb:define name="queue3b">
     <cb:define queueName="Queue3" />
-    <cb:reqBuild queue-priority="2600" projectName="CUST2094-1002_NuGetWebPWS" customer="2094" branchName="1002_NuGetWebPWS" prodTag="2094_PRD" />
-    <cb:reqBuild queue-priority="2500" projectName="CUST2096-1001_NuGetWebPWS" customer="2096" branchName="1001_NuGetWebPWS" prodTag="2096_PRD" />
-    <cb:reqBuild queue-priority="2500" projectName="CUST000-1001_NuGetWebPWS" customer="000" branchName="1001_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild queue-priority="2200" projectName="CUST2094_NuGet768" customer="2094" branchName="2094_NuGet768" prodTag="2094_PRD" />
     <cb:reqBuild queue-priority="1950" projectName="CUST1002_SprintPWS_sbartlett" customer="1002" branchName="1002_SprintPWS_sbartlett" projectFolderName="sb" />
     <cb:reqBuild queue-priority="1900" projectName="CUST2094-1002_SprintPWS" customer="2094" branchName="1002_SprintPWS" />
     <cb:reqBuild queue-priority="1800" projectName="CUST2096-1002_WebPWS" customer="2096" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
@@ -72,10 +53,6 @@
   
   <cb:define name="queue3d">
     <cb:define queueName="Queue3" />
-    <cb:reqBuild queue-priority="2600" projectName="CUST2095-1002_NuGetWebPWS" customer="2095" branchName="1002_NuGetWebPWS" prodTag="2095_PRD" />
-    <cb:reqBuild queue-priority="2600" projectName="CUST000-1002_NuGetWebPWS" customer="000" branchName="1002_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild queue-priority="2500" projectName="CUST1000-1001_NuGetWebPWS" customer="1000" branchName="1001_NuGetWebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
-    <cb:reqBuild queue-priority="2200" projectName="CUST2095-2094_NuGet768" customer="2095" branchName="2094_NuGet768" prodTag="2095_PRD" />
     <cb:reqBuild queue-priority="1950" projectName="CUST1002_SprintPWS_tayronvargas" customer="1002" branchName="1002_SprintPWS_tayronvargas" projectFolderName="tv" />
     <cb:reqBuild queue-priority="1900" projectName="CUST2095-1002_SprintPWS" customer="2095" branchName="1002_SprintPWS" />
     <cb:reqBuild queue-priority="1850" projectName="CUST1002_BPEventsMerge" customer="1002" branchName="1002_BPEventsMerge" prodTag="2094_PRD;2095_PRD;2096_PRD" />
