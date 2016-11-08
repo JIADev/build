@@ -59,6 +59,10 @@ function load-vcvars {
 		popd
 		write-host ("`nVisual Studio {0} Command Prompt variables set." -f $vsver) -ForegroundColor Cyan
 	}
+	if($vsver = "14.0")
+	{
+		$env:Path += (";{0}{1}\MSBuild\{2}\bin;{0}{1}\{3}" -f $vsdrive, $vsparent, $vsver, $vsfolder)
+	}
 }
 function load-visualstudio {
 	param($vsver = "11.0")

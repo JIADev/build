@@ -21,7 +21,7 @@
     <SortArtifacts />
   </Target>
   <Target Name="SortPackageConfigs" Condition="'$(TargetRepo)' != ''">
-    <SortPackageConfigs Root="$(TargetRepo)" />
+    <SortPackageConfigs Root="$(TargetRepo)" OnlyUseLatest="$(OnlyUseLatest)" />
   </Target>
   <Target Name="Which" DependsOnTargets="CompileBuildTools">
     <Which Command="$(Command)" />
