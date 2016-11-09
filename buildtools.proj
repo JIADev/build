@@ -15,6 +15,7 @@
     <TrashBranch>$([MSBuild]::ValueOrDefault(`$(TrashBranch)`, 'trash'))</TrashBranch>
     <BuildBranchName>$(CustomerNumber)_Build_$([System.DateTime]::Now.ToString(`yyyy.MM.dd_HHmmss`))</BuildBranchName>
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
+    <OnlyUseLatest Condition="'$(OnlyUseLatest)' == ''">True</OnlyUseLatest>
   </PropertyGroup>
 
   <Target Name="SortArtifacts">
