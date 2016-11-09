@@ -483,7 +483,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform)" /p:Package=$(package)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:DefineConstants=$(modules) /p:Platform="$(platform)" /p:Package=$(package) /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
 	<targets>Build</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
@@ -495,7 +495,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules) /p:PatchLoaderSwitches="--noninteractive" /p:Package=$(package)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules) /p:PatchLoaderSwitches="--noninteractive" /p:Package=$(package) /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
 	<targets>FullBuild</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
@@ -547,7 +547,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="bootstrap">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder)</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
       <targets>Bootstrap</targets>
       <timeout>$(msbuild-bootstrap-timeout)</timeout>
     </msbuild>
@@ -557,7 +557,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="setup">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
       <targets>Setup</targets>
       <timeout>$(msbuild-setup-timeout)</timeout>
     </msbuild>
@@ -579,7 +579,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="patch">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:PatchLoaderSwitches="--noninteractive" /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
       <targets>Patch</targets>
       <timeout>$(msbuild-patch-timeout)</timeout>
     </msbuild>
@@ -858,7 +858,7 @@
 	    executable="$(powershell)" 
 	    baseDirectory="$(pkgroot)"
 	    description="Make RELEASE-UNPROTECTED">
-	  <buildArgs>/c "md -F $(project-folder)\RELEASE-UNPROTECTED"</buildArgs>
+	  <buildArgs>/c "md -F $(project-folder)\RELEASE-UNPROTECTED" /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
 	</exec>
       </cb:if>
       <cb:else>
@@ -950,7 +950,7 @@
 		 targets="CreateZip"
 		 workingDirectory="$(project-folder)"
 		 timeout="$(msbuild-package-timeout)">
-	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version).$[$CCNetLabel] /p:BuildLabel=$[$CCNetLabel] /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]"</buildArgs>
+	  <buildArgs>/p:ZipDirectory="$(project-folder)\RELEASE" /p:Customer=$(driver) /p:j6Version=$(j6Version).$[$CCNetLabel] /p:BuildLabel=$[$CCNetLabel] /p:BuildTime="$[$CCNetBuildDate] $[$CCNetBuildTime]" /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
 	</msbuild>
       </cb:if>
     </cb:if>
