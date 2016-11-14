@@ -414,7 +414,7 @@
   <cb:v8build
       driver="EngineCore"
       project-name="EngineCore"
-      branch = '2095_NuGet765'
+      branch = '8.0'
       platform="AnyCpu"
       repo-source-root="\\repo.jenkon.com\restricted$"
       repo-name="CGEngineCore"
