@@ -30,7 +30,15 @@
   <Target Name="Test">
     <Message Text="$(MSBuildStartupDirectory)" />
   </Target>
-
+  
+  <Target Name="ConsolidateXmlPatches" DependsOnTargets="CompileBuildTools">
+    <ConsolidateXmlPatches Root="$(Root)" />
+  </Target>
+  
+  <Target Name="DeleteIdenticalFiles" DependsOnTargets="CompileBuildTools">
+    <DeleteIdenticalFiles SourceDir="$(SourceDir)" TargetDir="$(TargetDir)" />
+  </Target>
+  
   <Target Name="ConditionJunctionedFiles" DependsOnTargets="CompileBuildTools">
     <Error Text="Missing Project File" Condition="'$(ProjectFile)' == ''" />
     <ConditionJunctionedFiles ProjectFile="$(ProjectFile)" WorkingDirectory="$(MSBuildStartupDirectory)" />
