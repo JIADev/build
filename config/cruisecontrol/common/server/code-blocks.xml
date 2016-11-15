@@ -708,7 +708,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="recreatedb">
       <executable>$(msbuild)</executable>
       <projectFile>default.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform=$(platform) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password)</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform=$(platform) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Version=$(j6Version).[$CCNetLabel] /p:title=j6.CoreBase /p:author="Jenkon, Inc."</buildArgs>
       <targets>RecreateDb</targets>
       <timeout>$(msbuild-recreatedb-timeout)
       </timeout>
