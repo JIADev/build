@@ -276,6 +276,7 @@
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
+	<cb:msbuild-buildjMsBuildTasks />
 	<cb:msbuild-generateNuPkg />
 	<cb:msbuild-unittest />
 	<cb:msbuild-publishNuPkg />

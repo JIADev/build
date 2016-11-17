@@ -704,6 +704,16 @@
       </msbuild>
   </cb:define>
 
+  <cb:define name="msbuild-buildjMsBuildTasks">
+      <msbuild logger="$(msBuildListenerDll)" description="build">
+	<executable>$(msbuild)</executable>
+	<projectFile>default.proj</projectFile>
+	<buildArgs>/p:Configuration=$(configuration) /p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:DatabaseUser=$(db-user) /p:DatabasePassword=$(db-password) /p:Version=$(j6Version).$[$CCNetLabel] /p:title=j6.CoreBase /p:author="Jenkon Inc."</buildArgs>
+	<targets>BuildjMsBuildTasks</targets>
+	<timeout>$(msbuild-build-timeout)</timeout>
+      </msbuild>
+  </cb:define>
+
   <cb:define name="msbuild-generateNuPkg">
     <msbuild logger="$(msBuildListenerDll)" description="recreatedb">
       <executable>$(msbuild)</executable>
