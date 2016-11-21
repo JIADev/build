@@ -251,7 +251,7 @@
 <!--
       <CompletedRC33Reqs Include="" />
 -->
-      <Active2094Reqs Include="REQ141_002;REQ213_005;REQ217;SprintInfra" />
+      <Active2094Reqs Include="REQ213_005;SprintInfra" />
     </ItemGroup>
     
     <!-- These are the branches which don't depend on anything but need to be published -->
