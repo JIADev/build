@@ -4,25 +4,6 @@
   <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
   
   <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
-  <cb:v76build
-      project-name="CUST000-7.6.6"
-      prodTag="2094_PRD;2095_PRD"
-      branch = '7.6.6'
-      driver = 'CUST000'
-      clean="true"
-      build="true"
-      data-test="true"
-      platform="AnyCpu"
-      repo-name="active"
-      external-protect="false"
-      external-zip="false"
-      j6Version="7.6.6"
-      modules="AUTOSHIP"
-      package="true"
-      publish="false"
-      queueName="Queue3"
-      corflags="/32bitpref-"
-      />
   
   <cb:v76build
       driver="CUST2095"

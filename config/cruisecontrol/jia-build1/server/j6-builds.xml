@@ -331,7 +331,7 @@
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
-      j6Version="7.6.6"
+      j6Version="7.6.8"
       external-zip="true"
       package-privatebuild="true"
       archive="false"
