@@ -25,22 +25,6 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-7.6.6"
-      branch = '7.6.6'
-      platform="AnyCpu"
-      prodTag="2095_PRD"
-      repo-name="active"
-      j6Version="7.6.6"
-      external-protect="false"
-      external-zip="false"
-      package="true"
-      publish="false"
-      queueName="Queue2"
-      corflags="/32bitpref-"
-      />
-  
   <cb:v76deployment
       project-name="CUST2094-7.6.8-WebTest"
       driver = 'CUST2094'
