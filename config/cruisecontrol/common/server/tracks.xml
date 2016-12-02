@@ -56,7 +56,6 @@
     <cb:define queueName="Queue3" />
     <cb:reqBuild queue-priority="1950" projectName="CUST1002_SprintPWS_tayronvargas" customer="1002" branchName="1002_SprintPWS_tayronvargas" projectFolderName="tv" />
     <cb:reqBuild queue-priority="1900" projectName="CUST2095-1002_SprintPWS" customer="2095" branchName="1002_SprintPWS" />
-    <cb:reqBuild queue-priority="1850" projectName="CUST1002_BPEventsMerge" customer="1002" branchName="1002_BPEventsMerge" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild queue-priority="1800" projectName="CUST000-1002_WebPWS" customer="000" branchName="1002_WebPWS" prodTag="2094_PRD;2095_PRD;2096_PRD" />
     <cb:reqBuild queue-priority="1475" projectName="CUST2095-2094_SprintInfra" customer="2095" branchName="2094_SprintInfra" prodTag="2095_PRD" />
   </cb:define>
