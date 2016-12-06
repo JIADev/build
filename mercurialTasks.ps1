@@ -19,6 +19,23 @@ function runProcess($hgStartInfo) {
 	return $p
 }
 
+function hasPendingChanges() {
+	 $currentDir = Convert-Path .
+	 $hgStartInfo = getHgStartInfo "status" $currentDir $true
+	 $p = runProcess $hgStartInfo
+	 if($p.ExitCode -ne 0) { return 'unknown pending changes exist' }
+	 $pendingChanges = @()
+	 while($p.StandardOutput.EndOfStream -eq $false)
+	 {
+		$modifiedFile = $p.StandardOutput.ReadLine().Trim()
+		if($modifiedFile.StartsWith("? ") -eq $false){
+			Write-Host $modifiedFile
+			$pendingChanges += $modifiedFile
+		}
+	 }
+	 return $pendingChanges.length -gt 0
+}
+
 function getCurrentBranch() {
 	$currentDir = Convert-Path .
 	 $hgStartInfo = getHgStartInfo "branch" $currentDir $true
