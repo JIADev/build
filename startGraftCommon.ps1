@@ -34,6 +34,12 @@ if($validCustomers -NotContains $customerNumber) {
 }
 
 function setupBranch([string]$customerNumber, [string]$taskNumber, [array]$graftRevision, [bool]$revertall) {
+$hasPendingChanges = hasPendingChanges
+if($hasPendingChanges -eq $true) {
+	Write-Host "Pending changes found.  Please shelve or commit your changes before running starttask"
+	Exit
+}
+
 $startEnv = $tagOverrides[[string]$customerNumber]
 if($startEnv -eq $null) {
 	$startEnv = 'PRD'
