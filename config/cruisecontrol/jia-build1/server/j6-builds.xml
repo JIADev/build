@@ -15,21 +15,24 @@
   
   <!-- IH00010 -->
   
-    <cb:customerbuild
+  <cb:legacybuild
       project-name="IH00010-010_BLD"
-      branch = "tags"
+      branch="tags"
       tag = "010_BLD"
       prodTag="010_PRD"
       driver = "IH00010"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
       repo-name="prod"
-      exclude-files="false"
-      sourceCheckInterval=""
       archive="true"
-      package="true"
       external-protect="false"
+      package="true"
       queueName="Production"
+      sourceCheckInterval=""
       corflags="/32bitreq+"
       />
+  
   
   <!-- CUST065 -->
   
