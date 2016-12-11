@@ -427,7 +427,7 @@
   
   <cb:v8build
       driver="EngineCore"
-      project-name="j6.Global"
+      project-name="EngineCore"
       branch = '8.0'
       platform="AnyCpu"
       repo-source-root="\\repo.jenkon.com\restricted$"
