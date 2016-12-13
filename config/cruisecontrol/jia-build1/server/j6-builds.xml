@@ -104,6 +104,21 @@
       corflags="/32bitpref-"
       />
   
+  <cb:v76build
+      driver="CUST1001"
+      project-name="CUST1001_SprintInfra"
+      branch="1001_SprintInfra"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
   <!-- CUST1002 -->
   <cb:v76build
       driver="CUST1002"
@@ -133,6 +148,21 @@
       corflags="/32bitpref-"
       />
 
+  <cb:v76build
+      driver="CUST1002"
+      project-name="CUST1002_SprintInfra"
+      branch="1002_SprintInfra"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+  
   <!-- CUST2069 -->
   <!--  
        <cb:customerbuild
