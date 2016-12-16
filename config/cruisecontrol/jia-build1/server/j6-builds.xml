@@ -472,7 +472,7 @@
   
   <cb:v8build
       driver="EngineCore"
-      project-name="EngineCore"
+      project-name="Global-8.0"
       branch = '8.0'
       platform="AnyCpu"
       repo-source-root="\\repo.jenkon.com\restricted$"
