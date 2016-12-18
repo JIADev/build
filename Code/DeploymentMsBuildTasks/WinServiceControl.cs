@@ -82,8 +82,8 @@ namespace DeploymentMsBuildTasks
 													controller.Start,
 													ServiceControllerStatus.Stopped,
 													ServiceControllerStatus.Running,
-													new[] {ServiceControllerStatus.StartPending, ServiceControllerStatus.Running},
-													new[] {ServiceControllerStatus.StopPending},
+													new[] {ServiceControllerStatus.Running},
+													new[] { ServiceControllerStatus.StartPending, ServiceControllerStatus.StopPending },
 													"Starting",
 													"Started");
 												break;
@@ -93,8 +93,8 @@ namespace DeploymentMsBuildTasks
 													controller.Stop,
 													ServiceControllerStatus.Running,
 													ServiceControllerStatus.Stopped,
-													new[] {ServiceControllerStatus.StopPending, ServiceControllerStatus.Stopped},
-													new[] {ServiceControllerStatus.StartPending},
+													new[] {ServiceControllerStatus.Stopped},
+													new[] { ServiceControllerStatus.StopPending, ServiceControllerStatus.StartPending },
 													"Stopping",
 													"Stopped");
 												break;
@@ -121,7 +121,7 @@ namespace DeploymentMsBuildTasks
 			if (waitStatuses.Contains(currentStatus))
 			{
 				Console.WriteLine(string.Format("Service {0} on {1} status is now {2}, waiting for {3}", controller.DisplayName, controller.MachineName, currentStatus, desiredInitialStatus));
-				controller.WaitForStatus(desiredInitialStatus, new TimeSpan(0, 0, 1, 0));
+				controller.WaitForStatus(desiredInitialStatus, new TimeSpan(0, 1, 0, 0));
 			}
 			currentStatus = controller.Status;
 			if (currentStatus != desiredInitialStatus)
@@ -136,7 +136,7 @@ namespace DeploymentMsBuildTasks
 			}
 			Console.WriteLine(string.Format("{0} {1} on {2}", pendingString, controller.DisplayName, controller.MachineName));
 			command();
-			controller.WaitForStatus(desiredResultStatus, new TimeSpan(0, 0, 1, 0));
+			controller.WaitForStatus(desiredResultStatus, new TimeSpan(0, 1, 0, 0));
 			Console.WriteLine("{0} {1} on {2}", doneString, controller.DisplayName, controller.MachineName);
 			return 0;
 		}
