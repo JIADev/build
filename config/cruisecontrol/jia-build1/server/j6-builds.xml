@@ -471,12 +471,12 @@
   <!-- V8 -->
   
   <cb:v8build
-      driver="EngineCore"
+      driver=""
       project-name="Global-8.0"
       branch = '8.0'
       platform="AnyCpu"
       repo-source-root="\\repo.jenkon.com\restricted$"
-      repo-name="CGEngineCore"
+      repo-name="Global"
       j6Version="8.0.0"
       external-zip="true"
       archive="false"
