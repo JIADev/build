@@ -384,7 +384,7 @@
       />
   
   <cb:v76build
-      driver="CUST2094"
+      driver="CUST2094_PER"
       project-name="CUST2094_PER"
       branch="2094_PER"
       prodTag="2094_PRD"
