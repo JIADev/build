@@ -147,7 +147,7 @@
 
       <Active768Branches Include="1001_WebPWS" />
       <ActivePwsBranches Include="1001_SprintInfra;1002_WebPWS;2097_Start" />
-      <ActiveEventPwsBranches Include="1002_SprintInfra;1002_BPEventsMerge" />
+      <ActiveEventPwsBranches Include="1002_SprintInfra" />
 <!--
       <Active768ReqsWithDependencies Include="" />
 -->
