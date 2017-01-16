@@ -458,12 +458,31 @@
       driver="CUST2097"
       project-name="CUST2097_Start"
       branch = '2097_Start'
+      prodTag="2097_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
       external-zip="true"
       archive="true"
       package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2097"
+      project-name="CUST2097_BLD"
+      branch = 'tags'
+      tag="2097_BLD"
+      prodTag="2097_UAT"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      sourceCheckInterval=""
+      archive="true"
+      package="true"
+      queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
