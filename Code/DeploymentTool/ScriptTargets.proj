@@ -1,0 +1,61 @@
+﻿<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<Import Project="DeploymentMsBuildTasks.targets" />
+	<ItemGroup>
+		<None Label="FullDeploymentTargets" Include="StopServices;BackupSiteFiles;BackupRTEFiles;BackupDatabase;RestoreDatabase;StartWebServices;StartRTEServices" />
+		<None Label="DatabaseOverlayTargets" Include="StopServices" />
+	</ItemGroup>
+	<Target Name="Main">
+		<CallTarget Targets="StopServices" />
+		<ConfirmNextStep Text="Backup Site files and RTE files" />
+		<!--<Sleep Seconds="10" />-->
+		<CallParallelTargets Targets="BackupSiteFiles;BackupRTEFiles" />
+		<CallTarget Targets="BackupDatabase" />
+		<CallTarget Targets="RestoreDatabase" />
+		<CallTarget Targets="StartWebServices" />
+		<CallTarget Targets="StartRTEServices" />
+	</Target>
+	<Target Name="StopServices">
+		<PropertyGroup>
+			<TargetDescription>Stops AppServer services prior to deployment</TargetDescription>
+		</PropertyGroup>
+		<WinServiceControl AppServers="$(Environment_RTE)" RequestedOperation="Stop" />
+		<WinServiceControl AppServers="$(Environment_Web)" RequestedOperation="Stop" />
+	</Target>
+	<Target Name="StartWebServices">
+		<PropertyGroup>
+			<TargetDescription>Starts WebServices on Web Servers</TargetDescription>
+		</PropertyGroup>
+		<WinServiceControl AppServers="$(Environment_Web)" RequestedOperation="Start" />
+	</Target>
+	<Target Name="StartRTEServices">
+		<PropertyGroup>
+			<TargetDescription>Starts RTE services on RTE Servers</TargetDescription>
+		</PropertyGroup>
+		<WinServiceControl AppServers="$(Environment_RTE)" RequestedOperation="Start" />
+	</Target>
+	<Target Name="BackupSiteFiles">
+		<PropertyGroup>
+			<TargetDescription>Backs up files on the web server(s)</TargetDescription>
+		</PropertyGroup>
+		<jBackup AppServers="$(Environment_Web)" SkipNonExistant="true" />
+	</Target>
+	<Target Name="BackupRTEFiles">
+		<PropertyGroup>
+			<TargetDescription>Backs up files on the RTE server(s)</TargetDescription>
+		</PropertyGroup>
+		<jBackup AppServers="$(Environment_RTE)" SkipNonExistant="true" />
+	</Target>
+	<Target Name="BackupDatabase">
+		<PropertyGroup>
+			<TargetDescription>Backs up the database</TargetDescription>
+		</PropertyGroup>
+		<DatabaseBackup DatabaseName="$(Environment_Database_Name)" DatabaseServer="$(Environment_Database_Server_HostName)" SqlInstance="$(Environment_Database_Server_SqlInstance)" BackupLocation="$(Environment_Database_Server_BackupLocation)" />
+	</Target>
+	<Target Name="RestoreDatabase">
+		<PropertyGroup>
+			<TargetDescription>Restores the database (will prompt you to select database file to restore)</TargetDescription>
+		</PropertyGroup>
+		<DatabaseRestore  DatabaseName="$(Environment_Database_Name)" DatabaseServer="$(Environment_Database_Server_HostName)" SqlInstance="$(Environment_Database_Server_SqlInstance)" RestoreLocation="$(Environment_Database_Server_BackupLocation)" />
+	</Target>
+</Project>
