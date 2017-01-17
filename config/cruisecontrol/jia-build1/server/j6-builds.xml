@@ -107,8 +107,8 @@
   <cb:v76build
       driver="CUST1001"
       project-name="CUST1001_SprintInfra"
-      branch="1001_SprintInfra"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      branch="SprintInfra"
+      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
@@ -137,8 +137,8 @@
   <cb:v76build
       driver="CUST1002"
       project-name="CUST1002_SprintInfra"
-      branch="1002_SprintInfra"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      branch="SprintInfra"
+      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
