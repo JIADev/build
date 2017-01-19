@@ -188,7 +188,25 @@
 	unit-test="true"
 	/>
   </cb:define>
-  
+
+  <cb:define name="reqCoreBuild">
+    <cb:if expr="'$(driver)'==''">
+      <cb:define driver="CUST$(customer)" />
+    </cb:if>
+    <cb:v76build
+	project-name="$(projectName)"
+	branch = '$(branchName)'
+	platform="AnyCpu"
+	repo-name="active.core"
+	package="true"
+	external-zip="false"
+	publish="false"
+	j6Version="7.6.6"
+	queueSuffix="$(queueName)"
+	unit-test="true"
+	/>
+  </cb:define>
+
   <cb:define name="v76deployment">
     <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
     <cb:define db-name="ccnet-$(project-name)-DEV" />
