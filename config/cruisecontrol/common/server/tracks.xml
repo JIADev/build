@@ -9,6 +9,7 @@
     <cb:reqBuild queue-priority="1800" branchName="1002_ActiveDev" projectName="CUST1000-ActiveDev" customer="1000" prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT" />
     <cb:reqBuild queue-priority="1700" branchName="2097_Sprint4" projectName="CUST2097_Sprint4" customer="2097" prodTag="2097_UAT" />
     <cb:reqBuild queue-priority="1975" branchName="SprintInfra" projectName="CUST2097-SprintInfra" customer="2097" prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT" />
+    <cb:reqCoreBuild queue-priority="1975" branchName="8.0" projectName="CUST2095-8.0" customer="2095" />
   </cb:define>
   
   <cb:define name="queue1d">
