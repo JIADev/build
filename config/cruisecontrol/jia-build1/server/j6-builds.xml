@@ -467,7 +467,7 @@
       project-name="Global-8.0"
       branch = '8.0'
       platform="AnyCpu"
-      repo-source-root="https://tfs.jenkon.com/Projects/_git/Global/"
+      repo-source-root="https://tfs.jenkon.com/Projects/_git"
       repo-name="Global"
       j6Version="8.0.0"
       external-zip="true"
