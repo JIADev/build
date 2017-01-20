@@ -42,7 +42,7 @@
   <!-- Network Urls and Servers -->
   <cb:define
       repo-source-root="\\repo.jenkon.com\repo$"
-      source="$(repo-source-root)\$(repo-name)"
+      source="$(repo-source-root)/$(repo-name)"
       nupkgPublishLocation="\\repo.jenkon.com\NuGet"
       mailhost="mail.jenkon.com"
       ccwebroot="http://jia-build1/ccnet/"
