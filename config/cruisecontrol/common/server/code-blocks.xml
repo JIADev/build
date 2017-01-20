@@ -21,6 +21,7 @@
   
 <cb:define name="sourcecontrol-git">
     <sourcecontrol type="git">
+      <executable>C:\Program Files\Git\cmd\git.exe</executable>
       <autoGetSource>false</autoGetSource>
       <workingDirectory>$(project-folder)</workingDirectory>
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
