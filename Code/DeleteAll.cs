@@ -25,14 +25,15 @@ namespace j6.BuildTools.MsBuildTasks
 		{
 			try
 			{
-				var repoRoot = FindRepoRoot(new DirectoryInfo(BaseDirectory));
+				var repoRoot = FindRepoRoot(new DirectoryInfo(BaseDirectory), ".hg");
 				if (repoRoot == null)
 				{
-					Console.Error.WriteLine("Must be in a mercurial repository.");
+					repoRoot == FindRepoRoot(new DirectoryInfo(BaseDirectory), ".git");
+					Console.Error.WriteLine("Must be in a mercurial or git repository.");
 					return false;
 				}
 
-				var deleted = DeleteDirectories(repoRoot, new[] { ".hg" });
+				var deleted = DeleteDirectories(repoRoot, new[] { ".hg", ".git" });
 
 				Console.WriteLine("Deleted {0} files, {1} junctions, and {2} directories.",
 								  deleted[FileType.File],
@@ -96,15 +97,15 @@ namespace j6.BuildTools.MsBuildTasks
 			return returnValue;
 		}
 
-		private static DirectoryInfo FindRepoRoot(DirectoryInfo directory)
+		private static DirectoryInfo FindRepoRoot(DirectoryInfo directory, string repoRootDirectory)
 		{
-			var hasHgDirectory =
-				directory.GetDirectories(".hg").Any(d => d.Name.Equals(".hg", StringComparison.InvariantCultureIgnoreCase));
-			if (hasHgDirectory)
+			var hasRepoRootDirectory =
+				directory.GetDirectories(repoRootDirectory).Any(d => d.Name.Equals(repoRootDirectory, StringComparison.InvariantCultureIgnoreCase));
+			if (hasRepoRootDirectory)
 				return directory;
 
 			if (directory.Parent != null && directory.Parent.Exists)
-				return FindRepoRoot(directory.Parent);
+				return FindRepoRoot(directory.Parent, repoRootDirectory);
 
 			return null;
 		}

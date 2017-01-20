@@ -286,11 +286,10 @@
       </cb:if>
       <workingDirectory>$(project-folder)</workingDirectory>
       <artifactDirectory>$(artifact-folder)</artifactDirectory>
-      <cb:sourcecontrol />
+      <cb:sourcecontrol-git />
       <prebuild>
-	<cb:pull-source />
-	<cb:revertall />
-	<cb:update-source />
+	<cb:deleteall />
+	<cb:update-source-git />
       </prebuild>
       <tasks>
 	<cb:copy-logger-local />
