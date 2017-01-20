@@ -122,7 +122,7 @@
       
       <exec executable="$(powershell)" 
 	    description = "git checkout to tag or branch"
-	    buildArgs = '-c "&quot;$(gitExe)&quot; checkout $(newChangeset)"' 
+	    buildArgs = '-c "$(gitExe) checkout $(newChangeset)"' 
 	    baseDirectory="$(project-folder)" />
     </cb:if>    
   </cb:define>
