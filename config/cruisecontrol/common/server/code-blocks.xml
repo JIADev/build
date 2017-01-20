@@ -19,6 +19,26 @@
     </sourcecontrol>
   </cb:define>
   
+  <cb:define name="sourcecontrol-git">
+    <sourcecontrol type="git">
+      <autoGetSource>false</autoGetSource>
+      <workingDirectory>$(project-folder)</workingDirectory>
+      <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
+      <repo>$(source)</repo>
+      <multipleHeadsFail>false</multipleHeadsFail>
+      <tagOnSuccess>false</tagOnSuccess>
+      <commitModifications>false</commitModifications>
+      <commitUntracked>false</commitUntracked>
+      <purgeModifications>true</purgeModifications>
+      <revertModifications>true</revertModifications>
+      <tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
+      <modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
+      <tagNameFormat>ccnet_build_{0}</tagNameFormat>
+      <committerName>CruiseControl.NET</committerName>
+      <branch>$(branch)</branch>
+    </sourcecontrol>
+  </cb:define>
+  
   <cb:define name="createbuild">
     <msbuild logger="$(msBuildListenerDll)" description="Creating build" executable="$(msbuild)" projectFile="$(global_feature_dir)\buildtools.proj" targets="CreateBuild" workingDirectory="$(project-folder)">
       <buildArgs>/p:CustomerNumber="$(driver)" /p:Branches="$(branches)" /p:WorkingDirectory="$(project-folder)" /p:Interactive="false" /p:BuildTag="$(buildTag)" /p:BaseTag="$(baseTag)" /p:TagsBranch="$(tagsBranch)"</buildArgs>
@@ -91,6 +111,23 @@
       <exec executable="$(powershell)" 
 	    description = "hg update to tag or branch"
 	    buildArgs = '-c "hg update $(newChangeset) -C"' 
+	    baseDirectory="$(project-folder)" />
+    </cb:if>    
+  </cb:define>
+  
+  <cb:define name="update-source-git">
+    <cb:if expr="'$(tag)' != ''">
+      <cb:define newChangeset="$(tag)" />
+    </cb:if>
+    <cb:else>
+      <cb:define newChangeset="$(branch)" />
+    </cb:else>
+
+    <cb:if expr="'$(updateSource)' != 'false'">
+      
+      <exec executable="$(powershell)" 
+	    description = "git checkout to tag or branch"
+	    buildArgs = '-c "git checkout $(newChangeset)"' 
 	    baseDirectory="$(project-folder)" />
     </cb:if>    
   </cb:define>
