@@ -24,7 +24,7 @@
       <autoGetSource>false</autoGetSource>
       <workingDirectory>$(project-folder)</workingDirectory>
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
-      <repo>$(source)</repo>
+      <repository>$(source)</repository>
       <multipleHeadsFail>false</multipleHeadsFail>
       <tagOnSuccess>false</tagOnSuccess>
       <commitModifications>false</commitModifications>
