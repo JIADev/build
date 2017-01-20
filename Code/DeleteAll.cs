@@ -28,9 +28,12 @@ namespace j6.BuildTools.MsBuildTasks
 				var repoRoot = FindRepoRoot(new DirectoryInfo(BaseDirectory), ".hg");
 				if (repoRoot == null)
 				{
-					repoRoot == FindRepoRoot(new DirectoryInfo(BaseDirectory), ".git");
-					Console.Error.WriteLine("Must be in a mercurial or git repository.");
-					return false;
+					repoRoot = FindRepoRoot(new DirectoryInfo(BaseDirectory), ".git");
+				    if (repoRoot == null)
+				    {
+				        Console.Error.WriteLine("Must be in a mercurial or git repository.");
+				        return false;
+				    }
 				}
 
 				var deleted = DeleteDirectories(repoRoot, new[] { ".hg", ".git" });
