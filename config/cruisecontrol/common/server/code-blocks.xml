@@ -19,20 +19,14 @@
     </sourcecontrol>
   </cb:define>
   
-  <cb:define name="sourcecontrol-git">
+<cb:define name="sourcecontrol-git">
     <sourcecontrol type="git">
       <autoGetSource>false</autoGetSource>
       <workingDirectory>$(project-folder)</workingDirectory>
       <timeout units="seconds">$(sourcecontrol-timeout)</timeout>
       <repository>$(source)</repository>
-      <multipleHeadsFail>false</multipleHeadsFail>
       <tagOnSuccess>false</tagOnSuccess>
-      <commitModifications>false</commitModifications>
-      <commitUntracked>false</commitUntracked>
-      <purgeModifications>true</purgeModifications>
-      <revertModifications>true</revertModifications>
       <tagCommitMessage>Tagging CC.NET build {0}</tagCommitMessage>
-      <modificationsCommitMessage>Modifications of CC.NET build {0}</modificationsCommitMessage>
       <tagNameFormat>ccnet_build_{0}</tagNameFormat>
       <committerName>CruiseControl.NET</committerName>
       <branch>$(branch)</branch>
