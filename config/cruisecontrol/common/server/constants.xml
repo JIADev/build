@@ -5,7 +5,8 @@
   
   <!-- Paths -->
   <!-- Common feature used for legacy builds -->
-  <cb:define 
+  <cb:define
+      gitExe = "C:\Program Files\Git\cmd\git.exe"
       nunit = "C:\Program Files (x86)\NUnit 2.6.3\bin"
       relativefeature="Core\boot\feature.exe"
       commonfeature = "$(ccnetSourceWorkingDir)\Feature.exe" 
