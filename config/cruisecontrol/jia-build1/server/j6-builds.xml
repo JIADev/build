@@ -467,7 +467,7 @@
       project-name="Global-8.0"
       branch = '8.0'
       platform="AnyCpu"
-      repo-source-root="http://tfs:8080/tfs/Projects/Global/_git"
+      repo-source-root="http://tfs:8080/tfs/Projects/_git/Global/"
       repo-name="Global"
       j6Version="8.0.0"
       external-zip="true"
