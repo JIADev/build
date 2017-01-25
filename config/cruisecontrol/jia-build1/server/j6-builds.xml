@@ -481,7 +481,7 @@
       project-name="BuildTools-8.0"
       branch = '8.0'
       platform="AnyCpu"
-      repo-source-root="https://tfs.jenkon.com/Projects/_git"
+      repo-source-root="https://tfs.jenkon.com/Projects/Global/_git"
       repo-name="Tools"
       j6Version="8.0.0"
       archive="false"
