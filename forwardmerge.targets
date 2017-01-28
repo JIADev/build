@@ -147,7 +147,7 @@
 
       <Active768Branches Include="2097_Start" />
       <ActivePwsBranches Include="2097_Start" />
-      <ActiveEventPwsBranches Include="SprintInfra;1001_BPReceipt" />
+      <ActiveEventPwsBranches Include="SprintInfra;1001_BPReceipt;1002_ListMember_EventGuest" />
 <!--
       <Active768ReqsWithDependencies Include="" />
 -->
