@@ -389,7 +389,7 @@
 	  <GetChangedFiles RepoDirectory="$(TargetRepo)" OriginalChangeset="$(TargetBranch)" NewChangeset="$(SourceBranchPrefix)$(SourceBranch)">
 		  <Output TaskParameter="ChangedFiles" PropertyName="ChangedFiles" />
 	  </GetChangedFiles>
-    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" Condition="'$(ChangedFiles)' != ''"  />
+    <MSbuild Projects="$(MSBuildProjectFullPath)" Targets="DoMergeBranches" Properties="UpdateBackToReqBranch=$(UpdateBackToReqBranch);Publish=$(Publish);TargetRepo=$(TargetRepo);SourceBranch=$(SourceBranch);SourceBranchPrefix=$(SourceBranchPrefix);TargetBranch=$(TargetBranch);Preview=$(Preview);DoMerge=$(DoMerge);DoCommit=$(DoCommit);DoPush=$(DoPush)" /> <!-- Condition="'$(ChangedFiles)' != ''"  /> -->
   </Target>
   
   <Target Name="DoMergeBranches">
