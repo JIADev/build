@@ -122,18 +122,9 @@
       
       <exec executable="$(powershell)" 
 	    description = "git checkout to tag or branch"
-	    buildArgs = '-c "$(gitExe) checkout $(newChangeset)"' 
+	    buildArgs = '-c "$(gitExe) pull $(newChangeset) --rebase"' 
 	    baseDirectory="$(project-folder)" />
 
-      <exec executable="$(powershell)" 
-	    description = "git checkout to tag or branch"
-	    buildArgs = '-c "$(gitExe) reset --hard"' 
-	    baseDirectory="$(project-folder)" />
-
-      <exec executable="$(powershell)" 
-	    description = "git checkout to tag or branch"
-	    buildArgs = '-c "$(gitExe) merge --ff-only"' 
-	    baseDirectory="$(project-folder)" />
     </cb:if>    
   </cb:define>
   
