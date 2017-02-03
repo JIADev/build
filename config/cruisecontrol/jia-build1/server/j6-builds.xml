@@ -91,10 +91,11 @@
   
   <!-- CUST1001 -->
   
-  <cb:v76build
+  <!--
+      <cb:v76build
       driver="CUST1001"
-      project-name="CUST1001_SprintInfra"
-      branch="SprintInfra"
+      project-name="CUST1001_ActiveInfra"
+      branch="1002_Infra"
       prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT"
       platform="AnyCpu"
       repo-name="active"
@@ -105,6 +106,7 @@
       package="true"
       corflags="/32bitpref-"
       />
+  -->
   
   <!-- CUST1002 -->
   <cb:v76build
@@ -121,10 +123,11 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
+  <!--
+      <cb:v76build
       driver="CUST1002"
-      project-name="CUST1002_SprintInfra"
-      branch="SprintInfra"
+      project-name="CUST1002_ActiveInfra"
+      branch="ActiveInfra"
       prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT"
       platform="AnyCpu"
       repo-name="active"
@@ -135,7 +138,7 @@
       package="true"
       corflags="/32bitpref-"
       />
-  
+  -->
   <!-- CUST2069 -->
   <!--  
        <cb:customerbuild
