@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+g<?xml version="1.0"?>
 <cb:config-template xmlns:cb="urn:ccnet.config.builder">
   
   <!-- default queue-priority = 2000.  Subtract 1000 if it is part of a track build.  Subtract 50 for each dependency it has -->
