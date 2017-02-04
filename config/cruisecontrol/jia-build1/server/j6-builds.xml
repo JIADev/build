@@ -91,7 +91,8 @@
   
   <!-- CUST1001 -->
   
-  <cb:v76build
+  <!--
+      <cb:v76build
       driver="CUST1001"
       project-name="CUST1001_SprintInfra"
       branch="SprintInfra"
@@ -105,6 +106,7 @@
       package="true"
       corflags="/32bitpref-"
       />
+  -->
   
   <!-- CUST1002 -->
   <cb:v76build
@@ -121,7 +123,7 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
+<!--  <cb:v76build
       driver="CUST1002"
       project-name="CUST1002_SprintInfra"
       branch="SprintInfra"
@@ -135,7 +137,8 @@
       package="true"
       corflags="/32bitpref-"
       />
-  
+-->
+
   <!-- CUST2069 -->
   <!--  
        <cb:customerbuild
