@@ -96,7 +96,7 @@
       driver="CUST1001"
       project-name="CUST1001_SprintInfra"
       branch="SprintInfra"
-      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT"
+      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
@@ -112,7 +112,7 @@
   <cb:v76build
       driver="CUST1002"
       project-name="CUST1002-ActiveDev"
-      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT"
+      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_PRD"
       branch="1002_ActiveDev"
       platform="AnyCpu"
       repo-name="active"
@@ -127,7 +127,7 @@
       driver="CUST1002"
       project-name="CUST1002_SprintInfra"
       branch="SprintInfra"
-      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_UAT"
+      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
@@ -462,14 +462,14 @@
   
   <cb:v76build
       driver="CUST2097"
-      project-name="CUST2097_Start"
-      branch = '2097_Start'
-      prodTag="2097_UAT"
+      project-name="CUST2097_Sprint5"
+      branch = '2097_Sprint5'
+      prodTag="2097_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
       external-zip="true"
-      archive="true"
+      archive="false"
       package="true"
       package-privatebuild="true"
       corflags="/32bitpref-"
@@ -480,7 +480,7 @@
       project-name="CUST2097_BLD"
       branch = 'tags'
       tag="2097_BLD"
-      prodTag="2097_UAT"
+      prodTag="2097_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
