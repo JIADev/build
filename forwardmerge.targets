@@ -147,7 +147,7 @@
 
       <Active768Branches Include="2097_Start" />
       <ActivePwsBranches Include="2097_Start" />
-      <ActiveEventPwsBranches Include="1001_BPReceipt;1002_ListMember_EventGuest" />
+      <ActiveEventPwsBranches Include="1001_BPReceipt" />
 <!--
       <Active768ReqsWithDependencies Include="" />
 -->
