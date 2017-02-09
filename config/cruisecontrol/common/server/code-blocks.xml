@@ -952,7 +952,7 @@
 			executable="$(powershell)"
 			baseDirectory="$(project-folder)"
 			description="copy changeset log to the package folder">
-		      <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE\"</buildArgs>
+		      <buildArgs>-c "cp $(project-folder)\ChangesetLog.xml $(project-folder)\RELEASE"</buildArgs>
 		    </exec>
 		    <conditional description="If changelog.xsl exists">
 		      <conditions>
@@ -963,7 +963,7 @@
 			    executable="$(powershell)"
 			    baseDirectory="$(project-folder)"
 			    description="copy changeset log to the package folder">
-			  <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE\"</buildArgs>
+			  <buildArgs>-c "cp $(project-folder)\Changelog.xsl $(project-folder)\RELEASE"</buildArgs>
 			</exec>
 		      </tasks>
 		    </conditional>
