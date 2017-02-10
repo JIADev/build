@@ -147,7 +147,7 @@
 
       <Active768Branches Include="2097_Sprint5" />
       <ActivePwsBranches Include="2097_Sprint5" />
-      <ActiveEventPwsBranches Include="1001_BPReceipt" />
+      <ActiveEventPwsBranches Include="1001_BPReceipt;2097_AllPortals" />
 <!--
       <Active768ReqsWithDependencies Include="" />
 -->
