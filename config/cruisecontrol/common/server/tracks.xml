@@ -49,7 +49,7 @@
   <cb:define name="queue3d">
     <cb:define queueName="Queue3" />
     <cb:reqBuild queue-priority="1350" branchName="2094_PER" projectName="CUST000-2094_PER" customer="000" prodTag="2095_PRD;2094_PRD" />
-    <cb:reqBuild queue-priority="1450" branchName="2094_PeruInfra_GBB" projectName="CUST2094_PeruInfra_GBB" customer="2094" prodTag="2094_PRD" />
+    <cb:reqBuild queue-priority="1450" branchName="2094_PeruInfra" projectName="CUST2094_PeruInfra_GBB" customer="2094" prodTag="2094_PRD" />
     <cb:reqBuild queue-priority="1800" branchName="1002_ActiveDev" projectName="CUST2097-ActiveDev" customer="2097" prodTag="2097_PRD" />
     <cb:reqBuild queue-priority="1900" branchName="1002_ActiveDev" projectName="CUST000-ActiveDev" customer="000" prodTag="2094_PRD;2095_PRD;2096_PRD;2097_PRD" />
     <cb:reqBuild queue-priority="1975" branchName="xxxx_ActiveInfra" projectName="CUST1001-ActiveInfra" customer="1001" />
