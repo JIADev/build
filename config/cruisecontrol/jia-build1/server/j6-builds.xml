@@ -125,7 +125,7 @@
 
   <cb:v76build
       driver="CUST1002"
-      project-name="CUST1002_ActiveInfra"
+      project-name="CUST1002-ActiveInfra"
       branch="xxxx_ActiveInfra"
       prodTag="2094_PRD;2095_PRD;2096_PRD;2097_PRD"
       platform="AnyCpu"
@@ -476,7 +476,7 @@
   
   <cb:v76build
       driver="CUST2097"
-      project-name="CUST2097_ActiveInfra"
+      project-name="CUST2097-ActiveInfra"
       branch = 'xxxx_ActiveInfra'
       prodTag="2097_PRD"
       platform="AnyCpu"
