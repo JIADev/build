@@ -123,10 +123,10 @@
       corflags="/32bitpref-"
       />
 
-<!--  <cb:v76build
+  <cb:v76build
       driver="CUST1002"
-      project-name="CUST1002_SprintInfra"
-      branch="SprintInfra"
+      project-name="CUST1002_ActiveInfra"
+      branch="xxxx_ActiveInfra"
       prodTag="2094_PRD;2095_PRD;2096_PRD;2097_PRD"
       platform="AnyCpu"
       repo-name="active"
@@ -137,7 +137,6 @@
       package="true"
       corflags="/32bitpref-"
       />
--->
 
   <!-- CUST2069 -->
   <!--  
@@ -464,6 +463,21 @@
       driver="CUST2097"
       project-name="CUST2097_Sprint5"
       branch = '2097_Sprint5'
+      prodTag="2097_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2097"
+      project-name="CUST2097_ActiveInfra"
+      branch = 'xxxx_ActiveInfra'
       prodTag="2097_PRD"
       platform="AnyCpu"
       repo-name="active"
