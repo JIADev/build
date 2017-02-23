@@ -490,6 +490,51 @@
       />
   
   <cb:v76build
+      driver="CUST2097JP"
+      project-name="CUST2097JP-AllPortals"
+      branch = '2097_AllPortals'
+      prodTag="2097_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2097CORP"
+      project-name="CUST2097CORP-AllPortals"
+      branch = '2097_AllPortals'
+      prodTag="2097_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
+      driver="CUST2097BR"
+      project-name="CUST2097BR-AllPortals"
+      branch = '2097_AllPortals'
+      prodTag="2097_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+  
+  <cb:v76build
       driver="CUST2097"
       project-name="CUST2097_BLD"
       branch = 'tags'
