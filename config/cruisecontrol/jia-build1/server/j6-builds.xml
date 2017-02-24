@@ -109,19 +109,6 @@
   -->
   
   <!-- CUST1002 -->
-  <cb:v76build
-      driver="CUST1002"
-      project-name="CUST1002-ActiveDev"
-      prodTag="2094_PRD;2095_PRD;2096_PRD;2097_PRD"
-      branch="1002_ActiveDev"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      archive="false"
-      package="true"
-      corflags="/32bitpref-"
-      />
 
   <cb:v76build
       driver="CUST1002"
@@ -458,21 +445,6 @@
       />
   
   <!-- CUST2097 -->
-  
-  <cb:v76build
-      driver="CUST2097"
-      project-name="CUST2097_Sprint5"
-      branch = '2097_Sprint5'
-      prodTag="2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
   
   <cb:v76build
       driver="CUST2097"
