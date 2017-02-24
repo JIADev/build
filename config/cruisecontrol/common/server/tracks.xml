@@ -10,6 +10,7 @@
     <cb:reqBuild queue-priority="1976" branchName="xxxx_ActiveInfra" projectName="CUST1000-ActiveInfra" customer="1000" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2097-ActiveInfra_Sprint" customer="2097" />
     <cb:reqBuild queue-priority="1926" branchName="1002_ActiveInfra_Sprint" projectName="CUST1000-ActiveInfra_Sprint" customer="1000" />
+    <cb:reqBuild queue-priority="1974" branchName="xxxx_ActiveInfra" projectName="CUST2097JP-ActiveInfra" customer="2097JP" />
   </cb:define>
   
   <cb:define name="queue1d">
@@ -18,6 +19,7 @@
     <cb:reqBuild queue-priority="1975" branchName="xxxx_ActiveInfra" projectName="CUST2096-ActiveInfra" customer="2096" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2096-ActiveInfra_Sprint" customer="2096" />
     <cb:reqBuild queue-priority="1926" branchName="1002_ActiveInfra_Sprint" projectName="CUST000-ActiveInfra_Sprint" customer="000" />
+    <cb:reqBuild queue-priority="1975" branchName="xxxx_ActiveInfra" projectName="CUST2097CORP-ActiveInfra" customer="2097CORP" />
   </cb:define>
   
   <cb:define name="queue2b">
@@ -41,6 +43,7 @@
     <cb:reqBuild queue-priority="1350" branchName="2094_PER" projectName="CUST2096-2094_PER" customer="000" prodTag="2096_PRD" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST1002-ActiveInfra_Sprint" customer="1002" />
     <cb:reqBuild queue-priority="1976" branchName="xxxx_ActiveInfra" projectName="CUST000-ActiveInfra" customer="000" />
+    <cb:reqBuild queue-priority="1975" branchName="xxxx_ActiveInfra" projectName="CUST2097BR-ActiveInfra" customer="2097BR" />
   </cb:define>
   
   <cb:define name="queue3d">
