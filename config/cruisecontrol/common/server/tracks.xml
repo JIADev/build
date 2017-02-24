@@ -27,6 +27,7 @@
     <cb:reqBuild queue-priority="1350" branchName="2094_PER" projectName="CUST2094BOL-2094_PER" customer="2094BOL" prodTag="2094_PRD" />
     <cb:reqBuild queue-priority="1200" branchName="2096_GitPatchLoader" projectName="CUST2096-CVS" customer="2096" prodTag="2096_PRD" />
     <cb:reqBuild queue-priority="1975" branchName="xxxx_ActiveInfra" projectName="CUST2095-ActiveInfra" customer="2095" />
+    <cb:reqBuild queue-priority="1974" branchName="xxxx_ActiveInfra" projectName="CUST2094PER-ActiveInfra" customer="2094PER" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2095-ActiveInfra_Sprint" customer="2095" />
   </cb:define>
   
@@ -35,6 +36,7 @@
     <cb:reqBuild queue-priority="1350" branchName="2094_PER" projectName="CUST2094GBB-2094_PER" customer="2094" prodTag="2094_PRD" />
     <cb:reqBuild queue-priority="1700" branchName="1001_BPReceipt" projectName="CUST1001-BPReceipt" customer="1001" prodTag="2095_PRD;2094_PRD;2096_PRD;2097_PRD" />
     <cb:reqBuild queue-priority="1975" branchName="xxxx_ActiveInfra" projectName="CUST2094-ActiveInfra" customer="2094" />
+    <cb:reqBuild queue-priority="1974" branchName="xxxx_ActiveInfra" projectName="CUST2094BOL-ActiveInfra" customer="2094BOL" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2094-ActiveInfra_Sprint" customer="2094" />
   </cb:define>
   
