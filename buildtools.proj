@@ -17,6 +17,12 @@
     <BuildToolsDirectory>$(MSBuildProjectDirectory)</BuildToolsDirectory>
   </PropertyGroup>
 
+  <Target Name="FixLineEndings">
+    <ItemGroup>
+      <Files Include="$(FileNames)" />
+    </ItemGroup>
+    <FixLineEndings FileNames="%(Files.Identity)" />
+  </Target>
   <Target Name="SortArtifacts">
     <SortArtifacts />
   </Target>
