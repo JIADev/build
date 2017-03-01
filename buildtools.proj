@@ -20,7 +20,7 @@
   <Target Name="FixLineEndings">
 	<Error Text="Missing TargetDirectory" Condition="'$(TargetDirectory)' == ''" />
 	<ItemGroup>
-      <Files Include="$(TargetDirectory)\**\*.sln" />
+      <Files Include="$(TargetDirectory)\**\all.sln" />
     </ItemGroup>
 	
     <FixLineEndings FileNames="%(Files.Identity)" />
@@ -415,7 +415,7 @@
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch)$(CleanFlag)" />
     <ItemGroup>
-      <_SlnFiles Include="$(TargetRepo)\**\*.sln" />
+      <_SlnFiles Include="$(TargetRepo)\**\all.sln" />
     </ItemGroup>
     <FixLineEndings FileNames="%(_SlnFiles.Identity)" />
     <CallTarget Targets="SortPackageConfigs" Condition="'$(DoMerge)' == 'true'"/>
