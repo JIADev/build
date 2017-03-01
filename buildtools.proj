@@ -18,9 +18,11 @@
   </PropertyGroup>
 
   <Target Name="FixLineEndings">
+	<Error Text="Missing TargetDirectory" Condition="'$(TargetDirectory)' == ''" />
 	<ItemGroup>
-      <Files Include="$(TargetRepo)\**\*.sln" />
+      <Files Include="$(TargetDirectory)\**\*.sln" />
     </ItemGroup>
+	
     <FixLineEndings FileNames="%(Files.Identity)" />
   </Target>
   <Target Name="SortArtifacts">
@@ -412,10 +414,10 @@
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch)$(CleanFlag)" />
-	<ItemGroup>
-      <Files Include="$(TargetRepo)\**\*.sln" />
+    <ItemGroup>
+      <_SlnFiles Include="$(TargetRepo)\**\*.sln" />
     </ItemGroup>
-    <FixLineEndings FileNames="%(Files.Identity)" />
+    <FixLineEndings FileNames="%(_SlnFiles.Identity)" />
     <CallTarget Targets="SortPackageConfigs" Condition="'$(DoMerge)' == 'true'"/>
 	  <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "Pre @merge cleanup"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
 	  <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)' --preview" Condition="'$(Preview)' != 'false'" />
