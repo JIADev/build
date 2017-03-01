@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <Target Name="FixLineEndings">
-    <ItemGroup>
-      <Files Include="$(FileNames)" />
+	<ItemGroup>
+      <Files Include="$(TargetRepo)\**\*.sln" />
     </ItemGroup>
     <FixLineEndings FileNames="%(Files.Identity)" />
   </Target>
@@ -412,6 +412,10 @@
     <Exec Command="hg init $(TargetRepo)" Condition="!Exists('$(TargetRepo)')" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg pull $(SourceRepo)" Condition="'$(SourceRepo)' != '$(TargetRepo)'" />
     <Exec WorkingDirectory="$(TargetRepo)" Command="hg up $(TargetBranch)$(CleanFlag)" />
+	<ItemGroup>
+      <Files Include="$(TargetRepo)\**\*.sln" />
+    </ItemGroup>
+    <FixLineEndings FileNames="%(Files.Identity)" />
     <CallTarget Targets="SortPackageConfigs" Condition="'$(DoMerge)' == 'true'"/>
 	  <Exec WorkingDirectory="$(TargetRepo)" Command='hg ci -m "Pre @merge cleanup"' Condition="'$(DoCommit)' == 'true'" IgnoreExitCode="true" />
 	  <Exec WorkingDirectory="$(TargetRepo)" Command="hg merge '$(SourceBranchPrefix)$(SourceBranch)' --preview" Condition="'$(Preview)' != 'false'" />

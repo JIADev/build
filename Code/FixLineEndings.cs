@@ -17,7 +17,8 @@ namespace j6.BuildTools.MsBuildTasks
         {
             foreach (var fileName in FileNames)
             {
-                var file = new FileInfo(fileName);
+		Console.Write("File {0}...", fileName);
+		var file = new FileInfo(fileName);
                 var inputBuffer = new byte[file.Length];
                 var outputBuffer = new byte[file.Length];
 
@@ -71,6 +72,7 @@ namespace j6.BuildTools.MsBuildTasks
 
                 using (var output = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
                     output.Write(outputBuffer, 0, bytesWritten);
+		Console.WriteLine("Done.");
             }
             return true;
         }
