@@ -415,7 +415,7 @@
 		 targets="ForceReinstallDatabase"
 		 workingDirectory="$(project-folder)\TEST"
 		 timeout="$(reinstall-database-timeout)">
-	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver) /p:PatchLoaderSwitches="--noninteractive"</buildArgs>
+	  <buildArgs>/p:DatabaseName=$(db-name) /p:DatabaseServer=$(db-server) /p:DatabaseInstance=$(db-instance) /p:Cust=$(driver) /p:PatchLoaderInteractive="Non"</buildArgs>
 	</msbuild>
 	
 	<msbuild logger="$(msBuildListenerDll)" description="Flushing RedisCache"
@@ -528,7 +528,7 @@
       <msbuild logger="$(msBuildListenerDll)" description="build">
 	<executable>$(msbuild)</executable>
 	<projectFile>j6.proj</projectFile>
-	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules) /p:PatchLoaderSwitches="--noninteractive" /p:Package=$(package) /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
+	<buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:SourceDir=$(project-folder) /p:DefineConstants=$(modules) /p:PatchLoaderInteractive="Non" /p:Package=$(package) /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
 	<targets>FullBuild</targets>
 	<timeout>$(msbuild-build-timeout)</timeout>
       </msbuild>
@@ -612,7 +612,7 @@
     <msbuild logger="$(msBuildListenerDll)" description="patch">
       <executable>$(msbuild)</executable>
       <projectFile>j6.proj</projectFile>
-      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:PatchLoaderSwitches="--noninteractive" /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
+      <buildArgs>/p:Configuration=$(configuration) /p:Platform="$(platform)" /p:PatchLoaderInteractive="Non" /p:InstallStartTime="$[$CCNetBuildDate]-$[$CCNetNumericLabel]"</buildArgs>
       <targets>Patch</targets>
       <timeout>$(msbuild-patch-timeout)</timeout>
     </msbuild>
