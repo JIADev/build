@@ -464,6 +464,7 @@
   <cb:v76build
       driver="CUST2097JP"
       project-name="CUST2097JP-AllPortals"
+      queueName="CUST2097"
       branch = '2097_AllPortals'
       prodTag="2097_PRD"
       platform="AnyCpu"
@@ -479,6 +480,7 @@
   <cb:v76build
       driver="CUST2097CORP"
       project-name="CUST2097CORP-AllPortals"
+      queueName="CUST2097"
       branch = '2097_AllPortals'
       prodTag="2097_PRD"
       platform="AnyCpu"
@@ -494,6 +496,8 @@
   <cb:v76build
       driver="CUST2097BR"
       project-name="CUST2097BR-AllPortals"
+      queue-priority="1900"
+      queueName="CUST2097"
       branch = '2097_AllPortals'
       prodTag="2097_PRD"
       platform="AnyCpu"
