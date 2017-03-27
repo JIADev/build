@@ -363,6 +363,8 @@
   <cb:v76build
       driver="CUST2094PER"
       project-name="CUST2094_PeruInfra_PER"
+      queueName="CUST2094"
+      queue-priority="1900"
       branch="2094_PeruInfra"
       prodTag="2094_PRD"
       platform="AnyCpu"
@@ -378,6 +380,7 @@
   <cb:v76build
       driver="CUST2094BOL"
       project-name="CUST2094_PeruInfra_BOL"
+      queueName="CUST2094"
       branch="2094_PeruInfra"
       prodTag="2094_PRD"
       platform="AnyCpu"
