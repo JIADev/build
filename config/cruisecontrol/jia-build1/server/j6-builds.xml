@@ -484,6 +484,7 @@
       driver="CUST2097CORP"
       project-name="CUST2097CORP-AllPortals"
       queueName="CUST2097"
+      queue-priority="2100"
       branch = '2097_AllPortals'
       prodTag="2097_PRD"
       platform="AnyCpu"
