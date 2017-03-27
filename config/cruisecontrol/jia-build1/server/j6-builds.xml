@@ -452,6 +452,7 @@
   <cb:v76build
       driver="CUST2097"
       project-name="CUST2097-ActiveInfra"
+      queue-priority="2050"
       branch = 'xxxx_ActiveInfra'
       prodTag="2097_PRD"
       platform="AnyCpu"
