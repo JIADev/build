@@ -482,23 +482,6 @@
       />
   
   <cb:v76build
-      driver="CUST2097CORP"
-      project-name="CUST2097CORP-AllPortals"
-      queueName="CUST2097"
-      queue-priority="2100"
-      branch = '2097_AllPortals'
-      prodTag="2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
       driver="CUST2097BR"
       project-name="CUST2097BR-AllPortals"
       queue-priority="1900"
