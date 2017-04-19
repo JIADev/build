@@ -56,7 +56,6 @@
     <cb:reqBuild queue-priority="1925" branchName="xxxx_ActiveInfra" projectName="CUST1001-ActiveInfra" customer="1001" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST1001-ActiveInfra_Sprint" customer="1001" />
     <cb:reqBuild queue-priority="1000" branchName="2097_AIAP" projectName="CUST1002-AIAP" customer="1002" />
-    <cb:reqBuild queue-priority="1995" branchName="2097_AIAP" projectName="CUST2097SG-AIAP" customer="2097SG" />
   </cb:define>
   
   <cb:define name="build2queues">
