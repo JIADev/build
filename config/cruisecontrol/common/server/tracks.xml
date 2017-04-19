@@ -11,7 +11,7 @@
     <cb:reqBuild queue-priority="1925" branchName="xxxx_ActiveInfra" projectName="CUST1000-ActiveInfra" customer="1000" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2097-ActiveInfra_Sprint" customer="2097" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST1000-ActiveInfra_Sprint" customer="1000" />
-    <cb:reqBuild queue-priority="1000" branchName="xxxx_SprintCVS1" projectName="CUST2097BR-SprintCVS1" customer="2097BR" />
+    <cb:reqBuild queue-priority="1000" branchName="xxxx_SprintCVS2" projectName="CUST2097BR-SprintCVS1" customer="2097BR" />
   </cb:define>
   
   <cb:define name="queue1d">
@@ -20,7 +20,7 @@
     <cb:reqBuild queue-priority="1925" branchName="xxxx_ActiveInfra" projectName="CUST2096-ActiveInfra" customer="2096" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2096-ActiveInfra_Sprint" customer="2096" />
     <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST000-ActiveInfra_Sprint" customer="000" />
-    <cb:reqBuild queue-priority="1000" branchName="xxxx_SprintCVS1" projectName="CUST1002-SprintCVS1" customer="1002" />
+    <cb:reqBuild queue-priority="1000" branchName="xxxx_SprintCVS2" projectName="CUST1002-SprintCVS1" customer="1002" />
   </cb:define>
   
   <cb:define name="queue2b">
