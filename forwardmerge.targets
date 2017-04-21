@@ -20,8 +20,6 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=1001_WebPWS;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
-    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PeruInfra;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2097_PRD;TargetBranch=1001_BPReceipt;DoMerge=true;DoCommit=true" />
