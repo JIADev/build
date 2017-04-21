@@ -346,21 +346,6 @@
       />
   
   <cb:v76build
-      driver="CUST2094"
-      project-name="CUST2094_SprintInfra"
-      branch="2094_SprintInfra"
-      prodTag="2094_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      package-privatebuild="true"
-      archive="false"
-      package="true"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
       driver="CUST2094PER"
       project-name="CUST2094_PeruInfra_PER"
       queueName="CUST2094"
