@@ -452,9 +452,9 @@
   
   <cb:v76build
       driver="CUST2097JP"
-      project-name="CUST2097JP-AllPortals"
+      project-name="CUST2097JP-ActiveInfra"
       queueName="CUST2097"
-      branch = '2097_AllPortals'
+      branch = 'xxxx_ActiveInfra'
       prodTag="2097_PRD"
       platform="AnyCpu"
       repo-name="active"
@@ -468,10 +468,10 @@
   
   <cb:v76build
       driver="CUST2097BR"
-      project-name="CUST2097BR-AllPortals"
+      project-name="CUST2097BR-ActiveInfra"
       queue-priority="1900"
       queueName="CUST2097"
-      branch = '2097_AllPortals'
+      branch = 'xxxx_ActiveInfra'
       prodTag="2097_PRD"
       platform="AnyCpu"
       repo-name="active"
@@ -483,12 +483,12 @@
       corflags="/32bitpref-"
       />
 	  
-	  <cb:v76build
+  <cb:v76build
       driver="CUST2097SG"
-      project-name="CUST2097SG-AIAP"
+      project-name="CUST2097SG-ActiveInfra"
       queue-priority="1995"
       queueName="CUST2097"
-      branch = '2097_AIAP'
+      branch = 'xxxx_ActiveInfra'
       prodTag="2097_PRD"
       platform="AnyCpu"
       repo-name="active"
