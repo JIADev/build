@@ -26,10 +26,6 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=1001_BPReceipt;DoMerge=true;DoCommit=true" />
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2097_PRD;TargetBranch=2097_AIAP;DoMerge=true;DoCommit=true" />
-    
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=2097_AIAP;DoMerge=true;DoCommit=true" />
-    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=xxxx_ActiveInfra;TargetBranch=1002_ActiveInfra_Sprint;DoMerge=true;DoCommit=true" />
   </Target>
 </Project>
