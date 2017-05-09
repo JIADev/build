@@ -17,15 +17,16 @@
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_PeruInfra;DoMerge=true;DoCommit=true" />
-    
+
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PeruInfra;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
-    
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2097_PRD;TargetBranch=1001_BPReceipt;DoMerge=true;DoCommit=true" />
-    
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=1001_BPReceipt;DoMerge=true;DoCommit=true" />
+<!-- Too much divergence to auto forward merge 2094_PeruInfra into xxxx_ActiveInfra -->
+    <!-- <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PeruInfra;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" /> -->
+<!-- But, still need 2094_PRD to pass the forward only checks -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=xxxx_ActiveInfra;TargetBranch=1002_ActiveInfra_Sprint;DoMerge=true;DoCommit=true" />
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=xxxx_ActiveInfra;TargetBranch=2097SG_ActiveInfra;DoMerge=true;DoCommit=true" />
   </Target>
 </Project>
