@@ -14,16 +14,12 @@
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
     
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
-    
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_PeruInfra;DoMerge=true;DoCommit=true" />
 
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.8;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
-    
-<!-- Too much divergence to auto forward merge 2094_PeruInfra into xxxx_ActiveInfra -->
+<!-- Too much divergence to auto forward merge 2094 or 7.6.8 into xxxx_ActiveInfra -->
     <!-- <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PeruInfra;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" /> -->
-<!-- But, still need 2094_PRD to pass the forward only checks -->
-    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
+<!-- But, still need pre-2094 (aka 7.6.7) to pass the forward only checks -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
     
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=xxxx_ActiveInfra;TargetBranch=1002_ActiveInfra_Sprint;DoMerge=true;DoCommit=true" />
     
