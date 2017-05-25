@@ -412,6 +412,21 @@
       corflags="/32bitpref-"
       />
   
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-ActiveInfra_Sprint"
+      branch="1002_ActiveInfra_Sprint"
+      prodTag="2095_PRD;2096_PRD;2097_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />
+
   <!-- CUST2096 -->
   
   <cb:v76build
