@@ -9,13 +9,12 @@
 <!--    <cb:reqCoreBuild queue-priority="1975" branchName="8.0" projectName="CUST2095-8.0" customer="2095" /> -->
     <cb:reqBuild queue-priority="1825" branchName="xxxx_ActiveInfra" projectName="CUST1000-ActiveInfra" customer="1000" />
     <cb:reqBuild queue-priority="1875" branchName="1002_ActiveInfra_Sprint" projectName="CUST1000-ActiveInfra_Sprint" customer="1000" />
-    <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2097-ActiveInfra_Sprint" customer="2097" />
   </cb:define>
   
   <cb:define name="build2queue2">
     <cb:define queueName="Queue2" />
     <cb:reqBuild queue-priority="1875" branchName="xxxx_ActiveInfra" projectName="CUST2095-ActiveInfra" customer="2095" />
-    <cb:reqBuild queue-priority="1875" branchName="xxxx_ActiveInfra" projectName="CUST2094PER-ActiveInfra" customer="2094PER" />
+    <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2097-ActiveInfra_Sprint" customer="2097" />
   </cb:define>
   
   <cb:define name="build2queue3">
@@ -32,16 +31,13 @@
   
   <cb:define name="build4queue2">
     <cb:define queueName="Queue2" />
-    <cb:reqBuild queue-priority="1825" branchName="xxxx_ActiveInfra" projectName="CUST2094-ActiveInfra" customer="2094" />
-    <cb:reqBuild queue-priority="1875" branchName="xxxx_ActiveInfra" projectName="CUST2094BOL-ActiveInfra" customer="2094BOL" />
-    <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST2094-ActiveInfra_Sprint" customer="2094" />
+    <cb:reqBuild queue-priority="1875" branchName="xxxx_ActiveInfra" projectName="CUST1001-ActiveInfra" customer="1001" />
+    <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST1001-ActiveInfra_Sprint" customer="1001" />
   </cb:define>
   
   <cb:define name="build4queue3">
     <cb:define queueName="Queue3" />
     <cb:reqBuild queue-priority="1450" branchName="2094_PeruInfra" projectName="CUST2094_PeruInfra_GBB" customer="2094" prodTag="2094_PRD" />
-    <cb:reqBuild queue-priority="1875" branchName="xxxx_ActiveInfra" projectName="CUST1001-ActiveInfra" customer="1001" />
-    <cb:reqBuild queue-priority="1925" branchName="1002_ActiveInfra_Sprint" projectName="CUST1001-ActiveInfra_Sprint" customer="1001" />
   </cb:define>
   
   <cb:define name="build2queues">
