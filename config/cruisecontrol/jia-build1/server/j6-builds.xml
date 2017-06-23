@@ -369,6 +369,7 @@
       queue-priority="1825"
       branch="2094_REQ047"
       prodTag="2094_PRD"
+	  unit-test="false"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
