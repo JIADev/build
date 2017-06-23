@@ -363,6 +363,23 @@
       />
   
   <cb:v76build
+      driver="CUST2094PER"
+      project-name="CUST2094_REQ047_PER"
+      queueName="CUST2094"
+      queue-priority="1825"
+      branch="2094_REQ047"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />  
+  
+  <cb:v76build
       driver="CUST2094BOL"
       project-name="CUST2094_PeruInfra_BOL"
       queueName="CUST2094"
@@ -377,7 +394,7 @@
       package="true"
       corflags="/32bitpref-"
       />
-  
+
 <!-- CUST2095 -->
   
   <cb:v76build
