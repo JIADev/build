@@ -489,27 +489,28 @@
 	</msbuild>
     -->
     <email from="SCM@jenkon.com" mailhost="mail.jenkon.com"
- 6         mailhostPassword="" mailhostUsername="" 
- 7         includeDetails="true">
- 8     <users>
- 9         <user name="Justin Collins" address="justin.collins@jenkon.com"
-10             group="SCMGroup" />
+          mailhostPassword="" mailhostUsername="" 
+          includeDetails="true">
+      <users>
+          <user name="Justin Collins" address="justin.collins@jenkon.com"
+             group="SCMGroup" />
            <user name="Glenn Batson" address="Glenn.batson@jenkon.com"
                group="SCMGroup" />
            <user name="Jim Blythe" address="Jim.Blythe@jenkon.com"
                group="DEVGroup" />
-11     </users>
-12     <groups>
-13         <group name="SCMGroup" notification="failed" />
+     </users>
+     <groups>
+         <group name="SCMGroup" notification="failed" />
            <group name="DEVGroup" notification="failed" />
-14     </groups>
+           <group name="DevManagersGroup" notification="failed"
+     </groups>
        <converters>
            <regexConverter find="$" replace="@jenkon.com" />
        </converters>
        <subjectSettings>
-29         <subject buildResult="StillBroken" value="Build is still broken for {CCNetProject}" />
-30     </subjectSettings
-15     </email> 
+         <subject buildResult="StillBroken" value="Build is still broken for {CCNetProject}" />
+     </subjectSettings
+     </email> 
   </cb:define>
   
   <!-- Added for 7.6 builds -->
