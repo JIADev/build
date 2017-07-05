@@ -489,7 +489,7 @@
 	</msbuild>
     -->
     <email from="SCM@jenkon.com" mailhost="mail.jenkon.com"
-          mailhostPassword="" mailhostUsername="" 
+          mailhostPassword="This 1s how w3 acce$$ Jenkon!" mailhostUsername="jenkon\jcollins" 
           includeDetails="true">
       <users>
           <user name="Justin Collins" address="justin.collins@jenkon.com"
