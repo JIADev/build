@@ -488,7 +488,7 @@
 	<buildArgs>/p:RepoDirectory=$(project-folder) /p:CCNetArtifactDirectory=$(artifact-folder)</buildArgs>
 	</msbuild>
     -->
-    <email from="SCM@jenkon.com" mailhost="mail.jenkon.com"
+    <!--<email from="SCM@jenkon.com" mailhost="mail.jenkon.com"
           mailhostPassword="This 1s how w3 acce$$ Jenkon!" mailhostUsername="jenkon\jcollins" 
           includeDetails="true">
       <users>
@@ -504,13 +504,13 @@
            <group name="DEVGroup" notification="failed" />
            <group name="DevManagersGroup" notification="failed"
      </groups>
-       <!--<converters>
+       <converters>
            <regexConverter find="$" replace="@jenkon.com" />
-       </converters>-->
+       </converters>
        <subjectSettings>
          <subject buildResult="StillBroken" value="Build is still broken for {CCNetProject}" />
      </subjectSettings
-     </email> 
+     </email>--> 
   </cb:define>
   
   <!-- Added for 7.6 builds -->
