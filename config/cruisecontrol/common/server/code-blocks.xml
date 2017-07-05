@@ -504,9 +504,9 @@
            <group name="DEVGroup" notification="failed" />
            <group name="DevManagersGroup" notification="failed"
      </groups>
-       <converters>
+       <!--<converters>
            <regexConverter find="$" replace="@jenkon.com" />
-       </converters>
+       </converters>-->
        <subjectSettings>
          <subject buildResult="StillBroken" value="Build is still broken for {CCNetProject}" />
      </subjectSettings
