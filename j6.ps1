@@ -47,7 +47,7 @@ function load-vcvars {
 	$vsparent = ($vsparent -f $vscpu)
 	$vs = join-path (join-path $vsdrive $vsparent) $vsfolder
 	$vc = join-path $vs "\vcvarsall.bat"
-	if(test-path $vc) { 
+	if(test-path $vc) {
 		#Set environment variables for Visual Studio Command Prompt
 		pushd $vs
 		cmd /c "vcvarsall.bat&set" |
@@ -78,10 +78,10 @@ function load-vs2008 { load-visualstudio -vsver "9.0" }
 function load-vs2005 { load-visualstudio -vsver "8" }
 
 
-if ($args -contains "-2005") { load-vs2005 } 
-elseif ($args -contains "-2008") { load-vs2008 } 
-elseif ($args -contains "-2010") { load-vs2010 } 
-elseif ($args -contains "-2015") { load-vs2015 } 
+if ($args -contains "-2005") { load-vs2005 }
+elseif ($args -contains "-2008") { load-vs2008 }
+elseif ($args -contains "-2010") { load-vs2010 }
+elseif ($args -contains "-2015") { load-vs2015 }
 else { load-vs2012 }
 
 
@@ -97,9 +97,9 @@ else { load-vs2012 }
 ##
 
 . core.ps1
-if (gcm svn.exe*) {
- . subversion.ps1
-}
+#if (gcm svn.exe*) {
+ #. subversion.ps1
+#}
 
 ###
 ### SWITCH COMMAND functions
@@ -121,8 +121,8 @@ function run-tests {
 	param($config)
 	. runtests.ps1
 	run-tests
-	if (gcm ndepend.console.*) { 
-		build-ndepend 
+	if (gcm ndepend.console.*) {
+		build-ndepend
 	}
 }
 
@@ -130,8 +130,8 @@ function run-feature-tests {
 	param($config)
 	. runtests.ps1
 	run-feature-tests
-	#if (gcm ndepend.console.*) { 
-	#	build-ndepend 
+	#if (gcm ndepend.console.*) {
+	#	build-ndepend
 	#}
 }
 
@@ -148,17 +148,17 @@ function featurerun-autodeploy {
 }
 
 function featurerelase-release {
-	param($config, 
+	param($config,
 		  $buildBitType = "-32bit"
 		  )
 	. featurebuild.ps1
-	
+
 	buildfeature
-	
+
 	releasefeature
 }
 
-function build-coverage 
+function build-coverage
 {
 	param($config)
 	. build.ps1
@@ -291,7 +291,7 @@ switch($script:command){
 		   -config (get-debugconfig $script:customer)
 		exit 0
 	}
-	
+
 	{$_ -eq "featurebuild"}
 	{
 		build-configuration `
@@ -323,7 +323,7 @@ switch($script:command){
 		   -clean $false -config (get-debugconfig $script:customer)
 		exit 0
 	}
-	
+
 	{$_ -eq "deploy"}
 	{
 		build-configuration `
@@ -339,7 +339,7 @@ switch($script:command){
 		   -clean $false -config (get-releaseconfig $script:customer)
 	}
 
-	{$_ -eq "featurerelease"}	
+	{$_ -eq "featurerelease"}
 	{
 		build-configuration `
 			-buildcommand "featurerelase-release" `
@@ -404,7 +404,7 @@ switch($script:command){
 		' + $args[1]
 		powershell -NoLogo -NoProfile -Command $cmd
 	}
-	
+
 	{$_ -eq "ndepend"}
 	{
 		build-ndepend
@@ -417,10 +417,3 @@ switch($script:command){
 		log ("unknown command '{0}'" -f $script:command)
 	}
 }
-
-
-
-
-
-
-

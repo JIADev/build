@@ -1,7 +1,7 @@
 set-psdebug -strict
 
 . core.ps1
-. subversion.ps1
+#. subversion.ps1
 . sql-utils.ps1
 . feature-control.ps1
 
@@ -16,12 +16,12 @@ $sis=@("ImportExportModule/SummitIntegration.Service/SummitIntegration.Service.c
 
 #Returns the official version for the current branch at the current revision number.
 function get-version{
-	param([string]$svnUrl="")
-	if (gcm svn.exe*) {
-		$log = get-lastsvnentry $svnUrl
-		$rev = $log.log.logentry.revision
-		$info = [xml](exec-svn info $svnUrl --xml)
-	}
+	#param([string]$svnUrl="")
+	#if (gcm svn.exe*) {
+	#	$log = get-lastsvnentry $svnUrl
+	#	$rev = $log.log.logentry.revision
+	#	$info = [xml](exec-svn info $svnUrl --xml)
+	#}
 	$version = "0.0.0"
 	$url = $info.info.entry.url
 	$folder = $url.split("/")[-1]
@@ -30,27 +30,27 @@ function get-version{
 	$version
 }
 
-function init-fromsvn {
-	param(
-		$targetdir,
-		$svnrepo,
-		$svncmd = "export"
-	)
-	if (gcm svn.exe*) {
-		if(test-path $targetdir){
-			validate-command {
-				rm -r -fo $targetdir
-			} "Unable to delete $targetdir"
-		}
-		validate-command {
-			log ("retrieving $svnrepo to $targetdir")
-			exec-svn $svncmd -q --force $svnrepo $targetdir
-		} "unable to init $targetdir from svn"
-	}
-	else {
-		log ("No svn.exe found")
-	}
-}
+#function init-fromsvn {
+#	param(
+#		$targetdir,
+#		$svnrepo,
+#		$svncmd = "export"
+#	)
+#	if (gcm svn.exe*) {
+#		if(test-path $targetdir){
+#			validate-command {
+#				rm -r -fo $targetdir
+#			} "Unable to delete $targetdir"
+#		}
+#		validate-command {
+#			log ("retrieving $svnrepo to $targetdir")
+#			exec-svn $svncmd -q --force $svnrepo $targetdir
+#		} "unable to init $targetdir from svn"
+#	}
+#	else {
+#		log ("No svn.exe found")
+#	}
+#}
 
 #Sets all the assembly versions to the correct current number for this checkout.
 function update-assemblyversions {
@@ -87,7 +87,7 @@ function junction {
 
 function find-junctions {
 	param ([string]$root)
-	
+
 	junction -s $root |
 	% {
 		if ($_.Contains(": JUNCTION")){
@@ -177,8 +177,8 @@ function load-patches {
 	#export setting to optional configuration file
 	$optional=[xml]"<Options><option /></Options>"
 
-	$url = ("http://source.jenkon.com/svn/custom/{0}/Config/OptionalPatch.xml" -f $settings.customer)
-	if(svn-exists $url){$optional=get-xmlfromsvn $url}
+	#$url = ("http://source.jenkon.com/svn/custom/{0}/Config/OptionalPatch.xml" -f $settings.customer)
+	#if(svn-exists $url){$optional=get-xmlfromsvn $url}
 
 	foreach($option in $optional.Options.option){
 		if($option){
@@ -274,20 +274,20 @@ function build {
 }
 
 function fetch-earnings-module {
-	param([string]$url = $(throw "Enter a URL to the repo folder"), 
+	param([string]$url = $(throw "Enter a URL to the repo folder"),
 			[string]$mode = 'hg'
 		)
 	if ($mode -eq 'svn') {
-		$last = $url.split("/")[-1]
-		if(-not($last -eq "EarningsModule")){
-			$last = "EarningsModule"
-			$url = "{0}/{1}" -f $url,$last
-		}
-		if(test-path $last){
-			mv $last "DELETE-$last";
-			warn "$last exists! moving to DELETE-$last"
-		}
-		svn.exe co $url $last
+		#$last = $url.split("/")[-1]
+		#if(-not($last -eq "EarningsModule")){
+		#	$last = "EarningsModule"
+		#	$url = "{0}/{1}" -f $url,$last
+		#}
+		#if(test-path $last){
+		#	mv $last "DELETE-$last";
+		#	warn "$last exists! moving to DELETE-$last"
+		#}
+		#svn.exe co $url $last
 	} elseif ($mode -eq 'hg') {
 		hg.exe clone $url EarningsModule
 		if (test-path EarningsModule\default-hgignore) {
@@ -298,13 +298,13 @@ function fetch-earnings-module {
 
 
 #Updates the repository, including any folders copied in from the earnings repository
-function update-svn {
-	$defaults = ".","SiteTests\employee-portal.tests"
-	$earnings = "EarningsModule"
+#function update-svn {
+#	$defaults = ".","SiteTests\employee-portal.tests"
+#	$earnings = "EarningsModule"
 
-	$defaults|?{test-path $_}|%{log ("Updating: {0}" -f $_);svn.exe update $_}
-	$earnings|?{test-path $_}|%{log ("Updating: {0}" -f $_);svn.exe update $_}
-}
+	#$defaults|?{test-path $_}|%{log ("Updating: {0}" -f $_);svn.exe update $_}
+	#$earnings|?{test-path $_}|%{log ("Updating: {0}" -f $_);svn.exe update $_}
+#}
 
 function build-solutions {
 	build-init
@@ -408,7 +408,7 @@ function generate-nettiers {
 	validate-command {
 		remove-dir($remoteWorkingDir)
 		mkdir $remoteWorkingDir
-		cp "$((get-command generate-tiers.ps1).definition)" $remotePath		
+		cp "$((get-command generate-tiers.ps1).definition)" $remotePath
 		cp $generatePropertiesPath (join-path $remoteWorkingDir "datamodule-properties.csp")
 	} "Unable to initialize remote directory"
 
@@ -561,7 +561,7 @@ function build-customsolutions {
 }
 
 function prepare-environment {
-	build-init	
+	build-init
 	build-tools
 	load-patches
 	load-appsettings
@@ -624,7 +624,7 @@ function deploy-build {
 		} else {
 			shared\releaseto $releaseFolder $isDevelopmentBuild
 		}
-		
+
 		$reportFolder=join-path $releaseFolder "Reports"
 		if(-not(test-path $reportFolder)){
 			log "Create Reports folder in $releaseFolder"
@@ -680,8 +680,8 @@ function update-webconfig {
 		[string] $user,
 		[string] $pass
 	)
-	
-	if (Test-Path $webconfig) 
+
+	if (Test-Path $webconfig)
 	{
 		if ($user) { $security = "uid=$user;pwd=$pass" }
 		else { $security = "Integrated Security=" + ($user.trim().length -eq 0) }
@@ -728,9 +728,9 @@ function set-database {
 	$build.settings.sql.pwd = $pass
 	create-sqlsettings $server $db $user $pass
 	#update-webconfig -server $server -db $db -user $user -pass $pass
-	
+
 	#$webconfig = "Site\Employee\web.config"
-	#update-webconfig -webconfig $webconfig -server $server -db $db -user $user -pass $pass 
+	#update-webconfig -webconfig $webconfig -server $server -db $db -user $user -pass $pass
 	if (test-path DataModule) {
 		update-datamodule -server $server -db $db -user $user -pass $pass
 	}
@@ -1133,13 +1133,13 @@ Notes:
 
   '<>' signifies no default value, and '<asdf>' signifies 'asdf' is the default
   for this parameter if it is not passed in or if it isn't set in the settings
-  file.	
+  file.
 
   All of the options are optional and if not specified the existing values will
   be retained.
 
 
-Parameters and common usages: 
+Parameters and common usages:
 
 	-server <parrot> -db <> -user <sqluser> -pass <j0l4n0w!>
 	-customer <> -tiers <> -local <e:\databases> -remote <\\parrot\databases>
@@ -1155,7 +1155,7 @@ Parameters and common usages:
 	if(-not $local){$local="e:\databases"}
 
 	build-init
-	build-tools		
+	build-tools
 	if(-not (test-path $buildsettingsdir)){
 		cp (join-path (pwd) "build-settings-template.xml") $buildsettingsdir
 	}
@@ -1219,7 +1219,7 @@ function get-uppath($path, $levelsUp) {
 }
 
 function get-projectsxml([string]$startDir = (get-location).path) {
-	get-projects $startDir | % { 
+	get-projects $startDir | % {
 		$xml = [xml](gc $_.fullname)
 		$path = $_.fullname
 		$o = new-object psobject
@@ -1239,7 +1239,7 @@ function get-projectsxml([string]$startDir = (get-location).path) {
 }
 
 function get-featuresxml([string]$startDir = (get-location).path) {
-	get-features $startDir | % { 
+	get-features $startDir | % {
 		$xml = [xml](gc $_.fullname)
 		$path = $_.fullname
 		$o = new-object psobject
@@ -1260,7 +1260,7 @@ function get-assemblyname($project) {
 }
 
 function standardize-projects($featurePath = (get-location)) {
-	$projects = get-projectsxml $featurePath	
+	$projects = get-projectsxml $featurePath
 	if (!$projects) { return }
 	$allProjects = get-projectsxml $featurePath\..
 	foreach ($p in $projects) {
@@ -1314,7 +1314,7 @@ EndProject"
 }
 
 function generate-solution {
-	$projects = get-projectsxml 
+	$projects = get-projectsxml
 	$projectsguid = [guid]::newguid().tostring()
 	$foldersguid = [guid]::newguid().tostring()
 	#$featureGuids = @{}
@@ -1322,7 +1322,7 @@ function generate-solution {
 "Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008"
 	#dir Feature | % { $name = "Feature_" + $_.name; $itemGuid = $featureGuids[$_.name]; `
-	#	"Project(`"$foldersguid`") = `"$name`", `"$name`", `"{$itemGuid}`" 
+	#	"Project(`"$foldersguid`") = `"$name`", `"$name`", `"{$itemGuid}`"
 #EndProject
 #"}
 	$projects | % { generate-projectsection $projectsguid $_ $projects }
@@ -1367,9 +1367,9 @@ function get-references($project) {
 	}
 }
 function change-customer {
-	param($Customer)	
-	$build = get-buildsettings	
-	$build.settings.customer = $Customer	
+	param($Customer)
+	$build = get-buildsettings
+	$build.settings.customer = $Customer
 	save-buildsettings $build
 	j6 console $Customer -2008
 }
@@ -1389,17 +1389,17 @@ function find-project($projects, $assemblyName, $guid) {
 function set-credential{
 	param([string] $credenttial)
 
-	if(-not $credenttial){	
+	if(-not $credenttial){
 		log-error "... credential not specified."
 		return
 	}
 
 	$searchString = "http://";
-	
+
 	foreach($folder in dir(location)){
 		$file = $folder.Name + "\.hg\hgrc"
-		
-		if( test-path $file) {				
+
+		if( test-path $file) {
 			$content = get-content($file)
 			$startIndex = $content[1].indexOf($searchString) + $searchString.length
 			$endIndex = $content[1].LastIndexOf("@")
@@ -1408,24 +1408,24 @@ function set-credential{
 			$content[1] = $content[1].replace($substring, $credenttial)
 			log("content cheng to: " + $content[1])
 			set-content -path $file $content
-		}		
+		}
 	}
 }
 
 function set-sprintrepo{
 	param([string] $newSprint)
-	
-	if(-not $newSprint){	
+
+	if(-not $newSprint){
 		log-error "... new sprint name not provided."
 		return
 	}
 
 	$searchString = "/hg/hgwebdir.cgi/feature/branches/";
-	
+
 	foreach($folder in dir(location)){
 		$file = $folder.Name + "\.hg\hgrc"
-		
-		if( test-path $file) {				
+
+		if( test-path $file) {
 			$content = get-content($file)
 			$startIndex = $content[1].indexOf($searchString) + $searchString.length
 			$endIndex = $content[1].LastIndexOf("/")
@@ -1434,7 +1434,7 @@ function set-sprintrepo{
 			$content[1] = $content[1].replace($substring, $newSprint)
 			log("content changed to: " + $content[1])
 			set-content -path $file $content
-		}		
+		}
 	}
 }
 
@@ -1469,7 +1469,7 @@ function read-hglogentry {
 			$descbuf = ""
 			$diffbuf = ""
 			$property = $false
-		}		
+		}
 		if ($_ -match "^(\w+):\s*(.+)") {
 			$property = $true
 			if ($matches[1] -eq "date") {
@@ -1491,7 +1491,7 @@ function read-hglogentry {
 			$entry.description += ($_ + "`n")
 		} elseif ($diff) {
 			$entry.diff += ($_ + "`n")
-		} 
+		}
 	}
 	end {
 		if ($entry) {
@@ -1500,7 +1500,7 @@ function read-hglogentry {
 	}
 }
 
-function hg-info($command, $command_args, $working_dir = ".") {	
+function hg-info($command, $command_args, $working_dir = ".") {
 	$url = (gc ($working_dir + "\.hg\hgrc")) | ? {$_ -match "http://.+"}
 	$url = $url -replace "//(.+):(.+)@","//"
 	$url = $url -replace ".+http","http"
@@ -1533,7 +1533,7 @@ function feature-listhg($command) {
 
 function feature-log() {
 	feature-listhg "log" $args
-}						
+}
 
 function get-fieldasdiv($entry, $field, $transform = $null) {
 	$value = invoke-expression ('$entry.' + $field)
@@ -1572,20 +1572,20 @@ function create-hgreport() {
 						padding-bottom:0.2em;
 					}
 					}
-					.label { font-weight:bold; 
+					.label { font-weight:bold;
 							 width: 30%
 							}
 					.value { font-family:consolas,courier,monospaced;
 						width:70%
 					}
-					div.summary { 
+					div.summary {
 						font-family:Verdana;
-						font-size:90%; 
-						padding-bottom:0.4em; 
+						font-size:90%;
+						padding-bottom:0.4em;
 						padding-left:1em;
 					}
-					div.files { 
-						font-size:70%; 
+					div.files {
+						font-size:70%;
 						padding-left:0.2em;
 					}
 					td { padding-right:2em; white-space:nowrap; font-size:90%;}
@@ -1600,7 +1600,7 @@ function create-hgreport() {
 	process {
 		# $(get-fieldasdiv $_ 'directory' (gcm make-filehref))
 		"<div class='log $($even)'>
-		
+
 			<table>
 			<tbody>
 			<tr>
@@ -1613,12 +1613,12 @@ function create-hgreport() {
 			</table>
 			<div class='summary'>$($_.summary)</div>
 			<div class='files'>$($_.files)</div>
-		</div>"		
+		</div>"
 		if ($even -eq "even") {$even = "odd"} else {$even = "even" }
 	}
 	end {
 		"</body>
-		</html>"		
+		</html>"
 	}
 }
 
@@ -1647,14 +1647,14 @@ function extract-diff($text) {
 	process {
 		if ($in) { $_ + "`n"}
 		elseif ($_ -match "^diff -r") { $in = $true }
-	}	
+	}
 }
 
 function format-filerev($entry, $file, $type) {
 	"FORMAT: e: $entry f: $file t: $type"
 		$dir = $entry.directory
 		$diff = hg --cwd $dir log -p -I $file -r ($entry.rev) | extract-diff | % { $_ -replace "'","''"}
-		
+
 		"IF NOT EXISTS (SELECT * FROM Dev.RevisionFile WHERE Revision = (SELECT Id FROM Dev.Revision WHERE Code = '$($entry.node)')
 							AND Name = '$file')
 			INSERT Dev.RevisionFile (Revision, Name, ChangeType, Diff)
@@ -1694,8 +1694,8 @@ function convert-entrytosql($entry) {
 }
 
 
-function search-files([string]$pattern, 
-	[system.io.directoryinfo]$directory = (pwd).path, 
+function search-files([string]$pattern,
+	[system.io.directoryinfo]$directory = (pwd).path,
 	$include = "*.*"
 ) {
 	dir -r $directory -include $include | ? { $_ -is [system.io.fileinfo] -and ((gc $_.fullname) -match $pattern) }
@@ -1725,7 +1725,7 @@ function create-workspace(
 	[string] $engineUrl = $(if ($engine) { read-host -prompt "url for engine code" } else {$null})
 	)
 {
-	trap [Exception] { 
+	trap [Exception] {
       write-host "Error: $($_.Exception.Message)"
       break
    }
@@ -1735,7 +1735,7 @@ function create-workspace(
 	cd $folder
 	"hg clone $repoBase/$repoPath/$driverFeature"
 	hg clone "$repoBase/$repoPath/$driverFeature"
-	if ($engine) { 
+	if ($engine) {
 		"hg clone $engineUrl EngineCore"
 		hg clone $engineUrl EngineCore
 	}
@@ -1758,7 +1758,7 @@ function create-workspace(
 }
 
 function recreate-database {
-	$info =(get-database) 
+	$info =(get-database)
 	$db = $info.database
 	if (!($db -match "\-dev$")) { throw "$db is not a dev database" }
 	$server = $info.server
@@ -1809,7 +1809,7 @@ function summarize-code([switch] $summarize) {
 	$names = feature list | % { $_.split('\')[-1] + ".cloc"}
 	$t = [string]::join(" ", $names)
 	$cmd = "cloc --sum-reports --csv $t"
-	$summary = invoke-expression $cmd 
+	$summary = invoke-expression $cmd
 	out-file -filepath summary.csv -inputObject $summary -encoding ASCII
 }
 
@@ -1827,9 +1827,9 @@ function pull-from([string]$url) {
 
 new-alias f core\boot\feature.exe
 
-function get-customer([string]$driver = $(throw "enter a driver feature"), 
+function get-customer([string]$driver = $(throw "enter a driver feature"),
 			[string]$base = $(throw "enter a base (like releases://7.4.1 or branches://sprint")
-		) 
+		)
 {
 	hg clone $base/Core
 	msbuild /t:Bootstrap Core/Feature.proj
@@ -1840,17 +1840,17 @@ function get-customer([string]$driver = $(throw "enter a driver feature"),
 	msbuild /t:Bootstrap Core/Feature.proj
 	hg clone "$base/$driver"
 	core\boot\feature.exe fetch
-		
+
 }
 
 function get-changesets() {
 	$features = dir . | ? {test-path "$_\Feature.xml"} | % { $_.name}
-	$features | % { 
-		$n = $_; 
-		$x = [xml](gc $n\Feature.xml); 
+	$features | % {
+		$n = $_;
+		$x = [xml](gc $n\Feature.xml);
 		$fn = $x.feature.name
 		$change = $x.feature.sourceidentifiers.sourceidentifier;
-		[void]($change -match 'changeset:.+:([a-f0-9]+)'); 
+		[void]($change -match 'changeset:.+:([a-f0-9]+)');
 		"$fn $($matches[1])"
 	}
 }
