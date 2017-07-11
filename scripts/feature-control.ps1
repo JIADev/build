@@ -1,7 +1,7 @@
 set-psdebug -strict
 
 . core.ps1
-. subversion.ps1
+#. subversion.ps1
 
 function delete-customs {
 	param($cust=$((get-buildsettings).settings.customer))
@@ -108,4 +108,3 @@ function prepare-features {
 		}
 	}else{warn "Customer features not found"}
 }
-
