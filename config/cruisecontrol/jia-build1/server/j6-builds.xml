@@ -112,27 +112,12 @@
 
   <cb:v76build
       driver="CUST1002"
-      project-name="CUST1002-ActiveInfra"
-      branch="xxxx_ActiveInfra"
+      project-name="CUST1002-7.7.0"
+      branch="7.7.0"
       prodTag="2095_PRD;2096_PRD;2097_PRD"
       platform="AnyCpu"
       repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      package-privatebuild="true"
-      archive="false"
-      package="true"
-      corflags="/32bitpref-"
-      />
-
-  <cb:v76build
-      driver="CUST1002"
-      project-name="CUST1002-ActiveInfra_Sprint"
-      branch="1002_ActiveInfra_Sprint"
-      prodTag="2095_PRD;2096_PRD;2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
+      j6Version="7.7.0"
       external-zip="true"
       package-privatebuild="true"
       archive="false"
@@ -432,8 +417,8 @@
   
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-ActiveInfra_Sprint"
-      branch="1002_ActiveInfra_Sprint"
+      project-name="CUST2095-Ver7.7"
+      branch="2095_Ver7.7"
       prodTag="2095_PRD;2096_PRD;2097_PRD"
       platform="AnyCpu"
       repo-name="active"
@@ -467,72 +452,8 @@
   
   <!-- CUST2097 -->
   
-  <cb:v76build
-      driver="CUST2097"
-      project-name="CUST2097-ActiveInfra"
-      queue-priority="2050"
-      branch = 'xxxx_ActiveInfra'
-      prodTag="2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2097JP"
-      project-name="CUST2097JP-ActiveInfra"
-      queueName="CUST2097"
-      branch = 'xxxx_ActiveInfra'
-      prodTag="2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
-      driver="CUST2097BR"
-      project-name="CUST2097BR-ActiveInfra"
-      queue-priority="1900"
-      queueName="CUST2097"
-      branch = 'xxxx_ActiveInfra'
-      prodTag="2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-	  
-  <cb:v76build
-      driver="CUST2097SG"
-      project-name="CUST2097SG-ActiveInfra"
-      queue-priority="1995"
-      queueName="CUST2097"
-      branch = 'xxxx_ActiveInfra'
-      prodTag="2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-zip="true"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-	  
+
+
   <cb:v76build
       driver="CUST2097SG"
       project-name="CUST2097SG-SGActiveInfra"
