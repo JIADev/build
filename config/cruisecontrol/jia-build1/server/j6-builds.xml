@@ -380,6 +380,22 @@
       package="true"
       corflags="/32bitpref-"
       />
+	  
+  <cb:v76build
+      driver="CUST2094PER"
+      project-name="CUST2094_PeruConversion"
+      queueName="CUST2094"
+      branch="2094_PeruConversion"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />	  
 
 <!-- CUST2095 -->
   

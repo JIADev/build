@@ -35,6 +35,7 @@
   <cb:define name="build4queue3">
     <cb:define queueName="Queue3" />
     <cb:reqBuild queue-priority="1450" branchName="2094_PeruInfra" projectName="CUST2094_PeruInfra_GBB" customer="2094" prodTag="2094_PRD" />
+	<cb:reqBuild queue-priority="1450" branchName="2094_PeruConversion" projectName="CUST2094_PeruConversion" customer="2094" prodTag="2094_PRD" />
   </cb:define>
   
   <cb:define name="build2queues">
