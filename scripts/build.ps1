@@ -1825,7 +1825,7 @@ function pull-from([string]$url) {
 	f list --name | % {hg --cwd $_ pull -u $url/$_}
 }
 
-new-alias f core\boot\feature.exe
+new-alias f Packages\Jenkon\feature.exe
 
 function get-customer([string]$driver = $(throw "enter a driver feature"),
 			[string]$base = $(throw "enter a base (like releases://7.4.1 or branches://sprint")
