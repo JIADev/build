@@ -139,6 +139,21 @@
           package="true"
           corflags="/32bitpref-"
           />
+		  
+      <cb:v76build
+          driver="CUST1002"
+          project-name="CUST1002_AZ1"
+          branch="1002_AZ1"
+          prodTag="2095_PRD;2096_PRD;2097_PRD"
+          platform="AnyCpu"
+          repo-name="active"
+          j6Version="7.7.0"
+          external-zip="true"
+          package-privatebuild="true"
+          archive="false"
+          package="true"
+          corflags="/32bitpref-"
+          />		  
 
   <!-- CUST2069 -->
   <!--
