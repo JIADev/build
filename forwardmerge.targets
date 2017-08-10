@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="releasecandidate.targets" Condition="Exists('releasecandidate.targets')"/>
+  <PropertyGroup>
+    <TargetRepo>$(SourceRepo)</TargetRepo>
+  </PropertyGroup>
+  
+  <Target Name="ForwardMerge_Active" DependsOnTargets="InitRepos">
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2095_PRD;TargetBranch=7.6.5;DoMerge=true;DoCommit=true" />
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2096_PRD;TargetBranch=7.6.7;DoMerge=true;DoCommit=true" />
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=7.6.8;DoMerge=true;DoCommit=true" />
+    
+<!-- 7.6.8 has become the dev area for CUST2094, pre-7.6.8 changes will flow with other deployments -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PRD;TargetBranch=2094_PeruInfra;DoMerge=true;DoCommit=true" />
+
+<!-- Too much divergence to auto forward merge 2094 or 7.6.8 into xxxx_ActiveInfra -->
+    <!-- <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2094_PeruInfra;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" /> -->
+<!-- But, still need pre-2094 (aka 7.6.5 & 7.6.7) to pass the forward only checks -->
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.5;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
+	
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=7.6.7;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
+
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=2097_PRD;TargetBranch=xxxx_ActiveInfra;DoMerge=true;DoCommit=true" />
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=xxxx_ActiveInfra;TargetBranch=1002_ActiveInfra_Sprint;DoMerge=true;DoCommit=true" />
+    
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="MergeBranches" Properties="Preview=false;TargetRepo=$(TargetRepo);SourceBranch=xxxx_ActiveInfra;TargetBranch=2097SG_ActiveInfra;DoMerge=true;DoCommit=true" />
+  </Target>
+</Project>

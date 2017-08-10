@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.ChangedFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.CleanProjectFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.CopyDiffFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.DeleteAll" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.DeleteIfEmpty" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.EnsureEmpty" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.ExtractChangesets" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.FindClosed" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.FindJunctions" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.ForwardChangesCheck" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.GetLastModifiedFile" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.MergeLog" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.Protect" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.PurgeEmptyDirectories" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.PurgeJunctions" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.ResetXmlEncoding" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.RevertAll" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.UnZip" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.UpdateStyleSheet" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.Which" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.Zip" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.GetMergedChangesets" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+	<UsingTask TaskName="j6.BuildTools.MsBuildTasks.GetChangedFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.FastClone" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.ConsolidatePackageConfigs" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.SortPackageConfigs" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.ConsolidateAssemblyVersions" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.ConditionJunctionedFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.SortArtifacts" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.ConsolidateXmlPatches" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.DeleteIdenticalFiles" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <UsingTask TaskName="j6.BuildTools.MsBuildTasks.FixLineEndings" AssemblyFile="bin\j6.BuildTools.MsBuildTasks.dll" />
+  <Target Name="UpdateBuildToolsRepo">
+    <Exec WorkingDirectory="$(BuildToolsDirectory)" Command="hg pull -u" IgnoreExitCode="true" />
+  </Target>
+  
+	<Target Name="CompileBuildTools" DependsOnTargets="UpdateBuildToolsRepo">
+		<MSBuild Projects="Code\BuildTools.sln" Properties="Platform=Any CPU;Configuration=Release" />
+	</Target>
+</Project>

@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Jenkon.Core.Data</name>
+    </assembly>
+    <members>
+        <member name="T:Jenkon.Core.Data.DataSetLoader">
+            <summary>
+            Loads a data set from into the database.
+            </summary>
+        </member>
+        <member name="M:Jenkon.Core.Data.DataSetLoader.LoadDataSet(System.Data.DataSet,System.String[],System.String[],System.Boolean,System.Data.IDbCommand)">
+            <summary>
+            Loads the given dataset into the database.
+            </summary>
+            <param name="dataSet">The dataset to load.</param>
+            <param name="primaryKeys">Which columns in the dataset specify primary keys.</param>
+            <param name="ignore">Fields to ignore</param>
+            <param name="insert">Should inserts be attempted, or is this only for updates?</param>
+            <param name="command">The IDbCommand object to use for executing queries</param>
+        </member>
+        <member name="T:Jenkon.Core.Data.LocateMode">
+            <summary>
+            Locate based on application dll location, or based on current directory?
+            </summary>
+        </member>
+        <member name="F:Jenkon.Core.Data.LocateMode.AssemblyFolder">
+            <summary>
+            Locate based on the location of the assembly codebase
+            </summary>
+        </member>
+        <member name="F:Jenkon.Core.Data.LocateMode.CurrentDirectory">
+            <summary>
+            Locate based on the application current working directory
+            </summary>
+        </member>
+        <member name="T:Jenkon.Core.Data.FileLocator">
+            <summary>
+            Utility methods for finding files needed for the system.
+            </summary>
+        </member>
+        <member name="M:Jenkon.Core.Data.FileLocator.LocateFile(System.String)">
+            <summary>
+            Finds the location of the given filename by starting in the directory where the Jenkon.Core.Data dll
+            is located, and searching up the tree until one is found or the root is reached.
+            </summary>
+            <param name="fileName">The simple filename of the file to find</param>
+            <returns>A FileInfo that refers to the file, or null if none can be found.</returns>
+        </member>
+        <member name="M:Jenkon.Core.Data.FileLocator.LocateFileFrom(System.String,System.IO.DirectoryInfo)">
+            <summary>
+            Finds the location of the given filename by starting in the directory where the Jenkon.Core.Data dll
+            is located, and searching up the tree until one is found or the root is reached.
+            </summary>
+            <param name="fileName">The simple filename of the file to find</param>
+            <param name="search">The starting point to search from</param>
+            <returns>A FileInfo that refers to the file, or null if none can be found.</returns>
+        </member>
+        <member name="M:Jenkon.Core.Data.FileLocator.GetRoot">
+            <summary>
+            Get root location from shared folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jenkon.Core.Data.FileLocator.Traverse(System.Collections.Generic.IEnumerable{System.String},Jenkon.Core.Data.FileLocator.FileAction)">
+            <summary>
+            Recursively traverses a set of directories
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Jenkon.Core.Data.FileLocator.TraverseDirectory(System.String,Jenkon.Core.Data.FileLocator.FileAction)" -->
+        <member name="P:Jenkon.Core.Data.FileLocator.DefaultLocateMode">
+            <summary>
+             Controls the default locate mode
+            </summary>
+        </member>
+        <member name="T:Jenkon.Core.Data.FileLocator.FileAction">
+            <summary>
+             Action to take for each files
+            </summary>
+        </member>
+        <member name="T:Jenkon.Core.Data.RawSQLUtil">
+            <summary>
+            Static class for executing sql commands on metadata
+            </summary>
+        </member>
+        <member name="M:Jenkon.Core.Data.RawSQLUtil.AddParameter(System.Data.IDbCommand,System.String,System.Object)">
+            <summary>
+             Add a parameter to a DbCommand object.
+            </summary>
+            <param name="command"></param>
+            <param name="paramName"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Jenkon.Core.Data.RawSQLUtil.ViewExists(System.String,System.Data.IDbConnection)">
+            <summary>
+            Detects the existence of a table in the database.
+            </summary>
+            <param name="name">The table for which to search</param>
+            <param name="connection">Connection to db to check</param>
+            <returns>True if the table exists, false otherwise</returns>
+        </member>
+        <member name="M:Jenkon.Core.Data.RawSQLUtil.TableExists(System.String,System.Data.IDbConnection)">
+            <summary>
+            Detects the existence of a table in the database.
+            </summary>
+            <param name="name">The table for which to search</param>
+            <param name="connection">Connection to db to check</param>
+            <returns>True if the table exists, false otherwise</returns>
+        </member>
+        <member name="M:Jenkon.Core.Data.RawSQLUtil.SchemaExists(System.String,System.Data.IDbConnection)">
+            <summary>
+             Checkes to see if the schema exists.
+            </summary>
+            <param name="schema"></param>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jenkon.Core.Data.RawSQLUtil.ColumnExists(System.String,System.String,System.Data.IDbConnection)">
+            <summary>
+            Detects the existence of a column within a table in the database.
+            </summary>
+            <param name="tableName">The table for which to search.</param>
+            <param name="columnName">The column for which to search.</param>
+            <param name="connection">True if the column exists, false otherwise.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Jenkon.Core.Data.RawSQLUtil.CreateAppSettingsTables(System.Data.IDbConnection)">
+            <summary>
+            Creates support tables needed by modules which depend on this one.
+            </summary>
+            <param name="connection">The connection to use</param>
+        </member>
+        <member name="T:Jenkon.Core.Data.ISqlSettings">
+            <summary>
+            Public interface for passing sql connection strings to the application.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.ISqlSettings.ConnectionString">
+            <summary>
+            The connection string pointing to this branch's
+            environment MSSQL server.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.ISqlSettings.OlapConnectionString">
+            <summary>
+            The connection string for connecting to the analysis
+            services database
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.ISqlSettings.ReportingConnectionString">
+            <summary>
+            Connection string for the reporting database
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.ISqlSettings.EarningsConnectionString">
+            <summary>
+            Connection string for the commissions database
+            </summary>
+        </member>
+        <member name="T:Jenkon.Core.Data.SqlSettings">
+            <summary>   
+            Specifies MSSQL specific settings.
+            </summary>
+        </member>
+        <member name="M:Jenkon.Core.Data.SqlSettings.#ctor">
+            <summary>
+            Default constructor.  Searches for sql.settings
+            starting in the directory of this assembly and looking.
+            upwards from there.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettings.ConnectionString">
+            <summary>
+            The connection string pointing to this branch's
+            environment MSSQL server.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettings.ReportingConnectionString">
+            <summary>
+            Connection string for the reporting database
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettings.EarningsConnectionString">
+            <summary>
+            Connection string for the commissions database
+            </summary>
+        </member>
+        <member name="T:Jenkon.Core.Data.SqlSettingsDocument">
+            <summary>
+            Encapsulates the sqlsettings document to allow settings to be easily retrieved
+            </summary>
+        </member>
+        <member name="M:Jenkon.Core.Data.SqlSettingsDocument.#ctor(System.IO.FileSystemInfo)">
+            <summary>
+            Instantiates this document from the given file
+            </summary>
+            <param name="xmlFile"></param>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.TransactionalServer">
+            <summary>
+            the database server value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.TransactionalDatabase">
+            <summary>
+            the database instance value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.TransactionalUID">
+            <summary>
+            the database user name
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.TransactionalPWD">
+            <summary>
+            the database user's password
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.OlapServer">
+            <summary>
+            the database server value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.OlapDatabase">
+            <summary>
+            the database instance value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.OlapUID">
+            <summary>
+            the database user name
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.OlapPWD">
+            <summary>
+            the database user's password
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.ReportingServer">
+            <summary>
+            the database server value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.ReportingDatabase">
+            <summary>
+            the database instance value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.ReportingUID">
+            <summary>
+            the database user name
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.ReportingPWD">
+            <summary>
+            the database user's password
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.EarningsServer">
+            <summary>
+            the database server value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.EarningsDatabase">
+            <summary>
+            the database instance value
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.EarningsUID">
+            <summary>
+            the database user name
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.SqlSettingsDocument.EarningsPWD">
+            <summary>
+            the database user's password
+            </summary>
+        </member>
+        <member name="T:Jenkon.Core.Data.SqlSettingsLocator">
+            <summary>
+            Finds the file containing sql settings
+            </summary>
+        </member>
+        <member name="M:Jenkon.Core.Data.SqlSettingsLocator.GetSqlSettingsDocument">
+            <summary>
+            Instantiates a SqlSettingsDocument by searching for the path to the 
+            settings file
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Jenkon.Core.Data.strings">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.COULD_NOT_LOCATE_SETTINGS">
+            <summary>
+              Looks up a localized string similar to Could not locate settings file &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.FOUND_SETTINGS">
+            <summary>
+              Looks up a localized string similar to Found settings at {0}.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.PATCH_FAILED">
+            <summary>
+              Looks up a localized string similar to Patch {0} failed while running command {1}.
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.PATCH_FAILED_ALLOWED">
+            <summary>
+              Looks up a localized string similar to Failed to apply patch {0} because of: {1}, but failure is allowed. Continuing....
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.PK_NOT_DEFINED">
+            <summary>
+              Looks up a localized string similar to primary-key was not defined..
+            </summary>
+        </member>
+        <member name="P:Jenkon.Core.Data.strings.REQUIRED_PATCH">
+            <summary>
+              Looks up a localized string similar to Missing required patch: &apos;{0}&apos; for &apos;{1}&apos;.
+            </summary>
+        </member>
+    </members>
+</doc>

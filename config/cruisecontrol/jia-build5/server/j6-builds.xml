@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
+  
+  <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
+
+  <!-- req branches -->
+  <cb:build5queues />
+
+</cb:config-template>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  <!-- 7.2.x build project -->
+  <cb:define msbuild2 = "$(dotNet2Path)\msbuild.exe" />
+  <cb:define j6cmd = "$(ccnetSourceWorkingDir)\j6.cmd" />
+  
+  <cb:define name="legacybuild">
+    <cb:define project-root="$(driver)-$(branch)$(bookmark)$(tag)" />
+    <cb:define db-name="ccnet-$(project-name)-DEV" />
+    <cb:define feature="$(commonfeature)" />
+    <cb:define db-server="$(db-server-2008)" />
+    <cb:define db-user="$(db-user-2008)" />
+    <cb:define db-password="$(db-password-2008)" />
+    <cb:define db-instance="$(db-server-2008-instance)" />
+
+    <project name="$(project-name)" category="$(driver)" queue="$(queueName)" queuePriority="$(queue-priority)" initialState="$(initialState)">
+      <cb:if expr="'$(sourceCheckInterval)'!=''">
+	<triggers>
+	  <intervalTrigger seconds = "$(sourceCheckInterval)" />
+	</triggers>
+      </cb:if>
+    <workingDirectory>$(project-folder)</workingDirectory>
+    <artifactDirectory>$(artifact-folder)</artifactDirectory>
+    <cb:sourcecontrol />
+    <prebuild>
+      <cb:revertall />
+      <cb:update-source />
+    </prebuild>
+    <tasks description="Bootstrap setup">
+      <cb:set-customer />
+      <cb:junction-features />
+      <cb:copy-logger-local />
+      <cb:legacy-build-feature-exe />
+      <cb:create-settings />
+      <cb:f-setup f-setup-timeout="600" />
+      <cb:f-install-patches f-install-patches-timeout="2700" />
+      <cb:f-build />
+	  <cb:msbuild-set-corflags />
+      <cb:f-unit-tests />
+      <cb:f-package feature="$(relativefeature)" />
+      <cb:publish-package />
+    </tasks>
+    <publishers>
+      <cb:standard-publishers />
+    </publishers>
+    <externalLinks>
+      <externalLink name="root" url="$(ccwebroot)" />
+    </externalLinks>
+    <webURL>$(ccwebroot)server/$(ccBuildServer)/project/$(project-name)/ViewProjectReport.aspx</webURL>
+    </project>
+  </cb:define>
+
+  <cb:define name="legacy-build-feature-exe">
+    <msbuild description="build feature.exe (timeout $(build-feature-exe-timeout) seconds)"
+	     executable="$(msbuild)"
+	     workingDirectory="$(project-folder)\Core"
+	     projectFile="Feature.proj"
+	     targets="Bootstrap"
+	     timeout="$(build-feature-exe-timeout)">
+      <buildArgs>/p:hgBranch=$(hgBranch);bookmark=$(bookmark) /p:Configuration=Release /p:Platform=AnyCPU</buildArgs>
+    </msbuild>
+  </cb:define>
+  
+  
+</cb:config-template>

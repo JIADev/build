@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<cb:config-template xmlns:cb="urn:ccnet.config.builder">
+  
+  <!-- Note that in newer versions of ccnet, ccnet will create the feature folders. No need to create by hand. -->
+  
+  <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
+  
+  <!-- req branches -->
+  <cb:build2queues />
+  
+ <cb:v76build
+      driver="CUST000"
+      project-name="CUST000-7.6.8"
+      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      branch = '7.6.8'
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-protect="false"
+      external-zip="false"
+      modules="AUTOSHIP"
+      package="true"
+      package-privatebuild="true"
+      queueName="Queue1"
+      corflags="/32bitpref-"
+      />
+
+  <cb:v76deployment
+      project-name="CUST2094-7.6.8-WebTest"
+      driver = 'CUST2094'
+      web-test="true"
+      project-to-deploy="CUST2094-7.6.8"
+      deployment-webserver="DEV-8900WEB1"
+      deployment-sitename="DEV_8900_2094_RC3" 
+      db-server="DEV-8900sql1"
+      db-instance=""
+      redis-server="qas-redis1"
+      redis-db="11"
+      triggerTime="04:02"
+      queueName="WebTests"
+      package="true"
+      sourceBuildServer="jia-build1"
+      />
+  
+</cb:config-template>

@@ -1,0 +1,338 @@
+﻿<!doctype html>
+<html>
+
+<hta:application
+	id="TestHTA"
+	applicationname="Resource Editor"
+	scroll="no"
+	singleinstance="yes"
+	sysmenu="yes"
+	minimizebutton="yes"
+	maximizebutton="no"
+	windowstate="normal"
+	navigable="yes" />
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script src="../Script/includes.js"></script>
+
+	<script src="../Script/resource_editor.js"></script>
+
+
+	<title>UiUx Tools</title>
+</head>
+<body onload="init()">
+	<form onsubmit="return false;" action="#" id="resource_edit">
+		<fieldset>
+			<caption>Choose the resource file:</caption>
+
+			<div>
+				<label for="dest">Resource File:</label>
+				<input style="width: 90%" name="dest" id="dest" />
+				<button onclick="choose_resource_file2('dest')">...</button>
+			</div>
+		</fieldset>
+
+		<textarea style="font-size: 80%" id="xml" rows="15" cols="180"></textarea>
+
+
+		<div>The Dictionary goes here:  <i>Just the {"key": "value"}, "key2": "value2"} -- No outer braces</i></div>
+		<textarea style="font-size: 80%" id="dict" rows="10" cols="180">
+					{             "UiUxFormTestModel.UrlString1.Label"             ,                "U\"rl #1"           }         ,
+					{"UiUxFormTestModel.EMailAddressString1.Label", "Email #1"},
+					{"UiUxFormTestModel.CreditCardString1.Label", "Credit Card #1"},
+					{"UiUxFormTestModel.RegexString1.Label", "Regular Expression #1"},
+					{"UiUxFormTestModel.NullableInt.Label", "Nullable Int"},
+					{"UiUxFormTestModel.StringLength1.Label", "String Len #1"},
+					{"UiUxFormTestModel.StringLength2.Label", "String Len #2"},
+					{"UiUxFormTestModel.MinLength1.Label", "Min String Len #1"},
+					{"UiUxFormTestModel.CompareString1.Label", "Compare String #1"},
+					{"UiUxFormTestModel.CompareString2.Label", "Compare String #2"},
+					{"UiUxFormTestModel.Range1.Label", "Numeric Range Test"},
+					{"UiUxFormTestModel.RequiredInput.Label", "Required Input"},
+					{"UiUxFormTestModel.Required.Placeholder", "Required Input"},
+					{"UiUxFormTestModel.RequiredCustomMessage.Label", "Required #2"},
+					{"UiUxFormTestModel.RequiredCustomMessage.Placeholder", "Required With Custom Error Message"},
+					{"UiUxFormTestModel.RequiredCustomMessageOverride.Label", "**CUSTOM LABEL**"},
+					{"UiUxFormTestModel.RequiredCustomMessageRequiredMessage.Label", "OVERRIDE: {label} really is required!"}
+
+		</textarea>
+
+		<div>Log</div>
+		<textarea style="font-size: 80%" id="log" rows="10" cols="180">
+		</textarea>
+
+		<button onclick="process()">Process!</button>
+		<button onclick="saveData()">Save!</button>
+	</f
+
+</body>
+
+
+<script>
+ 
+	function escapeXml(s) {
+		var XML_CHAR_MAP = {
+			'<': '&lt;',
+			'>': '&gt;',
+			'&': '&amp;',
+			'"': '&quot;',
+			"'": '&apos;'
+		};
+
+		return s.replace(/[<>&"']/g, function (ch) {
+			return XML_CHAR_MAP[ch];
+		});
+	}
+
+	function parseNew() {
+		// This is a cheap and dirty little parser -- there is a LOT it doesn't catch, but I don't care.
+		// I'm not testing syntatic correctness, I'm after extracting information.
+
+		// The 'split' to turn a string into an array is dirty and can 
+		// fail with unicode strings.
+		// I'm not worried about that, so I'll just let the ball roll.
+		var str = document.getElementById("dict").value.split("");
+
+		var out = {};
+
+		var i = 0; l = str.length;
+		var newCount = 0;
+		
+
+		function eatWhiteSpace() {
+			var whiteSpace = [" ", "\r", "\n", "\t"];
+
+			while (whiteSpace.indexOf(str[i]) !== -1) {
+				i++;
+			}
+			
+		}
+
+		function readQuotedString() {
+			var da = [];
+			if (str[i] !== '"') {
+				log("Was expecting a &quot at position " + i + ".  Found: " + str[i]);
+			}
+
+			
+
+			// Eat the first quote mark
+			i++;
+
+
+			while (str[i] !== '"') {
+				if (str[i] === "\\") {
+					// Eat the escape character
+					i++;
+
+					// Psh next character
+					da.push(str[i]);
+					// And eat it too.
+					i++;
+					continue;
+				}
+
+				da.push(str[i]);
+				i++;
+			}
+			// Eat the final quote mark
+			i++;
+			return da.join("");
+		}
+
+
+		eatWhiteSpace();
+
+		while (i !== l) {
+		
+			if (str[i] === "{") {
+				i++;
+
+				eatWhiteSpace();
+
+				var key = readQuotedString();
+
+				eatWhiteSpace();
+
+				if (str[i] !== ",") {
+					log("Was expecting a comma at position: " + i);
+				}
+
+				// Eat the comma
+				i++;
+
+				eatWhiteSpace();
+
+				var val = readQuotedString();
+
+				newCount++;
+				out[key] = val;
+				
+				//log(key + " : " + val);
+
+			}
+			
+
+			i++;
+		}
+
+
+		//log("New dictionary has " + newCount + " entries.");
+		return out;
+	}
+
+	function processXmlToKeys(xmlDoc) {
+		var resourceObj = {};
+
+		var dataSet = xmlDoc.getElementsByTagName("dataset")[0];
+		var resources = dataSet.getElementsByTagName("resource");
+
+		//log("I found " + resources.length + " resources");
+
+		var resourceKey;
+		for (var i = 0; i < resources.length; i++) {
+			var resource = resources[i];
+
+			resourceKey =
+				resource.getAttribute("Context") + "." +
+				resource.getAttribute("Name") + "." +
+				resource.getAttribute("Property");
+
+			var value = resource.getAttribute("Value");
+
+			resourceObj[resourceKey] = value;
+			//log(resourceKey + ":" + value);
+
+		}
+		return resourceObj;
+	}
+
+
+	function process() {
+		var txt = document.getElementById("xml").value;
+		var parser;
+		var xmlDoc;
+
+		if (window.DOMParser) {
+			parser = new DOMParser();
+			xmlDoc = parser.parseFromString(txt, "text/xml");
+		}
+		else // Internet Explorer
+		{
+			xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+			xmlDoc.async = false;
+			xmlDoc.loadXML(txt);
+		}
+
+		var oldResources = processXmlToKeys(xmlDoc);
+		var newResources = parseNew();
+
+		var template = '\t<resource ResourceSet="default" Context="##CONTEXT##" Name="##NAME##" Property="##PROPERTY##" Culture="en-US" Value="##VALUE##" />';
+
+		
+
+		for (var resource in newResources) {
+			if (oldResources[resource]) {
+				//log(resource + " found");
+			} else {
+
+				var bits = resource.split(".");
+				var s = template.replace("##CONTEXT##", escapeXml(bits[0])).
+					replace("##NAME##", escapeXml(bits[1])).
+					replace("##PROPERTY##", escapeXml(bits[2])).
+					replace("##VALUE##", escapeXml(newResources[resource]));
+
+				log(s);
+			}
+			
+		}
+	}
+
+	function log(s) {
+		var el = document.getElementById("log");
+		var str = el.value + "\r\n" + s;
+		el.value = str;
+	}
+
+	function saveData() {
+		alert("Save disabled since it changes file encoding.  Copy and paste new lines into resource file.");
+		return;
+
+		var fname = document.getElementById("dest").value;
+		var data = document.getElementById("xml").value;
+		
+		ie_writeFile(fname, data, true);
+		alert("Data daved");
+	}
+
+	function loadData(name) {
+		if (name) {
+			//log("Reading: " + name);
+			var data = ie_readFile(name, true);
+			document.getElementById("xml").value = data;
+		}
+	}
+
+	function init() {
+		loadFormFromPrefs(document.getElementById("resource_edit"));
+		loadData(document.getElementById("dest").value);
+	}
+
+
+	function receiveFileName(name) {
+		// Yes, this is totally backwards, but I couldn't figure out how
+		// to get a return value, but hard-coded callbacks worked
+		// so I called it a day.
+		if (name) {
+			document.getElementById("dest").value = name;
+			saveFormToPrefs(document.getElementById("resource_edit"));
+			loadData(name);
+		}
+		
+
+	}
+
+
+	function choose_resource_file2(id) {
+		var dest;
+		var file = SelectFile2("c:\\");
+	}
+</script>
+
+<script language="vbscript">
+Function SelectFile2(folderSpec)
+	'Why yes!
+	'
+	'We really are starting up an instance of Microsoft Word just
+	'to get a frigging dialog box.
+	'
+	'Thank you, Microsoft, for not including any other way on Windows Vista/7.
+	'and for removing the very convient method that existed in 2000 and XP.
+
+
+	Const msoFileDialogOpen = 1
+	Dim returnFile
+	Set objWord = CreateObject("Word.Application")
+
+	objWord.ChangeFileOpenDirectory(folderSpec)
+
+	objWord.FileDialog(msoFileDialogOpen).Title = "Select Resource File"
+	objWord.FileDialog(msoFileDialogOpen).AllowMultiSelect = False
+
+	If objWord.FileDialog(msoFileDialogOpen).Show = -1 Then
+		objWord.WindowState = 2
+		For Each objFile in objWord.FileDialog(msoFileDialogOpen).SelectedItems
+			returnFile = objFile
+			'Msgbox objFile
+		Next 
+
+	End If
+
+	objWord.Quit
+	
+	receiveFileName returnFile
+End Function
+</script>
+
+</html>

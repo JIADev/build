@@ -1,0 +1,7 @@
+changeset = "changeset:   {rev}:{node}\nbranches:    {branches}\nbookmarks:   {bookmarks}\nparents:     {parents}\nuser:        {author}\ndate:        {date|date}\nsummary:     {desc|firstline}\nfiles:       {file_adds}{file_mods}{file_dels}\n"
+branch = "{branch}*^*"
+bookmark = "{bookmark}*^*"
+parent = "{rev}:{node}*^*"
+file_add = "A:{file_add}*^*"
+file_mod = "M:{file_mod}*^*"
+file_del = "D:{file_del}*^*"
