@@ -32,7 +32,7 @@
       sourceCheckInterval=""
       corflags="/32bitreq+"
       />
-
+<!--
 <cb:legacybuild
       project-name="2083_PHL"
       branch="2083_PHL"
@@ -50,7 +50,7 @@
       sourceCheckInterval=""
       corflags="/32bitreq+"
       />
-	  
+-->	  
   <!-- CUST065 -->
 
   <cb:customerbuild
