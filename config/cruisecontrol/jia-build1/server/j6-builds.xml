@@ -36,6 +36,7 @@
 <cb:legacybuild
       project-name="2083_PHL"
       branch="2083_PHL"
+	  tag = "2083_PHL"
       prodTag="2083_PRD"
       driver = "CUST2083"
       unit-test="false"
