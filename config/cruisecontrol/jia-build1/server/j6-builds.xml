@@ -217,7 +217,7 @@
       sourceCheckInterval=""
       archive="true"
       package="true"
-      external-protect="false"
+      external-protect="true"
       queueName="Production"
       corflags="/32bitreq+"
       />
