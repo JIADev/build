@@ -217,6 +217,7 @@
       sourceCheckInterval=""
       archive="false"
       package="true"
+	  protect="true"
       external-protect="true"
 	  external-zip="true"
       queueName="Production"
