@@ -219,7 +219,6 @@
       package="true"
       external-protect="true"
 	  external-zip="true"
-	  package-privatebuild="true"
       queueName="Production"
       corflags="/32bitreq+"
       />
