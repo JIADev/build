@@ -204,25 +204,7 @@
       corflags="/32bitreq+"
       />
 	  
-<!-- back to customerbuild
-	<cb:legacybuild
-      project-name="CUST2083_BLD"
-      tag="2083_BLD"
-      prodTag="2083_PRD"
-      branch="tags"
-      driver = "CUST2083"
-      unit-test="false"
-      recreate-db="true"
-      install-patches="true"
-      sourceCheckInterval=""
-      repo-name="prod"
-      archive="true"
-      package="true"
-      external-protect="false"
-      queueName="Production"
-      corflags="/32bitreq+"
-    />
--->
+
   <!-- CUST2085 -->
   <!--
   <cb:customerbuild
