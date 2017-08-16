@@ -218,6 +218,7 @@
       archive="true"
       package="true"
       external-protect="true"
+	  external-zip="true"
       queueName="Production"
       corflags="/32bitreq+"
       />
