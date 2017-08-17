@@ -32,7 +32,25 @@
       sourceCheckInterval=""
       corflags="/32bitreq+"
       />
-	  
+<!--
+<cb:legacybuild
+      project-name="2083_PHL"
+      branch="2083_PHL"
+	  tag = "2083_PHL"
+      prodTag="2083_PRD"
+      driver = "CUST2083"
+      unit-test="false"
+      recreate-db="true"
+      install-patches="true"
+      repo-name="prod"
+      archive="true"
+      external-protect="false"
+      package="true"
+      queueName="Production"
+      sourceCheckInterval=""
+      corflags="/32bitreq+"
+      />
+-->	  
   <!-- CUST065 -->
 
   <cb:customerbuild
@@ -187,6 +205,7 @@
       />
   -->
   <!-- CUST2083 -->
+
   <cb:customerbuild
       project-name="CUST2083_BLD"
       branch = "tags"
@@ -194,14 +213,15 @@
       prodTag="2083_PRD"
       driver = "CUST2083"
       repo-name="prod"
+      exclude-files="false"
       sourceCheckInterval=""
       archive="true"
-	  publish="false"
       package="true"
       external-protect="false"
       queueName="Production"
       corflags="/32bitreq+"
       />
+
   <!-- CUST2085 -->
   <!--
   <cb:customerbuild
