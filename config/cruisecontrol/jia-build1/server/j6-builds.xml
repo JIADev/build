@@ -196,6 +196,7 @@
       repo-name="prod"
       sourceCheckInterval=""
       archive="true"
+	  publish="false"
       package="true"
       external-protect="false"
       queueName="Production"
