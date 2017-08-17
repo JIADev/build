@@ -195,7 +195,6 @@
       prodTag="2083_PRD"
       driver = "CUST2083"
       repo-name="prod"
-      exclude-files="false"
       sourceCheckInterval=""
       archive="true"
       package="true"
