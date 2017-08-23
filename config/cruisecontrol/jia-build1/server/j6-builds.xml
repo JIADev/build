@@ -131,7 +131,7 @@
       driver="CUST1002"
       project-name="CUST1002-7.7.0"
       branch="7.7.0"
-      prodTag="2095_PRD;2096_PRD;2097_PRD"
+      prodTag="7.7.0"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.7.0"
