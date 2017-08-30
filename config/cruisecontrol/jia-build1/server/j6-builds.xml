@@ -488,7 +488,7 @@
       j6Version="7.6.8"
       external-zip="true"
       package-privatebuild="true"
-      archive="false"
+      archive="True"
       package="true"
       corflags="/32bitpref-"
       />
