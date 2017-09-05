@@ -11,7 +11,7 @@
  <cb:v76build
       driver="CUST000"
       project-name="CUST000-7.6.8"
-      prodTag="2094_PRD;2095_PRD;2096_PRD"
+      prodTag="2094_PRD;2096_PRD"
       branch = '7.6.8'
       platform="AnyCpu"
       repo-name="active"

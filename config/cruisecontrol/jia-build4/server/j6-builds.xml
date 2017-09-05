@@ -6,22 +6,6 @@
   <cb:include href="tracks.xml" xmlns:cb="urn:ccnet.config.builder" />
   
   <cb:v76build
-      driver="CUST2095"
-      project-name="CUST2095-7.6.8"
-      branch = '7.6.8'
-      platform="AnyCpu"
-      prodTag="2095_PRD"
-      repo-name="active"
-      j6Version="7.6.8"
-      external-protect="false"
-      external-zip="false"
-      package="true"
-      package-privatebuild="false"
-      queueName="Queue2"
-      corflags="/32bitpref-"
-      />
-  
-  <cb:v76build
       driver="CUST2096"
       project-name="CUST2096-7.6.8"
       branch = '7.6.8'
