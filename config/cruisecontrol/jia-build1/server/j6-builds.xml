@@ -495,7 +495,7 @@
 	  
   <cb:v76build
       driver="CUST2095"
-      project-name="CUST2095-Ver7.7-911"
+      project-name="CUST2095-Ver7.7-JC"
       branch="TBSAH-911"
       prodTag="2095_PRD"
       platform="AnyCpu"
