@@ -493,7 +493,7 @@
       corflags="/32bitpref-"
       />
 	  
-  <cb:v76build
+  <!--<cb:v76build
       driver="CUST2095"
       project-name="CUST2095-Ver7.7-JC"
       branch="TBSAH-911"
@@ -506,7 +506,7 @@
       archive="True"
       package="true"
       corflags="/32bitpref-"
-      />	  
+      />	  -->
 
   <!-- CUST2096 -->
 
