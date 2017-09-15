@@ -393,6 +393,23 @@
       package="true"
       corflags="/32bitpref-"
       />
+	  
+  <cb:v76build
+      driver="CUST2094PER"
+      project-name="CUST2094_PeruInfra_CFG"
+      queueName="CUST2094"
+      queue-priority="1900"
+      branch="2094_PeruInfra_Cfg"
+      prodTag="2094_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="false"
+      package="true"
+      corflags="/32bitpref-"
+      />	  
 
   <cb:v76build
       driver="CUST2094PER"
