@@ -8,6 +8,7 @@
     <cb:define queueName="Queue1" />
 <!--    <cb:reqCoreBuild queue-priority="1975" branchName="8.0" projectName="CUST2095-8.0" customer="2095" /> -->
     <cb:reqBuild queue-priority="1825" branchName="7.7.0" projectName="CUST1000-7.7.0" customer="1000" />
+	<cb:reqBuild queue-priority="1875" branchName="2097_Ver7.7" projectName="CUST2097-Ver7.7" customer="2097" />
   </cb:define>
 
   <cb:define name="build2queue2">
@@ -24,6 +25,7 @@
   <cb:define name="build4queue1">
     <cb:define queueName="Queue1" />
     <cb:reqBuild queue-priority="1875" branchName="7.7.0" projectName="CUST2096-7.7.0" customer="2096" />
+	<cb:reqBuild queue-priority="1875" branchName="2097_Ver7.7" projectName="CUST2097SG-Ver7.7" customer="2097SG" />
   </cb:define>
 
   <cb:define name="build4queue2">
@@ -36,6 +38,7 @@
     <cb:define queueName="Queue3" />
     <cb:reqBuild queue-priority="1450" branchName="2094_PeruInfra" projectName="CUST2094_PeruInfra_GBB" customer="2094" prodTag="2094_PRD" />
 	<!-- <cb:reqBuild queue-priority="1450" branchName="2094_PeruConversion" projectName="CUST2094_PeruConversion" customer="2094" prodTag="2094_PRD" />-->
+	<cb:reqBuild queue-priority="1875" branchName="2097PL_ActiveInfra" projectName="CUST2097PL-ActiveInfra" customer="2097PL" />
   </cb:define>
 
   <cb:define name="build2queues">
