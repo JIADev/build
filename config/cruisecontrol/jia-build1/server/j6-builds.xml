@@ -495,6 +495,21 @@
       corflags="/32bitpref-"
       />
 	  
+  <cb:v76build
+      driver="CUST2095"
+      project-name="CUST2095-Ver7.7-911"
+      branch="2095_Ver7.7_911"
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.7.7"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="True"
+      package="true"
+      corflags="/32bitpref-"
+      />	  
+	  
   <!--<cb:v76build
       driver="CUST2095"
       project-name="CUST2095-Ver7.7-JC"
