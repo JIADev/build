@@ -566,7 +566,7 @@
 
 	  <cb:v76build
       driver="CUST2097SG"
-      project-name="2097SG_ActiveInfra_Sprint_jbair"
+      project-name="2097SG_Sprint_jbair"
       queue-priority="1995"
       queueName="CUST2097"
       branch = '2097SG_ActiveInfra_Sprint_jbair'
