@@ -564,7 +564,24 @@
       corflags="/32bitpref-"
       />
 	  
-  <cb:v76build
+	  <cb:v76build
+      driver="CUST2097SG"
+      project-name="2097SG_ActiveInfra_Sprint_jbair"
+      queue-priority="1995"
+      queueName="CUST2097"
+      branch = '2097SG_ActiveInfra_Sprint_jbair'
+      prodTag="2097SG_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.6.8"
+      external-zip="true"
+      archive="false"
+      package="true"
+      package-privatebuild="true"
+      corflags="/32bitpref-"
+      />
+	  
+  <!--<cb:v76build
       driver="CUST2097SG"
       project-name="CUST2097SG_BLD"
       branch = 'tags'
@@ -580,7 +597,7 @@
       queueSuffix="-priority"
       package-privatebuild="true"
       corflags="/32bitpref-"
-      />
+      />-->
 
   <cb:v76build
       driver="CUST2097PL"
