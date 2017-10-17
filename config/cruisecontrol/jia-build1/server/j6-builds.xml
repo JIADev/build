@@ -50,7 +50,7 @@
       sourceCheckInterval=""
       corflags="/32bitreq+"
       />
--->	  
+-->
   <!-- CUST065 -->
 
   <cb:customerbuild
@@ -378,7 +378,7 @@
       package="true"
       corflags="/32bitpref-"
       />
-	  
+
   <cb:v76build
       driver="CUST2094PER"
       project-name="CUST2094_PeruInfra_CFG"
@@ -394,7 +394,7 @@
       archive="false"
       package="true"
       corflags="/32bitpref-"
-      />	  
+      />
 
   <cb:v76build
       driver="CUST2094PER"
@@ -494,7 +494,7 @@
       package="true"
       corflags="/32bitpref-"
       />
-	  
+
   <cb:v76build
       driver="CUST2095"
       project-name="CUST2095-Ver7.7-911"
@@ -508,8 +508,8 @@
       archive="True"
       package="true"
       corflags="/32bitpref-"
-      />	  
-	  
+      />
+
   <!--<cb:v76build
       driver="CUST2095"
       project-name="CUST2095-Ver7.7-JC"
@@ -563,14 +563,14 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
-	  
+
 	  <cb:v76build
       driver="CUST2097SG"
       project-name="2097SG_ActiveInfra_Sprint_jbair"
       queue-priority="1995"
       queueName="CUST2097"
       branch = '2097SG_ActiveInfra_Sprint_jbair'
-      prodTag="2097SG_PRD"
+      prodTag=""
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
@@ -580,7 +580,7 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
-	  
+
   <!--<cb:v76build
       driver="CUST2097SG"
       project-name="CUST2097SG_BLD"
@@ -615,7 +615,7 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
-	  
+
   <cb:v76build
       driver="CUST2097DE"
       project-name="CUST2097DE-Ver7.7"
@@ -632,7 +632,7 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
-	  
+
   <cb:v76build
       driver="CUST2097"
       project-name="CUST2097_BLD"
