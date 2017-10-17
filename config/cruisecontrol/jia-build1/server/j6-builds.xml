@@ -570,7 +570,7 @@
       queue-priority="1995"
       queueName="CUST2097"
       branch = '2097SG_ActiveInfra_Sprint_jbair'
-      prodTag=""
+      prodTag="2097SG_PRD"
       platform="AnyCpu"
       repo-name="active"
       j6Version="7.6.8"
