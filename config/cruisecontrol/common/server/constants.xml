@@ -112,7 +112,7 @@
       msbuild-protect-timeout="7200"
       msbuild-external-protect-timeout="720"
       msbuild-configure-timeout="300"
-      msbuild-build-timeout="2100"
+      msbuild-build-timeout="5000"
       msbuild-jslint-timeout="1800"
       msbuild-compileless-timeout="1800"
       msbuild-bootstrap-timeout="1500"
