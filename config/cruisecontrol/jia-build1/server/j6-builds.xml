@@ -396,7 +396,7 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
+  <!--<cb:v76build
       driver="CUST2094PER"
       project-name="CUST2094_REQ047_PER"
       queueName="CUST2094"
@@ -412,7 +412,7 @@
       archive="false"
       package="true"
       corflags="/32bitpref-"
-      />
+      />-->
 
   <cb:v76build
       driver="CUST2094BOL"
@@ -466,7 +466,7 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
+  <!--<cb:v76build
       driver="CUST2095"
       project-name="CUST2095-7.6.5"
       branch = '7.6.5'
@@ -478,7 +478,7 @@
       package="true"
       package-privatebuild="true"
       corflags="/32bitpref-"
-      />
+      />-->
 
   <cb:v76build
       driver="CUST2095"
