@@ -430,7 +430,7 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
+  <!--<cb:v76build
       driver="CUST2094PER"
       project-name="CUST2094_PeruConversion"
       queueName="CUST2094"
@@ -444,7 +444,7 @@
       archive="false"
       package="true"
       corflags="/32bitpref-"
-      />
+      />-->
 
 <!-- CUST2095 -->
 
