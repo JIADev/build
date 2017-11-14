@@ -379,7 +379,7 @@
       corflags="/32bitpref-"
       />
 
-  <cb:v76build
+  <!--<cb:v76build
       driver="CUST2094PER"
       project-name="CUST2094_PeruInfra_CFG"
       queueName="CUST2094"
@@ -394,7 +394,7 @@
       archive="false"
       package="true"
       corflags="/32bitpref-"
-      />
+      />-->
 
   <!--<cb:v76build
       driver="CUST2094PER"
