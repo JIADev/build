@@ -384,7 +384,7 @@
       project-name="CUST2094_PeruInfra_QA"
       queueName="CUST2094"
       queue-priority="1900"
-      branch="2094_PeruInfra_QA"
+      branch="2094_PeruInfra_QA.Fixed"
       prodTag="2094_PRD"
       platform="AnyCpu"
       repo-name="active"
