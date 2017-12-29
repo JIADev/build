@@ -20,7 +20,7 @@
   <cb:define name="build2queue3">
     <cb:define queueName="Queue3" />
     <cb:reqBuild queue-priority="1875" branchName="7.7.0" projectName="CUST000-7.7.0" customer="000" />
-    <cb:reqBuild queue-priority="1450" branchName="2094_PeruInfra" projectName="CUST2094_PeruInfra_BOL" customer="CUST2094BOL" prodTag="2094_PRD" />
+    <cb:reqBuild queue-priority="1450" branchName="2094_PeruInfra" projectName="CUST2094_PeruInfra_BOL" customer="2094BOL" prodTag="2094_PRD" />
   </cb:define>
 
   <cb:define name="build4queue1">
