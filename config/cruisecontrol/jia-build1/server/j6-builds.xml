@@ -651,23 +651,6 @@
       />
 
   <cb:v76build
-      driver="CUST2097DE"
-      project-name="CUST2097DE-Ver7.7"
-      queue-priority="1995"
-      queueName="CUST2097"
-      branch="2097_Ver7.7"
-      prodTag="2097_PRD"
-      platform="AnyCpu"
-      repo-name="active"
-      j6Version="7.7.0"
-      external-zip="true"
-      archive="false"
-      package="true"
-      package-privatebuild="true"
-      corflags="/32bitpref-"
-      />
-
-  <cb:v76build
       driver="CUST2097"
       project-name="CUST2097_BLD"
       branch = 'tags'
