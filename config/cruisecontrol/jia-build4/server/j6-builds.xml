@@ -20,7 +20,7 @@
       queueName="Queue1"
       corflags="/32bitpref-"
       />
-
+<!--
         <cb:v76build
       driver="CUST2097DE"
       project-name="CUST2097DE-Ver7.7"
@@ -37,7 +37,7 @@
       package-privatebuild="true"
       corflags="/32bitpref-"
       />
-  
+  -->
   <!-- req branches -->
   <cb:build4queues />
 
