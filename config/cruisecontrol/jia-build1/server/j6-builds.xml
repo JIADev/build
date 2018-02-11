@@ -526,6 +526,36 @@
       package="true"
       corflags="/32bitpref-"
       />
+	  
+	    <cb:v76build
+      driver="CUST2095AU"
+      project-name="2095AU"
+      branch="MPS_Sprint3.Split"
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.7.7"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="True"
+      package="true"
+      corflags="/32bitpref-"
+      />
+	  
+	  	    <cb:v76build
+      driver="CUST2095UK"
+      project-name="2095UK"
+      branch="MPS_Sprint3"
+      prodTag="2095_PRD"
+      platform="AnyCpu"
+      repo-name="active"
+      j6Version="7.7.7"
+      external-zip="true"
+      package-privatebuild="true"
+      archive="True"
+      package="true"
+      corflags="/32bitpref-"
+      />
 
   <!--<cb:v76build
       driver="CUST2095"
