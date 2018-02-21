@@ -110,7 +110,7 @@ else
 		
 		#Copy site files to Site folder. *Maybe add the correct web.config*
 		Write-Host "Copy site files to Site folder."
-		$sites = gci $releasePath | select -ExpandProperty FullName | where { $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' }
+		$sites = gci $releasePath | select -ExpandProperty FullName | where { $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*deploy.targets*' -and $_ -notlike '*deployment.proj*' }
 		
 		foreach ($site in $sites)
 		{
