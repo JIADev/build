@@ -89,7 +89,7 @@ else
 		
 		#start creating web deployment package. Delete everything except the portal zip files and the Shared folder
 		Write-Host "start creating web deployment package. Delete everything except the portal zip files and the Shared folder"
-		gci -Path "$releasePath" -Recurse | select -ExpandProperty FullName | where { $_ -notlike '*MSDeploy*' -and $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' } | Remove-Item -Force -Recurse
+		gci -Path "$releasePath" -Recurse | select -ExpandProperty FullName | where { $_ -notlike '*MSDeploy*' -and $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*Bootstrap*' } | Remove-Item -Force -Recurse
 		gci $releasePath -Recurse -Include Business.zip, Corporate.zip, Integration.zip, WebPWS.zip, version.txt | Copy-Item -Destination $releasePath
 		Remove-Item $releasePath\MSDeploy -Force -Recurse
 		
