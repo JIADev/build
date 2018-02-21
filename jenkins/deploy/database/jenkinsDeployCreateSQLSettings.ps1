@@ -35,6 +35,7 @@ $newRedisHost = $json.$driver.environments.$deploy_env.redis.hostname
 
 #Get development sql-settings.xml and load as an XML object in memory.
 $xmlpath = "$workingDirectory\sql-settings.xml"
+$newXMLPath = "$workingDirectory\RELEASE\sql-settings.xml"
 #$xmlpath = "C:\JCJenkins\workspace\1002\sql-settings.xml"
 $xml = New-Object XML
 $xml.Load($xmlpath)
@@ -55,4 +56,5 @@ $redisHost.SetAttribute("Host", "$newRedisHost")
 
 #Write the new sql-settings.xml file.
 $xml.Save("$xmlpath")
+$xml.Save("$newXMLPath")
 
