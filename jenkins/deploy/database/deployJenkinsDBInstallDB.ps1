@@ -56,10 +56,11 @@ if (Test-Path -Path "$schemaUpdateDir")
 #Count Patches
 if (Test-Path -Path "$schemaUpdateDir\$schemaUpdateScript")
 {
+	Write-Host "Counting Patches."
 	$countPatches = New-Object jDeployMsBuildTasks.PatchCount
 	#$countPatches.Execute = $true
 	$patches = $countPatches.Count($packagesLocation, $null, $preSchemaUpdateSwitches, $additionalPatchDirs, $true)
-	Write-Host "$patches"
+	Write-Host "There are $patches patches."
 }
 
 if ((Test-Path -Path "$schemaUpdateDir\$existingSchemaUpdateFiles") -and $patches -ne 0)
@@ -67,13 +68,13 @@ if ((Test-Path -Path "$schemaUpdateDir\$existingSchemaUpdateFiles") -and $patche
 	gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
 }
 
-#Run pre-schema update scripts
+Write-Host "Run pre-schema update scripts"
 Start-Process -FilePath "$patchLoader" -ArgumentList $preSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait -RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
 
-##Run schema update scripts
+Write-Host "Run schema update scripts"
 Start-Process -FilePath "$patchLoader" -ArgumentList $schemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait -RedirectStandardError "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
 #
-##Run post-schema update scripts
+Write-Host "Run post-schema update scripts"
 Start-Process -FilePath "$patchLoader" -ArgumentList $postSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait -RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_postSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
 
 Write-Host "Install Database Completed."
