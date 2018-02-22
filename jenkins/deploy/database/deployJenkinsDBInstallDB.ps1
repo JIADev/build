@@ -70,7 +70,7 @@ if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
 
 if ((Test-Path -Path "$schemaUpdateDir\$existingSchemaUpdateFiles") -and $patches -ne 0)
 {
-	gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
+	#gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
 }
 
 Write-Host "Run pre-schema update scripts"
