@@ -29,7 +29,7 @@ Write-Host "Working Directory is $workingDirectory" -foreground Green
 Write-Output ('$dacpacFile : ' + $dacpacFile)
 
 $json = Get-Content $config_json -Raw | ConvertFrom-Json
-$sqlserver = $json.$driver.environments.$deploy_env.sql | Get-Member -MemberType NoteProperty | select -ExpandProperty Name
+$sqlserver = $json.$driver.environments.$deploy_env.sql.hostname
 $dbName = $json.$driver.environments.$deploy_env.sql.dbName
 $schemaUpdateDir = "$workingDirectory\SchemaUpdate"
 $schemaUpdateScript = "SchemaUpdate.$dbName.$($build_time).sql"
@@ -60,7 +60,7 @@ $reportOP = "$schemaUpdateDir\$deployReportXML"
 $cs = ('"' + $env:ConnectionString + '"')
 
 $scriptAction = "Script"
-$scriptParam = "/Action:$scriptAction /SourceFile:$sf /tsn:$sqlserver /tdn:$dbName /OutputPath:$scriptOP"
+$scriptParam = "/Action:$scriptAction /SourceFile:$sf /tsn:$($sqlserver) /tdn:$($dbName) /OutputPath:$scriptOP"
 Write-Output "Generate Change Script"
 Write-Output "Args: $scriptParam"
 Write-Output ("$exe" + " " + $scriptParam)
@@ -73,7 +73,7 @@ if (Test-Path -path "$schemaUpdateDir\$schemaUpdateScript")
 }
 
 $reportAction = "DeployReport"
-$reportParam = "/Action:$reportAction /SourceFile:$sf /tsn:$sqlserver /tdn:$dbName /OutputPath:$op"
+$reportParam = "/Action:$reportAction /SourceFile:$sf /tsn:$sqlserver /tdn:$dbName /OutputPath:$reportOP"
 Write-Output "Generate DeployReport"
 Write-Output "Args: $reportParam"
 Write-Output ("$exe" + " " + $reportParam)
