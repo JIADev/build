@@ -57,7 +57,7 @@ if (Test-Path -Path "$schemaUpdateDir")
 
 #Count Patches
 Write-Host "schemaUpdateDir\schemaUpdateScript is $schemaUpdateDir\$schemaUpdateScript"
-if (Test-Path -Path "$schemaUpdateDir\$schemaUpdateScript")
+if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
 {
 	Write-Host "Counting Patches."
 	$countPatches = New-Object jDeployMsBuildTasks.PatchCount
