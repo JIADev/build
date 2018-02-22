@@ -86,20 +86,21 @@ else
 
 		#Copy the deployment.proj and deploy.target file to the RELEASE folder
 		#gci -Path $workingDirectory | ? { $_.FullName -like "*deployment.proj*" -or $_.FullName -like "*deploy.target*"} | % { Copy-Item -Path $_.FullName -Destination $releasePath -Force }
-		gci $workingDirectory -Recurse -Include deployment.proj, deploy.targets | Copy-Item -Destination $releasePath
+		#gci $workingDirectory -Recurse -Include deployment.proj, deploy.targets | Copy-Item -Destination $releasePath
 		
 		#Copy the dacpac files to the appropriate folder.
 		gci -Path "$releasePath" -Recurse | Where-Object { $_.FullName -like "*Assembly\*.dacpac" } | % { Copy-Item -Path $_.FullName -Destination "$releasePath\DacPacs" -Force }
 		
 		#start creating web deployment package. Delete everything except the portal zip files and the Shared folder
 		Write-Host "start creating web deployment package. Delete everything except the portal zip files and the Shared folder"
-		gci -Path "$releasePath" -Recurse | select -ExpandProperty FullName | where { $_ -notlike '*MSDeploy*' -and $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*Bootstrap*' } | Remove-Item -Force -Recurse
+		#gci -Path "$releasePath" -Recurse | select -ExpandProperty FullName | where { $_ -notlike '*MSDeploy*' -and $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*Bootstrap*' } | Remove-Item -Force -Recurse
 		gci $releasePath -Recurse -Include Business.zip, Corporate.zip, Integration.zip, WebPWS.zip, version.txt | Copy-Item -Destination $releasePath
 		Remove-Item $releasePath\MSDeploy -Force -Recurse
 		
 		#Extract portal files to a clean directory structure.
 		Write-Host "Extract portal files to a clean directory structure."
-		$portalZips = gci -Path $releasePath -Recurse | where { $_ -like '*.zip' -and $_ -notlike 'Shared\*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' } | select -ExpandProperty FullName
+		#$portalZips = gci -Path $releasePath -Recurse | where { $_ -like '*.zip' -and $_ -notlike 'Shared\*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' } | select -ExpandProperty FullName
+		$portalZips = gci -Path $releasePath -Include Business.zip, Corporate.zip, Integration.zip, WebPWS.zip | select -ExpandProperty FullName
 		
 		foreach ($portal in $portalZips)
 		{
@@ -114,7 +115,8 @@ else
 		
 		#Copy site files to Site folder. *Maybe add the correct web.config*
 		Write-Host "Copy site files to Site folder."
-		$sites = gci $releasePath | select -ExpandProperty FullName | where { $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*deploy.targets*' -and $_ -notlike '*deployment.proj*' }
+		#$sites = gci $releasePath | select -ExpandProperty FullName | where { $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*deploy.targets*' -and $_ -notlike '*deployment.proj*' }
+		$sites = gci $releasePath | select -ExpandProperty FullName | where { ($_ -like '*Business*' -or $_ -like '*Corporate*' -or $_ -like '*Integration*' -or $_ -like '*WebPWS*') -and $_.PSIsContainer -eq $true }
 		
 		foreach ($site in $sites)
 		{
