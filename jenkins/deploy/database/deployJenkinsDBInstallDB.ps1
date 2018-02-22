@@ -48,12 +48,15 @@ $postSchemaUpdateSwitches = "--noninteractive --exit-for-noop --verbose"
 $packagesLocation = "$workingDirectory"
 $additionalPatchDirs = "$schemaUpdateDir"
 
+Write-Host "SchemaUpdate dir is $schemaUpdateDir"
+
 if (Test-Path -Path "$schemaUpdateDir")
 {
 	$existingSchemaUpdateFiles = gci -Path "$schemaUpdateDir" -Recurse
 }
 
 #Count Patches
+Write-Host "schemaUpdateDir\schemaUpdateScript is $schemaUpdateDir\$schemaUpdateScript"
 if (Test-Path -Path "$schemaUpdateDir\$schemaUpdateScript")
 {
 	Write-Host "Counting Patches."
