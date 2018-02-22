@@ -85,7 +85,8 @@ else
 		}
 
 		#Copy the deployment.proj and deploy.target file to the RELEASE folder
-		gci -Path $workingDirectory | ? { $_.FullName -like "*deployment.proj*" -or $_.FullName -like "*deploy.target*"} | % { Copy-Item -Path $_.FullName -Destination $releasePath -Force }
+		#gci -Path $workingDirectory | ? { $_.FullName -like "*deployment.proj*" -or $_.FullName -like "*deploy.target*"} | % { Copy-Item -Path $_.FullName -Destination $releasePath -Force }
+		gci $workingDirectory -Recurse -Include deployment.proj, deploy.targets | Copy-Item -Destination $releasePath
 		
 		#Copy the dacpac files to the appropriate folder.
 		gci -Path "$releasePath" -Recurse | Where-Object { $_.FullName -like "*Assembly\*.dacpac" } | % { Copy-Item -Path $_.FullName -Destination "$releasePath\DacPacs" -Force }
