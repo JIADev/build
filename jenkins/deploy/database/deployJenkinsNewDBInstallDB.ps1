@@ -15,7 +15,7 @@ param
 (
 	[Parameter(Mandatory = $true)]
 	[string]$driver,
-	[string]$config_json,
+	#[string]$config_json,
 	[string]$deploy_env,
 	[string]$build_time
 )
@@ -23,10 +23,11 @@ param
 $workingDirectory = "$($ENV:WORKSPACE)\RELEASE"
 #$workingDirectory = "C:\JCJenkins\workspace\1002\RELEASE"
 $schemaUpdateDir = "$workingDirectory\SchemaUpdate"
-$json = Get-Content $config_json -Raw | ConvertFrom-Json
+$json = Get-Content $($ENV:config_json) -Raw | ConvertFrom-Json
 $sqlserver = $json.$driver.environments.$deploy_env.sql | Get-Member -MemberType NoteProperty | select -ExpandProperty Name
 $dbName = $json.$driver.environments.$deploy_env.sql.dbName
 $schemaUpdateScript = "SchemaUpdate.$dbName.$($build_time).sql"
+$scriptDacPacsScriptPath = "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1"
 
 #Import the j6DeployMsBuildTask.dll to use for PatchLoader.
 [System.Reflection.Assembly]::LoadFrom("$workingDirectory\Bootstrap\jDeployMsBuildTasks.dll")
@@ -63,14 +64,15 @@ if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
 {
 	Write-Host "Counting Patches."
 	$countPatches = New-Object jDeployMsBuildTasks.PatchCount
-	#$countPatches.Execute = $true
+	$countPatches.Execute = $true
 	$patches = $countPatches.Count($packagesLocation, $null, $preSchemaUpdateSwitches, $additionalPatchDirs, $true)
 	Write-Host "There are $patches patches."
 }
 
 if ((Test-Path -Path "$schemaUpdateDir\$existingSchemaUpdateFiles") -and $patches -ne 0)
 {
-	#gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
+	Write-Host "We want the schema update files to be re-geerated if there wee PreSchemaUpdate patches run."
+	gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
 }
 
 Write-Host "Run pre-schema update scripts"
@@ -90,6 +92,12 @@ $p.WaitForExit()
 Write-Host "stdout: $stdout"
 Write-Host "stderr: $stderr"
 Write-Host "exit code: " + $p.ExitCode
+
+if ($patches -ne 0 -or (!(Test-Path "$schemaUpdateDir\$schemaUpdateScript")))
+	{
+		Write-Host "Regenerate schema update files."
+		Invoke-Command -ComputerName $hostname -FilePath "$scriptDacPacsScriptPath" -ArgumentList $driver, $deploy_env, $build_time, $workingDirectory
+}
 
 Write-Host "Run schema update scripts"
 #Start-Process -FilePath "$patchLoader" -ArgumentList $schemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
