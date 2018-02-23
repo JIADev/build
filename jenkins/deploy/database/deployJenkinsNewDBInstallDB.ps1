@@ -23,7 +23,7 @@ param
 $workingDirectory = "$($ENV:WORKSPACE)\RELEASE"
 #$workingDirectory = "C:\JCJenkins\workspace\1002\RELEASE"
 $schemaUpdateDir = "$workingDirectory\SchemaUpdate"
-$json = Get-Content $($ENV:config_json) -Raw | ConvertFrom-Json
+$json = Get-Content "$($ENV:config_json)" -Raw | ConvertFrom-Json
 $sqlserver = $json.$driver.environments.$deploy_env.sql | Get-Member -MemberType NoteProperty | select -ExpandProperty Name
 $dbName = $json.$driver.environments.$deploy_env.sql.dbName
 $schemaUpdateScript = "SchemaUpdate.$dbName.$($build_time).sql"
