@@ -71,7 +71,7 @@ if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
 
 if ((Test-Path -Path "$schemaUpdateDir\$existingSchemaUpdateFiles") -and $patches -ne 0)
 {
-	Write-Host "We want the schema update files to be re-geerated if there wee PreSchemaUpdate patches run."
+	Write-Host "We want the schema update files to be re-geerated if there were PreSchemaUpdate patches run."
 	gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
 }
 
