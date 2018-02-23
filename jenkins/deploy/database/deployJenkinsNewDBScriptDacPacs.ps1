@@ -15,7 +15,7 @@ param
 (
 	[Parameter(Mandatory = $true)]
 	[string]$driver,
-	#[string]$config_json, - from old file, to be deleted
+	[string]$config_json,
 	[string]$deploy_env,
 	[string]$build_time,
 	[string]$workingdir #Added in the version
@@ -30,8 +30,8 @@ $dacpacFile = "$workingDirectory\DacPacs\$driver.Database.dacpac"
 Write-Host "Working Directory is $workingDirectory" -foreground Green
 Write-Output ('$dacpacFile : ' + $dacpacFile)
 
-#$json = Get-Content $config_json -Raw | ConvertFrom-Json - no longer passing in $config_json, using $($ENV:config_json) from the Jenkins global variables
-$json = Get-Content "$($ENV:config_json)" -Raw | ConvertFrom-Json
+$json = Get-Content $config_json -Raw | ConvertFrom-Json
+#$json = Get-Content "$($ENV:config_json)" -Raw | ConvertFrom-Json
 $sqlserver = $json.$driver.environments.$deploy_env.sql.hostname
 $dbName = $json.$driver.environments.$deploy_env.sql.dbName
 $schemaUpdateDir = "$workingDirectory\SchemaUpdate"
