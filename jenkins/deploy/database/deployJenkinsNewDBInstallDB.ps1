@@ -64,7 +64,7 @@ if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
 {
 	Write-Host "Counting Patches."
 	$countPatches = New-Object jDeployMsBuildTasks.CountPatches
-	$countPatches.Execute = $true
+#	$countPatches.Execute = $true
 	$patches = $countPatches.Count($packagesLocation, $null, $preSchemaUpdateSwitches, $additionalPatchDirs, $true)
 	Write-Host "There are $patches patches."
 }
