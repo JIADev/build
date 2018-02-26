@@ -63,9 +63,9 @@ Write-Host "Test-Path results: $test"
 if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
 {
 	Write-Host "Counting Patches."
-	$countPatches = New-Object jDeployMsBuildTasks.CountPatches
+#	$countPatches = New-Object jDeployMsBuildTasks.CountPatches
 #	$countPatches.Execute = $true
-	$patches = $countPatches.Count($packagesLocation, $null, $preSchemaUpdateSwitches, $additionalPatchDirs, $true)
+	$patches = New-Object jDeployMsBuildTasks.CountPatches($packagesLocation, $null, $preSchemaUpdateSwitches, $additionalPatchDirs, $true)
 	Write-Host "There are $patches patches."
 }
 
@@ -96,7 +96,9 @@ Write-Host "exit code: " + $p.ExitCode
 if ($patches -ne 0 -or (!(Test-Path "$schemaUpdateDir\$schemaUpdateScript")))
 	{
 		Write-Host "Regenerate schema update files."
-		Invoke-Command -ComputerName "JIA-jenkins1" -FilePath "$scriptDacPacsScriptPath" -ArgumentList "$driver", "$config_json", "$deploy_env", "$build_time", "$workingDirectory"
+	#		Invoke-Command -ComputerName "JIA-jenkins1" -FilePath "$scriptDacPacsScriptPath" -ArgumentList "$driver", "$config_json", "$deploy_env", "$build_time", "$workingDirectory"
+		$scriptArgs = "-driver $driver -config_json $config_json -deploy_env $deploy_env -build_time $build_time -workingDirectory $workingDirectory"
+		Invoke-Expression $scriptDacPacsScriptPath $scriptArgs
 }
 
 Write-Host "Run schema update scripts"
