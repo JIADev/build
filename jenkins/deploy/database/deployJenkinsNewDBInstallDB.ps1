@@ -36,7 +36,7 @@ $scriptDacPacsScriptPath = "$($ENV:ps_scripts_dir)\deploy\database\deployJenkins
 if (-not (test-path "$workingDirectory\Bootstrap\PatchLoader.exe")) { throw "$workingDirectory\RELEASE\Bootstrap\PatchLoader.exe" }
 $patchLoader = "$workingDirectory\Bootstrap\PatchLoader.exe"
 
-$preSchemaUpdateSwitches = "--noninteractive --exit-for-noop --verbose"
+$preSchemaUpdateSwitches = "--all-or-nothing --noninteractive --exit-for-noop --verbose"
 $preSchemaUpdateSwitches = "$preSchemaUpdateSwitches" + " --skip-xml"
 $preSchemaUpdateSwitches = "$preSchemaUpdateSwitches" + " --phase=PreSchemaUpdate"
 
@@ -44,7 +44,7 @@ $schemaUpdateSwitches = "--noninteractive --exit-for-noop --verbose"
 $schemaUpdateSwitches = "$schemaUpdateSwitches" + "--phase=SchemaUpdate"
 $schemaUpdateSwitches = "$schemaUpdateSwitches" + ""
 
-$postSchemaUpdateSwitches = "--noninteractive --exit-for-noop --verbose"
+$postSchemaUpdateSwitches = "--all-or-nothing --noninteractive --exit-for-noop --verbose"
 
 $packagesLocation = "$workingDirectory"
 $additionalPatchDirs = "$schemaUpdateDir"
