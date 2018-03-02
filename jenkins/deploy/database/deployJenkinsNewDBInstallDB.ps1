@@ -77,7 +77,7 @@ if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
 	$countPatches = New-Object jDeployMsBuildTasks.CountPatchesPSWrapper -Property @{
 		'PackagesLocation'  = "$packagesLocation";
 		'Switches'		    = $preSchemaUpdateSwitches;
-		'Verbose'		    = $true;
+		'Verbose'		    = $false;
 		
 	}
 	if ($countPatches.PatchCount -ge 0)
@@ -103,7 +103,7 @@ Write-Host "Run preschema updates."
 
 
 #Write-Host "Run pre-schema update scripts"
-##Start-Process -FilePath "$patchLoader" -ArgumentList $preSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
+Start-Process -FilePath "$patchLoader" -ArgumentList $preSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
 #$pinfo = New-Object System.Diagnostics.ProcessStartInfo
 #$pinfo.FileName = "$patchLoader"
 #$pinfo.RedirectStandardError = $true
@@ -128,47 +128,47 @@ if ($patches -ne 0 -or (!(Test-Path "$schemaUpdateDir\$schemaUpdateScript")))
 		& $scriptDacPacsScriptPath $scriptArgs
 }
 
-Write-Host "Run Schema Updates"
-& $($patchLoader) $($preSchemaUpdateSwitches)
+#Write-Host "Run Schema Updates"
+#& $($patchLoader) $($preSchemaUpdateSwitches)
 
-Write-Host "Run Post Schema Updates"
-& $($patchLoader) $($postSchemaUpdateSwitches)
+#Write-Host "Run Post Schema Updates"
+#& $($patchLoader) $($postSchemaUpdateSwitches)
 
-<#Write-Host "Run schema update scripts"
-#Start-Process -FilePath "$patchLoader" -ArgumentList $schemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
+Write-Host "Run schema update scripts"
+Start-Process -FilePath "$patchLoader" -ArgumentList $schemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
 #$pinfo = New-Object System.Diagnostics.ProcessStartInfo
 #$pinfo.FileName = "$patchLoader"
 #$pinfo.RedirectStandardError = $true
 #$pinfo.RedirectStandardOutput = $true
 #$pinfo.UseShellExecute = $false
-$pinfo.Arguments = "$schemaUpdateSwitches"
-$p = New-Object System.Diagnostics.Process
-$p.StartInfo = $pinfo
-$p.Start() | Out-Null
-$stdout = $p.StandardOutput.ReadToEnd()
-$stderr = $p.StandardError.ReadToEnd()
-$p.WaitForExit()
-Write-Host "stdout: $stdout"
-Write-Host "stderr: $stderr"
-Write-Host "exit code: " + $p.ExitCode
+#$pinfo.Arguments = "$schemaUpdateSwitches"
+#$p = New-Object System.Diagnostics.Process
+#$p.StartInfo = $pinfo
+#$p.Start() | Out-Null
+#$stdout = $p.StandardOutput.ReadToEnd()
+#$stderr = $p.StandardError.ReadToEnd()
+#$p.WaitForExit()
+#Write-Host "stdout: $stdout"
+#Write-Host "stderr: $stderr"
+#Write-Host "exit code: " + $p.ExitCode
 
-#Write-Host "Run post-schema update scripts"
-#Start-Process -FilePath "$patchLoader" -ArgumentList $postSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_postSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
+Write-Host "Run post-schema update scripts"
+Start-Process -FilePath "$patchLoader" -ArgumentList $postSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_postSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
 #$pinfo = New-Object System.Diagnostics.ProcessStartInfo
 #$pinfo.FileName = "$patchLoader"
 #$pinfo.RedirectStandardError = $true
 #$pinfo.RedirectStandardOutput = $true
 #$pinfo.UseShellExecute = $false
-$pinfo.Arguments = "$postSchemaUpdateSwitches"
-$p = New-Object System.Diagnostics.Process
-$p.StartInfo = $pinfo
-$p.Start() | Out-Null
-$stdout = $p.StandardOutput.ReadToEnd()
-$stderr = $p.StandardError.ReadToEnd()
-$p.WaitForExit()
-Write-Host "stdout: $stdout"
-Write-Host "stderr: $stderr"
-Write-Host "exit code: " + $p.ExitCode
+#$pinfo.Arguments = "$postSchemaUpdateSwitches"
+#$p = New-Object System.Diagnostics.Process
+#$p.StartInfo = $pinfo
+#$p.Start() | Out-Null
+#$stdout = $p.StandardOutput.ReadToEnd()
+#$stderr = $p.StandardError.ReadToEnd()
+#$p.WaitForExit()
+#Write-Host "stdout: $stdout"
+#Write-Host "stderr: $stderr"
+#Write-Host "exit code: " + $p.ExitCode
 
 <#
 $pinfo = New-Object System.Diagnostics.ProcessStartInfo
