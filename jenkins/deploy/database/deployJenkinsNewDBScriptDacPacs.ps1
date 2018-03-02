@@ -21,8 +21,20 @@ param
 	[string]$workingdir #Added in the version
 )
 
-if (-not (test-path "$env:ProgramFiles\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe")) { throw "$env:ProgramFiles\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe" }
-$exe = '"' + 'C:\Program Files (x86)\Microsoft SQL Server\120\DAC\bin\SqlPackage.exe' + '"'
+<# Debug locally
+$driver = "CUST2095AU"
+$config_json = "\\jia-jenkins1\d$\secrets\deployConfig.json"
+$deploy_env = "JC"
+$build_time = "20180227111911"
+$workingdir = "C:\TestJenkins\workspace\2095AU_hg\RELEASE"
+$ENV:ps_scripts_dir = "C:\dev\code\build\jenkins"
+
+#>
+
+#if (-not (test-path "$env:ProgramFiles\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe")) { throw "$env:ProgramFiles\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe" }
+#$exe = '"' + 'C:\Program Files (x86)\Microsoft SQL Server\120\DAC\bin\SqlPackage.exe' + '"'
+if (-not (test-path "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe")) { throw "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe" }
+$exe = '"' + 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe' + '"'
 
 #$workingDirectory = "$($ENV:WORKSPACE)" -from old file, to be deleted
 $workingDirectory = $workingdir
