@@ -97,8 +97,8 @@ if ((Test-Path -Path "$schemaUpdateDir\$existingSchemaUpdateFiles") -and $patche
 	gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
 }
 
-Write-Host "Run preschema updates."
-& $($patchLoader) $($preSchemaUpdateSwitches)
+#Write-Host "Run preschema updates."
+#& $($patchLoader) $($preSchemaUpdateSwitches)
 
 
 
