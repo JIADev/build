@@ -81,8 +81,10 @@ catch { Write-Error "Preschema FAILED." }
 
 #Regenerate SchemaUpdate scripts
 
-	$scriptArgs = "$driver $config_json $deploy_env $build_time $workingDirectory"
-	& "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1 -driver $driver -config_json $config_json -deploy_env $deploy_env -build_time $build_time -workingDirectory $workingDirectory"
+$scriptArgs = "$driver $config_json $deploy_env $build_time $workingDirectory"
+Invoke-Command -ComputerName "JIA-JENKINS1" { "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1" } -ArgumentList $driver,$config_json,$deploy_env,$build_time,$workingDirectory
+
+	#Invoke-Command "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1 -driver $driver -config_json $config_json -deploy_env $deploy_env -build_time $build_time -workingDirectory $workingDirectory"
 #	& $scriptDacPacsScriptPath $scriptArgs
 
 #Run SchemaUpdate and DataPatch (PostSchema) phases
