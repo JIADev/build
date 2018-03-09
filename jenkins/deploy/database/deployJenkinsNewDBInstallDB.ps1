@@ -84,7 +84,8 @@ catch { Write-Error "Preschema FAILED." }
 try
 {
 	$scriptArgs = "$driver $config_json $deploy_env $build_time $workingDirectory"
-	& $scriptDacPacsScriptPath $scriptArgs
+	& $($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1 -driver $driver -config_json $config_json -deploy_env $deploy_env -build_time $build_time -workingDirectory $workingDirectory
+#	& $scriptDacPacsScriptPath $scriptArgs
 }
 catch {Write-Error "Build Step FAILED: Could not regenerate SchemaUpdate Files"}
 #Run SchemaUpdate and DataPatch (PostSchema) phases
