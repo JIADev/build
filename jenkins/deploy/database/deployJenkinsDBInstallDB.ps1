@@ -30,7 +30,7 @@ $schemaUpdateScript = "SchemaUpdate.$dbName.$($build_time).sql"
 $scriptDacPacsScriptPath = "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1"
 
 #Import the j6DeployMsBuildTask.dll to use for PatchLoader.
-System.Reflection.Assembly]::LoadFrom("$workingDirectory\Bootstrap\jDeployPowerShellTasks.dll")
+[System.Reflection.Assembly]::LoadFrom("$workingDirectory\Bootstrap\jDeployPowerShellTasks.dll")
 
 #Make sure PatchLoader is present and assign to process variable.
 
