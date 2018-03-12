@@ -146,7 +146,7 @@ else
 		Compress-Archive -Path "$releasePath\Shared\*" -DestinationPath "$zipFileShared" -Force
 		
 		#Copy sql-settings.xml file to latestSite directory for deployment.
-		if (Test-Path -Path "$workingDirectory\sql-settings.xml")
+		if (Test-Path -Path "$workingDirectory\RELEASE\sql-settings.xml")
 		{
 			gci -Path "$workingDirectory\RELEASE\sql-settings.xml" -File | Copy-Item -Destination $latestSitePkgDest
 			gci -Path "$workingDirectory\RELEASE\sql-settings.xml" -File | Copy-Item -Destination $releasePath
