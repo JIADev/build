@@ -99,8 +99,9 @@ else
 		
 		#Extract portal files to a clean directory structure.
 		Write-Host "Extract portal files to a clean directory structure."
-		#$portalZips = gci -Path $releasePath -Recurse | where { $_ -like '*.zip' -and $_ -notlike 'Shared\*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' } | select -ExpandProperty FullName
-		$portalZips = gci -Path $releasePath -Include Business.zip, Corporate.zip, Integration.zip, WebPWS.zip | select -ExpandProperty FullName
+#		$portalZips = gci -Path $releasePath -Recurse | where { $_ -like '*.zip' -and $_ -notlike 'Shared\*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' } | select -ExpandProperty FullName
+		$portalZips = gci -Path $releasePath | where { $_ -like '*.zip' } | select -ExpandProperty FullName
+#		$portalZips = gci -Path $releasePath -Include Business.zip, Corporate.zip, Integration.zip, WebPWS.zip | select -ExpandProperty FullName
 		
 		foreach ($portal in $portalZips)
 		{
@@ -116,7 +117,7 @@ else
 		#Copy site files to Site folder. *Maybe add the correct web.config*
 		Write-Host "Copy site files to Site folder."
 		#$sites = gci $releasePath | select -ExpandProperty FullName | where { $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*deploy.targets*' -and $_ -notlike '*deployment.proj*' }
-		$sites = gci $releasePath | select -ExpandProperty FullName | where { ($_ -like '*Business*' -or $_ -like '*Corporate*' -or $_ -like '*Integration*' -or $_ -like '*WebPWS*') -and $_.PSIsContainer -eq $true }
+		$sites = gci $releasePath | where { ($_ -like 'Business' -or $_ -like 'Corporate' -or $_ -like 'Integration' -or $_ -like 'WebPWS') -and $_.PSIsContainer -eq $true } | select -ExpandProperty FullName
 		
 		foreach ($site in $sites)
 		{

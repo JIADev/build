@@ -24,65 +24,51 @@ $workingDirectory = "$($ENV:WORKSPACE)\RELEASE"
 #$workingDirectory = "C:\JCJenkins\workspace\1002\RELEASE"
 $schemaUpdateDir = "$workingDirectory\SchemaUpdate"
 $json = Get-Content $config_json -Raw | ConvertFrom-Json
-$sqlserver = $json.$driver.environments.$deploy_env.sql | Get-Member -MemberType NoteProperty | select -ExpandProperty Name
+$sqlserver = $json.$driver.environments.$deploy_env.sql.hostname
 $dbName = $json.$driver.environments.$deploy_env.sql.dbName
 $schemaUpdateScript = "SchemaUpdate.$dbName.$($build_time).sql"
+$scriptDacPacsScriptPath = "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1"
 
 #Import the j6DeployMsBuildTask.dll to use for PatchLoader.
-[System.Reflection.Assembly]::LoadFrom("$workingDirectory\Bootstrap\jDeployMsBuildTasks.dll")
+System.Reflection.Assembly]::LoadFrom("$workingDirectory\Bootstrap\jDeployPowerShellTasks.dll")
 
 #Make sure PatchLoader is present and assign to process variable.
-if (-not (test-path "$workingDirectory\Bootstrap\PatchLoader.exe")) { throw "$workingDirectory\RELEASE\Bootstrap\PatchLoader.exe" }
-$patchLoader = "$workingDirectory\Bootstrap\PatchLoader.exe"
 
-$preSchemaUpdateSwitches = "--noninteractive --exit-for-noop --verbose"
-$preSchemaUpdateSwitches = "$preSchemaUpdateSwitches" + " --skip-xml"
-$preSchemaUpdateSwitches = "$preSchemaUpdateSwitches" + " --phase=PreSchemaUpdate"
 
-$schemaUpdateSwitches = "--noninteractive --exit-for-noop --verbose"
-$schemaUpdateSwitches = "$schemaUpdateSwitches" + "--phase=SchemaUpdate"
-$schemaUpdateSwitches = "$schemaUpdateSwitches" + ""
-
-$postSchemaUpdateSwitches = "--noninteractive --exit-for-noop --verbose"
-
-$packagesLocation = "$workingDirectory"
 $additionalPatchDirs = "$schemaUpdateDir"
 
-Write-Host "SchemaUpdate dir is $schemaUpdateDir"
 
-if (Test-Path -Path "$schemaUpdateDir")
+
+
+$PSPatchEngine = New-Object -TypeName jDeployPowerShellTasks.DeployPatches.PSDeployPatches
+$PatchRequest = New-Object -TypeName jDeployPowerShellTasks.DeployPatches.DeployPatchesRequest
+$PatchRequest.WorkingFolder = "$workingDirectory"
+
+#Run PreSchema Phase
+try
 {
-	$existingSchemaUpdateFiles = gci -Path "$schemaUpdateDir" -Recurse
+	$PatchRequest.Phases = @("PreSchemaUpdate")
+	$result = $PSPatchEngine.Execute($PatchRequest)
 }
+catch { Write-Error "Preschema FAILED." }
 
-#Count Patches
-Write-Host "schemaUpdateDir\schemaUpdateScript is $schemaUpdateDir\$schemaUpdateScript"
-$test = (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
-Write-Host "Test-Path results: $test"
-if (Test-Path "$schemaUpdateDir\$schemaUpdateScript")
+
+#Regenerate SchemaUpdate scripts
+
+$scriptArgs = "$driver $config_json $deploy_env $build_time $workingDirectory"
+Invoke-Command -ComputerName "JIA-JENKINS1" { "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1" } -ArgumentList $driver,$config_json,$deploy_env,$build_time,$workingDirectory
+
+	#Invoke-Command "$($ENV:ps_scripts_dir)\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1 -driver $driver -config_json $config_json -deploy_env $deploy_env -build_time $build_time -workingDirectory $workingDirectory"
+#	& $scriptDacPacsScriptPath $scriptArgs
+
+#Run SchemaUpdate and DataPatch (PostSchema) phases
+try
 {
-	Write-Host "Counting Patches."
-	$countPatches = New-Object jDeployMsBuildTasks.PatchCount
-	#$countPatches.Execute = $true
-	$patches = $countPatches.Count($packagesLocation, $null, $preSchemaUpdateSwitches, $additionalPatchDirs, $true)
-	Write-Host "There are $patches patches."
+	
+	$PatchRequest.Phases = @("SchemaUpdate", "DataPatch")
+	$result = $PSPatchEngine.Execute($PatchRequest)
 }
-
-if ((Test-Path -Path "$schemaUpdateDir\$existingSchemaUpdateFiles") -and $patches -ne 0)
-{
-	#gci -Path "$schemaUpdateDir\$existingSchemaUpdateFiles" -Recurse | Remove-Item -Recurse
-}
-
-Write-Host "Run pre-schema update scripts"
-Start-Process -FilePath "$patchLoader" -ArgumentList $preSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
+catch {Write-Error "SchemaUpdate FAILED"}
 
 
-Write-Host "Run schema update scripts"
-Start-Process -FilePath "$patchLoader" -ArgumentList $schemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_SchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
 
-#
-Write-Host "Run post-schema update scripts"
-Start-Process -FilePath "$patchLoader" -ArgumentList $postSchemaUpdateSwitches -WorkingDirectory "$workingDirectory" -PassThru -Wait #-RedirectStandardError "$schemaUpdateDir\PatchLoader_preSchemaUpdate_$($ENV:BUILD_TIMESTAMP)_Error.log" -RedirectStandardOutput "$schemaUpdateDir\PatchLoader_postSchemaUpdate_$($ENV:BUILD_TIMESTAMP).log"
-
-Write-Host "Install Database Completed."
-#Need to mimic functionality from deploy.targets with the below targets that are called by the deploy target in deployment.proj in the order below.
