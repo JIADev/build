@@ -16,8 +16,8 @@ $workingDirectory = "$($ENV:WORKSPACE)\RELEASE"
 #$workingDirectory = "C:\JCJenkins\workspace\1002\RELEASE"
 
 #Make sure LoadReport.exe is present and assign to process variable.
-if (-not (test-path "$workingDirectory\RELEASE\Shared\LoadReport.exe")) { throw "$workingDirectory\RELEASE\Shared\LoadReport.exe" }
-$loadReport = "$workingDirectory\RELEASE\Shared\LoadReport.exe"
+if (-not (test-path "$workingDirectory\Shared\LoadReport.exe")) { throw "$workingDirectory\Shared\LoadReport.exe" }
+$loadReport = "$workingDirectory\Shared\LoadReport.exe"
 
 
 #Run ReportLoader.exe
