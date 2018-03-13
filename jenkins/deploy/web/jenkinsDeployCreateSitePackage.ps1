@@ -149,7 +149,6 @@ else
 		if (Test-Path -Path "$workingDirectory\RELEASE\sql-settings.xml")
 		{
 			gci -Path "$workingDirectory\RELEASE\sql-settings.xml" -File | Copy-Item -Destination $latestSitePkgDest
-			gci -Path "$workingDirectory\RELEASE\sql-settings.xml" -File | Copy-Item -Destination $releasePath
 		}
 		else
 		{
