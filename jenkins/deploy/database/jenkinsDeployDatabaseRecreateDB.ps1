@@ -19,6 +19,7 @@ param
 )
 
 $workingDirectory = "$($ENV:WORKSPACE)\RELEASE"
+#$workingDirectory = "\\jia-jenkins1\d$\deploy\TEST_2095AU_hg_Deploy\RELEASE"
 
 #get json config info for sql server and dbname and possibly backup drive.
 $json = Get-Content $config_json -Raw | ConvertFrom-Json
@@ -30,7 +31,15 @@ $recreatDBEngine = New-Object -TypeName jDeployPowerShellTasks.RecreateDB.PSRecr
 
 $request = New-Object -TypeName jDeployPowerShellTasks.RecreateDB.RecreateDBRequest
 $request.WorkingFolder = "$workingDirectory"
+$request.SqlSettingsFilePath = "$workingDirectory"
 $request.DatabaseName = $dbname
 
-$result = $recreatDBEngine.Execute($request)
+try
+{
+	Write-Host "Marco"
+	$result = $recreatDBEngine.Execute($request)
+}
+catch {Write-Host "Polo" }
+
+
 
