@@ -18,6 +18,8 @@ param
 	[string]$deploy_env
 )
 
+$workingDirectory = "$($ENV:WORKSPACE)\RELEASE"
+
 #get json config info for sql server and dbname and possibly backup drive.
 $json = Get-Content $config_json -Raw | ConvertFrom-Json
 $dbname = $json.$driver.environments.$deploy_env.sql.dbName
