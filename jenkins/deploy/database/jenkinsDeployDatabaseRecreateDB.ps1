@@ -26,6 +26,7 @@ $json = Get-Content $config_json -Raw | ConvertFrom-Json
 $dbname = $json.$driver.environments.$deploy_env.sql.dbName
 
 [System.Reflection.Assembly]::LoadFrom("$workingDirectory\Bootstrap\jDeployPowerShellTasks.dll")
+#[System.Reflection.Assembly]::LoadFrom("C:\TestJenkins\jDeployPowerShellTasks.dll")
 $recreatDBEngine = New-Object -TypeName jDeployPowerShellTasks.RecreateDB.PSRecreateDB
 
 
@@ -33,13 +34,20 @@ $request = New-Object -TypeName jDeployPowerShellTasks.RecreateDB.RecreateDBRequ
 $request.WorkingFolder = "$workingDirectory"
 $request.SqlSettingsFilePath = "$workingDirectory"
 $request.DatabaseName = $dbname
+$request.verbose = $True
 
 try
 {
 	Write-Host "Marco"
 	$result = $recreatDBEngine.Execute($request)
 }
-catch {Write-Host "Polo" }
+catch
+{
+	$ErrorMessage = $_.Exception.Message
+	Write-Error $ErrorMessage	
+}
+
+Write-Host "Polo?"
 
 
 

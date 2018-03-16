@@ -63,12 +63,20 @@ $scriptOP = "$schemaUpdateDir\$schemaUpdateScript"
 $reportOP = "$schemaUpdateDir\$deployReportXML"
 $cs = ('"' + $env:ConnectionString + '"')
 
-$scriptAction = "Script"
-$scriptParam = "/Action:$scriptAction /SourceFile:$sf /tsn:$($sqlserver) /tdn:$($dbName) /p:IncludeCompositeObjects=true /p:ScriptDatabaseOptions=false /p:DropDmlTriggersNotInSource=False /p:BlockOnPossibleDataLoss=true /p:CommandTimeout=0 /OutputPath:$scriptOP"
-Write-Output "Generate Change Script"
-Write-Output "Args: $scriptParam"
-Write-Output ("$exe" + " " + $scriptParam)
-Start-Process -FilePath "$exe" -ArgumentList $scriptParam -PassThru -Wait -RedirectStandardError "$schemaUpdateDir\SchemaUpdate_$dbName_$($build_time).log"
+try
+{
+	$scriptAction = "Script"
+	$scriptParam = "/Action:$scriptAction /SourceFile:$sf /tsn:$($sqlserver) /tdn:$($dbName) /p:IncludeCompositeObjects=true /p:ScriptDatabaseOptions=false /p:DropDmlTriggersNotInSource=False /p:BlockOnPossibleDataLoss=true /p:CommandTimeout=0 /OutputPath:$scriptOP"
+	Write-Output "Generate Change Script"
+	Write-Output "Args: $scriptParam"
+	Write-Output ("$exe" + " " + $scriptParam)
+	Start-Process -FilePath "$exe" -ArgumentList $scriptParam -PassThru -Wait -RedirectStandardError "$schemaUpdateDir\SchemaUpdate_$dbName_$($build_time).log"
+}
+catch
+{
+	$ErrorMessage = $_.Exception.Message
+	Write-Error $ErrorMessage
+}
 
 if (Test-Path -path "$schemaUpdateDir\$schemaUpdateScript")
 {
@@ -76,10 +84,19 @@ if (Test-Path -path "$schemaUpdateDir\$schemaUpdateScript")
 	$prependLines + (Get-Content $path -Raw) | Set-Content $path
 }
 
-$reportAction = "DeployReport"
-$reportParam = "/Action:$reportAction /SourceFile:$sf /tsn:$sqlserver /tdn:$dbName /p:IncludeCompositeObjects=true /p:ScriptDatabaseOptions=false /p:DropDmlTriggersNotInSource=False /p:BlockOnPossibleDataLoss=true /p:CommandTimeout=0 /OutputPath:$reportOP"
-Write-Output "Generate DeployReport"
-Write-Output "Args: $reportParam"
-Write-Output ("$exe" + " " + $reportParam)
-Start-Process -FilePath "$exe" -ArgumentList $reportParam -PassThru -Wait -RedirectStandardError "$schemaUpdateDir\DeployReport_$($build_time).log"
+try
+{
+	$reportAction = "DeployReport"
+	$reportParam = "/Action:$reportAction /SourceFile:$sf /tsn:$sqlserver /tdn:$dbName /p:IncludeCompositeObjects=true /p:ScriptDatabaseOptions=false /p:DropDmlTriggersNotInSource=False /p:BlockOnPossibleDataLoss=true /p:CommandTimeout=0 /OutputPath:$reportOP"
+	Write-Output "Generate DeployReport"
+	Write-Output "Args: $reportParam"
+	Write-Output ("$exe" + " " + $reportParam)
+	Start-Process -FilePath "$exe" -ArgumentList $reportParam -PassThru -Wait -RedirectStandardError "$schemaUpdateDir\DeployReport_$($build_time).log"
+}
+catch
+{
+	$ErrorMessage = $_.Exception.Message
+	Write-Error $ErrorMessage
+}
+
 
