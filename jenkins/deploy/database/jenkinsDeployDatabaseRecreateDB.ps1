@@ -32,7 +32,6 @@ $recreatDBEngine = New-Object -TypeName jDeployPowerShellTasks.RecreateDB.PSRecr
 
 $request = New-Object -TypeName jDeployPowerShellTasks.RecreateDB.RecreateDBRequest
 $request.WorkingFolder = "$workingDirectory"
-$request.SqlSettingsFilePath = "$workingDirectory"
 $request.DatabaseName = $dbname
 $request.verbose = $True
 
