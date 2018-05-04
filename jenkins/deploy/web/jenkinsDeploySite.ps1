@@ -42,7 +42,7 @@ try
 	$json = Get-Content $config_json -Raw | ConvertFrom-Json
 	$webservers = $json.$driver.environments.$deploy_env.webservers | Get-Member -MemberType NoteProperty | select -ExpandProperty Name
 	$deployPkgDir = $json.$driver.environments.$deploy_env.pkgDir
-	$siteReleasePkgPath = gci -Path "$sitePkgDir\LatestSite" -Recurse | where { $_ -like '*_Site.zip' } | select -ExpandProperty FullName
+	$siteReleasePkgPath = gci -Path "$($ENV:pkgs_dir)\$($ENV:buildJobName)\LatestSite" -Recurse | where { $_ -like '*_Site.zip' } | select -ExpandProperty FullName
 	
 	#Loop through each web server
 	#Copy site to correct directory on each web server and extract.
