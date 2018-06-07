@@ -112,7 +112,7 @@ else
 			Expand-Archive -Path "$portal" -DestinationPath "$sitePath" -Force
 		}
 		
-		gci $releasePath -Recurse -Include Business.zip, Corporate.zip, Integration.zip, WebPWS.zip, version.txt | Remove-Item -Force -Recurse
+		gci $releasePath -Recurse -Include Business.zip, Corporate.zip, Integration.zip, WebPWS.zip | Remove-Item -Force -Recurse
 		
 		#Copy site files to Site folder. *Maybe add the correct web.config*
 		Write-Host "Copy site files to Site folder."
