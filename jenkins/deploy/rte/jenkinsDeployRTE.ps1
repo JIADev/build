@@ -29,7 +29,7 @@ $rteDir = $json.$driver.environments.$deploy_env.rte.rteDir
 $rteDrive = $json.$driver.environments.$deploy_env.rte.rteDrive
 $pkgDir = $json.$driver.environments.$deploy_env.pkgDir
 $rteBAKSDir = $json.$driver.environments.$deploy_env.siteBAKSDir
-$sharedPkgPath = gci -Path "$sitePkgDir\LatestSite" -Recurse | where { $_ -like '*_Shared.zip' } | select -ExpandProperty FullName
+$sharedPkgPath = gci -Path "$($ENV:pkgs_dir)\$($ENV:buildJobName)\LatestSite" -Recurse | where { $_ -like '*_Shared.zip' } | select -ExpandProperty FullName
 $rtePkgPath = "\\$rteIP\$($rteDrive)$\$pkgDir"
 
 try

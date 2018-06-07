@@ -15,7 +15,8 @@ param
 (
 	[Parameter(Mandatory = $true)]
 	[string]$ps_scripts_dir,
-	[string]$build_time
+	[string]$build_time,
+	[string]$buildJobName
 )
 #
 $deployPSScriptDir = "$ps_scripts_dir\deploy\web\"
@@ -26,11 +27,11 @@ $releasePath = "$workingDirectory\RELEASE"
 Write-Host "Release Path is $releasePath" -foreground Green
 $unprotectedReleasePath = "$workingDirectory\RELEASE-UNPROTECTED"
 Write-Host "Unprotected Release path is $unprotectedReleasePath" -foreground Green
-$latestSitePkgDest = "$($ENV:pkgs_dir)\$($ENV:driver)\LatestSite"
+$latestSitePkgDest = "$($ENV:pkgs_dir)\$buildJobName\LatestSite"
 Write-Host "Latest site package directory is $latestSitePkgDest" -foreground Green
-$archiveSitePkgDest = "$($ENV:pkgs_dir)\$($ENV:driver)\ArchiveSite"
+$archiveSitePkgDest = "$($ENV:pkgs_dir)\$buildJobName\ArchiveSite"
 Write-Host "Archive site directory is $archiveSitePkgDest" -foreground Green
-$releasePkgDest = "$($ENV:pkgs_dir)\$($ENV:driver)\ReleasePkg"
+$releasePkgDest = "$($ENV:pkgs_dir)\$buildJobName\ReleasePkg"
 Write-Host "Release package destination is $releasePkgDest" -foreground Green
 $protect = "$($ENV:protect)"
 Write-Host "Protection is set to $protect" -foreground Green
