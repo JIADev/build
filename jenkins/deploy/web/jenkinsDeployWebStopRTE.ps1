@@ -20,6 +20,11 @@ param
 	[string]$command
 )
 
+#create PSCred object for PSRemoting
+$user = "jenkon\ccnet_new"
+$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt") | ConvertTo-SecureString -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
+
 $cust = $driver.Substring(4)
 
 $rteScriptBlock = {
