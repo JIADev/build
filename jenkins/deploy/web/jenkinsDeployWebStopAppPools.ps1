@@ -32,6 +32,11 @@ param
 	[string]$command
 )
 
+#create PSCred object for PSRemoting
+$user = "jenkon\ccnet_new"
+$secPW = (Get-Content "$($ENV:secret_dir)\ccnet.txt" | ConvertTo-SecureString)
+$credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
+
 $appPoolScriptBlock = {
 	param
 	(
@@ -118,7 +123,7 @@ foreach ($webserver in $webservers)
 	$ip = $json.$driver.environments.$deploy_env.webservers.$webserver.ip
 	#	Write-Host $hostname
 	#	Write-Host $ip
-	Invoke-Command -ComputerName $hostname -ScriptBlock $appPoolScriptBlock -ArgumentList "$Command", "$custPrefix"
+	Invoke-Command -ComputerName $hostname -Credential $credential -ScriptBlock $appPoolScriptBlock -ArgumentList "$Command", "$custPrefix"
 	
 }
 
