@@ -18,6 +18,11 @@ param
 	[string]$deploy_env
 )
 
+#create PSCred object for PSRemoting
+$user = "jenkon\ccnet_new"
+$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt") | ConvertTo-SecureString -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
+
 $ErrorActionPreference = 'Stop'
 
 #get json config info for sql server and dbname and possibly backup drive.
@@ -31,7 +36,7 @@ $backupPath = $sqlBackupDir -replace ':', '$'
 $backupPath = "\\$sqlHostname\$backupPath"
 
 #check drive space?
-$freeSpace = (Invoke-Command -ComputerName $sqlHostname -ScriptBlock { Get-PSDrive -PSProvider FileSystem } | ? { $_.Name -eq $backupDrive } | select -ExpandProperty Free) / 1Gb
+$freeSpace = (Invoke-Command -ComputerName $sqlHostname -Credential $credential -ScriptBlock { Get-PSDrive -PSProvider FileSystem } | ? { $_.Name -eq $backupDrive } | select -ExpandProperty Free) / 1Gb
 $lastDBBakSize = (gci -Path $backupPath -Filter *.bak | sort LastWriteTime | select -Last 1 | select -ExpandProperty Length) / 1gb
 #Write-Host "file size $lastDBBakSize"
 
