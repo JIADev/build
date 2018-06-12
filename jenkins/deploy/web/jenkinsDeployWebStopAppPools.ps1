@@ -34,7 +34,7 @@ param
 
 #create PSCred object for PSRemoting
 $user = "jenkon\ccnet_new"
-$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt" | ConvertTo-SecureString)
+$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt") | ConvertTo-SecureString
 $credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
 
 $appPoolScriptBlock = {
