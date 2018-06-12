@@ -62,7 +62,7 @@ foreach ($server in $servers)
 	$ip = $json.$driver.environments.$deploy_env.rte.ip
 #		Write-Host $hostname
 #		Write-Host $ip
-	Invoke-Command -ComputerName $hostname -ScriptBlock $rteScriptBlock -ArgumentList "$Command", $rteService
+	Invoke-Command -ComputerName $hostname -Credential $credential -ScriptBlock $rteScriptBlock -ArgumentList "$Command", $rteService
 	
 }
 
