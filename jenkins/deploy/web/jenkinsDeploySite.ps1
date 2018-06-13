@@ -22,6 +22,11 @@ param
 	[string]$sitePkgDir
 )
 
+#create PSCred object for PSRemoting
+$user = "jenkon\ccnet_new"
+$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt") | ConvertTo-SecureString -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
@@ -61,11 +66,11 @@ try
 			Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
 			$psdrive = "$($hostname)SiteDeploy"
 			#			$psdrive = ls function:[d-z]: -n | ?{ !(test-path $_) } | random
-			New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath #-Persist
+			New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
 			#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
-			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
+			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose -Credential $credential
 			Write-Host "File copy complete."
-			Invoke-Command -ComputerName $hostname -FilePath "$deploySitePkgScriptPath" -ArgumentList $siteDrive, $siteDir, $siteBAKSDir, $deployPkgDir
+			Invoke-Command -ComputerName $hostname -Credential $credential -FilePath "$deploySitePkgScriptPath" -ArgumentList $siteDrive, $siteDir, $siteBAKSDir, $deployPkgDir
 		}
 		finally
 		{

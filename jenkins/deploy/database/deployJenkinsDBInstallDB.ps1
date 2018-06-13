@@ -20,6 +20,12 @@ param
 	[string]$build_time
 )
 
+#create PSCred object for PSRemoting
+$user = "jenkon\ccnet_new"
+$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt") | ConvertTo-SecureString -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
+
+
 $workingDirectory = "$($ENV:WORKSPACE)\RELEASE"
 #$workingDirectory = "C:\JCJenkins\workspace\1002\RELEASE"
 $schemaUpdateDir = "$workingDirectory\SchemaUpdate"

@@ -21,6 +21,11 @@ param
 	[string]$sitePkgDir
 )
 
+#create PSCred object for PSRemoting
+$user = "jenkon\ccnet_new"
+$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt") | ConvertTo-SecureString -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
+
 $deploySharedExtractRTEScriptPath = "$ps_scripts_dir\deploy\rte\jenkinsDeployExtractRTEOnServer.ps1"
 $json = Get-Content $config_json -Raw | ConvertFrom-Json
 $rteHostname = $json.$driver.environments.$deploy_env.rte.hostname
@@ -36,9 +41,9 @@ try
 {
 	#	$psdrive = ls function:[d-z]: -n | ?{ !(test-path $_) } | random
 	$psdrive = "$($hostname)RteDeploy"
-	New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $rtePkgPath #-Persist
-	Copy-Item -Path "$sharedPkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
-	Invoke-Command -ComputerName $rteHostname -FilePath "$deploySharedExtractRTEScriptPath" -ArgumentList "$rteDrive", "$rteDir", "$rteBAKSDir", "$pkgDir"
+	New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $rtePkgPath -Credential $credential #-Persist
+	Copy-Item -Path "$sharedPkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose -Credential $credential
+	Invoke-Command -ComputerName $rteHostname -Credential $credential -FilePath "$deploySharedExtractRTEScriptPath" -ArgumentList "$rteDrive", "$rteDir", "$rteBAKSDir", "$pkgDir"
 }
 finally
 {
