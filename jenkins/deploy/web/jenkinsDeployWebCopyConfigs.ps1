@@ -21,7 +21,7 @@ param
 
 #$siteDir should resolve to workingDirectory\Release\Site
 
-$configRepo = "\\jia-jenkins1\configs"
+$configRepo = "\\jia-jenkins1\E$\webConfigs"
 $configDir = "$configRepo\$driver\$deploy_env\Site"
 
 robocopy /S /Z /E $configDir $siteDir web.config
