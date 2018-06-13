@@ -68,7 +68,7 @@ try
 			#			$psdrive = ls function:[d-z]: -n | ?{ !(test-path $_) } | random
 			New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
 			#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
-			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose -Credential $credential
+			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
 			Write-Host "File copy complete."
 			Invoke-Command -ComputerName $hostname -Credential $credential -FilePath "$deploySitePkgScriptPath" -ArgumentList $siteDrive, $siteDir, $siteBAKSDir, $deployPkgDir
 		}
