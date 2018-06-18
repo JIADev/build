@@ -1,0 +1,5 @@
+C:\Dev\Git-Build\j6.BuildTools\bin\Debug\j6.BuildTools.dll
+C:\Dev\Git-Build\j6.BuildTools\bin\Debug\j6.BuildTools.pdb
+C:\Dev\Git-Build\j6.BuildTools\obj\Debug\j6.BuildTools.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools\obj\Debug\j6.BuildTools.dll
+C:\Dev\Git-Build\j6.BuildTools\obj\Debug\j6.BuildTools.pdb

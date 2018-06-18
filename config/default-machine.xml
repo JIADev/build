@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-  <release>
-    <buildroot>C:\J6-RELEASE</buildroot>
-  </release>
-  <debug>
-    <buildroot>C:\J6-DEBUG</buildroot>
-  </debug>
-</config>

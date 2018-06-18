@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37873425-6971-493A-B0F5-146D05475815}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>j6.BuildTools.Scripts.Jenkins</RootNamespace>
+    <AssemblyName>j6.BuildTools.Scripts.Jenkins</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\j6.BuildTools\Properties\SharedAssemblyVersionInfo.cs">
+      <Link>Properties\SharedAssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="j6.BuildTools.Scripts.Jenkins.nuspec" />
+    <None Include="packages.config" />
+    <None Include="tools\build\cleanUpOldReleasePackages.ps1" />
+    <None Include="tools\build\ensurePackageFoldersExist.ps1" />
+    <None Include="tools\build\jenkinsBuildCreateReleasePackage.ps1" />
+    <None Include="tools\deploy\database\deployJenkinsDBInstallDB.ps1" />
+    <None Include="tools\deploy\database\deployJenkinsDBScriptDacPacs.ps1" />
+    <None Include="tools\deploy\database\deployJenkinsDBUpdateAppSettings.ps1" />
+    <None Include="tools\deploy\database\deployJenkinsDBUpdateRpt.ps1" />
+    <None Include="tools\deploy\database\deployJenkinsNewDBInstallDB.ps1" />
+    <None Include="tools\deploy\database\deployJenkinsNewDBScriptDacPacs.ps1" />
+    <None Include="tools\deploy\database\jenkinsDeployCreateSQLSettings.ps1" />
+    <None Include="tools\deploy\database\jenkinsDeployDatabaseBackupDB.ps1" />
+    <None Include="tools\deploy\database\jenkinsDeployDatabaseRecreateDB.ps1" />
+    <None Include="tools\deploy\jenkinsDeployCleanUp.ps1" />
+    <None Include="tools\deploy\redis\deployFlushRedis.ps1" />
+    <None Include="tools\deploy\reports\deployJenkinsDeployLoadRpt.ps1" />
+    <None Include="tools\deploy\reports\unfinished_deployJenkinsDeploySSRS.ps1" />
+    <None Include="tools\deploy\rte\jenkinsDeployExtractRTEOnServer.ps1" />
+    <None Include="tools\deploy\rte\jenkinsDeployRTE.ps1" />
+    <None Include="tools\deploy\web\deployJenkinsSpinUpSites.ps1" />
+    <None Include="tools\deploy\web\jenkinsDebugDeployCreateSitePackage.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeployCreateSitePackage.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeployExpandWebConfig.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeployExtractSiteOnServer.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeploySite.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeployWebCopyConfigs.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeployWebCreateReleasePackageStructure.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeployWebStopAppPools.ps1" />
+    <None Include="tools\deploy\web\jenkinsDeployWebStopRTE.ps1" />
+    <None Include="tools\test\JOLTest.ps1" />
+    <None Include="package.builder.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\deploy\database\usp_deployJenkinsDBAppSettingsUpdateScript.sql" />
+    <None Include="tools\deploy\database\usp_deployJenkinsDBRecreateDBScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="tools\pipeline\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets" Condition="Exists('..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets'))" />
+  </Target>
+</Project>

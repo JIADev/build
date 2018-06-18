@@ -1,0 +1,10 @@
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\bin\Debug\DeploymentMsBuildTasks.targets
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\bin\Debug\j6.BuildTools.jTools.DeploymentMsBuildTasks.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\bin\Debug\j6.BuildTools.jTools.DeploymentMsBuildTasks.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\bin\Debug\j6.BuildTools.jTools.DeploymentConfiguration.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\bin\Debug\j6.BuildTools.jTools.DeploymentConfiguration.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\obj\Debug\j6.BuildTools.jTools.DeploymentMsBuildTasks.csprojAssemblyReference.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\obj\Debug\j6.BuildTools.jTools.DeploymentMsBuildTasks.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\obj\Debug\j6.BuildTools.jTools.DeploymentMsBuildTasks.csproj.CopyComplete
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\obj\Debug\j6.BuildTools.jTools.DeploymentMsBuildTasks.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentMsBuildTasks\obj\Debug\j6.BuildTools.jTools.DeploymentMsBuildTasks.pdb

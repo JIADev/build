@@ -1,0 +1,5 @@
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Powershell\bin\Debug\j6.BuildTools.Scripts.Powershell.dll
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Powershell\bin\Debug\j6.BuildTools.Scripts.Powershell.pdb
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Powershell\obj\Debug\j6.BuildTools.Scripts.Powershell.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Powershell\obj\Debug\j6.BuildTools.Scripts.Powershell.dll
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Powershell\obj\Debug\j6.BuildTools.Scripts.Powershell.pdb

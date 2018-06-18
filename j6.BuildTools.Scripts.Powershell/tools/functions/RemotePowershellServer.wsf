@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <job>
+    <script language="JScript">
+
+			function runPSCommand(path,cmd) {
+				var shell = new ActiveXObject("WScript.Shell");
+				shell.CurrentDirectory = path ;
+				var ret = shell.Run("powershell -command " + cmd, 0, true );
+			}
+
+			var basePath = WScript.Arguments.Named.item("path");
+			var scr = WScript.Arguments.Named.item("script");
+			var en = new Enumerator(WScript.Arguments.Unnamed);
+			var cmd = scr;
+			while(!en.atEnd()){
+				cmd += " " + en.item();
+				en.moveNext();
+			}
+
+			runPSCommand(basePath, cmd);
+
+    </script>
+  </job>
+</package>

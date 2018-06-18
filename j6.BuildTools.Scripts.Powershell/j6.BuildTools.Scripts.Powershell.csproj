@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7DE3B9C1-F421-47DE-BF8E-9ABCE90CB24A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>j6.BuildTools.Scripts.Powershell</RootNamespace>
+    <AssemblyName>j6.BuildTools.Scripts.Powershell</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\j6.BuildTools\Properties\SharedAssemblyVersionInfo.cs">
+      <Link>Properties\SharedAssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\console\cleancode.ps1" />
+    <None Include="tools\console\cleanjunctions.ps1" />
+    <None Include="tools\console\console.bat" />
+    <None Include="tools\console\createbuild.ps1" />
+    <None Include="tools\console\customerInfo.ps1" />
+    <None Include="tools\console\deleteall.ps1" />
+    <None Include="tools\console\fastclone.ps1" />
+    <None Include="tools\console\forwardmergeActive.ps1" />
+    <None Include="tools\console\ftr.bat" />
+    <None Include="tools\console\graftchanges.ps1" />
+    <None Include="tools\console\j6.cmd" />
+    <None Include="tools\console\j6.ps1" />
+    <None Include="tools\console\jslint.bat" />
+    <None Include="tools\console\labelbuild.ps1" />
+    <None Include="tools\console\mercurialTasks.ps1" />
+    <None Include="tools\console\publish.ps1" />
+    <None Include="tools\console\pushtask.ps1" />
+    <None Include="tools\console\revertall.ps1" />
+    <None Include="tools\console\set-shortcut.ps1" />
+    <None Include="tools\console\startGraftCommon.ps1" />
+    <None Include="tools\console\starttask.ps1" />
+    <None Include="tools\console\trash.ps1" />
+    <None Include="tools\console\trashbranches.ps1" />
+    <None Include="tools\console\which.ps1" />
+    <None Include="tools\functions\bootstrap.ps1" />
+    <None Include="tools\functions\build-cc.ps1" />
+    <None Include="tools\functions\build-ndepend.ps1" />
+    <None Include="tools\functions\build-release.ps1" />
+    <None Include="tools\functions\build.ps1" />
+    <None Include="tools\functions\commit-svnhg.ps1" />
+    <None Include="tools\functions\convert-resx.ps1" />
+    <None Include="tools\functions\core.ps1" />
+    <None Include="tools\functions\deployments.ps1" />
+    <None Include="tools\functions\document-controls.ps1" />
+    <None Include="tools\functions\enable-broker.ps1" />
+    <None Include="tools\functions\feature-control.ps1" />
+    <None Include="tools\functions\featurebuild.ps1" />
+    <None Include="tools\functions\generate-tiers.ps1" />
+    <None Include="tools\functions\get-delegate.ps1" />
+    <None Include="tools\functions\get-unused-controls.ps1" />
+    <None Include="tools\functions\get-unused-javascript.ps1" />
+    <None Include="tools\functions\install-realtime.ps1" />
+    <None Include="tools\functions\mask_functions.ps1" />
+    <None Include="tools\functions\runtests.ps1" />
+    <None Include="tools\functions\Scramble-Names.ps1" />
+    <None Include="tools\functions\Set-ConsoleIcon.ps1" />
+    <None Include="tools\functions\Set-FormsAuth.ps1" />
+    <None Include="tools\functions\Sql-Utils.ps1" />
+    <None Include="tools\functions\subversion.ps1" />
+    <None Include="tools\functions\svnlog.ps1" />
+    <None Include="tools\functions\uninstall-realtime.ps1" />
+    <None Include="tools\misc\changelog.xsl" />
+    <None Include="tools\misc\cloc.def" />
+    <None Include="tools\msbuild_targets\dependencymerge.targets" />
+    <None Include="tools\msbuild_targets\forwardmerge.targets" />
+    <None Include="tools\msbuild_targets\releasecandidate.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\functions\RemotePowershellClient.wsf" />
+    <None Include="tools\functions\RemotePowershellServer.wsf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\msbuild_targets\buildtools.proj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="j6.BuildTools.Scripts.Powershell.nuspec" />
+    <None Include="package.builder.json" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets" Condition="Exists('..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuGet.Package.Builder.1.0.12\build\NuGet.Package.Builder.targets'))" />
+  </Target>
+</Project>

@@ -1,0 +1,8 @@
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\bin\Debug\DeploymentConfiguration.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\bin\Debug\DeploymentConfiguration.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\obj\Debug\DeploymentConfiguration.csprojAssemblyReference.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\obj\Debug\DeploymentTool.EditDialog.resources
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\obj\Debug\DeploymentConfiguration.csproj.GenerateResource.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\obj\Debug\DeploymentConfiguration.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\obj\Debug\DeploymentConfiguration.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentConfiguration\obj\Debug\DeploymentConfiguration.pdb

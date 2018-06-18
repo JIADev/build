@@ -1,0 +1,5 @@
+C:\Dev\Git-Build\j6.BuildTools.ExternalUtilities\bin\Debug\j6.BuildTools.ExternalUtilities.dll
+C:\Dev\Git-Build\j6.BuildTools.ExternalUtilities\bin\Debug\j6.BuildTools.ExternalUtilities.pdb
+C:\Dev\Git-Build\j6.BuildTools.ExternalUtilities\obj\Debug\j6.BuildTools.ExternalUtilities.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.ExternalUtilities\obj\Debug\j6.BuildTools.ExternalUtilities.dll
+C:\Dev\Git-Build\j6.BuildTools.ExternalUtilities\obj\Debug\j6.BuildTools.ExternalUtilities.pdb

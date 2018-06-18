@@ -1,0 +1,17 @@
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentMsBuildTasks.targets
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\ScriptTargets.proj
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentTool.exe.config
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentTool.exe
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentTool.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentConfiguration.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentMsBuildTasks.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentConfiguration.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\bin\Debug\DeploymentMsBuildTasks.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.csprojAssemblyReference.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.MainForm.resources
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.Properties.Resources.resources
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.csproj.GenerateResource.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.csproj.CopyComplete
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.exe
+C:\Dev\Git-Build\j6.BuildTools.jTools.DeploymentTool\obj\x86\Debug\DeploymentTool.pdb

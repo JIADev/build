@@ -1,0 +1,8 @@
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\obj\Debug\j6.BuildTools.jTools.MsBuildTasks.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\bin\Ionic.Zip.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\obj\Debug\j6.BuildTools.jTools.MsBuildTasks.csproj.CopyComplete
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\bin\j6.BuildTools.jTools.MsBuildTasks.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\bin\j6.BuildTools.jTools.MsBuildTasks.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\obj\Debug\j6.BuildTools.jTools.MsBuildTasks.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\obj\Debug\j6.BuildTools.jTools.MsBuildTasks.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.MsBuildTasks\obj\Debug\j6.BuildTools.jTools.MsBuildTasks.csprojAssemblyReference.cache

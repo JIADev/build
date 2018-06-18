@@ -1,0 +1,6 @@
+C:\Dev\Git-Build\j6.BuildTools.jTools.UiUxTools\bin\Debug\j6.BuildTools.jTools.UiUxTools.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.UiUxTools\bin\Debug\j6.BuildTools.jTools.UiUxTools.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.UiUxTools\obj\Debug\j6.BuildTools.jTools.UiUxTools.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.UiUxTools\obj\Debug\j6.BuildTools.jTools.UiUxTools.dll
+C:\Dev\Git-Build\j6.BuildTools.jTools.UiUxTools\obj\Debug\j6.BuildTools.jTools.UiUxTools.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.UiUxTools\obj\Debug\j6.BuildTools.jTools.UiUxTools.csprojAssemblyReference.cache

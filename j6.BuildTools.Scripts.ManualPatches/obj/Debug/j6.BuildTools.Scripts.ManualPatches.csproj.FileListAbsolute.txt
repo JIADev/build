@@ -1,0 +1,6 @@
+C:\Dev\Git-Build\j6.BuildTools.Scripts.ManualPatches\bin\Debug\j6.BuildTools.Scripts.ManualPatches.dll
+C:\Dev\Git-Build\j6.BuildTools.Scripts.ManualPatches\bin\Debug\j6.BuildTools.Scripts.ManualPatches.pdb
+C:\Dev\Git-Build\j6.BuildTools.Scripts.ManualPatches\obj\Debug\j6.BuildTools.Scripts.ManualPatches.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.Scripts.ManualPatches\obj\Debug\j6.BuildTools.Scripts.ManualPatches.dll
+C:\Dev\Git-Build\j6.BuildTools.Scripts.ManualPatches\obj\Debug\j6.BuildTools.Scripts.ManualPatches.pdb
+C:\Dev\Git-Build\j6.BuildTools.Scripts.ManualPatches\obj\Debug\j6.BuildTools.Scripts.ManualPatches.csprojAssemblyReference.cache

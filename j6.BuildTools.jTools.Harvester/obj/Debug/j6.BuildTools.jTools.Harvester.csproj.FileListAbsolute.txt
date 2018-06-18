@@ -1,0 +1,7 @@
+C:\Dev\Git-Build\j6.BuildTools.jTools.Harvester\bin\Debug\j6.BuildTools.jTools.Harvester.exe.config
+C:\Dev\Git-Build\j6.BuildTools.jTools.Harvester\bin\Debug\j6.BuildTools.jTools.Harvester.exe
+C:\Dev\Git-Build\j6.BuildTools.jTools.Harvester\bin\Debug\j6.BuildTools.jTools.Harvester.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.Harvester\obj\Debug\j6.BuildTools.jTools.Harvester.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.jTools.Harvester\obj\Debug\j6.BuildTools.jTools.Harvester.exe
+C:\Dev\Git-Build\j6.BuildTools.jTools.Harvester\obj\Debug\j6.BuildTools.jTools.Harvester.pdb
+C:\Dev\Git-Build\j6.BuildTools.jTools.Harvester\obj\Debug\j6.BuildTools.jTools.Harvester.csprojAssemblyReference.cache

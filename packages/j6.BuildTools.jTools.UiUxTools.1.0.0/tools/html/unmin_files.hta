@@ -1,0 +1,78 @@
+﻿A<!doctype html>
+<html>
+
+<hta:application
+	id="TestHTA"
+	applicationname="UiUxToolsRenameCss"
+	scroll="no"
+	singleinstance="yes"
+	sysmenu="yes"
+	minimizebutton="yes"
+	maximizebutton="no"
+	windowstate="normal"
+	navigable="yes" />
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script src="../Script/includes.js"></script>
+
+	<script src="../Script/jsbeautifier/beautify-css.js"></script>
+	<script src="../Script/jsbeautifier/beautify-html.js"></script>
+	<script src="../Script/jsbeautifier/beautify.js"></script>
+	<script src="../Script/unmin_files.js"></script>
+
+	<title>UiUx Tools</title>
+</head>
+<body onload="init()">
+	<div class="is-css-reference">
+		<p>
+			Some of the packages that j6 uses, such as Kendo, come with 
+                pre-minified <code>.css</code> files.  By default, the MVC bundler ignores 
+                minified files in debug mode.
+		</p>
+		<p>
+			This routine will rename <code>*.min.css</code> files in a given directory
+                to <code>*.${VERSION}.css</code>.
+		</p>
+	</div>
+
+	<div class="is-js-reference">
+		<p>
+			Some of the packages that j6 uses, such as Kendo, come with 
+                pre-minified <code>.js</code> files.  By default, the MVC bundler ignores 
+                minified files in debug mode.
+		</p>
+		<p>
+			This routine will rename <code>*.min.js</code> files in a given directory
+                to <code>*.${VERSION}.js</code>.
+		</p>
+	</div>
+
+
+	<form onsubmit="return false;" action="#" id="rename_css">
+		<fieldset>
+			<caption>Choose the source and destination directories.</caption>
+
+			<div>
+				<label for="source">Source Directory:</label>
+				<input name="source" id="source" />
+				<button onclick="choose_source()">...</button>
+			</div>
+
+			<div>
+				<label for="dest">Dest Directory:</label>
+				<input name="dest" id="dest" />
+				<button onclick="choose_dest()">...</button>
+			</div>
+		</fieldset>
+		<button id="processNameButton" onclick="processNameList()">Build File List</button>
+		<button disabled="disabled" id="processFileConvertButton">Convert Files</button>
+	</form>
+
+	<div id="filelist">
+		No files to display yet            
+	</div>
+
+
+</body>
+</html>

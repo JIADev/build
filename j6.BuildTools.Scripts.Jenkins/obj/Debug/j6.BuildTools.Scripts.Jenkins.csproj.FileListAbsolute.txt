@@ -1,0 +1,6 @@
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Jenkins\bin\Debug\j6.BuildTools.Scripts.Jenkins.dll
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Jenkins\bin\Debug\j6.BuildTools.Scripts.Jenkins.pdb
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Jenkins\obj\Debug\j6.BuildTools.Scripts.Jenkins.csproj.CoreCompileInputs.cache
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Jenkins\obj\Debug\j6.BuildTools.Scripts.Jenkins.dll
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Jenkins\obj\Debug\j6.BuildTools.Scripts.Jenkins.pdb
+C:\Dev\Git-Build\j6.BuildTools.Scripts.Jenkins\obj\Debug\j6.BuildTools.Scripts.Jenkins.csprojAssemblyReference.cache
