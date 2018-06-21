@@ -1,17 +1,6 @@
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-
-if (test-path ".\.git")
-{
-	& "$scriptPath\jcmd.ps1" StartTask $args
-	exit $LastExitCode
-}
-
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
-. "$scriptPath\customerInfo.ps1"
-. "$scriptPath\startgraftCommon.ps1"
-
-Write-Host "Updating $scriptPath"
-$updateSuccess = updateBuildTools $scriptPath
+. "$PSScriptRoot\..\customerInfo.ps1"
+. "$PSScriptRoot\_shared\startgraftCommon.ps1"
 
 $usageMessage = 'Usage: starttask <customerNumber> <RM or TFS Number> [<additional Revisions>]
 Examples:
@@ -26,12 +15,15 @@ setupBranch $config.customerNumber $config.taskNumber $config.graftRevision $con
 $config.graftRevision | foreach {
 	$mergeBranch = [string]$config.customerNumber + '_' + $_
 	
-	hg merge $mergeBranch --tool=internal:merge
+	#h-g merge $mergeBranch --tool=internal:merge
+	SourceControl_Merge $mergeBranch $true
 	if($LastExitCode -ne 0) { 
-		hg resolve --all
+		#h-g resolve --all
+		SourceControl_ResolveAll
 	}
-	hg ci -m "@merge $mergeBranch"
+	#h-g ci -m "@merge $mergeBranch"
+	SourceControl_Commit "@merge $mergeBranch" $false
 }
 $currentBranch = getCurrentBranch
 
-Write-Host "Don't forget to hg commit.  Working directory is now branch $currentBranch"
+Write-Host "Don't forget to commit.  Working directory is now branch $currentBranch"

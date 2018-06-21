@@ -1,0 +1,6 @@
+Code/bin/
+Code/obj/
+SnapIns.InstallLog
+SnapIns.InstallState
+.vscode/
+.vs/

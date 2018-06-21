@@ -1,37 +1,25 @@
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+. "$PSScriptRoot\..\customerInfo.ps1"
+. "$PSScriptRoot\_shared\startGraftCommon.ps1"
 
-if (test-path ".\.git")
-{
-	& "$scriptPath\jcmd.ps1" PushTask $args
-	exit $LastExitCode
-}
-
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-. "$scriptPath\mercurialTasks.ps1"
-. "$scriptPath\customerInfo.ps1"
-. "$scriptPath\startGraftCommon.ps1"
-
-Write-Host "Updating $scriptPath"
-$updateSuccess = updateBuildTools
-
-$mergeSwitch = ''
+$mergeSwitch = $false
 $noComment = 'true'
 $args | foreach {
       if([string]$_ -eq '--tool=internal:merge') {
-      	$mergeSwitch = $_
+      	$mergeSwitch = $true
       } else {
             $noComment = 'false'
 	}
 }
 
 if($noComment -eq 'false') {
-	& hg ci -m "$args"
+	#& h-g ci -m "$args"
+	SourceControl_Commit "$args"
 	if($LastExitCode -ne 0) { 
 		Write-Host "Commit failed"
 		Exit
 	}
 }
-$currentBranch = getCurrentBranch
+$currentBranch = SourceControl_GetCurrentBranch
 
 if($currentBranch -eq '') { 
 	Write-Host "Cannot determine my branch"
@@ -58,51 +46,49 @@ $pushBranch = $currentBranch
 if($ongoingBranches) {
 	foreach($ongoingBranch in $ongoingBranches) {
 		Write-Host "Pulling from server"
-		& hg pull
+		#& h-g pull
+		SourceControl_Pull
 		if($pushBranch -eq $currentBranch -and $pushBranch -ne $ongoingBranch) {
 			Write-Host "Closing branch $currentBranch"
-			& hg ci -m "Completing task @build" --close-branch
+			#& h-g ci -m "Completing task @build" --close-branch
+			SourceControl_CommitAndClose "Completing task @build"
 		}
 		if($ongoingBranch -ne '') {
 			Write-Host "Updating to branch $ongoingBranch"
-			& hg up $ongoingBranch
-			if($LastExitCode -ne 0) { 
-				Write-Host "Cannot update to $ongoingBranch"
-				Exit
-			}
+			#& h-g up $ongoingBranch
+			SourceControl_SetBranch $ongoingBranch
+			SourceControl_Pull
 
 			if($pushBranch -ne $ongoingBranch) {
 				Write-Host "Merging $pushBranch to $ongoingBranch"
-				& hg merge $pushBranch $mergeSwitch
-				if($LastExitCode -ne 0) { 
-					& hg resolve --all
-					if($LastExitCode -ne 0) { 
-						Write-Host "Cannot merge $pushBranch to $ongoingBranch"
-						Exit
-					}
-				}
+				#& h-g merge $pushBranch $mergeSwitch
+				SourceControl_Merge $pushBranch $mergeSwitch
 			}
 			Write-Host "Committing Merge"
-			& hg ci -m "@merge $pushBranch"
+			#& h-g ci -m "@merge $pushBranch"
+			SourceControl_Commit "@merge $pushBranch"
 			$pushBranch = $ongoingBranch
 		}
 	}	
 } else {
 	if($pushBranch -eq $currentBranch) {
 		Write-Host "Closing branch $currentBranch"
-		& hg ci -m "Completing task @build" --close-branch
+		#& h-g ci -m "Completing task @build" --close-branch
+		SourceControl_CommitAndClose "Completing task @build"
 	}
 }
 
 $currentDir = Convert-Path .
 
-& hg outgoing -b $pushBranch
+#& h=g outgoing -b $pushBranch
+SourceControl_GetOutgoingChanges $pushBranch
 $confirmation = Read-Host "This will push these changes in $currentDir to the server. (y/n?)"
 if($confirmation -eq 'y') {
-	pushChanges $pushBranch
+	SourceControl_pushChanges $pushBranch
 } else {
   Write-Host "Not pushed, updating to $currentBranch"
-  & hg up $currentBranch
+  #& h-g up $currentBranch
+  SourceControl_UpdateBranch $currentBranch
 }
 
 $currentBranch = getCurrentBranch
