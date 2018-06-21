@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0"> 
+  <ItemGroup>
+    <PatchLoaderSwitch Include="--semiinteractive" Condition="'$(PatchLoaderSwitches)' != '--noninteractive'" />
+    <PatchLoaderSwitch Include="--noninteractive" Condition="'$(PatchLoaderSwitches)' == '--noninteractive'" />
+    <PatchLoaderSwitch Include="--verbose" Condition="'$(Verbose)' == 'true'" />
+    <PatchLoaderSwitch Include="--exit-for-noop" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Platform>AnyCPU</Platform>
+    <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
+    <Feature>$(MSBuildThisFileDirectory)Packages\Jenkon\Feature.exe</Feature>
+    <PatchLoader>$([System.IO.Path]::Combine($(MsBuildThisFileDirectory), "Packages", "Jenkon", "PatchLoader.exe"))</PatchLoader>
+    <PowerShellExe Condition=" '$(PowerShellExe)'=='' ">$(WINDIR)\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellExe>
+    <BuildToolsDirectory Condition="Exists('C:\dev\build\buildtools.proj')">c:\dev\build</BuildToolsDirectory>
+    <BuildToolsDirectory Condition="Exists('C:\build\buildtools.proj')">c:\build</BuildToolsDirectory>
+    <PSSetShortcut Condition="'$(PSSetShortcut)' == '' AND Exists('$(BuildToolsDirectory)\set-shortcut.ps1')">$(PowerShellExe) -ExecutionPolicy Unrestricted -NonInteractive -NoLogo $(BuildToolsDirectory)\set-shortcut.ps1</PSSetShortcut>
+    <MinSuffix>.min</MinSuffix>
+    <MinVisualStudioVersion>11.0</MinVisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == '' OR $(VisualStudioVersion) == '10.0'">$(MinVisualStudioVersion)</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="Config.targets" Condition="Exists('Config.targets')"/>
+  <Import Project="deploy.targets" Condition="Exists('deploy.targets')" />
+  <Import Project=".nuget\NuGet.targets" />
+<UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Packages\JSLintNet.MSBuild.1.6.2\tools\JSLintNet.Console.exe" TaskName="JSLintTask" />
+  <Target Name = "LoadBranch" Condition="Exists('$(MsBuildProjectDirectory)\.hg')">
+    <Exec WorkingDirectory="$([MSBuild]::ValueOrDefault(`$(SourceDir)`, '.'))" Command = "hg branch > $(MsBuildProjectDirectory)\branch.txt" />
+    <ReadLinesFromFile File="$(MsBuildProjectDirectory)\branch.txt" >
+      <Output TaskParameter = "Lines" PropertyName="Branch" />
+    </ReadLinesFromFile>
+    <Message Text="Branch: $(Branch)" />
+    <Delete Files="$(MsBuildProjectDirectory)\branch.txt" />
+  </Target>
+  
+  <Target Name="CleanJunctions" Condition="Exists($(Feature))">        
+    <Exec Command = "$(Feature) cleanjunctions" />
+    <Delete Files="$(j6Root)\all.sln.lnk;$(j6Root)\$(DriverFeature).WebTest.sln.lnk;$(j6Root)\data.sln.lnk;$(j6Root)\engine.sln.lnk;$(j6Root)\integration.sln.lnk;$(j6Root)\logic.sln.lnk;$(j6Root)\tools.sln.lnk;$(j6Root)\web.sln.lnk;$(j6Root)\web-BusinessPortal(DEV).sln.lnk;$(j6Root)\j6.PersonalSite.sln.lnk;" />
+  </Target>
+  
+  <Target Name="BuildDatabaseProjects">
+    <ItemGroup>
+      <DatabaseProjects Include="$(DriverFeature)\Private\Project\$(DriverFeature).Database\*.sqlproj" />
+    </ItemGroup>
+    <MSBuild Projects="@(DatabaseProjects)" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+
+  <Target Name="Patch" DependsOnTargets="BuildDatabaseProjects;Bootstrap;InstallDatabase" />
+  
+  <Target Name="Package">
+    <RemoveDir Directories="Package;RELEASE;RELEASE-UNPROTECTED" />
+    <!-- Publishes any ClickOnce application into the portals before packaging -->
+    <MSBuild Projects="$(DriverFeature)\Feature.proj" Targets="Publish" Properties="Platform=$(Platform);Configuration=Release;DefineConstants=$(DefineConstants);VisualStudioVersion=$(VisualStudioVersion)"/>
+    <ItemGroup>
+      <_DacPac Include="$(MsBuildProjectDirectory)\Build\*.dacpac" />
+    </ItemGroup>
+    <Copy 
+	SourceFiles="@(_DacPac)"
+	DestinationFolder="$(MsBuildProjectDirectory)\$(DriverFeature)\Assembly" />
+    <MSBuild Projects="@(FeatureProjects)" Targets="Package" Properties="Platform=$(Platform);Configuration=Release;DefineConstants=$(DefineConstants);VisualStudioVersion=$(VisualStudioVersion)"/>
+    <Exec Command="$(Feature) package Package $(DriverFeature) --dir=$(MSBuildProjectDirectory) --sourcepath=$(SourcePath) --source" Condition="$(IncludeSource) == 'true'" />
+    <Exec Command="$(Feature) package Package $(DriverFeature) --dir=$(MSBuildProjectDirectory) --sourcepath=$(SourcePath)" Condition="$(IncludeSource) != 'true'" />
+  </Target>
+  
+  <Target Name="ShowVSVersion">
+    <Message Text="VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+  
+  <Target Name="Configure" DependsOnTargets="SetConfigTemplate;WriteConfiguration;SetCustomer;ShowConfig" />
+  
+  <Target Name="SetBuildConfigDefaults" DependsOnTargets="LoadFeatures;LoadBranch">
+    <PropertyGroup>
+	  <BranchName Condition="'$(Branch)' != ''">$(Branch)-</BranchName>
+      <DatabaseServer>$([MSBuild]::ValueOrDefault(`$(DatabaseServer)`, (local)))</DatabaseServer>
+      <DatabaseName>$([MSBuild]::ValueOrDefault(`$(DatabaseName)`,$(DriverFeature)-$(BranchName)DEV))</DatabaseName>
+      <CacheServer>$([MSBuild]::ValueOrDefault(`$(CacheServer)`, localhost))</CacheServer>
+      <CacheDatabase>$([MSBuild]::ValueOrDefault(`$(CacheDatabase)`, 10))</CacheDatabase>
+      <Customer>$([MSBuild]::ValueOrDefault(`$(Customer)`, $(DriverFeature)))</Customer>
+    </PropertyGroup>
+      <Message Text="$([MSBuild]::ValueOrDefault(`$(Customer)`, $(DriverFeature)))" />
+  </Target>
+  <Target Name="SetConfigTemplate" DependsOnTargets="SetBuildConfigDefaults;SetDeployConfigDefaults">
+    <PropertyGroup>
+      <ConfigTemplate>
+	<Project>
+	  <PropertyGroup>
+	    <Customer>$(Customer)</Customer>
+	    <DriverFeature>$(DriverFeature)</DriverFeature>
+	    <RepositoryBase>$(RepositoryBase)</RepositoryBase>
+	    <DatabaseServer>$(Instance)</DatabaseServer>
+	    <DatabaseName>$(DatabaseName)</DatabaseName>
+	    <DatabaseUser>$(DatabaseUser)</DatabaseUser>
+	    <DatabasePassword>$(DatabasePassword)</DatabasePassword>
+	    <CacheServer>$(CacheServer)</CacheServer>
+	    <CacheDatabase>$(CacheDatabase)</CacheDatabase>
+	    <CachePort>$(CachePort)</CachePort>
+	    <ReportDatabaseServer>$(ReportInstance)</ReportDatabaseServer>
+	    <ReportDatabaseName>$(ReportDatabaseName)</ReportDatabaseName>
+	    <ReportDatabaseUser>$(ReportDatabaseUser)</ReportDatabaseUser>
+	    <ReportDatabasePassword>$(ReportDatabasePassword)</ReportDatabasePassword>
+	    <j6Root>$(j6Root)</j6Root>
+	    <SourceDir>$(SourceDir)</SourceDir>
+	  </PropertyGroup>
+	</Project>
+      </ConfigTemplate>
+    </PropertyGroup>
+  </Target>
+  
+  <Target Name="Clean" DependsOnTargets = "LoadFeatures;CleanJunctions">  
+    <MSBuild Projects="@(FeatureProjects)" Targets="Clean" BuildInParallel="true" />        
+    <RemoveDir Directories="Packages;Build;PrivateBuild;PrecompiledWeb;Site;TestResult" ContinueOnError="True"/>
+  </Target>
+  <Target Name="EnsureCustomer">
+    <PropertyGroup>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="RestoreJenkonGitPackages" DependsOnTargets="CheckPrerequisites">
+      <PropertyGroup>
+        <DeploymentToolsPackagesConfig>$([System.IO.Path]::Combine($(MsBuildThisFileDirectory), ".nuget", "jenkon", "DeploymentTools", "packages.config"))</DeploymentToolsPackagesConfig>
+        <JenkonOutputDir>$([System.IO.Path]::Combine($(MsBuildThisFileDirectory), "Packages", "Jenkon"))</JenkonOutputDir>
+      </PropertyGroup>
+
+      <Message Text="DeploymentToolsPackagesConfig = $(DeploymentToolsPackagesConfig), JenkonOutputDir = $(JenkonOutputDir)" />
+      <MakeDir Directories="$(JenkonOutputDir)" Condition="!Exists('$(JenkonOutputDir)')" />
+      <Exec Command="$(NuGetCommand) install &quot;$(DeploymentToolsPackagesConfig)&quot; -source &quot;$(PackageSources)&quot; -outputDirectory &quot;$(JenkonOutputDir)&quot; $(RequireConsentSwitch) -solutionDir &quot;$(j6Root)&quot;"
+              Condition="'$(OS)' != 'Windows_NT' And Exists('$(DeploymentToolsPackagesConfig)')" />
+              
+        <Exec Command="$(NuGetCommand) install &quot;$(DeploymentToolsPackagesConfig)&quot; -source &quot;$(PackageSources)&quot; -outputDirectory &quot;$(JenkonOutputDir)&quot; $(RequireConsentSwitch) -solutionDir &quot;$(j6Root)&quot;"
+              LogStandardErrorAsError="true"
+              Condition="'$(OS)' == 'Windows_NT' And Exists('$(DeploymentToolsPackagesConfig)')" />
+
+	<!-- Copy EngineCore dlls from NuGet packages if newer version -->
+	<ItemGroup>
+	  <j6CopyFiles Include="$(JenkonOutputDir)/**/*.dll" />
+	  <j6CopyFiles Include="$(JenkonOutputDir)/**/*.exe" />
+	  <j6CopyFiles Include="$(JenkonOutputDir)/**/*.xml" />
+	  <j6CopyFiles Include="$(JenkonOutputDir)/**/*.pdb" />
+	  <j6CopyFiles Include="$(JenkonOutputDir)/**/*.config" />
+	  <j6CopyFiles Include="$(JenkonOutputDir)/**/*.targets" />
+	</ItemGroup>
+
+	<CopyNewerFiles SourceFile="%(j6CopyFiles.FullPath)" DestinationFolder="$(JenkonOutputDir)" Condition="'@(j6CopyFiles)' != ''"  />
+    </Target>
+
+  <Target Name="Bootstrap" DependsOnTargets = "SetBuildConfigDefaults;LoadFeatures;JunctionCore">
+    <CallTarget Targets="Configure" Condition="!Exists('Config.targets')" />
+    <MakeDir Directories="Packages" Condition="!Exists('Packages')" />
+    <MakeDir Directories="Build" />
+
+    <CallTarget Targets="RestoreJenkonGitPackages" />
+    <Exec Command='..\.nuget\nuget.exe install ..\j6\Core\private\project\j6.Core\packages.config' WorkingDirectory="Packages" />
+    <Exec Command='..\.nuget\nuget.exe install ..\.nuget\packages.config -Source @(PackageSource)' WorkingDirectory="Packages" />
+    <Exec Condition="!Exists('EngineCore')" Command='..\.nuget\nuget.exe install ..\.nuget\jenkon\packages.config -Source @(PackageSource)' WorkingDirectory="Packages" />
+      <ItemGroup>
+      <_Nunit Include="$(MsBuildProjectDirectory)/Nunit.Runners*/tools/*" />
+      <_NunitLib Include="$(MsBuildProjectDirectory)/Nunit.Runners*/tools/lib/*" />
+    </ItemGroup>
+    <Copy 
+	SourceFiles="@(_Nunit)"
+	DestinationFolder="$(MsBuildProjectDirectory)/j6/Core/private/lib" />
+    <Copy 
+	SourceFiles="@(_NunitLib)"
+	DestinationFolder="$(MsBuildProjectDirectory)/j6/Core/private/lib/lib" />
+    <Message Text="$(DriverFeature)" />
+    
+    <Exec Command='junction.exe $(MSBuildProjectDirectory)\%(Features.Filename) $(MSBuildProjectDirectory)\customers\%(Features.Identity)' Condition="!Exists('$(MSBuildProjectDirectory)\%(Features.Filename)') AND Exists('$(MSBuildProjectDirectory)\customers\%(Features.Identity)')" />
+    <Exec Command='junction.exe $(MSBuildProjectDirectory)\%(Features.Filename) $(MSBuildProjectDirectory)\j6\%(Features.Identity)' Condition="!Exists('$(MSBuildProjectDirectory)\%(Features.Filename)') AND Exists('$(MSBuildProjectDirectory)\j6\%(Features.Identity)')" />
+  </Target>
+  <Target Name="NugetTest" >
+    <CallTarget Targets="Configure" Condition="!Exists('Config.targets')" />
+    <MakeDir Directories="Packages" />
+    <Exec Command='\\vault\Shared\nuget\nuget.exe install ..\.nuget\packages.config -Source @(PackageSource)' WorkingDirectory="Packages" />
+  </Target>
+  <Target Name="jslintexe" >
+	<Exec Command='$(MSBuildProjectDirectory)\Packages\JSLintNet.MSBuild.1.6.2\tools\JSLintNet.Console.exe "$(JSLintNetSourceDirectory)" /s "$(MSBuildProjectDirectory)\JSLintNet.$(Portal).json" /r "$(MSBuildProjectDirectory)\$(Portal)JSLintReport.html"' WorkingDirectory="$(MSBuildProjectDirectory)" IgnoreExitCode="true" />
+  </Target>
+  <Target Name="JSLintNet">
+    <Message Text="$(JSLintNetSourceDirectory)" />
+	<JSLintTask
+      SourceDirectory="$(JSLintNetSourceDirectory)"
+	  SettingsFile="JSLintNet.json" />
+    <Message Text="$(JSLintNetSourceDirectory)" />
+  </Target>
+  
+  
+  <Target Name="JunctionCore" Condition="!Exists('$(MsBuildProjectDirectory)\Core')">
+        <Exec Command='junction.exe $(MSBuildProjectDirectory)\Core $(MSBuildProjectDirectory)\j6\Core' />
+  </Target>
+  <Target Name="Setup" DependsOnTargets="RestoreJenkonGitPackages">
+    <!-- 
+         TODO: Sometimes this version doesn't junction all folders properly
+         
+         <MSBuild Projects="@(FeatureProjects)" Targets="Setup" BuildInParallel="true"/>   
+         <Exec Command="$(Feature) createsite" />
+	 -->
+    <Exec Command="$(Feature) setup" />
+  </Target>
+  
+  <Target Name="BuildData">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\data.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+
+  <Target Name="BuildEngineCore" DependsOnTargets="BuildData">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\EngineCore\Private\Project\j6.EngineCore.Logic\j6.EngineCore.Logic.csproj" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" Condition="Exists('$(MsBuildProjectDirectory)\EngineCore\Private\Project\j6.EngineCore.Logic\j6.EngineCore.Logic.csproj')"/>
+    <MSBuild Projects="$(MsBuildProjectDirectory)\EngineCore\Private\Project\j6.EngineCore.Realtime\j6.EngineCore.Realtime.csproj" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" Condition="Exists('$(MsBuildProjectDirectory)\EngineCore\Private\Project\j6.EngineCore.Realtime\j6.EngineCore.Realtime.csproj')" />
+  </Target>
+
+  <Target Name="BuildLogic" DependsOnTargets="BuildEngineCore">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\logic.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+  
+  <Target Name="BuildAll" DependsOnTargets="CleanWeb">
+    <PropertyGroup Condition="'$(Package)'=='true'">
+      <PackageOptions>;DeployOnBuild=true;DeployTarget=Package;DefineConstants=$(DefineConstants);IgnoreDeployManagedRuntimeVersion=true;PackageLocation=$(MSBuildProjectDirectory)\MSDeploy;DeployIisAppPath=ChangeMe</PackageOptions>
+    </PropertyGroup>
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\all.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);DatabaseName=$(DatabaseName);DatabaseServer=$(DatabaseServer);DatabaseInstance=$(DatabaseInstance);Customer=$(Customer);CustomerNumber=$(CustomerNumber)$(PackageOptions);VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+    
+  <Target Name="CleanWeb">
+    <RemoveDir Directories="PrecompiledWeb" ContinueOnError="True"/>
+    <RemoveDir Directories="PrecompiledWeb" ContinueOnError="True"/>
+    <RemoveDir Directories="PrecompiledWeb" ContinueOnError="False"/>
+  </Target>
+  
+  <Target Name="BuildWeb" DependsOnTargets="CleanWeb">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\web.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+  <Target Name="BuildIntegration">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\integration.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+	
+	<Target Name="BuildWebPws" Condition="Exists('$(MSBuildProjectDirectory)\WebPWS')">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\WebPWS\Private\j6.WebPWS.sln" Properties="Platform=$(Platform);Configuration=$(Configuration)" />
+	</Target>
+
+	<Target Name="BuildWebServices" Condition="Exists('$(MSBuildProjectDirectory)\WebService')">
+		<Exec Command = "$(Feature) build .\WebService" />
+  </Target>	
+  
+  <Target Name="BuildWebTest">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\$(DriverFeature).WebTest.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" Condition="Exists('$(MsBuildProjectDirectory)\$(DriverFeature)\Private\$(DriverFeature).WebTest.sln')" />
+  </Target>
+  
+  <Target Name="VSBuild" DependsOnTargets="Configure;Bootstrap;Setup;EnsureDb;Patch;Setup;LinkSolutions;BuildData" />
+
+  <Target Name="Build" DependsOnTargets="Configure;LinkSolutions;BuildAll">
+	<PropertyGroup>
+		<RunCodeAnalysis>false</RunCodeAnalysis>
+	</PropertyGroup>
+  </Target>
+  
+    <Target Name="DevBuild" DependsOnTargets="Configure;LinkSolutions;BuildData;BuildLogic;BuildWeb;BuildWebTest;">
+  	<PropertyGroup>
+  		<RunCodeAnalysis>false</RunCodeAnalysis>
+  	</PropertyGroup>
+  </Target>
+
+  <Target Name="LinkSolutions" Condition="'$(PSSetShortcut)' != ''">
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\all.sln $(MSBuildProjectDirectory)\all.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\all.sln') AND !Exists('$(MSBuildProjectDirectory)\all.sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\$(Customer).WebTest.sln $(MSBuildProjectDirectory)\$(Customer).WebTest.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\$(Customer).WebTest.sln') AND !Exists('$(Customer).WebTest.sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\data.sln $(MSBuildProjectDirectory)\data.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\data.sln') AND !Exists('$(MSBuildProjectDirectory)\data.sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\engine.sln $(MSBuildProjectDirectory)\engine.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\engine.sln') AND !Exists('$(MSBuildProjectDirectory)\engine.sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\integration.sln $(MSBuildProjectDirectory)\integration.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\integration.sln') AND !Exists('$(MSBuildProjectDirectory)\integration.sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\logic.sln $(MSBuildProjectDirectory)\logic.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\logic.sln') AND !Exists('$(MSBuildProjectDirectory)\logic.sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\web.sln $(MSBuildProjectDirectory)\web.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\web.sln') AND !Exists('$(MSBuildProjectDirectory)\web.sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\WebPWS\Private\j6.WebPWS.sln $(MSBuildProjectDirectory)\j6.WebPWS.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\WebPWS') AND !Exists('$(MSBuildProjectDirectory)\j6.WebPWS.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\web-BusinessPortal`(DEV`).sln $(MSBuildProjectDirectory)\web-BusinessPortal`(DEV`).sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\web-BusinessPortal(DEV).sln') AND !Exists('$(MSBuildProjectDirectory)\web-BusinessPortal`(DEV`).sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\web-BPandLogic`(DEV`).sln $(MSBuildProjectDirectory)\web-BPandLogic`(DEV`).sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\web-BPandLogic(DEV).sln') AND !Exists('$(MSBuildProjectDirectory)\web-BPandLogic`(DEV`).sln.lnk')"/>
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\j6.PersonalSite.sln $(MSBuildProjectDirectory)\j6.PersonalSite.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\j6.PersonalSite.sln') AND !Exists('$(MSBuildProjectDirectory)\j6.PersonalSite.sln.lnk')"/>
+
+    <Exec Command='$(PSSetShortcut) $(MSBuildProjectDirectory)\$(Customer)\Private\CUST2095.FileIntegrations.sln $(MSBuildProjectDirectory)\CUST2095.FileIntegrations.sln.lnk' Condition="Exists('$(MSBuildProjectDirectory)\$(Customer)\Private\CUST2095.FileIntegrations.sln') AND !Exists('$(MSBuildProjectDirectory)\CUST2095.FileIntegrations.sln.lnk')"/>
+  </Target>
+  
+  <Target Name="Web">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\web.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" />
+  </Target>
+  
+  <Target Name="WebTest" DependsOnTargets="UpdatePrivateBuild">
+    <MSBuild Projects="$(MsBuildProjectDirectory)\$(DriverFeature)\Private\$(DriverFeature).WebTest.sln" Properties="Platform=$(Platform);Configuration=$(Configuration);VisualStudioVersion=$(VisualStudioVersion)" Condition="Exists('$(MsBuildProjectDirectory)\$(DriverFeature)\Private\$(DriverFeature).WebTest.sln')" />
+  </Target>
+  
+  <Target Name="FastBuild" DependsOnTargets="Bootstrap;Setup;EnsureDb;Patch;Build" />
+
+  <Target Name="FullBuild" DependsOnTargets="Bootstrap;Setup;RecreateDb;Patch;Build" />
+
+  <Target Name="Init" DependsOnTargets="Configure;FullBuild" />
+
+  <Target Name="CleanSetup" DependsOnTargets="Clean;FastBuild"/>
+  
+  <Target Name="UpdatePrivateBuild">
+    <ItemGroup>
+      <_Build Include="Build\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_Build)" DestinationFolder="PrivateBuild" />
+  </Target>
+  
+  <Target Name="UnitTest" DependsOnTargets="UpdatePrivateBuild" >
+    <MakeDir Directories="TestResult" />
+    <Exec Command="$(Feature) test" />
+  </Target>
+  <Target Name="NCover" DependsOnTargets="UpdatePrivateBuild">
+    <Exec Command="$(Feature) test --coverage --pattern UnitTest" />
+  </Target>
+</Project>

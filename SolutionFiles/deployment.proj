@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <PatchLoaderSwitch Include="--exit-for-noop" />
+    <PatchLoaderSwitch Include="--verbose" Condition="'$(Verbose)' == 'true'" />
+    <PreSchemaUpdateSwitch Include="--all-or-nothing" />
+    <PostSchemaUpdateSwitch Include="--all-or-nothing" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Feature>Bootstrap\Feature.exe</Feature>
+    <PatchLoader>Bootstrap\PatchLoader.exe</PatchLoader>
+    <DriverFeature>$(Cust)</DriverFeature>
+  </PropertyGroup>
+  
+  <Import Project="deploy.targets" Condition="Exists('deploy.targets')" />
+  
+  <Target Name="Configure" DependsOnTargets="SetConfigTemplate;WriteConfiguration" />
+  
+  <Target Name="Deploy" DependsOnTargets="Configure;ValidateConfiguration;InstallDatabase;FlushRedis;InstallSite" />
+  
+  <Target Name="ValidateConfiguration">
+    <Error Text="Missing Cust (i.e. /p:Cust=&quot;CUST000&quot;)" Condition="'$(Cust)' == ''" />
+    <Error Text="Missing Version (i.e. /p:Version=&quot;7.6.4.0&quot;)" Condition="'$(Version)' == ''" />
+    <Error Text="Missing DatabaseServer (i.e. /p:DatabaseServer=&quot;dev-1200sql1&quot; NOTE: instance is set separately: /p:DatabaseInstance=&quot;SQL2012&quot;)" Condition="'$(DatabaseServer)' == ''" />
+    <Error Text="Missing DatabaseName (i.e. /p:DatabaseName=&quot;MyDatabaseName&quot;)" Condition="'$(DatabaseName)' == ''" />
+    <Error Text="Missing WebServer (i.e. /p:WebServer=&quot;uat-web1&quot;" Condition="'$(WebServer)' == ''" />
+    <Error Text="Missing SiteName (i.e. /p:SiteName=&quot;DefaultWebSite&quot;)" Condition="'$(SiteName)' == ''" />
+    <Error Text="Missing SiteLocation (i.e. /p:SiteLocation=&quot;d:\inetpub\DefaultWebSite&quot;" Condition="'$(SiteLocation)' == ''" />
+    <Error Text="Missing SiteUrl (i.e. /p:SiteUrl=&quot;http://uat.jenkon.com&quot; or /p:SiteUrl=&quot;http://localhost:8080&quot;)" Condition="'$(SiteUrl)' == ''" />
+    <Error Text="Missing CacheServer (i.e. /p:CacheServer=&quot;uat-redis2&quot;)" Condition="'$(CacheServer)' == ''" />
+    <Error Text="Missing CacheDatabase (i.e. /p:CacheDatabase=&quot;12&quot; NOTE: Must be a numeric value between 1 and 15)" Condition="'$(CacheDatabase)' == ''" />
+  </Target>
+
+  <Target Name="SetConfigTemplate" DependsOnTargets="SetDeployConfigDefaults">
+    <PropertyGroup>
+      <ConfigTemplate><Project>&#010;  <PropertyGroup>&#010;    <DriverFeature>$(DriverFeature)</DriverFeature>&#010;    <RepositoryBase>$(RepositoryBase)</RepositoryBase>&#010;    <DatabaseServer>$(Instance)</DatabaseServer>&#010;    <DatabaseName>$(DatabaseName)</DatabaseName>&#010;    <DatabaseUser>$(DatabaseUser)</DatabaseUser>&#010;    <DatabasePassword>$(DatabasePassword)</DatabasePassword>&#010;    <CacheServer>$(CacheServer)</CacheServer>&#010;    <CacheDatabase>$(CacheDatabase)</CacheDatabase>&#010;    <CachePort>$(CachePort)</CachePort>&#010;    <ReportDatabaseServer>$(ReportInstance)</ReportDatabaseServer>&#010;    <ReportDatabaseName>$(ReportDatabaseName)</ReportDatabaseName>&#010;    <ReportDatabaseUser>$(ReportDatabaseUser)</ReportDatabaseUser>&#010;    <ReportDatabasePassword>$(ReportDatabasePassword)</ReportDatabasePassword>&#010;    <j6Root>$(j6Root)</j6Root>&#010;  </PropertyGroup>&#010;</Project></ConfigTemplate>
+</PropertyGroup>
+  </Target>
+  
+  <Target Name="CCWebTest">
+    <Error Text="Missing NUnitConsole" Condition="'$(NUnitConsole)' == ''" />
+    <Error Text="Missing Driver" Condition="'$(Driver)' == ''" />
+    <Error Text="Missing OutputDir" Condition="'$(OutputDir)' == ''" />
+    <Exec  Command='"$(NUnitConsole)" /nologo /labels /runlist:testlist.txt $(Driver).WebTest.dll /result:$(OutputDir)\WebTestResults.xml /out:$(OutputDir)\WebTestOutput.txt /err:$(OutputDir)\WebTestErrorOuptut.txt' WorkingDirectory="$(MSBuildStartupDirectory)" IgnoreExitCode="true" />
+  </Target>
+  
+</Project>
