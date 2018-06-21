@@ -116,7 +116,7 @@ function SourceControlHg_GetOutgoingChanges([string] $branch) {
 }
 
 function SourceControlHg_HasPendingChanges() {
-    $output = (hg "status");
+    $output = (hg status);
     if ($LastExitCode -ne 0) { 
         Write-Host "Cannot get repo status!"
         Exit 1

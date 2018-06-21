@@ -90,20 +90,23 @@ function SourceControlGit_ResolveAll() {
 }
 
 function SourceControlGit_RevertAll() {
-    hg revert --all --no-backup
+    git reset --hard
     if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot revert all!"
+        Write-Host "Cannot reset branch!"
+        Exit 1
+    }
+    git clean -dx -f
+    if ($LastExitCode -ne 0) { 
+        Write-Host "Cannot clean branch!"
         Exit 1
     }
 }
 
 function SourceControlGit_GetOutgoingChanges([string] $branch) {
-    if ($branch) {
-        hg outgoing -b $branch
+    if (!($branch)) {
+        $branch = SourceControlGit_GetCurrentBranch
     }
-    else {
-        hg outgoing
-    }
+    git diff --stat --cached --name-only "origin/$branch"
     
     if ($LastExitCode -ne 0) { 
         Write-Host "Cannot get outgoing changesets!"
@@ -112,21 +115,13 @@ function SourceControlGit_GetOutgoingChanges([string] $branch) {
 }
 
 function SourceControlGit_HasPendingChanges() {
-    $output = (hg "status");
+    $output = (git diff --name-only);
     if ($LastExitCode -ne 0) { 
         #unknown pending changes exist
         return $true
     }
 
-    $pendingChanges = @()
-    foreach ($line in $output) {
-        $modifiedFile = $line.Trim()
-        if ($modifiedFile -and $modifiedFile.StartsWith("? ") -eq $false) {
-            Write-Host $modifiedFile
-            $pendingChanges += $modifiedFile
-        }
-    }
-    return $pendingChanges.length -gt 0
+    return $output.length -gt 0
 }
 
 function SourceControlGit_GetCurrentBranch() {
