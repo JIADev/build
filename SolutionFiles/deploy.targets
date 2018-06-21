@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="Bootstrap\jDeployMsBuildTasks.targets" Condition="Exists('Bootstrap\jDeployMsBuildTasks.targets')" />
+  <UsingTask TaskName="jDeployMsBuildTasks.SqlExecuteNonQuery" AssemblyFile="$(MSBuildThisFileDirectory)Packages\Jenkon\jDeployMsBuildTasks.dll" Condition="!Exists('Bootstrap\jDeployMsBuildTasks.targets')" />
+  <UsingTask TaskName="jDeployMsBuildTasks.PrependFile" AssemblyFile="$(MSBuildThisFileDirectory)Packages\Jenkon\jDeployMsBuildTasks.dll" Condition="!Exists('Bootstrap\jDeployMsBuildTasks.targets')" />
+  <UsingTask TaskName="jDeployMsBuildTasks.CountPatches" AssemblyFile="$(MSBuildThisFileDirectory)Packages\Jenkon\jDeployMsBuildTasks.dll" Condition="!Exists('Bootstrap\jDeployMsBuildTasks.targets')" />
+  <!-- Debugging stuff
+  <UsingTask TaskName="jDeployMsBuildTasks.SqlExecuteNonQuery" AssemblyFile="C:\dev\Tools.git\jDeployMsBuildTasks\bin\jDeployMsBuildTasks.dll" />
+  <UsingTask TaskName="jDeployMsBuildTasks.PrependFile" AssemblyFile="C:\dev\Tools.git\jDeployMsBuildTasks\bin\jDeployMsBuildTasks.dll" />
+  <UsingTask TaskName="jDeployMsBuildTasks.CountPatches" AssemblyFile="C:\dev\Tools.git\jDeployMsBuildTasks\bin\jDeployMsBuildTasks.dll" />
+  -->
+  <ItemGroup> 
+    <_CustomerFeatureXml Include="$(MsBuildProjectDirectory)/$(Customer)/feature.xml" Condition="'$(Customer)' != ''" />
+    <_CustomerFeatureXml Include="$(MsBuildProjectDirectory)/CUST*/feature.xml" Condition="'$(Customer)' == ''" />
+    <PatchLoaderSwitch Include="$(PatchLoaderSwitches)" Condition="'$(PatchLoaderSwitches)' != ''" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <PowerShellExe Condition=" '$(PowerShellExe)'=='' ">$(WINDIR)\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellExe>
+    <SqlPackage Condition="'$(SqlPackage)' == ''">C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe</SqlPackage>
+    <RedisCli>C:\Redis\redis-cli</RedisCli>
+    <EmptyString></EmptyString>
+    <InstallStartTime Condition="'$(InstallStartTime)' == ''">$([System.DateTime]::Now.ToString(yyyy.MM.dd-HH.mm.ss))</InstallStartTime>
+    <SchemaUpdateLocation>$(MSBuildThisFileDirectory)SchemaUpdate\</SchemaUpdateLocation>
+    <SchemaUpdateScript>SchemaUpdate.$(DatabaseName).$(InstallStartTime).sql</SchemaUpdateScript>
+    <DeployReportXml>DeployReport.$(InstallStartTime).xml</DeployReportXml>
+  </PropertyGroup>
+  <Target Name="SetCustomer" DependsOnTargets="JunctionDriver">
+  </Target>
+  <Target Name="JunctionDriver">
+    <PropertyGroup>
+      <Customer>$([MSBuild]::ValueOrDefault(`$(Customer)`, $(DriverFeature)))</Customer>
+    </PropertyGroup>
+    <Error Text="Customer not set.  Specify j6 customer with the /p:Customer=&lt;CustomerId&gt; parameter" Condition="'$(Customer)' == ''" />
+    <Exec Command='junction.exe $(MSBuildProjectDirectory)\$(Customer) $(MSBuildProjectDirectory)\customers\$(Customer)' Condition="!Exists('$(MSBuildProjectDirectory)\$(Customer)') AND Exists('$(MSBuildProjectDirectory)\customers\$(Customer)')" />
+  </Target>
+  <Target Name="CleanCustomer">
+    <Error Text="Customer not set.  Specify j6 customer with the /p:Customer=&lt;CustomerId&gt; parameter" Condition="'$(Customer)' == ''" />
+    <Exec Command='junction.exe -d $(MSBuildProjectDirectory)\$(Customer)' />
+    <Delete Files="$(MSBuildProjectDirectory)\all.sln.lnk;$(MSBuildProjectDirectory)\$(Customer).WebTest.sln.lnk;$(MSBuildProjectDirectory)\data.sln.lnk;$(MSBuildProjectDirectory)\engine.sln.lnk;$(MSBuildProjectDirectory)\integration.sln.lnk;$(MSBuildProjectDirectory)\logic.sln.lnk;$(MSBuildProjectDirectory)\web.sln.lnk;$(MSBuildProjectDirectory)\web-BusinessPortal(DEV).sln.lnk;" />
+  </Target>
+
+  <Target Name="SetDeployConfigDefaults">
+    <PropertyGroup>
+      <j6Root>$([MSBuild]::ValueOrDefault(`$(j6Root)`, $(MSBuildProjectDirectory)))</j6Root>
+      <ReportDatabaseName>$([MSBuild]::ValueOrDefault(`$(ReportDatabaseName)`, `$(DatabaseName)`))</ReportDatabaseName>
+      <ReportDatabaseServer>$([MSBuild]::ValueOrDefault(`$(ReportDatabaseServer)`, `$(DatabaseServer)`))</ReportDatabaseServer>
+      <CachePort>$([MSBuild]::ValueOrDefault(`$(CachePort)`, 6379))</CachePort>
+      <Instance Condition="'$(DatabaseInstance)' != '$(EmptyString)' ">$(DatabaseServer)%5c$(DatabaseInstance)</Instance>
+      <Instance Condition="'$(DatabaseInstance)' == '$(EmptyString)' ">$(DatabaseServer)</Instance>
+      <ReportInstance Condition="'$([MSBuild]::ValueOrDefault(`$(ReportDatabaseInstance)`, `$(DatabaseInstance)`))' != '$(EmptyString)'">$([MSBuild]::ValueOrDefault(`$(ReportDatabaseServer)`, `$(DatabaseServer)`))%5c$([MSBuild]::ValueOrDefault(`$(ReportDatabaseInstance)`, `$(DatabaseInstance)`))</ReportInstance>
+      <ReportInstance Condition="'$([MSBuild]::ValueOrDefault(`$(ReportDatabaseInstance)`, `$(DatabaseInstance)`))' == '$(EmptyString)'">$([MSBuild]::ValueOrDefault(`$(ReportDatabaseServer)`, `$(DatabaseServer)`))</ReportInstance>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="WriteConfiguration">
+    <PropertyGroup>
+      <SqlSettingsTemplate><settings xmlns="">&#010;  <sql>                        &#010;    <server>$(Instance)</server>   &#010;    <database>$(DatabaseName)</database>&#010;    <uid>$(DatabaseUser)</uid>                &#010;    <pwd>$(DatabasePassword)</pwd>                &#010;  </sql>                       &#010;  <reporting>                        &#010;    <server>$(ReportInstance)</server>   &#010;    <database>$(ReportDatabaseName)</database>&#010;    <uid>$(ReportDatabaseUser)</uid>                &#010;    <pwd>$(ReportDatabasePassword)</pwd>                &#010;  </reporting>&#010;  <Cache>&#010;    <Servers>&#010;      <Server Host="$(CacheServer)" Port="$(CachePort)" Database="$(CacheDatabase)" />&#010;    </Servers>&#010;  </Cache>                       &#010;</settings></SqlSettingsTemplate>
+    </PropertyGroup>
+    <WriteLinesToFile File="Config.targets" Lines ="$(ConfigTemplate)" Overwrite ="true" Condition="'$(ConfigTemplate)' != ''" />    
+    <WriteLinesToFile File="sql-settings.xml" Lines ="$(SqlSettingsTemplate)" Overwrite ="true"/>
+  </Target>
+  
+  <Target Name="FlushRedis" DependsOnTargets="SetDeployConfigDefaults">
+    <Exec Command="$(RedisCli) -n $(CacheDatabase) -h $(CacheServer) -p $(CachePort) flushdb" />
+  </Target>
+
+  <Target Name="CopyDacPacs">
+    <ItemGroup>
+      <_DacPac Condition="Exists('$(MsBuildProjectDirectory)\Build')" Include="$(MsBuildProjectDirectory)\Build\*.dacpac" />
+      <_DacPac Condition="! Exists('$(MsBuildProjectDirectory)\Build')" Include="$(MsBuildProjectDirectory)\**\*.dacpac" />
+    </ItemGroup>
+    <Message Text="Trying to copy: @(_DacPac)" />
+    <Copy 
+	SourceFiles="@(_DacPac)"
+	DestinationFolder="$(MsBuildProjectDirectory)\DacPacs" />
+  </Target>
+
+  <Target Name="ScriptDacPacs" DependsOnTargets="SetDeployConfigDefaults;CopyDacPacs">
+    <PropertyGroup>
+      <UserInfo Condition="'$(DatabaseUser)' != ''">/tu:$(DatabaseUser) /tp:$(DatabasePassword)</UserInfo>
+    </PropertyGroup>
+    <ItemGroup>
+      <_PrependLines Include="--SchemaUpdate Script generated by SqlPackage.exe" />
+      <_PrependLines Include="--patch-date: 1976-07-04" />
+      <_PrependLines Include="--SqlCmd: true" />
+      <_PrependLines Include="--phase: SchemaUpdate" />
+      <_PrependLines Include="--transaction: false" />
+      <ExistingSchemaUpdateFiles Include="$(SchemaUpdateLocation)**\*.*" Condition="Exists('$(SchemaUpdateLocation)')" />
+    </ItemGroup>
+    <Error Text="Couldn't find SqlPackage. SqlPackage variable not set." Condition="'$(SqlPackage)' == ''" />
+    <Error Text="Couldn't find SqlPackage. $(SqlPackage) does not exist." Condition="!Exists('$(SqlPackage)')" />
+    <Delete Files="@(ExistingSchemaUpdateFiles)" Condition="Exists('$(SchemaUpdateLocation)')" />
+    <MakeDir Directories="$(SchemaUpdateLocation)" Condition="!Exists('$(SchemaUpdateLocation)')" />
+    <Exec Command="&quot;$(SqlPackage)&quot; /sf:DacPacs\$(DriverFeature).Database.dacpac /tsn:$(Instance) /tdn:$(DatabaseName) $(UserInfo) /action:Script /p:IncludeCompositeObjects=true /p:ScriptDatabaseOptions=false /p:DropDmlTriggersNotInSource=False /p:BlockOnPossibleDataLoss=true /p:CommandTimeout=0 /OutputPath:&quot;$(SchemaUpdateLocation)$(SchemaUpdateScript)&quot;" IgnoreExitCode="true" Condition="!Exists('$(SchemaUpdateLocation)$(SchemaUpdateScript)')" />
+    <PrependFile Lines="@(_PrependLines)" File="$(SchemaUpdateLocation)$(SchemaUpdateScript)" Condition="Exists('$(SchemaUpdateLocation)$(SchemaUpdateScript)')" />
+    <Exec Command="&quot;$(SqlPackage)&quot; /sf:DacPacs\$(DriverFeature).Database.dacpac /tsn:$(Instance) /tdn:$(DatabaseName) $(UserInfo) /action:DeployReport /p:IncludeCompositeObjects=true /p:ScriptDatabaseOptions=false /p:DropDmlTriggersNotInSource=False /p:BlockOnPossibleDataLoss=true /p:CommandTimeout=0 /OutputPath:&quot;$(DeployReportXml)&quot;" Condition="!Exists('$(SchemaUpdateLocation)$(SchemaUpdateScript)')" />
+  </Target>
+  
+  <Target Name="PublishDacPacScript" DependsOnTargets="SetDeployConfigDefaults;CopyDacPacs">
+    <PropertyGroup>
+      <UserInfo Condition="'$(DatabaseUser)' != ''">/tu:$(DatabaseUser) /tp:$(DatabasePassword)</UserInfo>
+    </PropertyGroup>
+    <Error Text="Couldn't find SqlPackage. SqlPackage variable not set." Condition="'$(SqlPackage)' == ''" />
+    <Error Text="Couldn't find SqlPackage. $(SqlPackage) does not exist." Condition="!Exists('$(SqlPackage)')" />
+    <Exec Command="&quot;$(SqlPackage)&quot; /sf:DacPacs\$(DriverFeature).Database.dacpac /tsn:$(Instance) /tdn:$(DatabaseName) $(UserInfo) /action:Publish /p:IncludeCompositeObjects=true /p:ScriptDatabaseOptions=false /p:DropDmlTriggersNotInSource=False /p:BlockOnPossibleDataLoss=true /p:CommandTimeout=0" />
+  </Target>
+  
+  <Target Name="ForceDisconnectDbUsers">
+    <SqlExecuteNonQuery Server="$(DatabaseServer)" User="$(DatabaseUser)" Password="$(DatabasePassword)" Command="IF EXISTS (SELECT name FROM sys.databases WHERE name = '$(DatabaseName)') ALTER DATABASE [$(DatabaseName)] SET SINGLE_USER WITH ROLLBACK IMMEDIATE" />
+  </Target>
+  
+  <Target Name="DropDb" DependsOnTargets="LoadFeatures" Condition="'$(SkipDatabase)' != 'true'" >
+    <SqlExecuteNonQuery Server="$(DatabaseServer)" User="$(DatabaseUser)" Password="$(DatabasePassword)" Command="IF EXISTS (SELECT name FROM sys.databases WHERE name = '$(DatabaseName)') DROP DATABASE [$(DatabaseName)]" />
+  </Target>
+  <Target Name="CreateDb" DependsOnTargets="EnsureDb" Condition="'$(SkipDatabase)' != 'true'" />
+  <Target Name="EnsureDb" DependsOnTargets="LoadFeatures" Condition="'$(SkipDatabase)' != 'true'" >
+    <SqlExecuteNonQuery Server="$(DatabaseServer)" User="$(DatabaseUser)" Password="$(DatabasePassword)" Command="IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '$(DatabaseName)') CREATE DATABASE [$(DatabaseName)]" />
+  </Target>
+  
+  <Target Name = "LoadFeatures" DependsOnTargets="JunctionDriver">            
+    <PropertyGroup>
+      <CustomerFeatureXml>%(_CustomerFeatureXml.FullPath)</CustomerFeatureXml>
+      <DriverDirectory>$([System.IO.Path]::GetDirectoryName($(CustomerFeatureXml)))</DriverDirectory>
+      <DriverDirectoryName>$([System.IO.Path]::GetFileName($(DriverDirectory)))</DriverDirectoryName>
+      <DriverFeature>$([MSBuild]::ValueOrDefault(`$(DriverFeature)`, $(DriverDirectoryName)))</DriverFeature>
+    </PropertyGroup>
+    <XmlPeek
+        Query = "//Require/text()"
+        XmlInputPath="$(CustomerFeatureXml)" >
+      <Output
+          TaskParameter="Result"
+          ItemName="Features"/>
+    </XmlPeek>
+    <Message Text="Features:" />
+    <Message Text="    %(Features.Filename)" />
+    <ItemGroup>
+      <FeatureProjects Include="@(Features -> '$(MsBuildProjectDirectory)/j6/%(filename)/Feature.proj')" />
+    </ItemGroup> 
+  </Target>
+  
+  <Target Name="ForceRecreateDb" DependsOnTargets="ForceDisconnectDbUsers;DropDb;CreateDb" Condition="'$(SkipDatabase)' != 'true'" />
+  
+  <Target Name="RecreateDb" DependsOnTargets="DropDb;CreateDb" Condition="'$(SkipDatabase)' != 'true'" />
+  
+  <Target Name="InstallShared">
+    <Exec Command="$(Feature) install --shared" />
+  </Target>
+  
+  <Target Name="InstallSite">
+    <Exec Command="$(MSBuildProjectDirectory)/MSDeploy/Corporate.deploy.cmd /Y /M:$(WebServer) &quot;-setParam:name='IIS Web Application Name',value='$(SiteName)/Corporate'&quot;" />
+    <Exec Command="$(MSBuildProjectDirectory)/MSDeploy/Business.deploy.cmd /Y /M:$(WebServer) &quot;-setParam:name='IIS Web Application Name',value='$(SiteName)/Business'&quot;" Condition="Exists('$(MSBuildProjectDirectory)/MSDeploy/Business.deploy.cmd')" />
+    <Exec Command="$(MSBuildProjectDirectory)/MSDeploy/Integration.deploy.cmd /Y /M:$(WebServer) &quot;-setParam:name='IIS Web Application Name',value='$(SiteName)/Integration'&quot;" Condition="Exists('$(MSBuildProjectDirectory)/MSDeploy/Integration.deploy.cmd')" />
+    <Exec Command="$(MSBuildProjectDirectory)/Shared/SearchAndReplace.exe &quot;*.application&quot; &quot;http://publish_url&quot; &quot;$(SiteUrl)&quot;" WorkingDirectory="$(SiteLocation)" Condition="Exists('$(MSBuildProjectDirectory)/Shared/SearchAndReplace.exe')" />
+    <Exec Command="$(MSBuildProjectDirectory)/MSDeploy/WebPWS.deploy.cmd /Y /M:$(WebServer) &quot;-setParam:name='IIS Web Application Name',value='$(SiteName)/WebPWS'&quot;" Condition="Exists('$(MSBuildProjectDirectory)/MSDeploy/WebPWS.deploy.cmd')" />
+	<Exec Command="$(MSBuildProjectDirectory)/MSDeploy/Services.deploy.cmd /Y /M:$(WebServer) &quot;-setParam:name='IIS Web Application Name',value='$(SiteName)/Services'&quot;" Condition="Exists('$(MSBuildProjectDirectory)/MSDeploy/Services.deploy.cmd')" />
+  </Target>
+  
+  <Target Name="InstallReports">
+    <Exec Command="$(Feature) install --reports" />
+  </Target>
+  
+  <Target Name="InstallDatabase">
+    <ItemGroup>
+      <PreSchemaUpdateSwitch Include="%(PatchLoaderSwitch.Identity)" />
+      <PreSchemaUpdateSwitch Include="--skip-xml" />
+      <PreSchemaUpdateSwitch Include="--phase=PreSchemaUpdate" />
+      <SchemaUpdateSwitch Include="%(PatchLoaderSwitch.Identity)" />
+      <SchemaUpdateSwitch Include="--phase=SchemaUpdate" />
+      <SchemaUpdateSwitch Include="--additional-patch-dirs=$(SchemaUpdateLocation)" />
+      <PostSchemaUpdateSwitch Include="%(PatchLoaderSwitch.Identity)" />
+      <AdditionalPatchDirs Include="$(SchemaUpdateLocation)" />
+      <ExistingSchemaUpdateFiles Include="$(SchemaUpdateLocation)**\*.*" Condition="Exists('$(SchemaUpdateLocation)')" />
+    </ItemGroup>
+    <PropertyGroup>
+      <PreSchemaUpdateSwitches>@(PreSchemaUpdateSwitch->'%(Identity)', ' ')</PreSchemaUpdateSwitches>
+      <SchemaUpdateSwitches>@(SchemaUpdateSwitch->'%(Identity)', ' ')</SchemaUpdateSwitches>
+      <PostSchemaUpdateSwitches>@(PostSchemaUpdateSwitch->'%(Identity)', ' ')</PostSchemaUpdateSwitches>
+    </PropertyGroup>
+    <PropertyGroup>
+      <PreSchemaUpdateSwitches>@(PreSchemaUpdateSwitch->'%(Identity)', ' ')</PreSchemaUpdateSwitches>
+      <SchemaUpdateSwitches>@(SchemaUpdateSwitch->'%(Identity)', ' ')</SchemaUpdateSwitches>
+      <PostSchemaUpdateSwitches>@(PostSchemaUpdateSwitch->'%(Identity)', ' ')</PostSchemaUpdateSwitches>
+    </PropertyGroup>
+    
+    <CountPatches
+	PackagesLocation="$(MSBuildThisFileDirectory)"
+	Switches="@(PreSchemaUpdateSwitch)"
+	Verbose="$(Verbose)"
+	Condition="Exists('$(SchemaUpdateLocation)$(SchemaUpdateScript)')"
+	>
+      <Output TaskParameter="PatchCount" PropertyName="PatchCount" />
+    </CountPatches>
+
+    <!-- We want the schema update files to be re-generated if there were PreSchemaUpdate patches run -->
+    <Delete Files="@(ExistingSchemaUpdateFiles)" Condition="Exists('$(SchemaUpdateLocation)') and '$(PatchCount)' != '0'" />
+
+    <Exec Command="$(PatchLoader) $(PreSchemaUpdateSwitches)" />
+
+    <!-- Regenerate schema update files -->
+    <CallTarget Targets="ScriptDacPacs" Condition="'$(PatchCount)' != '0' or !Exists('$(SchemaUpdateLocation)$(SchemaUpdateScript)')" />
+    
+    <Exec Command="$(PatchLoader) $(SchemaUpdateSwitches)" Condition="Exists('$(SchemaUpdateLocation)$(SchemaUpdateScript)')" />
+
+    <!-- Removing the phase directive to run all remaining patches unrestricted -->
+    <Exec Command="$(PatchLoader) $(PostSchemaUpdateSwitches)" />
+
+    <Message Text="Completed InstallDatabase" />
+  </Target>
+  
+  <Target Name="ReinstallDatabase" DependsOnTargets="RecreateDb;InstallDatabase" />
+  
+  <Target Name="ForceReinstallDatabase" DependsOnTargets="ForceRecreateDb;InstallDatabase" Condition="'$(SkipDatabase)' != 'true'" />
+  
+  <Target Name="StartIIS">
+    <Exec Command='net start w3svc' ContinueOnError="True"/>
+  </Target>
+  
+  <Target Name="StopIIS">
+    <Exec Command='net stop w3svc' ContinueOnError="True"/>
+  </Target>
+
+  <Target Name="RestartIIS" DependsOnTargets="StartIIS;StopIIS" />
+
+  <Target Name="ShowConfig" DependsOnTargets="LoadFeatures">
+    <Message Text="MSBuildToolsPath: $(MSBuildToolsPath)" />
+    <Message Text="Repository base: $(RepositoryBase)" />
+    <Message Text="Customer feature XML: $(CustomerFeatureXml)" />
+    <Message Text="Driver Feature: $(DriverFeature)" />
+    <Message Text="Driver Directory: $(DriverDirectory)" />
+    <Message Text="Driver Directory Name: $(DriverDirectoryName)" />
+    <Message Text="Database Server: $(DatabaseServer)" />
+    <Message Text="Database Name: $(DatabaseName)" />
+    <Message Text="Database User: $(DatabaseUser)" />
+    <Message Text="Database Password: $(DatabasePassword)" />
+    <Message Text="Report Database Server: $(ReportDatabaseServer)" />
+    <Message Text="Report Database Name: $(ReportDatabaseName)" />
+    <Message Text="Report Database User: $(ReportDatabaseUser)" />
+    <Message Text="Report Database Password: $(ReportDatabasePassword)" />
+    <Message Text="Cache Server: $(CacheServer)" />
+    <Message Text="Cache Database: $(CacheDatabase)" />
+    <Message Text="Cache Port: $(CachePort)" />
+    <Message Text="j6 Root: $(j6Root)" />
+  </Target>
+  
+</Project>

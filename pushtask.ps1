@@ -1,4 +1,12 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+
+if (test-path ".\.git")
+{
+	& "$scriptPath\jcmd.ps1" PushTask $args
+	exit $LastExitCode
+}
+
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 . "$scriptPath\mercurialTasks.ps1"
 . "$scriptPath\customerInfo.ps1"
 . "$scriptPath\startGraftCommon.ps1"

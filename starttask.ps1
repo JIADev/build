@@ -1,4 +1,11 @@
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+
+if (test-path ".\.git")
+{
+	& "$scriptPath\jcmd.ps1" StartTask $args
+	exit $LastExitCode
+}
+
 $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"
 . "$scriptPath\customerInfo.ps1"
 . "$scriptPath\startgraftCommon.ps1"
