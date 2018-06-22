@@ -1,15 +1,15 @@
-. "$PSScriptRoot\..\_Shared\SourceControlLowLevelFunctionsHg.ps1"
+. "$PSScriptRoot\..\_Shared\SourceControlTasks\SourceControlLowLevelFunctionsHg.ps1"
 
-$args|format-list
-
-
-
-$RevertPath = "C:\dev\work1"
-
-Push-Location $RevertPath
+$DebugPreference = "Continue"
+Push-Location C:\dev\Platform
 try {
-    $DebugPreference = "Continue"
-    SourceControlHg_GetRemovedFiles
+    $missingRevisions = SourceControlHg_ForwardChangeCheck "7.7.0" "7.8.0_candidate"
+    if ($missingRevisions)
+    {
+        Write-Host "The following revisions would be reverted (limited to 10):" -ForegroundColor Red
+        $missingRevisions | Write-Host -ForegroundColor Red
+        Exit 1
+    }
 }
 finally {
     Pop-Location

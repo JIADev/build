@@ -34,6 +34,5 @@ if (Test-Path $cmdScript)
 
 #if we didn't find the command then there is nothing to do but report the error 
 #and fail with an exit code
-Write-Host "ERROR: jcmd '$commandName' not found!" -ForegroundColor Red
+Write-Host "ERROR: jcmd command '$commandName' not found!" -ForegroundColor Red
 exit 1
-

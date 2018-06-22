@@ -130,3 +130,11 @@ function SourceControlGit_GetCurrentBranch() {
     return $output.Trim();
 }
 
+function SourceControlGit_ForwardChangeCheck([string]$baseBranch, [string]$currentBranch) {
+    $output = (git log "origin/$baseBranch" "^$currentBranch" --no-merges -n 10);
+    if ($LastExitCode -ne 0) { 
+        Write-Host "Cannot get repo status!"
+        Exit 1
+    }    
+    return $output
+}

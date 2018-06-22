@@ -156,3 +156,15 @@ function SourceControl_GetCurrentBranch() {
     }
     Throw "Cannot execute source control command on this folder. It is not a repository."
 }
+
+function SourceControl_ForwardChangeCheck([string]$baseBranch, [string]$currentBranch) {
+    if (Test-Path ".\.hg")
+    {
+        return SourceControlHg_ForwardChangeCheck $baseBranch $currentBranch
+    }
+    if (Test-Path ".\.git")
+    {
+        return SourceControlGit_ForwardChangeCheck $baseBranch $currentBranch
+    }
+    Throw "Cannot execute source control command on this folder. It is not a repository."
+}

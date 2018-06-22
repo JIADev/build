@@ -4,7 +4,7 @@ function hg(){
     Write-Host "$cmd $args"
     
     $output = ((& $cmd $args) | Out-String)
-    $lines = $output -split "`r`n"
+    $lines = $output.Trim() -split "`r`n"
     
     #remove the first line, it's the hg exe command
     $lines= $lines[1..($lines.Length-1)]
@@ -90,9 +90,6 @@ function SourceControlHg_ResolveAll() {
 }
 
 function SourceControlHg_RevertAll() {
-    #hg revert --all --no-backup
-    #hg update --clean
-    #hg purge --all
     hg --config extensions.purge= purge --all
 
     if ($LastExitCode -ne 0) { 
@@ -144,6 +141,15 @@ function SourceControlHg_GetCurrentBranch() {
 
 function SourceControlHg_GetRemovedFiles() {
     $output = (hg status -r);
+    if ($LastExitCode -ne 0) { 
+        Write-Host "Cannot get repo status!"
+        Exit 1
+    }    
+    return $output
+}
+
+function SourceControlHg_ForwardChangeCheck([string]$baseBranch, [string]$currentBranch) {
+    $output = (hg log --rev "`"ancestors('$baseBranch') and !ancestors('$currentBranch')`"" -l 10);
     if ($LastExitCode -ne 0) { 
         Write-Host "Cannot get repo status!"
         Exit 1
