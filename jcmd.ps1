@@ -15,7 +15,9 @@ if (Test-Path $cmdScript)
     Write-Debug "Executing: $cmdScript"
     Write-Debug $($args -join '|' | Out-String)
 
-    & $cmdScript $args
+    $cmd = "& `"$cmdScript`" " + $($args -join ' ')
+
+    Invoke-Expression $cmd
     exit $LASTEXITCODE
 }
 
@@ -28,7 +30,9 @@ if (Test-Path $cmdScript)
     Write-Debug "Executing: $cmdScript"
     Write-Debug $($args -join '|' | Out-String)
 
-    & $cmdScript $args
+    $cmd = "& `"$cmdScript`" " + $($args -join ' ')
+
+    Invoke-Expression $cmd
     exit $LASTEXITCODE
 }
 
