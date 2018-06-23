@@ -12,6 +12,11 @@
 
     This command will raise an error in this case so that you will be forced to merge
     the new core changes into your branch.
+.PARAMETER baseBranch
+    The remote branch that may contain extra commits.
+.PARAMETER childBranch
+    The branch that should be checked for missing commits.
+    *Defaults to the branch of the current folder if not specified.
 .EXAMPLE
     PS C:\dev\project_folder>jcmd ForwardChangeCheck 7.0.0 7.0.0_Customer1002
     Outputs the first 10 revisions found that are in 7.0.0 but not in 
@@ -29,10 +34,16 @@
     repository commands.
 #>
 param(
-    [string] $baseBranch,
-    [string] $childBranch
+    [Parameter(Mandatory=$true)][string] $baseBranch,
+    [Parameter(Mandatory=$false)][string] $childBranch
 )
+
 . "$PSScriptRoot\_Shared\SourceControlTasks\SourceControlLowLevelFunctions.ps1"
+
+if (!($childBranch))
+{
+    $childBranch = SourceControl_GetCurrentBranch
+}
 
 $missingRevisions = SourceControl_ForwardChangeCheck $baseBranch $childBranch
 if ($missingRevisions)

@@ -23,7 +23,7 @@ $cmdFolder = $PSScriptRoot;
 $cmdScript = Join-Path $cmdFolder "$commandName.ps1";
 if (Test-Path $cmdScript)
 {
-    & Get-Help $cmdScript
+    & Get-Help $cmdScript -Detailed
     Exit
 }
 
@@ -32,7 +32,7 @@ $cmdFolder = Join-Path $cmdFolder $commandName;
 $cmdScript = Join-Path $cmdFolder "$commandName.ps1";
 if (Test-Path $cmdScript)
 {
-    & Get-Help $cmdScript
+    & Get-Help $cmdScript -Detailed
     Exit
 }
 

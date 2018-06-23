@@ -28,11 +28,10 @@ $folderCommands =
 
 ($commands + $folderCommands) |
     ForEach-Object { Get-Help $_ } | 
-    Select-Object Name,Synopsis | 
-    ForEach-Object { $_.Name = [IO.Path]::GetFileNameWithoutExtension($_.Name); return $_; } |
-    Sort-Object -Property Name | 
+    Select-Object @{N="Command Name"; E={[IO.Path]::GetFileNameWithoutExtension($_.Name)}},@{N="Description"; E={$_.Synopsis}} | 
+    Sort-Object -Property "Command Name" | 
     Format-Table -Auto
 
-
+Write-Host "Execute: jcmd help [Command] for details on a specific command" -ForegroundColor Cyan
 
 
