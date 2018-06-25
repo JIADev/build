@@ -22,7 +22,7 @@
 #>
 param(
     [Parameter(Mandatory=$false)][string]$RevertPath=".",
-    [Parameter(Mandatory=$false)][string]$LongPathCheck=$false
+    [Parameter(Mandatory=$false)][switch]$LongPathCheck=$false
 )
 
 . "$PSScriptRoot\_shared\SourceControlTasks\SourceControlTasks.ps1"
@@ -70,7 +70,7 @@ function RemoveJunctions([string[]]$folders) {
 }
 
 function RemoveEmptyFolders([string[]]$folders) {
-    $count = $folders.Length
+    $count = $folders.Count
     foreach ($folder in $folders)
     {
         Write-Verbose "Removing Empty Folder: $folder"
@@ -80,7 +80,7 @@ function RemoveEmptyFolders([string[]]$folders) {
 }
 
 function RemoveLongPathFolders($folders) {
-    $count = $folders.Length
+    $count = $folders.Count
     foreach ($folder in $folders)
     {
         Write-Verbose "Removing Long Path: $folder"
@@ -168,27 +168,13 @@ function RevertRepoFolder($path) {
     SourceControl_RevertAll
 }
 
-function ParseArgs()
-{
-    $revertPathArg = $args | Where-Object{ $_ -notlike "-*" } | Select-Object -First 1;
-    $longPathCheckArg = $args | Where-Object{ $_ -like "-LongPathCheck" } | Select-Object -First 1;
-
-    #default
-    if ($revertPathArg) {$script:RevertPath = $revertPathArg }
-    if ($longPathCheckArg) {$script:LongPathCheck = $longPathCheckArg }
-
-    #also make sure path is expanded
-    $script:RevertPath = Resolve-Path -Path $script:RevertPath
-}
-
-
-#set variables from $args
-ParseArgs
-
 #---- Debugging Settings -----
 #$DebugPreference = "Continue"
 #$RevertPath = "C:\dev\work1"
 #$LongPathCheck = $false
+
+#sure path is expanded
+$RevertPath = Resolve-Path -Path $RevertPath
 
 Push-Location $RevertPath
 try {
