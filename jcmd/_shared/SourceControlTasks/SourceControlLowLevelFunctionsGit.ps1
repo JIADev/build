@@ -5,8 +5,6 @@ function git(){
     $output = ((& $cmd $args) | Out-String)
     $lines = $output -split "`r`n"
     
-    #remove the first line, it's the git exe command
-    $lines= $lines[1..($lines.Length-1)]
     return $lines;
 }
 
@@ -125,7 +123,7 @@ function SourceControlGit_HasPendingChanges() {
 }
 
 function SourceControlGit_GetCurrentBranch() {
-    $output = (git rev-parse --abbrev-ref HEAD).Trim()
+    $output = (git rev-parse --abbrev-ref HEAD)[0].Trim()
     if ($LastExitCode -ne 0) { return ''}
     return $output.Trim();
 }
