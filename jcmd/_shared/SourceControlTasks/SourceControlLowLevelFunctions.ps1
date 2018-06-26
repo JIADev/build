@@ -1,6 +1,11 @@
 . "$PSScriptRoot\SourceControlLowLevelFunctionsHg.ps1"
 . "$PSScriptRoot\SourceControlLowLevelFunctionsGit.ps1"
 
+function SourceControl_ErrorNoRepo
+{
+    throw "Cannot execute source control command on this folder. It is not a repository."
+}
+
 function SourceControl_Commit([string] $message) {
     if (Test-Path ".\.hg")
     {
@@ -10,7 +15,7 @@ function SourceControl_Commit([string] $message) {
     {
         return SourceControlGit_Commit $message
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_CommitAndClose([string] $message) {
@@ -22,7 +27,7 @@ function SourceControl_CommitAndClose([string] $message) {
     {
         return SourceControlGit_CommitAndClose $message
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_SetBranch([string] $branchName) {
@@ -34,7 +39,7 @@ function SourceControl_SetBranch([string] $branchName) {
     {
         return SourceControlGit_SetBranch $branchName
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_UpdateBranch([string] $branchName) {
@@ -46,7 +51,7 @@ function SourceControl_UpdateBranch([string] $branchName) {
     {
         return SourceControlGit_UpdateBranch $branchName
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_Pull() {
@@ -58,7 +63,7 @@ function SourceControl_Pull() {
     {
         return SourceControlGit_Pull
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_Push([switch] $newBranch) {
@@ -70,7 +75,7 @@ function SourceControl_Push([switch] $newBranch) {
     {
         return SourceControlGit_Push $newBranch
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_Merge([string] $remoteBranch, [switch] $internalMerge) {
@@ -82,7 +87,7 @@ function SourceControl_Merge([string] $remoteBranch, [switch] $internalMerge) {
     {
         return SourceControlGit_Merge $remoteBranch $internalMerge
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_Graft([string] $commitRevision, [switch] $internalMerge) {
@@ -94,7 +99,7 @@ function SourceControl_Graft([string] $commitRevision, [switch] $internalMerge) 
     {
         return SourceControlGit_Graft $commitRevision $internalMerge
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_ResolveAll() {
@@ -106,7 +111,7 @@ function SourceControl_ResolveAll() {
     {
         return SourceControlGit_ResolveAll
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_RevertAll() {
@@ -118,7 +123,7 @@ function SourceControl_RevertAll() {
     {
         return SourceControlGit_RevertAll
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_GetOutgoingChanges([string] $branch) {
@@ -130,7 +135,7 @@ function SourceControl_GetOutgoingChanges([string] $branch) {
     {
         return SourceControlGit_GetOutgoingChanges $branch
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_HasPendingChanges() {
@@ -142,7 +147,7 @@ function SourceControl_HasPendingChanges() {
     {
         return SourceControlGit_HasPendingChanges
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_GetCurrentBranch() {
@@ -154,7 +159,7 @@ function SourceControl_GetCurrentBranch() {
     {
         return SourceControlGit_GetCurrentBranch
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
 }
 
 function SourceControl_ForwardChangeCheck([string]$baseBranch, [string]$currentBranch) {
@@ -166,5 +171,29 @@ function SourceControl_ForwardChangeCheck([string]$baseBranch, [string]$currentB
     {
         return SourceControlGit_ForwardChangeCheck $baseBranch $currentBranch
     }
-    Throw "Cannot execute source control command on this folder. It is not a repository."
+    SourceControl_ErrorNoRepo
+}
+
+function SourceControl_NewBranch([string] $branch) {
+    if (Test-Path ".\.hg")
+    {
+        return SourceControlHg_NewBranch $branch
+    }
+    if (Test-Path ".\.git")
+    {
+        return SourceControlGit_NewBranch $branch
+    }
+    SourceControl_ErrorNoRepo
+}
+
+function SourceControl_BranchExists($branch) {
+    if (Test-Path ".\.hg")
+    {
+        return SourceControlHg_BranchExists $branch
+    }
+    if (Test-Path ".\.git")
+    {
+        return SourceControlGit_BranchExists $branch
+    }
+    SourceControl_ErrorNoRepo
 }

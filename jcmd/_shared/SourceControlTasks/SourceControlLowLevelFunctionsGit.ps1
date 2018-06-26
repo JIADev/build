@@ -1,19 +1,29 @@
-function git(){
+function WriteGitError([string]$cmd, [string]$output)
+{
+    Write-Host $('-' * 80) -ForegroundColor Red
+    Write-Host "Git Command Failed: $cmd " -ForegroundColor Red
+    Write-Host $('-' * 80) -ForegroundColor Red
+    Write-Host $output -ForegroundColor Red
+    Write-Host $('-' * 80) -ForegroundColor Red
+}
+
+function gitcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     $cmd = "git.exe"
-    Write-Host "$cmd $args"
+    Write-Host "$cmd $arguments" -ForegroundColor Cyan
     
-    $output = ((& $cmd $args) | Out-String)
-    $lines = $output -split "`r`n"
-    
-    return $lines;
+    $output = ((& $cmd @arguments) | Out-String)
+    if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)
+    {
+        $lines = $output -split "`r`n"
+        return $lines
+    }
+
+    WriteGitError("$cmd $arguments", $output);
+    Exit 1
 }
 
 function SourceControlGit_Commit([string] $message) {
-    git commit -a -m $message
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot commit! message = $message"
-        Exit 1
-    }
+    gitcmd commit,-a,-m,$message
 }
 
 function SourceControlGit_CommitAndClose([string] $message) {
@@ -22,17 +32,8 @@ function SourceControlGit_CommitAndClose([string] $message) {
     #now tag and remove the branch - Git doesnt have a "close" branch
     $branchName = SourceControlGit_GetCurrentBranch
     $closedTag = "Closed-$branchName"
-    git tag $closedTag $branchName
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot tag branch $branchName with tag $tagName"
-        Exit 1
-    }
-
-    git branch -d $branchName
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot remove branch $branchName"
-        Exit 1
-    }
+    gitcmd tag,$closedTag,$branchName
+    gitcmd branch,-d,$branchName
 }
 
 function SourceControlGit_SetBranch([string] $branchName) {
@@ -40,99 +41,73 @@ function SourceControlGit_SetBranch([string] $branchName) {
 }
 
 function SourceControlGit_UpdateBranch([string] $branchName) {
-    git update $branchName
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot update to branch: $branch"
-        Exit 1
-    }
+    gitcmd checkout,$branchName
 }
 
 function SourceControlGit_Pull() {
-    git pull
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot pull!"
-        Exit 1
-    }
+    gitcmd fetch,origin,master
 }
 
 function SourceControlGit_Push() {
-    git push 
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot push!"
-        Exit 1
-    }
+    gitcmd push,origin,master
 }
 
 function SourceControlGit_Merge([string] $remoteBranch, [switch] $internalMerge) {
-    git merge $remoteBranch
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot Merge $remoteBranch"
-        Exit 1
-    }
+    gitcmd merge,$remoteBranch
 }
 
 function SourceControlGit_Graft([string] $commitRevision, [switch] $internalMerge) {
-    git cherry-pick $commitRevision
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot Merge $remoteBranch"
-        Exit 1
-    }
+    gitcmd cherry-pick,$commitRevision
 }
 
 function SourceControlGit_ResolveAll() {
-    git add -u
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot resolve conflicts!"
-        Exit 1
-    }
+    gitcmd add,-u
 }
 
 function SourceControlGit_RevertAll() {
-    git reset --hard
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot reset branch!"
-        Exit 1
-    }
-    git clean -dx -f
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot clean branch!"
-        Exit 1
-    }
+    gitcmd reset,--hard
+    gitcmd clean,-dx,-f
 }
 
 function SourceControlGit_GetOutgoingChanges([string] $branch) {
     if (!($branch)) {
         $branch = SourceControlGit_GetCurrentBranch
     }
-    git diff --stat --cached --name-only "origin/$branch"
-    
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot get outgoing changesets!"
-        Exit 1
-    }
+    gitcmd diff,--stat,--cached,--name-only,"origin/$branch"
 }
 
 function SourceControlGit_HasPendingChanges() {
-    $output = (git diff --name-only);
-    if ($LastExitCode -ne 0) { 
-        #unknown pending changes exist
-        return $true
-    }
-
+    $output = (gitcmd diff,--name-only);
     return $output.length -gt 0
 }
 
 function SourceControlGit_GetCurrentBranch() {
-    $output = (git rev-parse --abbrev-ref HEAD)[0].Trim()
-    if ($LastExitCode -ne 0) { return ''}
+    $output = (gitcmd rev-parse,--abbrev-ref,HEAD)[0].Trim()
     return $output.Trim();
 }
 
 function SourceControlGit_ForwardChangeCheck([string]$baseBranch, [string]$currentBranch) {
-    $output = (git log "origin/$baseBranch" "^$currentBranch" --no-merges -n 10);
-    if ($LastExitCode -ne 0) { 
-        Write-Host "Cannot get repo status!"
-        Exit 1
-    }    
+    $output = (gitcmd log,"origin/$baseBranch","^$currentBranch",--no-merges,-n,10);
     return $output
 }
+
+function SourceControlGit_NewBranch($branch) {
+    gitcmd checkout,-b,$branch
+}
+
+function SourceControlGit_BranchExists($branch) {
+    $arguments = "show-ref","--verify","--quiet","refs/heads/$branch"
+    $output = (gitcmd $arguments -DoNotExitOnError)
+    if ($LASTEXITCODE -eq 0) { 
+        return $true;
+    }
+    if ($LASTEXITCODE -eq 1) { 
+        return $false;
+    }
+
+    #if the error code wasnt 0 or 1, then we have an unexpected error
+    WriteGitError("$cmd $arguments", $output);
+    Exit 1
+}
+
+

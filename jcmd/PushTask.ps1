@@ -1,3 +1,14 @@
+<#
+.SYNOPSIS
+    Completes a change started by 'jcmd StartTask'.
+.DESCRIPTION
+.PARAMETER A
+.EXAMPLE
+    PS C:\> jcmd PushTask
+.NOTES
+    Created by Richard Carruthers on 06/25/18
+    Based loosely on mercurial specific PushTask.ps1
+#>
 . "$PSScriptRoot\..\customerInfo.ps1"
 . "$PSScriptRoot\_shared\startGraftCommon.ps1"
 

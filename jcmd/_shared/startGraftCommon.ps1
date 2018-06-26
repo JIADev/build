@@ -53,17 +53,17 @@ function setupBranch([string]$customerNumber, [string]$taskNumber, [array]$graft
 	#& h-g pull
 	SourceControl_Pull
     if ($revertall -eq $true) {
-        & $msbuild /t:RevertAll $scriptPath\buildtools.proj
+        & jcmd revertall
     }
     Write-Host "Updating to $startTag"
     SourceControl_UpdateBranch $startTag
 
-    $branchCreated = ensureBranchUp $branchName
+    $branchCreated = SourceControl_EnsureBranchIncludes $branchName
     if ($branchCreated -ne 0) { 
         Write-Host "Cannot create or update to $branchName"
         Exit
     }
-    ensureBranchIncludes $startTag
+    SourceControl_EnsureBranchIncludes $startTag
 }
 
 
