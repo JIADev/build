@@ -36,19 +36,19 @@ function SourceControlHg_SetBranch([string] $branchName) {
     SourceControlHg_UpdateBranch $branchName
 }
 
-function SourceControlHg_UpdateBranch([string] $branchName) {
+function SourceControlHg_UpdateBranchToHead([string] $branchName) {
     hgcmd update,$branchName
 }
 
-function SourceControlHg_Pull() {
+function SourceControlHg_PullRepoCommits() {
     hgcmd pull
 }
 
-function SourceControlHg_Push([string[]] $options) {
+function SourceControlHg_PushCommitsToRemote([string[]] $options) {
     hgcmd push,$options
 }
 
-function SourceControlHg_Merge([string] $remoteBranch, [switch] $internalMerge) {
+function SourceControlHg_MergeToCurrentBranch([string] $remoteBranch, [switch] $internalMerge) {
     if ($internalMerge -eq $true) {
         hgcmd merge,$remoteBranch,--tool=internal:merge
     }
@@ -57,7 +57,7 @@ function SourceControlHg_Merge([string] $remoteBranch, [switch] $internalMerge) 
     }
 }
 
-function SourceControlHg_Graft([string] $commitRevision, [switch] $internalMerge) {
+function SourceControlHg_MergeSingleCommit([string] $commitRevision, [switch] $internalMerge) {
     if ($internalMerge -eq $true) {
         hgcmd graft,-r,$commitRevision,--tool=internal:merge
     }
@@ -66,7 +66,7 @@ function SourceControlHg_Graft([string] $commitRevision, [switch] $internalMerge
     }
 }
 
-function SourceControlHg_ResolveAll() {
+function SourceControlHg_ResolveAllMergeConflicts() {
     hgcmd resolve,--all
 }
 

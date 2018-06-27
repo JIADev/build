@@ -25,7 +25,7 @@ param(
     [Parameter(Mandatory=$false)][switch]$LongPathCheck=$false
 )
 
-. "$PSScriptRoot\_shared\SourceControlTasks\SourceControlTasks.ps1"
+. "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
 #defaults
 $ignoreFolders = @(".hg", ".git", ".nuget")

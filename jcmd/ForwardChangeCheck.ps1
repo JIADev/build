@@ -38,7 +38,7 @@ param(
     [Parameter(Mandatory=$false)][string] $childBranch
 )
 
-. "$PSScriptRoot\_Shared\SourceControlTasks\SourceControlLowLevelFunctions.ps1"
+. "$PSScriptRoot\_Shared\SourceControl\SourceControl.ps1"
 
 if (!($childBranch))
 {

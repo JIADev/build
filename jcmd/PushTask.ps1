@@ -2,105 +2,72 @@
 .SYNOPSIS
     Completes a change started by 'jcmd StartTask'.
 .DESCRIPTION
-.PARAMETER A
+	1. Checks for pending changes
+	2. Checks to ensure this is a branch started with 'jcmd StartTask'
+	3. Changes the current branch to the base branch used to start the task (such as 1002_PRD)
+	4. Merges the task branch to the base branch
+    5. Resolves all conflicts
+    6. Optionally Commits Any Changes (resolved conflicts)
+    7. Pushes the commits to the remote repo
+
+	*Determines the correct source control commands to use for the folder repo.
+    Mercurial and Git are supported.    
 .EXAMPLE
     PS C:\> jcmd PushTask
 .NOTES
     Created by Richard Carruthers on 06/25/18
     Based loosely on mercurial specific PushTask.ps1
 #>
-. "$PSScriptRoot\..\customerInfo.ps1"
-. "$PSScriptRoot\_shared\startGraftCommon.ps1"
+. "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
-$mergeSwitch = $false
-$noComment = 'true'
-$args | foreach {
-      if([string]$_ -eq '--tool=internal:merge') {
-      	$mergeSwitch = $true
-      } else {
-            $noComment = 'false'
-	}
+if (SourceControl_HasPendingChanges)
+{
+	Write-Host "This branch has pending changes. Please commit first."
+	Exit 1
 }
 
-if($noComment -eq 'false') {
-	#& h-g ci -m "$args"
-	SourceControl_Commit "$args"
-	if($LastExitCode -ne 0) { 
-		Write-Host "Commit failed"
-		Exit
-	}
-}
 $currentBranch = SourceControl_GetCurrentBranch
+#we are going to merge the current branch back to the base branch
+$mergeBranch = $currentBranch
 
-if($currentBranch -eq '') { 
-	Write-Host "Cannot determine my branch"
-	Exit
+$branchParts = $currentBranch -split "_"
+if (($branchParts.Length -lt 4) -or (($branchParts | Where-Object {-not $_}).Count -gt 0))
+{
+	Write-Host "Cannot parse branch name for pushtask operation. Expected branch name format: TSK_[CustomerNumber]_[Environment]_[TaskId]" -ForegroundColor Red
+	Exit 1
 }
 
-$underscore = $currentBranch.IndexOf('_')
-$customerNumber = ''
+$taskPrefix = $branchParts[0]
+$customerId = $branchParts[1]
+$env = $branchParts[2]
+$taskId = $branchParts[3]
 
-if($underscore -lt 1) {
-	Write-Host "Can't determine customer number from branch name: "$currentBranch
-} else {
-  $customerNumber = $currentBranch.Substring(0, $underscore)
+if ($taskPrefix -ne "TSK")
+{
+	Write-Host "Branch does not appear to be started with 'jcmd StartTask'. Expected branch name format: TSK_[CustomerNumber]_[Environment]_[TaskId]" -ForegroundColor Red
+	Exit 1
 }
 
-if($customerNumber -eq '') {
-	$customerNumber = Read-Host "Customer Number? (i.e. 2094, 2095, 2096)"
+try {
+    $baseBranch = "$customerId`_$env"
+    Write-Host "UPDATING BRANCH TO '$baseBranch' FOR MERGING!!" -ForegroundColor Cyan
+    SourceControl_SetBranch $baseBranch
+    SourceControl_MergeToCurrentBranch $mergeBranch
+    SourceControl_ResolveAllMergeConflicts
+    if (SourceControl_HasPendingChanges)
+    {
+        SourceControl_Commit "PushTask Merging $mergeBranch to $baseBranch"
+    }
+    SourceControl_PushCommitsToRemote    
+}
+catch {
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    Write-Host "An unexpected error occured! You need to investigate the state of the repo and source folder to decide what to do now!" -ForegroundColor Red
+    Exit 1
+}
+finally {
+    $newCurrentBranch = SourceControl_GetCurrentBranch
+    Write-Host "Your Current Branch is '$newCurrentBranch'" -ForegroundColor Yellow    
 }
 
-validateCustomer $customerNumber
-$ongoingBranches = $pushTaskBranches[[string]$customerNumber]
-$pushBranch = $currentBranch
 
-if($ongoingBranches) {
-	foreach($ongoingBranch in $ongoingBranches) {
-		Write-Host "Pulling from server"
-		#& h-g pull
-		SourceControl_Pull
-		if($pushBranch -eq $currentBranch -and $pushBranch -ne $ongoingBranch) {
-			Write-Host "Closing branch $currentBranch"
-			#& h-g ci -m "Completing task @build" --close-branch
-			SourceControl_CommitAndClose "Completing task @build"
-		}
-		if($ongoingBranch -ne '') {
-			Write-Host "Updating to branch $ongoingBranch"
-			#& h-g up $ongoingBranch
-			SourceControl_SetBranch $ongoingBranch
-			SourceControl_Pull
-
-			if($pushBranch -ne $ongoingBranch) {
-				Write-Host "Merging $pushBranch to $ongoingBranch"
-				#& h-g merge $pushBranch $mergeSwitch
-				SourceControl_Merge $pushBranch $mergeSwitch
-			}
-			Write-Host "Committing Merge"
-			#& h-g ci -m "@merge $pushBranch"
-			SourceControl_Commit "@merge $pushBranch"
-			$pushBranch = $ongoingBranch
-		}
-	}	
-} else {
-	if($pushBranch -eq $currentBranch) {
-		Write-Host "Closing branch $currentBranch"
-		#& h-g ci -m "Completing task @build" --close-branch
-		SourceControl_CommitAndClose "Completing task @build"
-	}
-}
-
-$currentDir = Convert-Path .
-
-#& h=g outgoing -b $pushBranch
-SourceControl_GetOutgoingChanges $pushBranch
-$confirmation = Read-Host "This will push these changes in $currentDir to the server. (y/n?)"
-if($confirmation -eq 'y') {
-	SourceControl_pushChanges $pushBranch
-} else {
-  Write-Host "Not pushed, updating to $currentBranch"
-  #& h-g up $currentBranch
-  SourceControl_UpdateBranch $currentBranch
-}
-
-$currentBranch = getCurrentBranch
-Write-Host "Current Branch $currentBranch"

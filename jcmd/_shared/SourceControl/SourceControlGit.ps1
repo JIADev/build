@@ -37,30 +37,39 @@ function SourceControlGit_CommitAndClose([string] $message) {
 }
 
 function SourceControlGit_SetBranch([string] $branchName) {
-    SourceControlGit_UpdateBranch $branchName
-}
-
-function SourceControlGit_UpdateBranch([string] $branchName) {
     gitcmd checkout,$branchName
 }
 
-function SourceControlGit_Pull() {
-    gitcmd fetch,origin,master
+function SourceControlGit_UpdateBranchToHead([string] $branchName) {
+    gitcmd checkout,$branchName
+    gitcmd pull,origin,$branchName
 }
 
-function SourceControlGit_Push() {
-    gitcmd push,origin,master
+function SourceControlGit_PullRepoCommits() {
+        gitcmd fetch --all
 }
 
-function SourceControlGit_Merge([string] $remoteBranch, [switch] $internalMerge) {
+function SourceControlGit_PushCommitsToRemote([switch] $newBranch) {
+    $currentBranch = SourceControlGit_GetCurrentBranch
+    if ($newBranch)
+    {
+        gitcmd push,origin,$currentBranch
+    }
+    else
+    {
+        gitcmd push,-u,origin,$currentBranch
+    }
+}
+
+function SourceControlGit_MergeToCurrentBranch([string] $remoteBranch, [switch] $internalMerge) {
     gitcmd merge,$remoteBranch
 }
 
-function SourceControlGit_Graft([string] $commitRevision, [switch] $internalMerge) {
+function SourceControlGit_MergeSingleCommit([string] $commitRevision, [switch] $internalMerge) {
     gitcmd cherry-pick,$commitRevision
 }
 
-function SourceControlGit_ResolveAll() {
+function SourceControlGit_ResolveAllMergeConflicts() {
     gitcmd add,-u
 }
 
@@ -92,7 +101,11 @@ function SourceControlGit_ForwardChangeCheck([string]$baseBranch, [string]$curre
 }
 
 function SourceControlGit_NewBranch($branch) {
+    #creates a new branch and makes it the current branch
     gitcmd checkout,-b,$branch
+
+    #if you want to make it remote right away
+    #gitcmd push,origin,$branch
 }
 
 function SourceControlGit_BranchExists($branch) {

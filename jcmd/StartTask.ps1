@@ -3,22 +3,24 @@
     Prepares a j6 repo folder for a change to a specific tag such as UAT or PRD.
 .DESCRIPTION
 	1. Optionally calls a revertall (gets rid of junctions).
-	2. Pulls the lastest code from the repository.
-	3. Updates to the [TaskBaseTag] tag/branch (defaults to "[CustomerNumber]_PRD").
-	4. Creates a new branch for this [TaskNumber] off of the tag/branch (defaults to "[CustomerNumber]_[TaskNumber]"..
+	2. Updates the local repository with the latest commits from the remote.
+	3. Updates to the [EnvironmentCode] tag/branch (defaults to "[CustomerId]_PRD").
+	4. Creates a new branch for this [TaskId] off of the tag/branch (defaults to "[CustomerId]_[TaskId]"..
 	5. Makes this new branch the current branch.
 
 	Determines the correct source control commands to use for the folder repo.
     Mercurial and Git are supported.
-.PARAMETER CustomerNumber
+.PARAMETER CustomerId
 	Specifies the 4 digit customer number. May also include trailing alpha characters
 	for the market specifier. e.g. 2094 or 2094PER or 2097PL
-.PARAMETER TaskNumber
+.PARAMETER TaskId
 	Specifies the work item task ID that is related to this change. This ID is used
 	as part of the naming convention for task branch names.
-.PARAMETER TaskBaseTag
-	Specifies the tag name that represents the starting point for this change. Typically,
-	this is "PRD", but it could be "UAT" or a customer specific identifier.
+.PARAMETER EnvironmentCode
+	Specifies the environment or branch suffix that represents the starting point 
+	for this change. Typically,	this is "PRD", but it could be "UAT" or a customer
+	specific identifier. The starting branch will be [CustomerId]_[EnvironmentCode]
+	such as 2097PL_PRD
 .PARAMETER SkipRevertAll
 	Optionally skips the initial revertall step.
 .EXAMPLE
@@ -28,20 +30,12 @@
     Based loosely on mercurial specific StartTask.ps1
 #>
 param(
-	[Parameter(Mandatory=$true)][string]$CustomerNumber,
-	[Parameter(Mandatory=$true)][string]$TaskNumber,
-	[Parameter(Mandatory=$false)][string]$TaskBaseTag="PRD",
+	[Parameter(Mandatory=$true)][string]$CustomerId,
+	[Parameter(Mandatory=$true)][string]$TaskId,
+	[Parameter(Mandatory=$false)][string]$EnvironmentCode="PRD",
     [Parameter(Mandatory=$false)][switch]$SkipRevertAll
 )
-. "$PSScriptRoot\..\customerInfo.ps1"
-. "$PSScriptRoot\_shared\SourceControlTasks\SourceControlTasks.ps1"
-
-#Validate Customer Number
-if ($validCustomers -NotContains $CustomerNumber) {
-	$errorMessage = "$CustomerNumber is not a valid customer number"
-	Write-Host $errorMessage -ForegroundColor Red
-	Exit 1
-}
+. "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
 $hasPendingChanges = SourceControl_HasPendingChanges
 if ($hasPendingChanges -eq $true) {
@@ -51,22 +45,21 @@ if ($hasPendingChanges -eq $true) {
 
 if (!($SkipRevertAll)) { & jcmd revertall }
 
-$startTag = [string]$CustomerNumber + '_' + $TaskBaseTag
-$branchName = [string]$CustomerNumber + '_' + [string]$TaskNumber
+$startBranch = $CustomerId + '_' + $EnvironmentCode
+$branchName = "TSK" + '_' + $startBranch + '_' + $TaskId
 
-SourceControl_Pull
-#& h-g pull
+SourceControl_PullRepoCommits
 if (SourceControl_BranchExists $branchName)
 {
-	Write-Host "Branch '$branchName' already exists. Switch to this branch manually, or choose a different TaskNumber" -ForegroundColor Red
+	Write-Host "Branch '$branchName' already exists. Switch to this branch manually, or choose a different TaskId" -ForegroundColor Red
 	Exit 1
 }
 
-Write-Host "Updating to $startTag"
-SourceControl_UpdateBranch $startTag
+Write-Host "Updating to $startBranch..."
+SourceControl_SetBranch $startBranch
 
-SourceControl_EnsureBranchUp $branchName
-
+Write-Host "Creating branch $branchName..."
+SourceControl_NewBranch $branchName
 
 $currentBranch = SourceControl_GetCurrentBranch
 if ($currentBranch -ne $branchName)
