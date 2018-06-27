@@ -8,7 +8,7 @@
 	4. Creates a new branch for this [TaskId] off of the tag/branch (defaults to "[CustomerId]_[TaskId]"..
 	5. Makes this new branch the current branch.
 
-	Determines the correct source control commands to use for the folder repo.
+	*Determines the correct source control commands to use for the folder repo.
     Mercurial and Git are supported.
 .PARAMETER CustomerId
 	Specifies the 4 digit customer number. May also include trailing alpha characters
