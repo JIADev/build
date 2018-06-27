@@ -1,22 +1,22 @@
 <#
 .SYNOPSIS
-    Completes a change started by 'jcmd StartTask'.
+  Completes a change started by 'jcmd StartTask'.
 .DESCRIPTION
-	1. Checks for pending changes
-	2. Checks to ensure this is a branch started with 'jcmd StartTask'
-	3. Changes the current branch to the base branch used to start the task (such as 1002_PRD)
-	4. Merges the task branch to the base branch
-    5. Resolves all conflicts
-    6. Optionally Commits Any Changes (resolved conflicts)
-    7. Pushes the commits to the remote repo
+  1. Checks for pending changes
+  2. Checks to ensure this is a branch started with 'jcmd StartTask'
+  3. Changes the current branch to the base branch used to start the task (such as 1002_PRD)
+  4. Merges the task branch to the base branch
+  5. Resolves all conflicts
+  6. Optionally Commits Any Changes (resolved conflicts)
+  7. Pushes the commits to the remote repo
 
-	*Determines the correct source control commands to use for the folder repo.
-    Mercurial and Git are supported.    
+  *Determines the correct source control commands to use for the folder repo.
+  Mercurial and Git are supported.    
 .EXAMPLE
-    PS C:\> jcmd PushTask
+  PS C:\> jcmd PushTask
 .NOTES
-    Created by Richard Carruthers on 06/25/18
-    Based loosely on mercurial specific PushTask.ps1
+  Created by Richard Carruthers on 06/25/18
+  Based loosely on mercurial specific PushTask.ps1
 #>
 . "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 

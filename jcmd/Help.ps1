@@ -1,15 +1,11 @@
 <#
 .SYNOPSIS
-    Displays the help associated with jcmd scripts.
+  Displays the help associated with jcmd scripts.
 .DESCRIPTION
-    Every jcmd command script should contain standard powershell help information
-    such as SYNOPSIS, DESCRIPTION, EXAMPLES, INPUTS, OUTPUTS, and NOTES.
+  Every jcmd command script should contain standard powershell help information
+  such as SYNOPSIS, DESCRIPTION, EXAMPLES, INPUTS, OUTPUTS, and NOTES.
 .EXAMPLE
-    PS C:\dev\project_folder>jcmd help forwardchangecheck
-.INPUTS
-    CommandName: Command for which to display the help information.
-.OUTPUTS
-    Help.
+  PS C:\dev\project_folder>jcmd help forwardchangecheck
 .NOTES
 #>
 param(

@@ -1,24 +1,24 @@
 <#
 .SYNOPSIS
-    Resets a repository folder back to its initial state, accounting for 
-    junctions and empty folders.
+  Resets a repository folder back to its initial state, accounting for 
+  junctions and empty folders.
 .DESCRIPTION
-    Removes junctions, empty folders, and (optionally) folders with long paths
-    from a j6 development folder.
+  Removes junctions, empty folders, and (optionally) folders with long paths
+  from a j6 development folder.
     
-    Determines the correct source control commands to use for the folder repo.
-    Mercurial and Git are supported.
+  Determines the correct source control commands to use for the folder repo.
+  Mercurial and Git are supported.
 .PARAMETER RevertPath
-    Specifies the path that should be reverted.
-    *Defaults to the current path if not spefied.
+  Specifies the path that should be reverted.
+  *Defaults to the current path if not spefied.
 .PARAMETER LongPathCheck
-    Determines whether each folder and filename is checked for exceeding the
-    maximum length of 261 characters. If so, the folder is removed using
-    special logic since most file system commands cannot process long paths.
-    *Defaults to $false if not specified.
+  Determines whether each folder and filename is checked for exceeding the
+  maximum length of 261 characters. If so, the folder is removed using
+  special logic since most file system commands cannot process long paths.
+  *Defaults to $false if not specified.
 .EXAMPLE
-    PS C:\> jcmd RevertAll
-    Reverts the current folder checking for junctions and empty folders.
+  PS C:\> jcmd RevertAll
+  Reverts the current folder checking for junctions and empty folders.
 #>
 param(
     [Parameter(Mandatory=$false)][string]$RevertPath=".",

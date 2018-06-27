@@ -1,16 +1,10 @@
 <#
 .SYNOPSIS
-    Lists jcmd commands with synopsis.
+  Lists jcmd commands with synopsis.
 .DESCRIPTION
-    Lists jcmd commands with synopsis.
+  Lists jcmd commands with synopsis.
 .EXAMPLE
-    PS C:\dev\project_folder>jcmd listcommands
-.INPUTS
-    NONE
-.OUTPUTS
-    List of jcmd commands.
-
-    Use "jcmd help [Command Name]" to get more information.
+  PS C:\dev\project_folder>jcmd listcommands
 .NOTES
 #>
 
