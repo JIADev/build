@@ -18,6 +18,20 @@ try {
     Write-Host "Exporting Closed Branches..." -ForegroundColor Cyan
     $closedBranches = $(hg log -r "closed()" -T "{branch}\n") | sort-object | get-unique
     if ($LASTEXITCODE -ne 0) { throw "Error getting closed branches from Mercurial" }
+    Write-Host "Found $($closedBranches.Count) Closed Branches..." -ForegroundColor Cyan
+
+    #export the active/open heads
+    Write-Host "Exporting Open Branches..." -ForegroundColor Cyan
+    $openBranches = $hgHeads=$(hg heads -T "{branch}\n") | sort-object | get-unique
+    if ($LASTEXITCODE -ne 0) { throw "Error getting closed branches from Mercurial" }
+    Write-Host "Found $($openBranches.Count) Open Branches..." -ForegroundColor Cyan
+
+    #sometimes a branch was closed at one point, and so it will be in the closed list
+    #but it was re-opened, and so it will also be in the opened list
+    #lets make sure our closed list doesnt have opened branches
+
+    $closedBranches = $closedBranches | Where-Object {$openBranches -notcontains $_}
+    Write-Host "After removing open branches from closed list, there are $($closedBranches.Count) closed branches..." -ForegroundColor Cyan
 }
 finally {
     Pop-Location
@@ -40,19 +54,23 @@ try {
 
     $processList = $closedBranches | Where-Object {$gitBranchList -contains $_}
 
+    if (!$processList) {
+        $processList = @()
+    }
+
     $notProcessedCount = $closedBranches.Count - $processList.Count
 
     Write-Host "Skipping $notProcessedCount branches because they are not present in Git repository!" -ForegroundColor Yellow
 
     #process the branches are closed in HG and should be converted to tags in Git
     $total = $processList.Length
-    for ($i = 0; $i -le $total; $i++ ) {
+    for ($i = 0; $i -lt $total; $i++ ) {
         $line = $processList[$i];
         $branchName = $line.Trim()
         $tagName = "archive/$branchName"
 
         $pct = [math]::Round((($i + 1) / $total) * 100)
-        Write-Progress -Activity "Processing ($($i+1) of $total) $branchName " -Status "$pct% Complete:" -PercentComplete $pct;
+        Write-Progress -Activity "Processing Closed Branches" -Status "($($i+1) of $total) $pct% Complete | $branchName :" -PercentComplete $pct;
 
         Write-Host "Processing $branchName" -ForegroundColor Green
         try {
@@ -83,7 +101,7 @@ try {
         }
     }
 
-    Write-Progress -Completed
+    Write-Progress -Activity "Processing Closed Branches" -Completed
 }
 
 finally {
