@@ -123,4 +123,9 @@ function SourceControlGit_BranchExists($branch) {
     Exit 1
 }
 
+function SourceControlGit_BranchExistsRemote($branch) {
+    $result = (gitcmd ls-remote,origin,$branch).Count
+    if ($result -gt 0) { return $true; }
+    return $false;
+}
 

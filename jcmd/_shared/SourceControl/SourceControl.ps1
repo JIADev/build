@@ -91,3 +91,6 @@ function SourceControl_NewBranch([string] $branch) {
 function SourceControl_BranchExists($branch) {
     _SourceControl $MyInvocation.MyCommand $branch
 }
+function SourceControl_BranchExistsRemote($branch) {
+    _SourceControl $MyInvocation.MyCommand $branch
+}

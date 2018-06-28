@@ -132,3 +132,8 @@ function SourceControlHg_BranchExists($branch) {
     Exit 1
 }
 
+function SourceControlHg_BranchExists($branch) {
+    #mercurial doesnt really have a remote, so we pull first, then decide
+    SourceControlHg_PullRepoCommits
+    return SourceControlHg_BranchExists $branch
+}
