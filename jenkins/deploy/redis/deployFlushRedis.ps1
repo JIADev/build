@@ -18,6 +18,11 @@ param
 	[string]$deploy_env
 )
 
+#create PSCred object for PSRemoting
+$user = "jenkon\ccnet_new"
+$secPW = (Get-Content "$($ENV:secrets_dir)\ccnet.txt") | ConvertTo-SecureString -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential($user, $secPW)
+
 $json = Get-Content $config_json -Raw | ConvertFrom-Json
 $redisHostname = $json.$driver.environments.$deploy_env.redis.hostname
 $redisIP = $json.$driver.environments.$deploy_env.redis.ip
@@ -45,7 +50,7 @@ else
 #		Start-Process -FilePath "C:\Redis\redis-cli.exe" -ArgumentList $cmdParams -PassThru -verb runas -Wait -RedirectStandardError "$errorLog"
 #		$exe = "C:\Redis\redis-cli.exe"
 		#		& $exe $cmdParams
-		Invoke-Command -ComputerName $redisHostname -ScriptBlock { $cmdParams }
+		Invoke-Command -ComputerName $redisHostname -Credential $credential -ScriptBlock { $cmdParams }
 	}
 	catch
 	{

@@ -41,7 +41,7 @@ try
 {
 	#	$psdrive = ls function:[d-z]: -n | ?{ !(test-path $_) } | random
 	#$psdrive = "$($hostname)RteDeploy"
-	$psdrive = "$($ENV:JOB_NAME)_$($BUILD_NUMBER)RteDeploy"
+	$psdrive = "$($driver)_$($BUILD_NUMBER)RteDeploy"
 	New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $rtePkgPath -Credential $credential #-Persist
 	Copy-Item -Path "$sharedPkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
 	Invoke-Command -ComputerName $rteHostname -Credential $credential -FilePath "$deploySharedExtractRTEScriptPath" -ArgumentList "$rteDrive", "$rteDir", "$rteBAKSDir", "$pkgDir"
