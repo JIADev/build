@@ -64,8 +64,7 @@ try
 			#	Write-Host $ip
 			$deployPkgPath = "\\$ip\$($siteDrive)$\$deployPkgDir"
 			Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
-			#$psdrive = "$($hostname)SiteDeploy"
-			$psdrive = "$($driver)_$($BUILD_NUMBER)SiteDeploy"
+			$psdrive = "$($hostname)SiteDeploy"
 			Write-Host	"You are here. psdrive is $($psdrive)"
 			New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
 			#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
