@@ -66,11 +66,14 @@ try
 			Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
 			#$psdrive = "$($hostname)SiteDeploy"
 			$psdrive = "$($driver)_$($BUILD_NUMBER)SiteDeploy"
+			Write-Host	"You are here. psdrive is $($psdrive)"
 			New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
 			#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
+			Write-Host "Now you are here. PSDrive supposedly created."
 			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
 			Write-Host "File copy complete."
 			Invoke-Command -ComputerName $hostname -Credential $credential -FilePath "$deploySitePkgScriptPath" -ArgumentList $siteDrive, $siteDir, $siteBAKSDir, $deployPkgDir
+			Write-Host "Now the extraction has been complete."
 		}
 		finally
 		{
