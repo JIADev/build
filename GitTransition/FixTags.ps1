@@ -38,10 +38,10 @@ try {
     Write-Host "Exporting Git Branches..." -ForegroundColor Cyan
     $gitBranchList = & git branch -r --format "%(refname)" | Split-path -Leaf
 
+    #find the branches that used to be tags in HG
     $processList = $tags | Where-Object {$gitBranchList -contains $_}
 
     $notProcessedCount = $tags.Count - $processList.Count
-
     Write-Host "Skipping $notProcessedCount tags because they are not present in Git repository!" -ForegroundColor Yellow
 
     #process the branches are closed in HG and should be converted to tags in Git
@@ -57,28 +57,26 @@ try {
         Write-Host "Processing $branchName" -ForegroundColor Green
         try {
 
-            ### LOGIC NOT IMPLEMENTED YET, BELOW IS A COPY OF FixClosedBranches
+            $branchHash = $(git ls-remote origin $branchName) | Select-Object -First 1 | ForEach-Object {$_.Substring(0,40)}
+            if (!$branchHash)
+            {
+                Write-Host "ERROR: Cannot retrieve branch hash for '$branchName'. Perhaps it does not exists!" -ForegroundColor Red
+                Continue;
+            }
 
-            # $branchHash = $(git ls-remote origin $branchName) | Select-Object -First 1 | ForEach-Object {$_.Substring(0,40)}
-            # if (!$branchHash)
-            # {
-            #     Write-Host "ERROR: Cannot retrieve branch hash for '$branchName'. Perhaps it does not exists!" -ForegroundColor Red
-            #     Continue;
-            # }
-
-            # Write-Host "Creating Tag $tagName on $branchName $branchHash" -ForegroundColor Cyan
-            # git tag -f "$tagName" "$branchHash"
-            # if ($LASTEXITCODE -ne 0) { throw "Tag $branchHash to $tagName failed!" }
+            Write-Host "Creating Tag $tagName on $branchName $branchHash" -ForegroundColor Cyan
+            git tag -f "$tagName" "$branchHash"
+            if ($LASTEXITCODE -ne 0) { throw "Tag $branchHash to $tagName failed!" }
             
-            # Write-Host "Pushing Tag $tagName" -ForegroundColor Cyan
-            # git push origin "$tagName" -f
-            # if ($LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
+            Write-Host "Pushing Tag $tagName" -ForegroundColor Cyan
+            git push origin "$tagName" -f
+            if ($LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
 
-            # Write-Host "Deleting Remote Branch $branchName" -ForegroundColor Cyan
-            # git push origin --delete "$branchName"
-            # if ($LASTEXITCODE -ne 0) { throw "Deleting remote branch $branchName failed!" }
+            Write-Host "Deleting Remote Branch $branchName" -ForegroundColor Cyan
+            git push origin --delete "$branchName"
+            if ($LASTEXITCODE -ne 0) { throw "Deleting remote branch $branchName failed!" }
 
-            # Write-Host "Branch $branchName converted to tag $tagName" -ForegroundColor Cyan
+            Write-Host "Branch $branchName converted to tag $tagName" -ForegroundColor Cyan
         }
         catch {
             Write-Host "Processing $branchName failed:" -ForegroundColor Red
