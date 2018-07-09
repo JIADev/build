@@ -12,6 +12,8 @@ param(
     [string]$commandName
 )
 
+. "$PSScriptRoot\_Shared\common.ps1"
+
 $cmdFolder = $PSScriptRoot;
 
 
@@ -32,4 +34,4 @@ if (Test-Path $cmdScript)
     Exit
 }
 
-Write-Host "Error: Command '$commandName' not found!"
+Write-ColorOutput "Error: Command '$commandName' not found!"

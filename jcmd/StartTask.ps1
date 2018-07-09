@@ -35,11 +35,12 @@ param(
 	[Parameter(Mandatory=$false)][string]$EnvironmentCode="PRD",
     [Parameter(Mandatory=$false)][switch]$SkipRevertAll
 )
+. "$PSScriptRoot\_Shared\common.ps1"
 . "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
 $hasPendingChanges = SourceControl_HasPendingChanges
 if ($hasPendingChanges -eq $true) {
-	Write-Host "Pending changes found.  Please shelve or commit your changes before running starttask"
+	Write-ColorOutput "Pending changes found.  Please shelve or commit your changes before running starttask"
 	Exit 1
 }
 
@@ -51,21 +52,21 @@ $branchName = "TSK" + '_' + $startBranch + '_' + $TaskId
 SourceControl_PullRepoCommits
 if (SourceControl_BranchExists $branchName)
 {
-	Write-Host "Branch '$branchName' already exists. Switch to this branch manually, or choose a different TaskId" -ForegroundColor Red
+	Write-ColorOutput "Branch '$branchName' already exists. Switch to this branch manually, or choose a different TaskId" -ForegroundColor Red
 	Exit 1
 }
 
-Write-Host "Updating to $startBranch..."
+Write-ColorOutput "Updating to $startBranch..."
 SourceControl_SetBranch $startBranch
 
-Write-Host "Creating branch $branchName..."
+Write-ColorOutput "Creating branch $branchName..."
 SourceControl_NewBranch $branchName
 
 $currentBranch = SourceControl_GetCurrentBranch
 if ($currentBranch -ne $branchName)
 {
-	Write-Host "Unexpected error! The current branch should be '$branchName' but it is actually '$currentBranch'." -ForegroundColor Red
+	Write-ColorOutput "Unexpected error! The current branch should be '$branchName' but it is actually '$currentBranch'." -ForegroundColor Red
 	Exit 1
 }
 
-Write-Host "Don't forget to commit.  Working directory is now branch '$currentBranch'" -ForegroundColor Yellow
+Write-ColorOutput "Don't forget to commit.  Working directory is now branch '$currentBranch'" -ForegroundColor Yellow

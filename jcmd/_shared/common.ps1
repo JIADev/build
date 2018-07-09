@@ -4,8 +4,7 @@ function Write-ColorOutput
     Param(
          [Parameter(Mandatory=$False,Position=1,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)][Object] $Object,
          [Parameter(Mandatory=$False,Position=2,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)][ConsoleColor] $ForegroundColor,
-         [Parameter(Mandatory=$False,Position=3,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)][ConsoleColor] $BackgroundColor,
-         [Switch]$NoNewline
+         [Parameter(Mandatory=$False,Position=3,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)][ConsoleColor] $BackgroundColor
     )    
 
     # Save previous colors
@@ -30,14 +29,7 @@ function Write-ColorOutput
         $Object = ""
     }
 
-    if($NoNewline)
-    {
-        [Console]::Write($Object)
-    }
-    else
-    {
-        Write-Output $Object
-    }
+    Write-Output $Object
 
     # Restore previous colors
     $host.UI.RawUI.ForegroundColor = $previousForegroundColor

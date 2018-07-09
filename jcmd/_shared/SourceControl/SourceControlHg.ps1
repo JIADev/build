@@ -1,15 +1,15 @@
 function WriteHgError([string]$cmd, [string]$output)
 {
-    Write-Host $('-' * 80) -ForegroundColor Red
-    Write-Host "Mercurial Command Failed: $cmd " -ForegroundColor Red
-    Write-Host $('-' * 80) -ForegroundColor Red
-    Write-Host $output -ForegroundColor Red
-    Write-Host $('-' * 80) -ForegroundColor Red
+    Write-ColorOutput $('-' * 80) -ForegroundColor Red
+    Write-ColorOutput "Mercurial Command Failed: $cmd " -ForegroundColor Red
+    Write-ColorOutput $('-' * 80) -ForegroundColor Red
+    Write-ColorOutput $output -ForegroundColor Red
+    Write-ColorOutput $('-' * 80) -ForegroundColor Red
 }
 
 function hgcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     $cmd = "hg.exe"
-    Write-Host "$cmd $arguments" -ForegroundColor Cyan
+    Write-ColorOutput "$cmd $arguments" -ForegroundColor Cyan
     
     $output = ((& $cmd @arguments) | Out-String)
     if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)
@@ -90,7 +90,7 @@ function SourceControlHg_HasPendingChanges() {
     foreach ($line in $output) {
         $modifiedFile = $line.Trim()
         if ($modifiedFile -and $modifiedFile.StartsWith("? ") -eq $false) {
-            Write-Host $modifiedFile
+            Write-ColorOutput $modifiedFile
             $pendingChanges += $modifiedFile
         }
     }

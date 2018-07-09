@@ -36,6 +36,7 @@ param(
     [Parameter(Mandatory=$false)][string] $childBranch
 )
 
+. "$PSScriptRoot\_Shared\common.ps1"
 . "$PSScriptRoot\_Shared\SourceControl\SourceControl.ps1"
 
 if (!($childBranch))
@@ -46,7 +47,7 @@ if (!($childBranch))
 $missingRevisions = SourceControl_ForwardChangeCheck $baseBranch $childBranch
 if ($missingRevisions)
 {
-    Write-Host "The following revisions would be reverted (limited to 10):" -ForegroundColor Red
-    $missingRevisions | Write-Host -ForegroundColor Red
+    Write-ColorOutput "The following revisions would be reverted (limited to 10):" -ForegroundColor Red
+    $missingRevisions | Write-ColorOutput -ForegroundColor Red
     Exit 1
 }

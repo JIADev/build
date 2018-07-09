@@ -25,6 +25,7 @@ param(
     [Parameter(Mandatory=$false)][switch]$LongPathCheck=$false
 )
 
+. "$PSScriptRoot\_Shared\common.ps1"
 . "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
 #defaults
@@ -41,8 +42,8 @@ function EnsureCurrentFolderIsJ6($path) {
     $repoExists = (Test-Path "$path\.git") -or (Test-Path "$path\.hg")
 
     if (!($j6Exists -and $repoExists)) {
-        Write-Host "Path: $path"
-        Write-Host "Must be in a folder with a /j6 sub-folder and a .git or .hg repository folder." -ForegroundColor Red
+        Write-ColorOutput "Path: $path"
+        Write-ColorOutput "Must be in a folder with a /j6 sub-folder and a .git or .hg repository folder." -ForegroundColor Red
         Exit 1;
     }
 }
@@ -66,7 +67,7 @@ function RemoveJunctions([string[]]$folders) {
         Write-Verbose "Removing junction: $folder"
         [io.directory]::Delete($folder);
     }
-    Write-Host "Removed $count junctions."
+    Write-ColorOutput "Removed $count junctions."
 }
 
 function RemoveEmptyFolders([string[]]$folders) {
@@ -76,7 +77,7 @@ function RemoveEmptyFolders([string[]]$folders) {
         Write-Verbose "Removing Empty Folder: $folder"
         [io.directory]::Delete($folder);
     }
-    Write-Host "Removed $count empty folders."
+    Write-ColorOutput "Removed $count empty folders."
 }
 
 function RemoveLongPathFolders($folders) {
@@ -86,7 +87,7 @@ function RemoveLongPathFolders($folders) {
         Write-Verbose "Removing Long Path: $folder"
         Remove-LongPathDirectory $folder
     }
-    Write-Host "Removed $count long path folders."
+    Write-ColorOutput "Removed $count long path folders."
 }
 
 function CheckFolderContents(
@@ -158,8 +159,8 @@ function Recurse($path) {
 function CheckPendingChanges($path) {
     if (SourceControl_HasPendingChanges)
     {
-        Write-Host "Path: $path"
-        Write-Host "ERROR: Folder has pending changes." -ForegroundColor Red
+        Write-ColorOutput "Path: $path"
+        Write-ColorOutput "ERROR: Folder has pending changes." -ForegroundColor Red
         Exit 1;
     }
 }
@@ -184,7 +185,7 @@ try {
     #lets make sure we arent about to lose important code
     CheckPendingChanges $RevertPath
 
-    Write-Host "Reverting $RevertPath" -ForegroundColor Yellow
+    Write-ColorOutput "Reverting $RevertPath" -ForegroundColor Yellow
     #walk the folders and 
     Recurse $revertPath
 

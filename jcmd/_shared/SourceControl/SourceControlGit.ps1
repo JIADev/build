@@ -1,15 +1,15 @@
 function WriteGitError([string]$cmd, [string]$output)
 {
-    Write-Host $('-' * 80) -ForegroundColor Red
-    Write-Host "Git Command Failed: $cmd " -ForegroundColor Red
-    Write-Host $('-' * 80) -ForegroundColor Red
-    Write-Host $output -ForegroundColor Red
-    Write-Host $('-' * 80) -ForegroundColor Red
+    Write-ColorOutput $('-' * 80) -ForegroundColor Red
+    Write-ColorOutput "Git Command Failed: $cmd " -ForegroundColor Red
+    Write-ColorOutput $('-' * 80) -ForegroundColor Red
+    Write-ColorOutput $output -ForegroundColor Red
+    Write-ColorOutput $('-' * 80) -ForegroundColor Red
 }
 
 function gitcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     $cmd = "git.exe"
-    Write-Host "$cmd $arguments" -ForegroundColor Cyan
+    Write-ColorOutput "$cmd $arguments" -ForegroundColor Cyan
     
     $output = ((& $cmd @arguments) | Out-String)
     if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)

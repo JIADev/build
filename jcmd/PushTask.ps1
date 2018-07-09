@@ -18,11 +18,12 @@
   Created by Richard Carruthers on 06/25/18
   Based loosely on mercurial specific PushTask.ps1
 #>
+. "$PSScriptRoot\_Shared\common.ps1"
 . "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
 if (SourceControl_HasPendingChanges)
 {
-	Write-Host "This branch has pending changes. Please commit first."
+	Write-ColorOutput "This branch has pending changes. Please commit first."
 	Exit 1
 }
 
@@ -33,7 +34,7 @@ $mergeBranch = $currentBranch
 $branchParts = $currentBranch -split "_"
 if (($branchParts.Length -lt 4) -or (($branchParts | Where-Object {-not $_}).Count -gt 0))
 {
-	Write-Host "Cannot parse branch name for pushtask operation. Expected branch name format: TSK_[CustomerNumber]_[Environment]_[TaskId]" -ForegroundColor Red
+	Write-ColorOutput "Cannot parse branch name for pushtask operation. Expected branch name format: TSK_[CustomerNumber]_[Environment]_[TaskId]" -ForegroundColor Red
 	Exit 1
 }
 
@@ -44,13 +45,13 @@ $taskId = $branchParts[3]
 
 if ($taskPrefix -ne "TSK")
 {
-	Write-Host "Branch does not appear to be started with 'jcmd StartTask'. Expected branch name format: TSK_[CustomerNumber]_[Environment]_[TaskId]" -ForegroundColor Red
+	Write-ColorOutput "Branch does not appear to be started with 'jcmd StartTask'. Expected branch name format: TSK_[CustomerNumber]_[Environment]_[TaskId]" -ForegroundColor Red
 	Exit 1
 }
 
 try {
     $baseBranch = "$customerId`_$env"
-    Write-Host "UPDATING BRANCH TO '$baseBranch' FOR MERGING!!" -ForegroundColor Cyan
+    Write-ColorOutput "UPDATING BRANCH TO '$baseBranch' FOR MERGING!!" -ForegroundColor Cyan
     SourceControl_SetBranch $baseBranch
     SourceControl_MergeToCurrentBranch $mergeBranch
     SourceControl_ResolveAllMergeConflicts
@@ -61,13 +62,13 @@ try {
     SourceControl_PushCommitsToRemote    
 }
 catch {
-    Write-Host $_.Exception.Message -ForegroundColor Red
-    Write-Host "An unexpected error occured! You need to investigate the state of the repo and source folder to decide what to do now!" -ForegroundColor Red
+    Write-ColorOutput $_.Exception.Message -ForegroundColor Red
+    Write-ColorOutput "An unexpected error occured! You need to investigate the state of the repo and source folder to decide what to do now!" -ForegroundColor Red
     Exit 1
 }
 finally {
     $newCurrentBranch = SourceControl_GetCurrentBranch
-    Write-Host "Your Current Branch is '$newCurrentBranch'" -ForegroundColor Yellow    
+    Write-ColorOutput "Your Current Branch is '$newCurrentBranch'" -ForegroundColor Yellow    
 }
 
 

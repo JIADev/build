@@ -8,9 +8,9 @@
 .NOTES
 #>
 
+. "$PSScriptRoot\_Shared\common.ps1"
+
 $cmdFolder = $PSScriptRoot;
-
-
 Get-ChildItem  -File -Include "*.ps1"
 
 $commands = Get-ChildItem "$cmdFolder\\*" -File -Include "*.ps1" | ForEach-Object {$_.FullName}
@@ -26,6 +26,6 @@ $folderCommands =
     Sort-Object -Property "Command Name" | 
     Format-Table -Auto
 
-Write-Host "Execute: jcmd help [Command] for details on a specific command" -ForegroundColor Cyan
+Write-ColorOutput "Execute: jcmd help [Command] for details on a specific command" -ForegroundColor Cyan
 
 
