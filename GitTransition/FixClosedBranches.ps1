@@ -3,7 +3,7 @@ param(
     [string] $hgFolder="C:\dev\Platform"
 )
 
-. "..\jcmd\_shared\SourceControl\SourceControl.ps1"
+. "$PSScriptRoot\..\jcmd\_shared\SourceControl\SourceControl.ps1"
 
 $closedBranches = ""
 
@@ -52,7 +52,7 @@ try {
     Write-Host "Exporting Git Branches..." -ForegroundColor Cyan
     $gitBranchList = & git branch -r --format "%(refname)" | Split-path -Leaf
 
-    $processList = $closedBranches | Where-Object {$gitBranchList -contains $_}
+    [array] $processList = $closedBranches | Where-Object {$gitBranchList -contains $_}
 
     if (!$processList) {
         $processList = @()

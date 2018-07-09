@@ -3,7 +3,7 @@ param(
     [string] $hgFolder="C:\dev\Platform"
 )
 
-. "..\jcmd\_shared\SourceControl\SourceControl.ps1"
+. "$PSScriptRoot\..\jcmd\_shared\SourceControl\SourceControl.ps1"
 
 $tags = ""
 
@@ -39,20 +39,20 @@ try {
     $gitBranchList = & git branch -r --format "%(refname)" | Split-path -Leaf
 
     #find the branches that used to be tags in HG
-    $processList = $tags | Where-Object {$gitBranchList -contains $_}
+    [array] $processList = $tags | Where-Object {$gitBranchList -contains $_}
 
     $notProcessedCount = $tags.Count - $processList.Count
     Write-Host "Skipping $notProcessedCount tags because they are not present in Git repository!" -ForegroundColor Yellow
 
     #process the branches are closed in HG and should be converted to tags in Git
     $total = $processList.Length
-    for ($i = 0; $i -le $total; $i++ ) {
+    for ($i = 0; $i -lt $total; $i++ ) {
         $line = $processList[$i];
         $branchName = $line.Trim()
         $tagName = "archive/$branchName"
 
         $pct = [math]::Round((($i + 1) / $total) * 100)
-        Write-Progress -Activity "Processing ($($i+1) of $total) $branchName " -Status "$pct% Complete:" -PercentComplete $pct;
+        Write-Progress -Activity "Converting Branches to Tags" -Status "($($i+1) of $total) $pct% Complete | $branchName :" -PercentComplete $pct;
 
         Write-Host "Processing $branchName" -ForegroundColor Green
         try {
@@ -84,7 +84,7 @@ try {
         }
     }
 
-    Write-Progress -Completed
+    Write-Progress -Completed -Activity "Converting Branches to Tags" 
 }
 
 finally {
