@@ -74,7 +74,7 @@ try {
             if ($LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
 
             Write-ColorOutput "Deleting Remote Branch $branchName" -ForegroundColor Cyan
-            git push origin --delete "$branchName"
+            git push origin --delete "refs/heads/$branchName"
             if ($LASTEXITCODE -ne 0) { throw "Deleting remote branch $branchName failed!" }
 
             Write-ColorOutput "Branch $branchName converted to tag $tagName" -ForegroundColor Cyan
