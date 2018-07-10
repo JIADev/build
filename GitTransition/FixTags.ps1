@@ -18,7 +18,15 @@ try {
     #export the closed branches
     Write-ColorOutput "Exporting Closed Branches..." -ForegroundColor Cyan
     $tags = $(hg log -r "tag()" -T "{branch}\n") | sort-object | get-unique
-    if ($LASTEXITCODE -ne 0) { throw "Error getting closed branches from Mercurial" }
+    if ($LASTEXITCODE -ne 0) { throw "Error getting tags from Mercurial" }
+
+    #get the open branches (heads)
+    $hgHeads=$(hg heads -T "{branch}\n") | sort-object | get-unique
+    if ($LASTEXITCODE -ne 0) { throw "Error getting branches from Mercurial" }
+
+    #if there happens to be a case where the a tag is also a branch, remove it
+    #from the tags list
+    $tags = $tags | Where-Object {$hgHeads -notcontains $_}
 }
 finally {
     Pop-Location

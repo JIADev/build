@@ -9,6 +9,9 @@ param(
 push-location $hgFolder
 #get the open branches (heads)
 $hgTags = $(hg log -r "tag()" -T "{branch}\n") | sort-object | get-unique
+
+$hgClosedBranches = $(hg log -r "closed()" -T "{branch}\n") | sort-object | get-unique
+
 pop-location
 
 #switch to GIT
@@ -19,7 +22,7 @@ pop-location
 $sameCount = $($gitTags | Where-Object {$hgTags -contains $_}).Count
 Write-ColorOutput "$sameCount tags are the same in Git and HG." -ForegroundColor Cyan
 
-$missingFromHG = $gitTags | Where-Object {$hgTags -notcontains $_}
+$missingFromHG = $gitTags | Where-Object {$hgTags -notcontains $_ -and $hgClosedBranches -notcontains $_}
 Write-ColorOutput "These tags are in Git but not in HG ($($missingFromHG.Count)):" -ForegroundColor Yellow
 $missingFromHG
 
