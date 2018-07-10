@@ -17,7 +17,7 @@ try {
 
     #export the closed branches
     Write-ColorOutput "Exporting Closed Branches..." -ForegroundColor Cyan
-    $tags = $(hg log -r "tag()" -T "{branch}\n") | sort-object | get-unique
+    $tags = $(hg log -r "tag()" -T "{tags}\n") | ForEach-Object {$_ -split " " } | sort-object | get-unique
     if ($LASTEXITCODE -ne 0) { throw "Error getting tags from Mercurial" }
 
     #get the open branches (heads)

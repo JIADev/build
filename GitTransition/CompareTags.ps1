@@ -8,10 +8,8 @@ param(
 #switch to HG
 push-location $hgFolder
 #get the open branches (heads)
-$hgTags = $(hg log -r "tag()" -T "{branch}\n") | sort-object | get-unique
-
+$hgTtags = $(hg log -r "tag()" -T "{tags}\n") | ForEach-Object {$_ -split " " } | sort-object | get-unique
 $hgClosedBranches = $(hg log -r "closed()" -T "{branch}\n") | sort-object | get-unique
-
 pop-location
 
 #switch to GIT
