@@ -9,7 +9,7 @@ function WriteHgError([string]$cmd, [string]$output)
 
 function hgcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     $cmd = "hg.exe"
-    Write-Host "$cmd $arguments" -ForegroundColor Cyan
+    Write-Debug "$cmd $arguments"
     
     $output = ((& $cmd @arguments) | Out-String)
     if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)
@@ -132,8 +132,29 @@ function SourceControlHg_BranchExists($branch) {
     Exit 1
 }
 
-function SourceControlHg_BranchExists($branch) {
+function SourceControlHg_BranchExistsRemote($branch) {
     #mercurial doesnt really have a remote, so we pull first, then decide
     SourceControlHg_PullRepoCommits
     return SourceControlHg_BranchExists $branch
+}
+
+function SourceControlHg_TagExists($tag) {
+    $arguments="id","-q","-r","$tag"
+    $output = (hgcmd $arguments -DoNotExitOnError)
+    if ($LASTEXITCODE -eq 0) { 
+        return $true;
+    }
+    if ($LASTEXITCODE -eq 255) { 
+        return $false;
+    }
+
+    #if the error code wasnt 0 or 255, then we have an unexpected error
+    WriteHgError("$cmd $arguments", $output);
+    Exit 1
+}
+
+function SourceControlHg_TagExistsRemote($tag) {
+    #mercurial doesnt really have a remote, so we pull first, then decide
+    SourceControlHg_PullRepoCommits
+    return SourceControlHg_BranchExists $tag
 }

@@ -9,7 +9,7 @@ function WriteGitError([string]$cmd, [string]$output)
 
 function gitcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     $cmd = "git.exe"
-    Write-Host "$cmd $arguments" -ForegroundColor Cyan
+    Write-Debug "$cmd $arguments"
     
     $output = ((& $cmd @arguments) | Out-String)
     if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)
@@ -96,7 +96,12 @@ function SourceControlGit_GetCurrentBranch() {
 }
 
 function SourceControlGit_ForwardChangeCheck([string]$baseBranch, [string]$currentBranch) {
-    $output = (gitcmd log,"origin/$baseBranch","^$currentBranch",--no-merges,-n,10);
+    #if the name isnt a local branch or tag, then check the remote repo
+    if (-not ((SourceControlGit_BranchExists $baseBranch) -or (SourceControlGit_TagExists $baseBranch)))
+    {
+        $baseBranch = "origin/$baseBranch"
+    }
+    $output = (gitcmd log,$baseBranch,"^$currentBranch",--no-merges,-n,10);
     return $output
 }
 
@@ -123,9 +128,29 @@ function SourceControlGit_BranchExists($branch) {
     Exit 1
 }
 
+function SourceControlGit_TagExists($branch) {
+    $arguments = "show-ref","--verify","--quiet","refs/tags/$branch"
+    $output = (gitcmd $arguments -DoNotExitOnError)
+    if ($LASTEXITCODE -eq 0) { 
+        return $true;
+    }
+    if ($LASTEXITCODE -eq 1) { 
+        return $false;
+    }
+
+    #if the error code wasnt 0 or 1, then we have an unexpected error
+    WriteGitError("$cmd $arguments", $output);
+    Exit 1
+}
+
 function SourceControlGit_BranchExistsRemote($branch) {
-    $result = (gitcmd ls-remote,origin,$branch).Count
+    $result = (gitcmd ls-remote,--heads,origin,$branch).Count
     if ($result -gt 0) { return $true; }
     return $false;
 }
 
+function SourceControlGit_TagExistsRemote($branch) {
+    $result = (gitcmd ls-remote,--tags,origin,$branch).Count
+    if ($result -gt 0) { return $true; }
+    return $false;
+}

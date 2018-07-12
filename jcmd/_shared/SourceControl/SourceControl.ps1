@@ -94,3 +94,10 @@ function SourceControl_BranchExists($branch) {
 function SourceControl_BranchExistsRemote($branch) {
     _SourceControl $MyInvocation.MyCommand $branch
 }
+
+function SourceControl_TagExists($tag) {
+    _SourceControl $MyInvocation.MyCommand $tag
+}
+function SourceControl_TagExistsRemote($tag) {
+    _SourceControl $MyInvocation.MyCommand $tag
+}

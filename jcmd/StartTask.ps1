@@ -4,7 +4,7 @@
 .DESCRIPTION
   1. Optionally calls a revertall (gets rid of junctions).
   2. Updates the local repository with the latest commits from the remote.
-  3. Updates to the [EnvironmentCode] tag/branch (defaults to "[CustomerId]_PRD").
+  3. Updates to the [EnvironmentCode] tag (defaults to "[CustomerId]_PRD").
   4. Creates a new branch for this [TaskId] off of the tag/branch (defaults to "[CustomerId]_[TaskId]"..
   5. Makes this new branch the current branch.
 
@@ -40,14 +40,20 @@ param(
 
 $hasPendingChanges = SourceControl_HasPendingChanges
 if ($hasPendingChanges -eq $true) {
-	Write-ColorOutput "Pending changes found.  Please shelve or commit your changes before running starttask"
+	Write-ColorOutput "Pending changes found.  Please shelve or commit your changes before running starttask" Red
+	Exit 1
+}
+
+$startBranch = $CustomerId + '_' + $EnvironmentCode
+$branchName = "TSK" + '_' + $startBranch + '_' + $TaskId
+
+if (!(SourceControl_BranchExists $startBranch))
+{
+	Write-ColorOutput "Base branch '$startBranch' not found!" Red
 	Exit 1
 }
 
 if (!($SkipRevertAll)) { & jcmd revertall }
-
-$startBranch = $CustomerId + '_' + $EnvironmentCode
-$branchName = "TSK" + '_' + $startBranch + '_' + $TaskId
 
 SourceControl_PullRepoCommits
 if (SourceControl_BranchExists $branchName)
@@ -56,7 +62,7 @@ if (SourceControl_BranchExists $branchName)
 	Exit 1
 }
 
-Write-ColorOutput "Updating to $startBranch..."
+Write-ColorOutput "Setting current branch to $startBranch..."
 SourceControl_SetBranch $startBranch
 
 Write-ColorOutput "Creating branch $branchName..."
