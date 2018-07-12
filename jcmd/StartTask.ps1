@@ -56,6 +56,14 @@ if (!(SourceControl_BranchExists $startBranch))
 if (!($SkipRevertAll)) { & jcmd revertall }
 
 SourceControl_PullRepoCommits
+if (!((SourceControl_TagExists $startBranch) -or (SourceControl_BranchExists $startBranch)))
+{
+	Write-ColorOutput "Base tag (or branch) '$startBranch' not found!" Red
+	Exit 1
+}
+
+if (!($SkipRevertAll)) { & jcmd revertall }
+
 if (SourceControl_BranchExists $branchName)
 {
 	Write-ColorOutput "Branch '$branchName' already exists. Switch to this branch manually, or choose a different TaskId" -ForegroundColor Red
