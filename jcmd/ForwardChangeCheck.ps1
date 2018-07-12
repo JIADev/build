@@ -48,6 +48,6 @@ $missingRevisions = SourceControl_ForwardChangeCheck $baseBranch $childBranch
 if ($missingRevisions)
 {
     Write-ColorOutput "The following revisions would be reverted (limited to 10):" -ForegroundColor Red
-    $missingRevisions | Write-ColorOutput -ForegroundColor Red
+    Write-ColorOutput $missingRevisions -ForegroundColor Red
     Exit 1
 }

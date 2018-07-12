@@ -2,7 +2,7 @@
 
 function testme
 {
-    ("The name of this function is: {0} " -f $MyInvocation.MyCommand) | Write-ColorOutput -ForegroundColor red
+    Write-ColorOutput ("The name of this function is: {0} " -f $MyInvocation.MyCommand) -ForegroundColor red
 }
 
 testme

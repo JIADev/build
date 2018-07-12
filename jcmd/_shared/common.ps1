@@ -2,10 +2,10 @@ function Write-ColorOutput
 {
     [CmdletBinding()]
     Param(
-         [Parameter(Mandatory=$False,Position=1,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)][Object] $Object,
-         [Parameter(Mandatory=$False,Position=2,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)][ConsoleColor] $ForegroundColor,
-         [Parameter(Mandatory=$False,Position=3,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)][ConsoleColor] $BackgroundColor
-    )    
+         [Parameter(Mandatory=$true)][Object] $Object,
+         [Parameter(Mandatory=$false)][ConsoleColor] $ForegroundColor,
+         [Parameter(Mandatory=$false)][ConsoleColor] $BackgroundColor
+    )
 
     # Save previous colors
     $previousForegroundColor = $host.UI.RawUI.ForegroundColor
@@ -13,7 +13,7 @@ function Write-ColorOutput
 
     # Set BackgroundColor if available
     if($BackgroundColor -ne $null)
-    { 
+    {
        $host.UI.RawUI.BackgroundColor = $BackgroundColor
     }
 
@@ -24,7 +24,7 @@ function Write-ColorOutput
     }
 
     # Always write (if we want just a NewLine)
-    if($Object -eq $null)
+    if($null -eq $Object)
     {
         $Object = ""
     }
