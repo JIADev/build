@@ -35,14 +35,14 @@
   Created by Richard Carruthers on 07/11/18
 #>
 param(
-	[string]$CustomerCode,
-	[string]$DatabaseName,
-	[int]$CacheDBId,
-	[string]$DatabaseServer="localhost",
-	[string]$CustomerDriverFeature,
-	[string]$ReportDatabaseName,
-	[string]$ReportDatabaseServer,
-	[string]$ConfigurationOverride = "Debug"
+	[Parameter(Mandatory=$true)][string]$CustomerCode,
+	[Parameter(Mandatory=$true)][string]$DatabaseName,
+	[Parameter(Mandatory=$true)][int]$CacheDBId,
+	[Parameter(Mandatory=$false)][string]$DatabaseServer="localhost",
+	[Parameter(Mandatory=$false)][string]$CustomerDriverFeature,
+	[Parameter(Mandatory=$false)][string]$ReportDatabaseName,
+	[Parameter(Mandatory=$false)][string]$ReportDatabaseServer,
+	[Parameter(Mandatory=$false)][string]$ConfigurationOverride = "Debug"
 )
 
 if (!$ReportDatabaseName)
@@ -56,10 +56,8 @@ if (!$CustomerDriverFeature)
   $CustomerDriverFeature = $CustomerCode
 }
 
-TRY
+try
 {
-  & "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat"
-
   & msbuild /t:Configure /p:Customer=$CustomerCode /p:DriverFeature=$CustomerCode j6.proj | Out-Null
   if ($LASTEXITCODE -ne 0) {throw "Error configuring j6!"}  
   
