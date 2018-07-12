@@ -9,7 +9,7 @@ function WriteGitError([string]$cmd, [string]$output)
 
 function gitcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     $cmd = "git.exe"
-    Write-ColorOutput "$cmd $arguments" -ForegroundColor Cyan
+    Write-Host "$cmd $arguments" -ForegroundColor Cyan
     
     $output = ((& $cmd @arguments) | Out-String)
     if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)

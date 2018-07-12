@@ -9,7 +9,7 @@ function WriteHgError([string]$cmd, [string]$output)
 
 function hgcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     $cmd = "hg.exe"
-    Write-ColorOutput "$cmd $arguments" -ForegroundColor Cyan
+    Write-Host "$cmd $arguments" -ForegroundColor Cyan
     
     $output = ((& $cmd @arguments) | Out-String)
     if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)
