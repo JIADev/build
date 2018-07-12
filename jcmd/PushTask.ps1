@@ -61,11 +61,7 @@ if ($taskPrefix -ne "TSK")
 $envTag = "$customerId`_$env"
 Write-ColorOutput "Checking for updates to the env tag '$envTag' FOR MERGING!!" -ForegroundColor Cyan
 #see if there are any changes in the env tag that are not in 
-<<<<<<< HEAD
-& ForwardChangeCheck $envTag
-=======
 & "$PSScriptRoot\ForwardChangeCheck.ps1" $envTag
->>>>>>> jcmd StartTask/PushTask changes
 if ($LASTEXITCODE -ne 0)
 {
 	Write-ColorOutput "This starttask was branch from '$envTag', but that tag has new commits." -ForegroundColor Red
