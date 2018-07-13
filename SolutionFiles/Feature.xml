@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Feature>
+  <Name>CUST1002</Name>
+  <Version>7.6.8.21</Version>
+  <SourceIdentifiers>
+    <SourceIdentifier>changeset:   56523:9e0ed4a01b04
+branch:      000_WebPWS_7.6.8
+tag:         tip
+user:        carl.staub
+date:        Tue Feb 16 01:26:28 2016 -0800
+summary:     Fixing feature.proj
+
+</SourceIdentifier>
+  </SourceIdentifiers>
+  <Requires>
+    <Require>Core</Require>
+    <Require>WebIntegration</Require>
+    <Require>Genealogy</Require>
+    <Require>Engine</Require>
+    <Require>Earning</Require>
+    <Require>ImportExport</Require>
+    <Require>Web</Require>
+    <Require>Jcoach</Require>
+    <Require>WebEmployee</Require>
+    <Require>PlanBuilder</Require>
+    <Require>Communication</Require>
+    <Require>CommunicationSalesOrder</Require>
+    <Require>Payment</Require>
+    <Require>SalesOrder</Require>
+    <Require>Jcoach</Require>
+    <Require>DashBoard</Require>
+    <Require>Event</Require>
+    <Require>WebBusiness</Require>
+    <Require>Personal</Require>
+    <Require>WebPWS</Require>
+    <Require>WebService</Require>
+  </Requires>
+  <Supports>
+    <Support>WebEmployee</Support>
+  </Supports>
+  <Definitions>
+    <Define>AUTOSHIP</Define>
+  </Definitions>
+</Feature>

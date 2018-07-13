@@ -1,0 +1,61 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\j6\Core\Core.targets" />
+  
+  <!-- Item groups -->
+  
+  <ItemGroup>
+    <AssemblyFiles Include="Assembly\*.exe;Assembly\*.dll;Assembly\*.pdb;Assembly\*.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PrivateAssemblyFiles Include="Private\Assembly\*.exe;Private\Assembly\*.dll;Private\Assembly\*.pdb;Private\Assembly\*.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Projects Include="Private\Project\**\*.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalProjects Include="Private\InternalProject\**\*.csproj" />
+    <PackageFiles Include="..\Build\CUST1002.*.dll;..\Build\CUST1002.Database.*;..\Build\Avalara.AvaTax.Adapter.dll" />
+  </ItemGroup>
+  
+  <!-- Targets -->  
+  
+  <Target Name="Clean">
+    <Message Text="Cleaning $(MSBuildProjectDirectory)" />
+    <Delete Files="@(AssemblyFiles)" />
+    <Delete Files="@(PrivateAssemblyFiles)" />
+    <Message Text="Clearing Junctions" />
+
+    <Exec Command="junction -d $(MSBuildProjectDirectory)\..\WebBusiness\Private\Project\J6.BusinessPortal\Custom"/>
+    <Exec Command="junction -d $(MSBuildProjectDirectory)\..\WebPWS\Private\Project\j6.WebPWS\Custom"/>
+    <RemoveDir Directories="Site\Employee\Custom\CUST1002\Controls" />
+    <RemoveDir Directories="Site\Employee\Custom" />
+
+    <Message Text="Finished Cleaning" />
+  </Target>
+  
+  <Target Name="Setup" DependsOnTargets="SetupEmployee;SetupBusiness;SetupWebPWS" />
+
+  <Target Name="SetupEmployee">
+    <Message Text="Setting up Employee $(MSBuildProjectDirectory)" />
+    <MakeDir Directories="Site\Employee\Custom" />
+    <MakeDir Directories="Site\Employee\Custom\CUST1002\Controls" />
+  </Target>
+  
+  <Target Name="SetupBusiness">
+    <Message Text="Setting up Business $(MSBuildProjectDirectory)" />
+    <Exec Command="junction $(MSBuildProjectDirectory)\..\WebBusiness\Private\Project\J6.BusinessPortal\Custom $(MSBuildProjectDirectory)\Private\Site\Business\Custom"/>
+  </Target>
+  
+  <Target Name="SetupWebPWS">
+    <Message Text="Setting up PersonalSite $(MSBuildProjectDirectory)" />
+    <Exec Command="junction $(MSBuildProjectDirectory)\..\WebPWS\Private\Project\j6.WebPWS\Custom $(MSBuildProjectDirectory)\Private\Site\WebPWS\Custom"/>
+  </Target>
+  
+  <Target Name="Build">
+    <Message Text="Building $(MSBuildProjectDirectory)" />
+    <MSBuild Projects="@(Projects);@(InternalProjects)" />
+    <Message Text="Finished Building" />
+  </Target>
+  <Target Name="Publish">
+  </Target>  
+</Project>
