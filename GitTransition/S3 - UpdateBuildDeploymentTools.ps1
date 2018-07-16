@@ -33,13 +33,26 @@ try {
     $gitBranchList = & git branch -r --format "%(refname)" | Split-path -Leaf
 
     #dont process these brances
-    [array] $ProcessExclude = @("","master","head")
+    [array] $ProcessInclude = @(
+        "2083_ActiveInfra",
+        "2094_Colombia",
+        "2094_PeruInfra",
+        "2097JP_QAS",
+        "2097JP_Ver7.7_PRD",
+        "2097MY_Ver7.8",
+        "2097PL_Ver7.7_PRD",
+        "2097SG_ActiveInfra",
+        "2097SG_Ver7.7_PRD",
+        "2097_Ver7.7",
+        "7.6.8",
+        "MPS_Sprint3"
+    )
 
     #find the branches that used to be tags in HG
-    [array] $processList = $gitBranchList | Where-Object {$ProcessExclude -notcontains $_}
+    [array] $processList = $gitBranchList | Where-Object {$ProcessInclude -contains $_}
 
     $notProcessedCount = $gitBranchList.Count - $processList.Count
-    Write-ColorOutput "Skipping $notProcessedCount tags because they are manually excluded!" -ForegroundColor Yellow
+    Write-ColorOutput "Skipping $notProcessedCount tags because they are not included as build branches!" -ForegroundColor Yellow
 
     #process the branches are closed in HG and should be converted to tags in Git
     $total = $processList.Length
@@ -87,6 +100,15 @@ try {
             Write-ColorOutput $_.Exception.Message -ForegroundColor Red
             Exit 1
         }
+    }
+
+
+    Write-ColorOutput "All branches updated." -ForegroundColor Cyan
+    Write-ColorOutput "Pushing all branches to Origin" -ForegroundColor Yellow
+    git push --all origin
+    if ($LASTEXITCODE -ne 0) { 
+        Write-ColorOutput "Git Push to Origin Failed!" -ForegroundColor Red
+        Exit 1
     }
 
     Write-Progress -Completed -Activity "Converting Branches to Tags" 
