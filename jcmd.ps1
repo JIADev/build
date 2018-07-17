@@ -34,11 +34,46 @@ Param(
   [string]$commandName
 )
 
+
+function GetArgString($argList)
+{
+  [string] $result = ""
+  foreach ($arg in $argList)
+  {
+    if ($arg -is [array])
+    {
+      $arrStr = ""
+      foreach ($aItem in $arg)
+      {
+        $aItemStr = $aItem.ToString()
+        if ($arrStr -ne "") { $arrStr += "," }
+        if ($aItemStr -contains " ")
+        {
+          $arrStr += '"'+$aItemStr+'"'
+        }
+        else {
+          $arrStr += $aItemStr
+        } 
+      }
+      if ($result -ne "") { $result += " " }
+      $result += $arrStr
+    }
+    else {
+      if ($result -ne "") { $result += " " }
+      $result += $arg.ToString()
+    }
+  }
+
+  return $result;
+}
+
 if(!($commandName))
 {
     Get-Help -Detailed $MyInvocation.MyCommand.Name  
     $commandName = "ListCommands"
 }
+
+$argString = GetArgString($args)
 
 #the cmd folder is where jcmd expects to find all of the command scripts
 #either in .\[commandName].ps1 files or .\[commandName]\[commandName].ps1
@@ -49,14 +84,13 @@ $cmdFolder = Join-Path $PSScriptRoot "jcmd";
 $cmdScript = Join-Path $cmdFolder "$commandName.ps1";
 if (Test-Path $cmdScript)
 {
-    #log the command details for debugging purposes
-    Write-Debug "Executing: $cmdScript"
-    Write-Debug $($args -join '|' | Out-String)
+  #log the command details for debugging purposes
+  $cmd = "& `"$cmdScript`" $argString"
+  Write-Debug "Executing: $cmd"
 
-    $cmd = "& `"$cmdScript`" " + $($args -join ' ')
+  Invoke-Expression $cmd
 
-    Invoke-Expression $cmd
-    exit $LASTEXITCODE
+  exit $LASTEXITCODE
 }
 
 #look for the command in a folder with the same name (ie .\revertall\revertall.ps1)
@@ -64,14 +98,13 @@ $cmdFolder = Join-Path $cmdFolder $commandName;
 $cmdScript = Join-Path $cmdFolder "$commandName.ps1";
 if (Test-Path $cmdScript)
 {
-    #log the command details for debugging purposes
-    Write-Debug "Executing: $cmdScript"
-    Write-Debug $($args -join '|' | Out-String)
+  #log the command details for debugging purposes
+  $cmd = "& `"$cmdScript`" $argString"
+  Write-Debug "Executing: $cmd"
 
-    $cmd = "& `"$cmdScript`" " + $($args -join ' ')
+  Invoke-Expression $cmd
 
-    Invoke-Expression $cmd
-    exit $LASTEXITCODE
+  exit $LASTEXITCODE
 }
 
 #if we didn't find the command then there is nothing to do but report the error 
