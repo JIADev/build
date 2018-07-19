@@ -33,7 +33,7 @@
 Param(
   [string]$commandName
 )
-
+$LASTEXITCODE = 0
 
 function GetArgString($argList)
 {
@@ -104,7 +104,14 @@ if (Test-Path $cmdScript)
 
   Invoke-Expression $cmd
 
-  exit $LASTEXITCODE
+  if ($LASTEXITCODE)
+  {
+    #last exit code does not always exist
+    exit $LASTEXITCODE
+  }
+  else {
+    exit 0
+  }
 }
 
 #if we didn't find the command then there is nothing to do but report the error 
