@@ -1,25 +1,38 @@
 <#
 .SYNOPSIS
-  Completely initializes and builds a j6 development folder.
+  Completely (re)initializes a j6 environment from a fresh dev folder.
 .DESCRIPTION
-  Completely initializes and builds a j6 development folder.
+  Cleans, builds, creates websites, and configures environment.
 
   1. Checks to ensure that visual studio is not running to avoid code loss/corruption.
-  2. j clean
-  3. Clean up schema update folder
-  4. j bootstrap
-  5. j ensuredb
-  6. j setup
-  7. j patch
-  8. j build (with hidden warnings)
-  9. runs webpack on PWS (if needed)
+  2. Remove any existing configured websites (with the specified name)
+  3. jcmd revertall
+  4. jcmd configure
+  5. jcmd buildinit
+  6. jcmd flush
+  7. jcmd webapps
 
+.PARAMETER CustomerCode
+  Should be "CUST" followed by 4 digit customer number followed by market identifier.
+  Example: CUST2097PL
+.PARAMETER DatabaseName
+  Specifies datebase name to be used for connecting to main j6 data.
+.PARAMETER CacheDBId
+  Specifies the Redis DB ID to use, should be different for each customer and/or SQL DB.
+  Valid values typically are 1-16, but this can be changed in the Redis configuration.
+.PARAMETER websiteName
+  Overrides the folder name when building the website FQDN.
+
+  Example: -Name "test"
+  Result: Website will be named "www.test.local".
+.PARAMETER netPipe
+  Switch that enables net.pipe protocols and configuration.
 .PARAMETER ignoreVS
   Allows this script to run when Visual Studio is open.
 
   Note: This should only be used when there are OTHER projects open in VS.
 .EXAMPLE
-  PS C:\> jcmd BuildInit
+  PS C:\> jcmd envinit CUST1002 CUST1002-DB 10 -netPipe
 .NOTES
   Created by Richard Carruthers on 07/19/18
 #>
@@ -34,7 +47,6 @@ param(
 
 . "$PSScriptRoot\_shared\jposhlib\Common-Process.ps1"
 
-$statusActivity = "BuildInit"
 function ValidateEnv()
 {
   if (($ignoreVS -eq $false) -and ([bool](Get-Process devenv -ea "silentlycontinue"|where {$_.mainWindowTItle.StartsWith('all - Microsoft')} )))
@@ -45,9 +57,14 @@ function ValidateEnv()
 
 #build webapps args accounting for optional params
 $websiteArgs = @()
+$websiteRemoveArgs = @("WebApps","-remove")
+
 $websiteArgs+= "WebApps"
 if ($websiteName)
 {
+  $websiteRemoveArgs+= "-name"
+  $websiteRemoveArgs+= $websiteName
+
   $websiteArgs+= "-name"
   $websiteArgs+= $websiteName
 }
@@ -59,13 +76,11 @@ $websiteArgs+="-updateDb"
 
 $commands = @()
 $commands += @{name="Checking State"; command="ValidateEnv"; args=@()}
-$commands += @{name="Remove Existing Web Apps"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("WebApps","-remove")}
+$commands += @{name="Remove Existing Web Apps"; command="$PSScriptRoot\..\jcmd.ps1"; args=$websiteRemoveArgs}
 $commands += @{name="RevertAll"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("RevertAll")}
 $commands += @{name="Configure"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("Configure","$CustomerCode","$DatabaseName", "$CacheDBId")}
 $commands += @{name="Build"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("BuildInit")}
 $commands += @{name="Flush"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("Flush","all")}
 $commands += @{name="Create Web Apps"; command="$PSScriptRoot\..\jcmd.ps1"; args=$websiteArgs}
 
-
-ExecuteCommandsWithStatus $commands
-
+ExecuteCommandsWithStatus $commands "EnvInit"
