@@ -35,45 +35,13 @@ Param(
 )
 $LASTEXITCODE = 0
 
-function GetArgString($argList)
-{
-  [string] $result = ""
-  foreach ($arg in $argList)
-  {
-    if ($arg -is [array])
-    {
-      $arrStr = ""
-      foreach ($aItem in $arg)
-      {
-        $aItemStr = $aItem.ToString()
-        if ($arrStr -ne "") { $arrStr += "," }
-        if ($aItemStr -contains " ")
-        {
-          $arrStr += '"'+$aItemStr+'"'
-        }
-        else {
-          $arrStr += $aItemStr
-        } 
-      }
-      if ($result -ne "") { $result += " " }
-      $result += $arrStr
-    }
-    else {
-      if ($result -ne "") { $result += " " }
-      $result += $arg.ToString()
-    }
-  }
-
-  return $result;
-}
-
 if(!($commandName))
 {
-    Get-Help -Detailed $MyInvocation.MyCommand.Name  
+    Get-Help -Detailed $MyInvocation.MyCommand.Name
     $commandName = "ListCommands"
 }
 
-$argString = GetArgString($args)
+$params = $MyInvocation.UnboundArguments
 
 #the cmd folder is where jcmd expects to find all of the command scripts
 #either in .\[commandName].ps1 files or .\[commandName]\[commandName].ps1
@@ -82,39 +50,40 @@ $cmdFolder = Join-Path $PSScriptRoot "jcmd";
 
 #look for the command as a ps1 file in the command folder
 $cmdScript = Join-Path $cmdFolder "$commandName.ps1";
-if (Test-Path $cmdScript)
+if (!(Test-Path $cmdScript))
 {
-  #log the command details for debugging purposes
-  $cmd = "& `"$cmdScript`" $argString"
-  Write-Debug "Executing: $cmd"
-
-  Invoke-Expression $cmd
-
-  exit $LASTEXITCODE
-}
-
-#look for the command in a folder with the same name (ie .\revertall\revertall.ps1)
-$cmdFolder = Join-Path $cmdFolder $commandName;
-$cmdScript = Join-Path $cmdFolder "$commandName.ps1";
-if (Test-Path $cmdScript)
-{
-  #log the command details for debugging purposes
-  $cmd = "& `"$cmdScript`" $argString"
-  Write-Debug "Executing: $cmd"
-
-  Invoke-Expression $cmd
-
-  if ($LASTEXITCODE)
+  #look for the command in a folder with the same name (ie .\revertall\revertall.ps1)
+  $cmdFolder = Join-Path $cmdFolder $commandName;
+  $cmdScript = Join-Path $cmdFolder "$commandName.ps1";
+  if (!(Test-Path $cmdScript))
   {
-    #last exit code does not always exist
-    exit $LASTEXITCODE
-  }
-  else {
-    exit 0
+    #if we didn't find the command then there is nothing to do but report the error 
+    #and fail with an exit code
+    Write-Host "ERROR: jcmd command '$commandName' not found!" -ForegroundColor Red
+    exit 1
   }
 }
 
-#if we didn't find the command then there is nothing to do but report the error 
-#and fail with an exit code
-Write-Host "ERROR: jcmd command '$commandName' not found!" -ForegroundColor Red
-exit 1
+#default exit code when exceptions occur
+$exitCode = -100
+try {
+  #run the command
+  & $cmdScript @params
+  #check the result, if success, exit with exitcode 0
+  if ($?) { EXIT 0 }
+
+  #if we get to this point, we are not exiting with a 0
+  #so see if we can get a better exit code
+  $exitCode = $GLOBAL:LASTEXITCODE
+}
+catch {
+  EXIT $exitCode
+}
+
+if ($exitCode)
+{
+  EXIT $exitCode
+}
+
+#if we cant find a better code, just exit with 1
+EXIT 1
