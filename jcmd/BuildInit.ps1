@@ -26,10 +26,7 @@
 param(
 	[switch]$ignoreVS = $false
 )
-
 . "$PSScriptRoot\_shared\jposhlib\Common-Process.ps1"
-
-$statusActivity = "BuildInit"
 
 function ValidateEnv()
 {
@@ -57,4 +54,4 @@ $commands += @{name="j patch"; command="msbuild.exe"; args=@("/nologo","/t:patch
 $commands += @{name="j build"; command="msbuild.exe"; args=@("/nologo","/t:build","j6.proj")}
 $commands += @{name="Check Webpack"; command="CheckWebpack"}
 
-ExecuteCommandsWithStatus $commands
+ExecuteCommandsWithStatus $commands "BuildInit"

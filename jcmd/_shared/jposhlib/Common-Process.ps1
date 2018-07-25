@@ -1,11 +1,11 @@
-function ExecuteCommandsWithStatus($commands)
+function ExecuteCommandsWithStatus($commands, [string]$operationName)
 {
 	$oldtitle = $host.ui.RawUI.WindowTitle
 
 	function UpdateStatus([int] $step, [int] $totalSteps, [string] $stepName)
 	{
 
-	  $host.ui.RawUI.WindowTitle = "$oldtitle |> $statusActivity - $step of $totalSteps : $stepName"
+	  $host.ui.RawUI.WindowTitle = "$oldtitle |> $operationName - $step of $totalSteps : $stepName"
 	}
 
 	$JobStartTime = Get-Date -format HH:mm:ss
