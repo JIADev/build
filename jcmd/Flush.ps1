@@ -22,7 +22,7 @@
   Created by Richard Carruthers 07/17/2018
 #>
 param(
-    [Parameter(Mandatory=$true,Position=0)][String[]] $services
+    [String[]] $services = @('all')
 )
 
 . "$PSScriptRoot\_Shared\common.ps1"
