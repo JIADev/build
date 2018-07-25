@@ -7,9 +7,12 @@
   Performs the following functions (not in order):
 	1. Creates host file entry
 	2. Creates trusted certificate for SSL
-	3. Setups all IIS Sites with proper bindings (http, https)
-	4. Optionally enables net.pipe protocols
-	5. Sets up proper config file for WebPWS if PWS exists
+	3. Sets up all IIS app pools
+	4. Sets up all IIS Sites with proper bindings (http, https)
+	5. Optionally enables net.pipe protocols
+	6. Sets up proper config file for WebPWS if PWS exists
+	7. Optionally adds app pool user as db_owner in DB (see -skipDB)
+	8. Optionally sets URL appsettings for this environment  (see -skipDB)
 
   Main website is named according to development folder, using 
   "www." and ".local" prefix and suffix.
@@ -32,29 +35,32 @@
   including sites, certs, and host file entries.
 
   ** Does not remove webpws configuration file.
-.EXAMPLE
-  PS C:\> jcmd WebApps
+.PARAMETER skipDB
+  Skips all actions related to updating the database for this environment.
 .NOTES
   Created by Richard Carruthers on 07/17/18
 #>
 param(
 	[string]$name = "",
 	[switch]$remove = $false,
-	[switch]$netPipe = $false
+	[switch]$netPipe = $false,
+	[switch]$skipDb = $false
 )
 
 Import-Module WebAdministration
 
 #include Common-Functions file so that we can use them
-. "$PSScriptRoot\..\_shared\jposhlib\Common.ps1"
-. "$PSScriptRoot\..\_shared\jposhlib\Common-IIS.ps1"
-. "$PSScriptRoot\..\_shared\jposhlib\Common-j6.ps1"
+. "$PSScriptRoot\_shared\jposhlib\Common.ps1"
+. "$PSScriptRoot\_shared\jposhlib\Common-IIS.ps1"
+. "$PSScriptRoot\_shared\jposhlib\Common-j6.ps1"
+. "$PSScriptRoot\_shared\jposhlib\J6SQLConnection.Class.ps1"
 
 $httpPort = 80 #standard http port
 $httpsPort = 443 #standard https port
 $iisAppPoolDotNetVersion = "v4.0"
 $path = (Get-Location).path
 $sitePath = "$path\Site"
+
 
 #if the name is not specified as a parameter, default to the name of the root folder of the repo
 if (!$name)
@@ -69,11 +75,8 @@ Write-Debug "Constant: Name = $name"
 Write-Debug "Constant: FQDN = $fqdn"
 Write-Debug "Constant: Name = $longName"
 
-function Create-AppPool([string] $appPoolName, [string] $userName, [string] $password)
+function Create-AppPool([string] $appPoolName)
 {
-	Write-Debug "Create-AppPool([string] appPoolName)"
-	Write-Debug "  appPoolName: $appPoolName"
-
 	Push-Location
 	try
 	{
@@ -89,12 +92,7 @@ function Create-AppPool([string] $appPoolName, [string] $userName, [string] $pas
 		#create the app pool
 		$pool = New-WebAppPool -Name $appPoolName
 		$pool.managedRuntimeVersion = $iisAppPoolDotNetVersion
-		$pool.processModel.userName = $userName
-		$pool.processModel.password = $password
-		$pool.processModel.identityType = 3
 		$pool | Set-Item
-
-		$pool.processModel.password = "" #not letting this value out of this scope
 
 		Write-Debug "AppPool '$appPoolName' created"
 		
@@ -102,11 +100,6 @@ function Create-AppPool([string] $appPoolName, [string] $userName, [string] $pas
 	}
 	finally
 	{
-		if ($pool)
-		{
-			$pool.processModel.password = "" #not letting this value out of this scope
-		}
-		$password = ""
 		Pop-Location
 	}
 }
@@ -205,8 +198,44 @@ function Remove-Site()
 		Get-ChildItem IIS:\SslBindings | where {$_.Host -match $FQDN} | Remove-Item -Recurse -Confirm:$false
 
 		Write-Host "Remove operation complete."
-
 		exit
+}
+
+
+function Add-AppPoolToSQL($poolName)
+{
+	if (!$skipDb)
+	{
+
+		$sqlConn = [J6SQLConnection]::new()
+		$dbName = $sqlConn.SqlConnection.Database
+		$sql = "
+DECLARE @SqlStatement nvarchar(2000)
+
+IF EXISTS (SELECT 1 FROM sys.sysusers WHERE [Name] = '$poolName')
+BEGIN
+	SELECT @SqlStatement = 'DROP User [$poolName]' 
+	EXEC sp_executesql @SqlStatement
+END
+
+IF EXISTS (SELECT 1 FROM syslogins WHERE [Name] = 'IIS APPPOOL\$poolName')
+BEGIN
+    SELECT @SqlStatement = 'DROP LOGIN [IIS APPPOOL\$poolName]' 
+	EXEC sp_executesql @SqlStatement
+END	
+	
+SELECT @SqlStatement = 'CREATE LOGIN [IIS APPPOOL\$poolName] FROM WINDOWS WITH DEFAULT_DATABASE=[$dbName]' 
+EXEC sp_executesql @SqlStatement
+
+SELECT @SqlStatement = 'CREATE USER [$poolName] FOR LOGIN [IIS APPPOOL\$poolName]' 
+EXEC sp_executesql @SqlStatement
+
+SELECT @SqlStatement = 'ALTER ROLE [db_owner] ADD MEMBER [$poolName]' 
+EXEC sp_executesql @SqlStatement
+"
+		$data = $sqlConn.ExecuteNonquery($sql, 30)
+	}
+
 }
 
 function Create-Site()
@@ -216,13 +245,10 @@ function Create-Site()
 	Write-Debug "  physicalPath: $sitePath"
 	try
 	{
-
-		$username = "$([Environment]::UserDomainName)\$([Environment]::UserName)"
-		$userName, $password = Get-SecurePasswordFromConsole $userName
-
-
 		Write-Debug "Createing Main AppPool $fqdn"
-		$pool=Create-AppPool $fqdn $userName $password
+		$pool=Create-AppPool $fqdn 
+
+		Add-AppPoolToSQL $fqdn
 
 		$rootSite = Create-RootWebSite $name $sitePath
 		$rootSite | Write-Debug
@@ -247,7 +273,9 @@ function Create-Site()
 				{
 					$poolName = $fqdn+"_"+$siteFolderName
 					Write-Debug "Creating AppPool for sub-application: $poolName"
-					$pool=Create-AppPool $poolName $userName $password
+					$pool=Create-AppPool $poolName
+
+					Add-AppPoolToSQL $poolName
 
 					#create the sub-application
 					Write-Debug "Creating Application: $siteFolderName"
@@ -300,6 +328,74 @@ function Configure-WebPWS ()
 	}
 }
 
+function Update-DBSettings() {
+	if (!$skipDb)
+	{
+	
+		$sqlConn = [J6SQLConnection]::new()
+
+		$sql = "
+create procedure #SetAppSetting
+	@settingName nvarchar(100),
+	@value nvarchar(1000)
+as
+begin
+	declare @sid int, @vid int
+
+	select @sid = id from AppSetting a where a.Name = @settingName
+
+	if (@sid is null)
+	begin
+		declare @message nvarchar(1000)
+		select @message = 'Setting `"'+@settingName+'`" not found';
+		RAISERROR (@message, 51000, 1)
+	end
+	
+	--clear off any user values
+	delete from AppSettingValue where AppSetting = @sid and UserOverride = 1
+
+	--get any existing jenkon values
+	select @vid = id from AppSettingValue where AppSetting = @sid and IsOverride = 1
+
+	if (@vid is null)
+	begin
+		insert into AppSettingValue (AppSetting, Value, IsOverride, UserOverride) values (@sid, @value, 1, 0)
+	end
+	else
+	begin
+		update AppSettingValue set Value = @value where id = @vid and IsOverride = 1
+	end
+
+	PRINT @settingName +' = ' + @value
+end
+"
+		$data = $sqlConn.ExecuteNonquery($sql, 30)
+
+		$sql = "exec #SetAppSetting 'BarcodeServerUrl', 'https://[fqdn]/employee/barcode.axd'".Replace("[fqdn]",$fqdn)
+		$data = $sqlConn.ExecuteNonquery($sql, 30)
+
+		$sql = "exec #SetAppSetting 'ConsultantWebSiteBaseURL', 'https://[fqdn]/business/'".Replace("[fqdn]",$fqdn)
+		$data = $sqlConn.ExecuteNonquery($sql, 30)
+
+		$sql = "exec #SetAppSetting 'EmployeeWebSiteBaseURL', 'https://[fqdn]/employee/'".Replace("[fqdn]",$fqdn)
+		$data = $sqlConn.ExecuteNonquery($sql, 30)
+
+
+		if (Test-Path ".\Site\WebPWS\WebPWS.csproj")
+		{
+			$sql = "exec #SetAppSetting 'PersonalWebSiteBaseURL', 'https://[fqdn]/webpws/'".Replace("[fqdn]",$fqdn)
+			$data = $sqlConn.ExecuteNonquery($sql, 30)
+			
+			$sql = "exec #SetAppSetting 'PWS3_APIPath', 'https://[fqdn]/webpws/API'".Replace("[fqdn]",$fqdn)
+			$data = $sqlConn.ExecuteNonquery($sql, 30)
+
+			$sql = "exec #SetAppSetting 'PWS3_SitePath', 'https://[fqdn]/webpws/'".Replace("[fqdn]",$fqdn)
+			$data = $sqlConn.ExecuteNonquery($sql, 30)
+		}
+	}
+}
+
+
 
 # -- MAIN CODE SECTION --
 Ensure-Is64BitProcess
@@ -317,3 +413,4 @@ Create-Site
 
 Configure-WebPWS
 
+Update-DBSettings

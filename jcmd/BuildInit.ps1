@@ -27,21 +27,9 @@ param(
 	[switch]$ignoreVS = $false
 )
 
+. "$PSScriptRoot\_shared\jposhlib\Common-Process.ps1"
+
 $statusActivity = "BuildInit"
-$oldtitle = $host.ui.RawUI.WindowTitle
-
-function UpdateStatus([int] $step, [int] $totalSteps, [string] $stepName)
-{
-  # [int]$pct = [math]::Round(($step / $totalSteps) * 100)
-  # [int]$barLen = 20
-  # [int]$barCompleted = [math]::Round(($barLen * ($pct/100)))
-  # [int]$barRemaining = $barLen - $barCompleted
-  # $progressBarString = ("#" * $barCompleted) + ("-" * $barRemaining)
-
-  # $host.ui.RawUI.WindowTitle = "$statusActivity - $pct% Complete [$progressBarString] : $stepName"
-
-  $host.ui.RawUI.WindowTitle = "$statusActivity - Step $step of $totalSteps : $stepName"
-}
 
 function ValidateEnv()
 {
@@ -69,49 +57,4 @@ $commands += @{name="j patch"; command="msbuild.exe"; args=@("/nologo","/t:patch
 $commands += @{name="j build"; command="msbuild.exe"; args=@("/nologo","/t:build","j6.proj")}
 $commands += @{name="Check Webpack"; command="CheckWebpack"}
 
-$RebuildStartTime = Get-Date -format HH:mm:ss
-
-$totalSteps = $commands.Count
-$step = 0
-
-try {
-  for ($i = 0; $i -lt $totalSteps; $i++) {
-
-    $commandKey = $commands[$i].name
-    $command = $commands[$i].command
-    $args = $commands[$i].args
-
-    UpdateStatus $($i+1) $totalSteps $commandKey
-
-    try {
-      #$command += '; return $LASTEXITCODE;'
-      #$exitCode = Invoke-Expression $command -OutBuffer
-
-      & $command $args
-
-      $exitCode = $LASTEXITCODE
-      if ($exitCode -gt 0)
-      {
-        Write-Output "The command '$commandKey' exited with error code: $exitCode"
-        Exit $exitCode
-      }
-    }
-    catch {
-      $ec = $LASTEXITCODE
-      Write-Output "The command '$commandKey' exited with error code: $ec"
-      Write-Output $_.Exception|format-list -force
-      if ($ec -eq 0) {$ec = 1} #dont exit with 0 code if there was a problem
-      Exit $ec
-    }
-  }
-}
-finally {
-  $host.ui.RawUI.WindowTitle = $oldtitle
-
-  "------------------------------------------------------------"
-  "Start Rebuild Time: $RebuildStartTime" 
-  "End Rebuild Time: $RebuildEndTime" 
-  "Elapsed Branch Rebuild Time: $Difference" 
-  "------------------------------------------------------------"
-}
-
+ExecuteCommandsWithStatus $commands
