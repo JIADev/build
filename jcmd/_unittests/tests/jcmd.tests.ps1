@@ -31,8 +31,20 @@ Describe 'jcmd shim tests' {
 
     It "passes quoted parameter" {
       $p = "a b c"
-      $result = & $jcmd $argTestCommand 1 $p
-      $result | Should -Be @(1, $p)
+      $result = & $jcmd $argTestCommand $p
+      $result | Should -Be @($p)
+    }
+
+    It "passes quoted parameter with other parameters" {
+      $p = "a b c"
+      $result = & $jcmd $argTestCommand 1 $p 2
+      $result | Should -Be @(1, $p, 2)
+    }
+
+    It "passes multiple quoted parameter with other parameters" {
+      $p = "a b c"
+      $result = & $jcmd $argTestCommand 1 $p 2 $p $p 3
+      $result | Should -Be @(1, $p, 2, $p, $p, 3)
     }
 
     It "passes quoted parameter with double quotes" {
@@ -41,10 +53,22 @@ Describe 'jcmd shim tests' {
       $result | Should -Be @($p)
     }
 
+    It "passes multiple quoted parameter with double quotes and other parameters" {
+      $p = "a `"b`" c"
+      $result = & $jcmd $argTestCommand 1 $p 2 $p $p 3
+      $result | Should -Be @(1, $p, 2, $p, $p, 3)
+    }
+
     It "passes quoted parameter with unmatched double quotes" {
       $p = "a `"b c"
       $result = & $jcmd $argTestCommand $p
       $result | Should -Be @($p)
+    }
+
+    It "passes multiple quoted parameter with unmatched double quotes and other parameters" {
+      $p = "a `"b c"
+      $result = & $jcmd $argTestCommand 1 $p 2 $p $p 3
+      $result | Should -Be @(1, $p, 2, $p, $p, 3)
     }
 
     It "passes quoted parameter with double double quotes" {
