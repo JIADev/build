@@ -34,8 +34,8 @@ class J6SQLConnection: System.IDisposable
 	[System.Data.SqlClient.SqlConnection] GetConnection()
 	{
 		$cred="integrated security=true"
-		if($this.sqlSettings.uid){$cred=("uid={0};pwd={1}" -f $this.sqlSettings.uid,$this.sqlSettings.pwd)}
-		$connStr=("server={0};database={1};{2};connect timeout=600" -f $this.sqlSettings.server,$this.sqlSettings.database,$cred)
+		if($this.sqlSettings.uid){$cred=("uid={0};pwd={1}" -f $this.sqlSettings.settings.sql.uid,$this.sqlSettings.settings.sql.pwd)}
+		$connStr=("server={0};database={1};{2};connect timeout=600" -f $this.sqlSettings.settings.sql.server,$this.sqlSettings.settings.sql.database,$cred)
 		$cn=new-object System.Data.SqlClient.SqlConnection($connStr)
 		$cn.open()
 		return $cn
@@ -82,7 +82,8 @@ class J6SQLConnection: System.IDisposable
 				$rows = $command.ExecuteReader()
 				$names = @()
 				foreach ($i in 0..($rows.fieldcount - 1)) {
-					$names += $rows.getname($i)
+					$name = $rows.getname($i)
+					$names += $name
 				}
 				while($rows.read()) {
 					$o = new-object psobject

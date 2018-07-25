@@ -3,7 +3,6 @@
 #
 #include sub files for Common-Functions file so that we can use them
 . "$PSScriptRoot\Common-Environment.ps1" 
-. "$PSScriptRoot\Common-SQL.ps1" 
 
 function WriteLn([string] $line)
 {
@@ -626,4 +625,42 @@ function New-SelfSignedCertificateEx {
 	}
 	[Byte[]]$CertBytes = [Convert]::FromBase64String($endCert)
 	New-Object Security.Cryptography.X509Certificates.X509Certificate2 @(,$CertBytes)
+}
+
+function Generate-RandomPassword([int]$length, [int]$minUpper=1, [int]$minLower=1, [int]$minDigit=1,[int]$minSymbol=1)
+{
+	[char[]]$passwordCharsUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	[char[]]$passwordCharsLower = 'abcdefghijklmnopqrstuvwxyz'
+	[char[]]$passwordCharsSymbol = '"!#$%&''()*+,-./:;<=>?@[\]^_{|}~'
+	[char[]]$passwordCharsDigit = '0123456789'
+
+	[char[]]$passwordCharsAll;
+	$passwordCharsAll += $passwordCharsUpper
+	$passwordCharsAll += $passwordCharsLower
+	$passwordCharsAll += $passwordCharsDigit
+	$passwordCharsAll += $passwordCharsSymbol
+
+	if ($length -lt ($minUpper + $minLower + $minDigit + $minSymbol))
+	{
+		throw "Password parameters are not valid: min characters are longer than total length!"
+	}
+
+	#get the min number of chars for each group into a string
+	[char[]] $chars;
+	$chars += $passwordCharsUpper | Get-Random -count $minUpper
+	$chars += $passwordCharsLower | Get-Random -count $minLower
+	$chars += $passwordCharsDigit | Get-Random -count $minDigit
+	$chars += $passwordCharsSymbol | Get-Random -count $minSymbol
+
+	#how many more characters do we need
+	$charsNeeded = $length - $chars.Length
+
+	#get the rest of the characters
+	$rest = $passwordCharsAll | Get-Random -count $charsNeeded
+
+	$chars += $rest
+
+	$password = ($chars -split '' | Sort-Object {Get-Random}) -join ''
+
+	return $password
 }
