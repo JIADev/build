@@ -13,7 +13,7 @@ function Enable-WebSiteProtocol($site, $protocol)
 		if ($protocols -ne "") { $protocols+="," }
 		$protocols+="net.pipe"
 		$site | Set-ItemProperty -name enabledProtocols -Value $protocols
-		Write-Output "$name configured with protocols: $protocols"
+		Write-Debug "$name configured with protocols: $protocols"
 	}
 	else {
 		Write-Output "Skipping! $name already configured with: $protocols"
@@ -31,10 +31,18 @@ function Enable-WebAppProtocol($sitePath, $appName, $protocol)
 		if ($protocols -ne "") { $protocols+="," }
 		$protocols+="net.pipe"
 		
-		Get-ChildItem "IIS:\Sites\$siteName" | 
-		Where-Object {($_.Schema.Name -eq "Application") -and ($_.Name -eq $appName)} | 
-		ForEach-Object { Set-ItemProperty $_.PSPath -name enabledProtocols -Value "$protocols"}
-		
+		$site = Get-ChildItem "IIS:\Sites\$siteName"
+		$site | 
+		Where-Object {
+			(
+				( Get-Member -InputObject $_ -Name "Schema" ) -and
+				( $_.Schema.Name -eq "Application" ) -and
+				( $_.Name -eq $appName )
+			)
+		} | ForEach-Object { 
+			Set-ItemProperty $_.PSPath -name enabledProtocols -Value "$protocols"
+		}
+
 		Write-Output "$name configured with protocols: $protocols"
 	}
 	else {
@@ -46,8 +54,14 @@ function Enable-NetPipeProtocol([string] $siteName, [string] $applicationName)
 {
 	$websites = Get-ChildItem 'IIS:\Sites'
 	$site = $websites | Where-object { $_.Name -eq $siteName }
-	Enable-WebSiteProtocol $site "net.pipe"
 
+	#only configure the site when the applicationName variable is null
+	if (!$applicationName)
+	{
+		Enable-WebSiteProtocol $site "net.pipe"
+	}
+
+	#configure the application folder/site
 	if ($applicationName)
 	{
 		Write-Output "Configuring application '$applicationName'"
