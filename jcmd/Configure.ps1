@@ -64,7 +64,7 @@ try
   & msbuild /t:Configure /p:CacheDatabase=$CacheDBId j6.proj | Out-Null
   if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
   
-  & msbuild /t:Configure /p:DatabaseServer=$DatabaseServer /p:DatabaseName=$DatabaseName /p:ReportDatabaseServer=$DATABASE_SERVER /p:ReportDatabaseName=$DATABASE_NAME j6.proj | Out-Null
+  & msbuild /t:Configure /p:DatabaseServer=$DatabaseServer /p:DatabaseName=$DatabaseName j6.proj | Out-Null
   if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
   
   & msbuild /t:Configure /p:ReportDatabaseServer=$ReportDatabaseServer /p:ReportDatabaseName=$ReportDatabaseName j6.proj | Out-Null
