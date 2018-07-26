@@ -33,6 +33,8 @@
 Param(
   [string]$commandName
 )
+Set-PSDebug -strict
+Set-StrictMode -Version latest
 
 if(!($commandName))
 {
@@ -68,19 +70,19 @@ $exitCode = -100
 try {
   #run the command
   & $cmdScript @params
-  #check the result, if success, exit with exitcode 0
-  if ($?) { EXIT 0 }
-
   #if we get to this point, we are not exiting with a 0
   #so see if we can get a better exit code
-  $exitCode = $GLOBAL:LASTEXITCODE
+  $success = $?
+  if (Test-Path VARIABLE:GLOBAL:LASTEXITCODE) {$exitCode = $GLOBAL:LASTEXITCODE;} else { $exitCode = 0;}
+
+  #check the result, if success, exit with exitcode 0
+  if ($success) { EXIT 0 }
 }
 catch {
   $ErrorMessage = $_.Exception.Message
   $FailedItem = $MyInvocation.MyCommand
 
   Write-Host "$FailedItem failed with message: $ErrorMessage" -ForegroundColor Red
-
   EXIT $exitCode
 }
 
