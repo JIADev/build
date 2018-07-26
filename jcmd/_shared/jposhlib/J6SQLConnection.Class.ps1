@@ -33,8 +33,10 @@ class J6SQLConnection: System.IDisposable
 
 	[System.Data.SqlClient.SqlConnection] GetConnection()
 	{
+		write-debug 1
 		$cred="integrated security=true"
-		if($this.sqlSettings.uid){$cred=("uid={0};pwd={1}" -f $this.sqlSettings.settings.sql.uid,$this.sqlSettings.settings.sql.pwd)}
+		if(Get-Member -inputobject $this.sqlSettings -name "uid" -Membertype Properties){$cred=("uid={0};pwd={1}" -f $this.sqlSettings.settings.sql.uid,$this.sqlSettings.settings.sql.pwd)}
+		write-debug 2
 		$connStr=("server={0};database={1};{2};connect timeout=600" -f $this.sqlSettings.settings.sql.server,$this.sqlSettings.settings.sql.database,$cred)
 		$cn=new-object System.Data.SqlClient.SqlConnection($connStr)
 		$cn.open()

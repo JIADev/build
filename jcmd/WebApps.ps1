@@ -154,20 +154,20 @@ function Create-RootWebSite([string] $siteName, [string] $physicalPath)
 	else
 	{
 		Write-Debug "Creating https binding on site '$longName'"
-		New-WebBinding -Name $longName -Protocol "https" -Port $httpsPort -HostHeader $fqdn -SslFlags 1
+		New-WebBinding -Name $longName -Protocol "https" -Port $httpsPort -HostHeader $fqdn -SslFlags 1 | Out-Null
 	}
 
 	if ($netPipe)
 	{
-		Enable-NetPipeProtocol $longName
-		Create-NetPipeBinding $longName
+		Enable-NetPipeProtocol $longName | Out-Null
+		Create-NetPipeBinding $longName | Out-Null
 	}
 
 	#if SSL binding doesnt already exist, create it
 	
 	if (Get-ChildItem IIS:\SslBindings\ | where {($_.Host -eq $fqdn) -and ($_.Port=$httpsPort)})
 	{
-		Write-Debug "Skipping SSL Binding '$sslBindingItemString' - already exists."
+		Write-Debug "Skipping SSL Binding '$fqdn' - already exists."
 	}
 	else
 	{
@@ -183,7 +183,7 @@ function Create-RootWebSite([string] $siteName, [string] $physicalPath)
 	Write-Debug "Root Website '$siteName' Created"
 
 	Write-Debug "Adding host Entry:'$fqdn'"
-	AddHostEntry "127.0.0.1" $fqdn
+	AddHostEntry "127.0.0.1" $fqdn | Out-Null
 	
 	return $site
 }
@@ -305,7 +305,7 @@ function Create-Site()
 
 			if (-not $siteFolderName.EndsWith(".obj")) #dont know why build creates .obj subfolders in the site folder, but they are not sites
 			{
-				$webApp = Get-WebApplication -Name $siteFolderName -Site $($rootSite.name) 
+				$webApp = Get-WebApplication -Name $siteFolderName -Site $($rootSite.Name) 
 
 				if ($webApp)
 				{
@@ -321,7 +321,7 @@ function Create-Site()
 
 					#create the sub-application
 					Write-Debug "Creating Application: $siteFolderName"
-					$webApp = New-WebApplication -Name $siteFolderName -Site $($rootSite.name) -PhysicalPath $siteFolder -ApplicationPool $poolName
+					$webApp = New-WebApplication -Name $siteFolderName -Site $($rootSite.Name) -PhysicalPath $siteFolder -ApplicationPool $poolName
 
 					if ($netPipe -and ($siteFolderName -eq "integration"))
 					{
@@ -359,7 +359,7 @@ function Configure-WebPWS ()
 		$intCfgXml = $intCfgXml.Replace("[SERVER-BINDING]", $integrationOverrideBinding)
 		$intCfgXmlFile = Join-Path $pwsPath "IntegrationConfiguration.xml"
 
-		New-Item -Path $intCfgXmlFile -Type file -Force
+		New-Item -Path $intCfgXmlFile -Type file -Force | Out-Null
 		$intCfgXml | Set-Content -Path $intCfgXmlFile
 
 		Write-Output "Configuration File Created: $intCfgXmlFile"
@@ -443,7 +443,13 @@ end
 Ensure-Is64BitProcess
 Ensure-IsPowershellMinVersion4
 Ensure-IsAdmin
-Ensure-IsJ6DevRootFolder
+
+#we only want to force j6 folder when we are creating a new site, not when
+#removing
+if (!$remove)
+{
+	Ensure-IsJ6DevRootFolder
+}
 
 if ($remove)
 {

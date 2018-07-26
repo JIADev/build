@@ -15,31 +15,31 @@ function ExecuteCommandsWithStatus($commands, [string]$operationName)
 
 	try {
 	  for ($i = 0; $i -lt $totalSteps; $i++) {
+			$commandKey = $commands[$i].name
+			$command = $commands[$i].command
+			$args = $commands[$i].args
 
-		$commandKey = $commands[$i].name
-		$command = $commands[$i].command
-		$args = $commands[$i].args
+			UpdateStatus $($i+1) $totalSteps $commandKey
 
-		UpdateStatus $($i+1) $totalSteps $commandKey
-
-		try {
-		  #using splatting here: @args instead of $args
-		  & $command @args
-
-		  $exitCode = $GLOBAL:LASTEXITCODE
-		  if ($exitCode -gt 0)
-		  {
-			Write-Output "The command '$commandKey' exited with error code: $exitCode"
-			Exit $exitCode
-		  }
-		}
-		catch {
-		  $ec = $GLOBAL:LASTEXITCODE
-		  Write-Output "The command '$commandKey' exited with error code: $ec"
-		  Write-Output $_.Exception|format-list -force
-		  if ($ec -eq 0) {$ec = 1} #dont exit with 0 code if there was a problem
-		  Exit $ec
-		}
+			try {
+				Write-Debug "ExecuteCommandsWithStatus: $command $args"
+				#using splatting here: @args instead of $args
+				& $command @args
+				$success = $?
+				if (Test-Path VARIABLE:GLOBAL:LASTEXITCODE) {$exitCode = $GLOBAL:LASTEXITCODE;} else { $exitCode = 0;}
+				if (!$success -or ($exitCode -gt 0))
+				{
+					Write-Output "The command '$commandKey' exited with error code: $exitCode"
+					Exit $exitCode
+				}
+			}
+			catch {
+				$ec = $GLOBAL:LASTEXITCODE
+				Write-Output "The command '$commandKey' exited with error code: $ec"
+				Write-Output $_.Exception|format-list -force
+				if ($ec -eq 0) {$ec = 1} #dont exit with 0 code if there was a problem
+				Exit $ec
+			}
 	  }
 	}
 	finally {

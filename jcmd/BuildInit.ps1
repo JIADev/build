@@ -43,15 +43,23 @@ function CheckWebpack()
   }
 }
 
+function Remove-SchemaUpdate()
+{
+  if (Test-Path ".\SchemaUpdate\") {
+    Remove-Item ".\SchemaUpdate\*.*" -Force -Recurse
+  }
+}
+
+
 $commands = @()
 $commands += @{name="Checking State"; command="ValidateEnv"; args=@()}
 $commands += @{name="j clean"; command="msbuild.exe"; args=@("/nologo","/t:clean","j6.proj")}
-$commands += @{name="Remove Schema Update"; command="Remove-Item"; args=@(".\SchemaUpdate\*.*")}
+$commands += @{name="Remove Schema Update"; command="Remove-SchemaUpdate"; args=@()}
 $commands += @{name="j bootstrap"; command="msbuild.exe"; args=@("/nologo","/t:bootstrap","j6.proj")}
 $commands += @{name="j ensuredb"; command="msbuild.exe"; args=@("/nologo","/t:ensuredb","j6.proj")}
 $commands += @{name="j setup"; command="msbuild.exe"; args=@("/nologo","/t:setup","j6.proj")}
 $commands += @{name="j patch"; command="msbuild.exe"; args=@("/nologo","/t:patch","j6.proj")}
 $commands += @{name="j build"; command="msbuild.exe"; args=@("/nologo","/t:build","j6.proj")}
-$commands += @{name="Check Webpack"; command="CheckWebpack"}
+$commands += @{name="Check Webpack"; command="CheckWebpack"; args=@()}
 
 ExecuteCommandsWithStatus $commands "BuildInit"
