@@ -46,15 +46,6 @@ if ($hasPendingChanges -eq $true) {
 
 $startBranch = $CustomerId + '_' + $EnvironmentCode
 $branchName = "TSK" + '_' + $startBranch + '_' + $TaskId
-
-if (!(SourceControl_BranchExists $startBranch))
-{
-	Write-ColorOutput "Base branch '$startBranch' not found!" Red
-	Exit 1
-}
-
-if (!($SkipRevertAll)) { & jcmd revertall }
-
 SourceControl_PullRepoCommits
 if (!((SourceControl_TagExists $startBranch) -or (SourceControl_BranchExists $startBranch)))
 {
@@ -62,13 +53,13 @@ if (!((SourceControl_TagExists $startBranch) -or (SourceControl_BranchExists $st
 	Exit 1
 }
 
-if (!($SkipRevertAll)) { & jcmd revertall }
-
 if (SourceControl_BranchExists $branchName)
 {
 	Write-ColorOutput "Branch '$branchName' already exists. Switch to this branch manually, or choose a different TaskId" -ForegroundColor Red
 	Exit 1
 }
+
+if (!($SkipRevertAll)) { & jcmd revertall }
 
 Write-ColorOutput "Setting current branch to $startBranch..."
 SourceControl_SetBranch $startBranch
