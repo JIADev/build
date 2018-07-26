@@ -66,40 +66,48 @@ class J6SQLConnection: System.IDisposable
 			[int] $timeout
 	)
 	{
+		if ($sql.Trim() -eq "") {return $null}
 		$database = $this.SqlSettings.settings.sql.database
 		$results = New-Object System.Collections.ArrayList
 		$rows = $null
 		$command = $null
-		& {
-			& {
-				$command = $this.sqlConnection.createcommand()
-				if ($database) {
-					$command.commandtext = "use [$database]"
-					[void]$command.executenonquery()
-				}
-				$command.commandtimeout = $timeout
-				$command.commandtext = $sql
-				$rows = $command.ExecuteReader()
-				$names = @()
-				foreach ($i in 0..($rows.fieldcount - 1)) {
-					$name = $rows.getname($i)
-					$names += $name
-				}
-				while($rows.read()) {
-					$o = new-object psobject
-					foreach($name in $names) {
-						add-member -in $o -name $name -memberType noteproperty -value $rows.getvalue($rows.getordinal($name))
-					}
-					$results.Add($o);
-				}
+		$rows = $null
+		try
+		{
+			$command = $this.sqlConnection.createcommand()
+			if ($database) {
+				$command.commandtext = "use [$database]"
+				[void]$command.executenonquery()
 			}
-			trap {
-				write-host "Query failed: $_"
-				continue
+			$command.commandtimeout = $timeout
+			$command.commandtext = $sql
+			$rows = $command.ExecuteReader()
+			$names = @()
+			foreach ($i in 0..($rows.fieldcount - 1)) {
+				$name = $rows.getname($i)
+				$names += $name
 			}
+			while($rows.read()) {
+				$o = new-object psobject
+				foreach($name in $names) {
+					add-member -in $o -name $name -memberType noteproperty -value $rows.getvalue($rows.getordinal($name))
+				}
+				$results.Add($o);
+			}
+			$rows.close()
+			$rows.Dispose()
+			$rows = $null
 		}
-		if ($rows) {[void]$rows.close()}
-		if ($command) {[void]$command.Dispose()}
+		catch {
+			write-host "Query failed: $_"
+		}
+		finally {
+			if ($rows) {
+				[void]$rows.close()
+				[void]$rows.Dispose()
+			}
+			if ($command) {[void]$command.Dispose()}
+		}
 		return $results;
 	}
 
@@ -108,25 +116,27 @@ class J6SQLConnection: System.IDisposable
 			[int] $timeout
 	)
 	{
+		if ($sql.Trim() -eq "") {return}
+		
 		$database = $this.sqlSettings.settings.sql.database
 		$command = $null
-		& {
-			& {
-				$command = $this.sqlConnection.createcommand()
-				$command.commandtimeout = $timeout
-				if ($database) {
-					$command.commandtext = "use [$database]"
-					[void]$command.executenonquery()
-				}
-				$command.commandtext = $sql
-				$command.executenonquery()
+		try {
+			$command = $this.sqlConnection.createcommand()
+			$command.commandtimeout = $timeout
+			if ($database) {
+				$command.commandtext = "use [$database]"
+				[void]$command.executenonquery()
 			}
-			trap {
-				write-host "Query failed: $_"
-				continue
-			}
+			$command.commandtext = $sql
+			$command.executenonquery()
 		}
-		if ($command) {[void]$command.Dispose()}
+		catch {
+			write-host "Query failed: $_"
+		}
+		finally{
+			if ($command) {[void]$command.Dispose()}
+		}
+		
 	}
 
 	J6SQLConnection	(
