@@ -12,7 +12,7 @@ function gitcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     Write-Debug "$cmd $arguments"
     
     $output = ((& $cmd @arguments) | Out-String)
-    if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)
+    if ($DoNotExitOnError -or $GLOBAL:LASTEXITCODE -eq 0)
     {
         $lines = $output -split "`r`n"
         return $lines
@@ -116,10 +116,11 @@ function SourceControlGit_NewBranch($branch) {
 function SourceControlGit_BranchExists($branch) {
     $arguments = "show-ref","--verify","--quiet","refs/heads/$branch"
     $output = (gitcmd $arguments -DoNotExitOnError)
-    if ($LASTEXITCODE -eq 0) { 
+    $exitCode = $GLOBAL:LASTEXITCODE
+    if ($exitCode -eq 0) { 
         return $true;
     }
-    if ($LASTEXITCODE -eq 1) { 
+    if ($exitCode -eq 1) { 
         return $false;
     }
 
@@ -131,10 +132,11 @@ function SourceControlGit_BranchExists($branch) {
 function SourceControlGit_TagExists($branch) {
     $arguments = "show-ref","--verify","--quiet","refs/tags/$branch"
     $output = (gitcmd $arguments -DoNotExitOnError)
-    if ($LASTEXITCODE -eq 0) { 
+    $exitCode = $GLOBAL:LASTEXITCODE
+    if ($exitCode -eq 0) { 
         return $true;
     }
-    if ($LASTEXITCODE -eq 1) { 
+    if ($exitCode -eq 1) { 
         return $false;
     }
 
