@@ -56,31 +56,25 @@ function ValidateEnv()
 }
 
 #build webapps args accounting for optional params
-$websiteArgs = @()
-$websiteRemoveArgs = @("WebApps","-remove")
+$websiteRemoveArgs = @{}
+$websiteRemoveArgs.commandName = "WebApps"
+$websiteRemoveArgs.name = $websiteName
+$websiteRemoveArgs.remove=$true
 
-$websiteArgs+= "WebApps"
-if ($websiteName)
-{
-  $websiteRemoveArgs+= "-name"
-  $websiteRemoveArgs+= $websiteName
+$websiteArgs = @{}
+$websiteArgs.commandName = "WebApps"
+$websiteArgs.name = $websiteName
+$websiteArgs.netPipe = $netPipe
 
-  $websiteArgs+= "-name"
-  $websiteArgs+= $websiteName
-}
-if ($netPipe)
-{
-  $websiteArgs+= "-netPipe"
-}
-$websiteArgs+="-updateDb"
+$jcmdPath = "$PSScriptRoot\..\jcmd.ps1"
 
 $commands = @()
 $commands += @{name="Checking State"; command="ValidateEnv"; args=@()}
-$commands += @{name="Remove Existing Web Apps"; command="$PSScriptRoot\..\jcmd.ps1"; args=$websiteRemoveArgs}
-$commands += @{name="RevertAll"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("RevertAll")}
-$commands += @{name="Configure"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("Configure","$CustomerCode","$DatabaseName", "$CacheDBId")}
-$commands += @{name="Build"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("BuildInit")}
-$commands += @{name="Flush"; command="$PSScriptRoot\..\jcmd.ps1"; args=@("Flush","all")}
-$commands += @{name="Create Web Apps"; command="$PSScriptRoot\..\jcmd.ps1"; args=$websiteArgs}
+$commands += @{name="Remove Existing Web Apps"; command=$jcmdPath; args=$websiteRemoveArgs}
+$commands += @{name="RevertAll"; command=$jcmdPath; args=@("RevertAll")}
+$commands += @{name="Configure"; command=$jcmdPath; args=@("Configure","$CustomerCode","$DatabaseName", "$CacheDBId")}
+$commands += @{name="Build"; command=$jcmdPath; args=@("BuildInit")}
+$commands += @{name="Flush"; command=$jcmdPath; args=@("Flush","all")}
+$commands += @{name="Create Web Apps"; command=$jcmdPath; args=$websiteArgs}
 
 ExecuteCommandsWithStatus $commands "EnvInit"

@@ -193,6 +193,8 @@ function Remove-Site()
 		Get-ChildItem IIS:\Sites | where {$_.Name -match $longName} | Remove-Item -Recurse -Confirm:$false
 		Get-ChildItem IIS:\AppPools\ | where {$_.Name -match $FQDN} | Remove-Item -Recurse -Confirm:$false
 
+		Remove-AppPoolFromSQL $FQDN
+
 		Remove-TrustedSelfSignedCertForLocalSite $FQDN
 
 		Get-ChildItem IIS:\SslBindings | where {$_.Host -match $FQDN} | Remove-Item -Recurse -Confirm:$false
@@ -238,6 +240,46 @@ EXEC sp_executesql @SqlStatement
 
 }
 
+function Remove-AppPoolFromSQL($poolName)
+{
+	if (!$skipDb)
+	{
+
+		$sqlConn = [J6SQLConnection]::new()
+		$dbName = $sqlConn.SqlConnection.Database
+
+		#find users
+		$sql = "SELECT Name FROM sys.sysusers WHERE [Name] LIKE '"+$poolName+"%'"
+		$users = $sqlConn.ExecuteReader($sql, 30)
+
+		#build drop sql
+		$sql = ""
+		foreach ($user in $users) {
+			$sql += "drop user ["+$user.Name+"]; "
+		}
+		
+		#execute drop sql commands
+		$data = $sqlConn.ExecuteNonquery($sql, 30)
+
+
+
+		#find logins
+		$sql = "SELECT Name FROM sys.syslogins WHERE [Name] LIKE 'IIS APPPOOL\"+$poolName+"%'"
+		$logins = $sqlConn.ExecuteReader($sql, 30)
+
+		#build drop sql
+		$sql = ""
+		foreach ($login in $logins) {
+			$sql += "drop login ["+$login.Name+"]; "
+		}
+
+		#execute drop sql commands
+		$data = $sqlConn.ExecuteNonquery($sql, 30)
+
+	}
+
+}
+
 function Create-Site()
 {
 	Write-Debug "Create-Site([string] name, [string] physicalPath)"
@@ -273,7 +315,7 @@ function Create-Site()
 				{
 					$poolName = $fqdn+"_"+$siteFolderName
 					Write-Debug "Creating AppPool for sub-application: $poolName"
-					$pool=Create-AppPool $poolName
+					$pool = Create-AppPool $poolName
 
 					Add-AppPoolToSQL $poolName
 
