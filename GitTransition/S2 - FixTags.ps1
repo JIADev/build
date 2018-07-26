@@ -18,11 +18,11 @@ try {
     #export the closed branches
     Write-ColorOutput "Exporting Closed Branches..." -ForegroundColor Cyan
     $tags = $(hg log -r "tag()" -T "{tags}\n") | ForEach-Object {$_ -split " " } | sort-object | get-unique
-    if ($LASTEXITCODE -ne 0) { throw "Error getting tags from Mercurial" }
+    if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Error getting tags from Mercurial" }
 
     #get the open branches (heads)
     $hgHeads=$(hg heads -T "{branch}\n") | sort-object | get-unique
-    if ($LASTEXITCODE -ne 0) { throw "Error getting branches from Mercurial" }
+    if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Error getting branches from Mercurial" }
 
     #if there happens to be a case where the a tag is also a branch, remove it
     #from the tags list
@@ -75,15 +75,15 @@ try {
 
             Write-ColorOutput "Creating Tag $tagName on $branchName $branchHash" -ForegroundColor Cyan
             git tag -f "$tagName" "$branchHash"
-            if ($LASTEXITCODE -ne 0) { throw "Tag $branchHash to $tagName failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Tag $branchHash to $tagName failed!" }
             
             Write-ColorOutput "Pushing Tag $tagName" -ForegroundColor Cyan
             git push origin "$tagName" -f
-            if ($LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
 
             Write-ColorOutput "Deleting Remote Branch $branchName" -ForegroundColor Cyan
             git push origin --delete "refs/heads/$branchName"
-            if ($LASTEXITCODE -ne 0) { throw "Deleting remote branch $branchName failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Deleting remote branch $branchName failed!" }
 
             Write-ColorOutput "Branch $branchName converted to tag $tagName" -ForegroundColor Cyan
         }

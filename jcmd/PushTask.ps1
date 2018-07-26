@@ -62,7 +62,7 @@ $envTag = "$customerId`_$env"
 Write-ColorOutput "Checking for updates to the env tag '$envTag' FOR MERGING!!" -ForegroundColor Cyan
 #see if there are any changes in the env tag that are not in 
 & "$PSScriptRoot\ForwardChangeCheck.ps1" $envTag
-if ($LASTEXITCODE -ne 0)
+if ($GLOBAL:LASTEXITCODE -ne 0)
 {
 	Write-ColorOutput "This starttask was branch from '$envTag', but that tag has new commits." -ForegroundColor Red
   Write-ColorOutput "You must manually merge that tag into this branch and resolve any issues!" -ForegroundColor Red

@@ -33,7 +33,7 @@ try {
     {
         # ":{space}" is important for proper parseing
         $tagInfo = $(hg log -r $tag) | ConvertFrom-String -Delimiter ': ' -PropertyNames Property,Value,Hash | Where-Object {$_.Property -ne "Tag"}
-        if ($LASTEXITCODE -ne 0) { throw "Error getting tags from Mercurial" }
+        if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Error getting tags from Mercurial" }
 
         [string] $tagUser = $tagInfo | Where-Object {$_.Property -eq "user"} | foreach-object {$_.Value.Trim()}
         [string] $tagDate = $tagInfo | Where-Object {$_.Property -eq "date"} | foreach-object {[DateTime]::ParseExact($_.Value.Trim(), $hgDatePattern,$null)}
@@ -100,11 +100,11 @@ try {
 
             Write-ColorOutput "Creating Tag $tagName on $commitHash" -ForegroundColor Cyan
             git tag -f "$tagName" "$commitHash"
-            if ($LASTEXITCODE -ne 0) { throw "Tagging hash '$branchHash' with '$tagName' failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Tagging hash '$branchHash' with '$tagName' failed!" }
 
             Write-ColorOutput "Pushing Tag '$tagName'" -ForegroundColor Cyan
             git push origin "$tagName" -f
-            if ($LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
 
             Write-ColorOutput "Tag '$tagName' moved." -ForegroundColor Cyan
         }

@@ -12,7 +12,7 @@ function hgcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     Write-Debug "$cmd $arguments"
     
     $output = ((& $cmd @arguments) | Out-String)
-    if ($DoNotExitOnError -or $LASTEXITCODE -eq 0)
+    if ($DoNotExitOnError -or $GLOBAL:LASTEXITCODE -eq 0)
     {
         $lines = $output.Trim() -split "`r`n"
         #remove the first line - it is the hg command
@@ -120,10 +120,11 @@ function SourceControlHg_NewBranch($branch) {
 function SourceControlHg_BranchExists($branch) {
     $arguments="id","-q","-r","$branch"
     $output = (hgcmd $arguments -DoNotExitOnError)
-    if ($LASTEXITCODE -eq 0) { 
+    $exitCode = $GLOBAL:LASTEXITCODE
+    if ($exitCode -eq 0) { 
         return $true;
     }
-    if ($LASTEXITCODE -eq 255) { 
+    if ($exitCode -eq 255) { 
         return $false;
     }
 
@@ -141,10 +142,11 @@ function SourceControlHg_BranchExistsRemote($branch) {
 function SourceControlHg_TagExists($tag) {
     $arguments="id","-q","-r","$tag"
     $output = (hgcmd $arguments -DoNotExitOnError)
-    if ($LASTEXITCODE -eq 0) { 
+    $exitCode = $GLOBAL:LASTEXITCODE
+    if ($exitCode -eq 0) { 
         return $true;
     }
-    if ($LASTEXITCODE -eq 255) { 
+    if ($exitCode -eq 255) { 
         return $false;
     }
 

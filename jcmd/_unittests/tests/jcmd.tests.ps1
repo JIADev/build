@@ -101,25 +101,25 @@ Describe 'jcmd shim tests' {
     It "return command exit code when 1" {
       [int] $exitCode = 1
       $result = & $jcmd $exitCodeTestCommand $exitCode
-      $LASTEXITCODE | Should -Be $exitCode
+      $GLOBAL:LASTEXITCODE | Should -Be $exitCode
     }
 
     It "return command exit code when greater than 1" {
       [int] $exitCode = 99
       $result = & $jcmd $exitCodeTestCommand $exitCode
-      $LASTEXITCODE | Should -Be $exitCode
+      $GLOBAL:LASTEXITCODE | Should -Be $exitCode
     }
 
     It "return command exit code when -1" {
       [int] $exitCode = -1
       $result = & $jcmd $exitCodeTestCommand $exitCode
-      $LASTEXITCODE | Should -Be $exitCode
+      $GLOBAL:LASTEXITCODE | Should -Be $exitCode
     }
 
     It "return command exit code when exception thrown" {
       [int] $exitCode = -100
       $result = & $jcmd $exitCodeTestCommand $exitCode "ERROR!"
-      $LASTEXITCODE | Should -Be $exitCode
+      $GLOBAL:LASTEXITCODE | Should -Be $exitCode
     }
   }
 }

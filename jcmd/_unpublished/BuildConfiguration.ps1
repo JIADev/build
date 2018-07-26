@@ -81,12 +81,9 @@ try {
     UpdateStatus $($i+1) $totalSteps $commandKey
 
     try {
-      #$command += '; return $LASTEXITCODE;'
-      #$exitCode = Invoke-Expression $command -OutBuffer
-
       & $command $args
-
-      $exitCode = $LASTEXITCODE
+      $exitCode = $GLOBAL:LASTEXITCODE
+      
       if ($exitCode -gt 0)
       {
         Write-Output "The command '$commandKey' exited with error code: $exitCode"
@@ -94,7 +91,7 @@ try {
       }
     }
     catch {
-      $ec = $LASTEXITCODE
+      $ec = $GLOBAL:LASTEXITCODE
       Write-Output "The command '$commandKey' exited with error code: $ec"
       Write-Output $_.Exception|format-list -force
       if ($ec -eq 0) {$ec = 1} #dont exit with 0 code if there was a problem

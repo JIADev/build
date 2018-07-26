@@ -67,7 +67,7 @@ try {
         try {
             Write-ColorOutput "Checking out $branchName" -ForegroundColor Cyan
             git checkout "$branchName"
-            if ($LASTEXITCODE -ne 0) { throw "Cannot checkout $branchName!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Cannot checkout $branchName!" }
             
             if (!(Test-Path $targetFile))
             {
@@ -85,15 +85,15 @@ try {
 
             Write-ColorOutput "Updating Package File" -ForegroundColor Cyan
             Copy-Item $packageFile $targetFile
-            if ($LASTEXITCODE -ne 0) { throw "Package Copy failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Package Copy failed!" }
 
             Write-ColorOutput "Adding Package File" -ForegroundColor Cyan
             git add "$targetFile"
-            if ($LASTEXITCODE -ne 0) { throw "Adding Target File failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Adding Target File failed!" }
 
             Write-ColorOutput "Git Commit" -ForegroundColor Cyan
             git commit -m "Updating Deployment Tools"
-            if ($LASTEXITCODE -ne 0) { throw "Git Commit failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Git Commit failed!" }
         }
         catch {
             Write-ColorOutput "Processing $branchName failed:" -ForegroundColor Red
@@ -106,7 +106,7 @@ try {
     Write-ColorOutput "All branches updated." -ForegroundColor Cyan
     Write-ColorOutput "Pushing all branches to Origin" -ForegroundColor Yellow
     git push --all origin
-    if ($LASTEXITCODE -ne 0) { 
+    if ($GLOBAL:LASTEXITCODE -ne 0) { 
         Write-ColorOutput "Git Push to Origin Failed!" -ForegroundColor Red
         Exit 1
     }

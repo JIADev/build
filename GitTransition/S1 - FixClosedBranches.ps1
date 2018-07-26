@@ -18,13 +18,13 @@ try {
     #export the closed branches
     Write-ColorOutput "Exporting Closed Branches..." -ForegroundColor Cyan
     $closedBranches = $(hg log -r "closed()" -T "{branch}\n") | sort-object | get-unique
-    if ($LASTEXITCODE -ne 0) { throw "Error getting closed branches from Mercurial" }
+    if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Error getting closed branches from Mercurial" }
     Write-ColorOutput "Found $($closedBranches.Count) Closed Branches..." -ForegroundColor Cyan
 
     #export the active/open heads
     Write-ColorOutput "Exporting Open Branches..." -ForegroundColor Cyan
     $openBranches = $hgHeads=$(hg heads -T "{branch}\n") | sort-object | get-unique
-    if ($LASTEXITCODE -ne 0) { throw "Error getting closed branches from Mercurial" }
+    if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Error getting closed branches from Mercurial" }
     Write-ColorOutput "Found $($openBranches.Count) Open Branches..." -ForegroundColor Cyan
 
     #sometimes a branch was closed at one point, and so it will be in the closed list
@@ -86,15 +86,15 @@ try {
 
             Write-ColorOutput "Creating Tag $tagName on $branchName $branchHash" -ForegroundColor Cyan
             git tag -f "$tagName" "$branchHash"
-            if ($LASTEXITCODE -ne 0) { throw "Tag $branchHash to $tagName failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Tag $branchHash to $tagName failed!" }
             
             Write-ColorOutput "Pushing Tag $tagName" -ForegroundColor Cyan
             git push origin "$tagName" -f
-            if ($LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Push tag $tagName to Origin failed!" }
 
             Write-ColorOutput "Deleting Remote Branch $branchName" -ForegroundColor Cyan
             git push origin --delete "refs/heads/$branchName"
-            if ($LASTEXITCODE -ne 0) { throw "Deleting remote branch $branchName failed!" }
+            if ($GLOBAL:LASTEXITCODE -ne 0) { throw "Deleting remote branch $branchName failed!" }
 
             Write-ColorOutput "Branch $branchName converted to tag $tagName" -ForegroundColor Cyan
         }

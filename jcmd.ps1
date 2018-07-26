@@ -33,7 +33,6 @@
 Param(
   [string]$commandName
 )
-$LASTEXITCODE = 0
 
 if(!($commandName))
 {
@@ -78,7 +77,7 @@ try {
 }
 catch {
   $ErrorMessage = $_.Exception.Message
-  $FailedItem = ($_.Exception.ItemName, $MyInvocation.MyCommand -ne $null)[0]
+  $FailedItem = $MyInvocation.MyCommand
 
   Write-Host "$FailedItem failed with message: $ErrorMessage" -ForegroundColor Red
 
