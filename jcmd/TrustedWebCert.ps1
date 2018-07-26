@@ -3,13 +3,13 @@
   Creates a new self-signed certificate for use in IIS and moves it into the Trusted Root store.
 .DESCRIPTION
   Creates a new self-signed certificate for use in IIS and moves it into the Trusted Root store.
-  Also, has the ability to remove a cert using the -delete option
+  Also, has the ability to remove a cert using the -remove option
 .PARAMETER FQDN
   Fully Qualified Domain Name that will be used as the name and subject of this certificate.
   Example: www.cust1002.local
-.PARAMETER delete
+.PARAMETER remove
   Switch option used to cause an existing certificate to be removed rather than creating a new one.
-  Example: jcmd CreateTrustedWebCert www.cust1002.local -delete
+  Example: jcmd CreateTrustedWebCert www.cust1002.local -remove
 .EXAMPLE
   PS C:\> jcmd CreateTrustedWebCert www.cust1002.local
 .NOTES
@@ -18,7 +18,7 @@
 
 param(
   [Parameter(Mandatory=$true)][string] $FQDN,
-  [switch] $delete
+  [switch] $remove
 )
 
 Import-Module WebAdministration
@@ -49,7 +49,7 @@ if ($oldCert)
 }
 
 
-if (!$delete)
+if (!$remove)
 {
   Write-ColorOutput "Creating NEW self signed certificate: $FQDN" Cyan
 
