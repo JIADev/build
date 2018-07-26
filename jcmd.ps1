@@ -77,6 +77,11 @@ try {
   $exitCode = $GLOBAL:LASTEXITCODE
 }
 catch {
+  $ErrorMessage = $_.Exception.Message
+  $FailedItem = ($_.Exception.ItemName, $MyInvocation.MyCommand -ne $null)[0]
+
+  Write-Host "$FailedItem failed with message: $ErrorMessage" -ForegroundColor Red
+
   EXIT $exitCode
 }
 
