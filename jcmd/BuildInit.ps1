@@ -39,7 +39,7 @@ function ValidateEnv()
 function CheckWebpack()
 {
   if (Test-Path ".\Site\WebPWS\WebPWS.csproj") {
-    & "msbuild.exe" "Site\WebPWS\WebPWS.csproj","/t:Webpack"
+    & "msbuild.exe" "Site\WebPWS\WebPWS.csproj" "/t:Webpack"
   }
 }
 
