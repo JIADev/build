@@ -210,7 +210,7 @@ function Add-AppPoolToSQL($poolName)
 	{
 
 		$sqlConn = [J6SQLConnection]::new()
-		$dbName = $sqlConn.SqlConnection.Database
+		$dbName = $sqlConn.sqlSettings.settings.sql.database
 		$sql = "
 DECLARE @SqlStatement nvarchar(2000)
 
@@ -235,7 +235,7 @@ EXEC sp_executesql @SqlStatement
 SELECT @SqlStatement = 'ALTER ROLE [db_owner] ADD MEMBER [$poolName]' 
 EXEC sp_executesql @SqlStatement
 "
-		$data = $sqlConn.ExecuteNonquery($sql, 30)
+		$data = $sqlConn.ExecuteSQL($sql)
 	}
 
 }
@@ -246,35 +246,40 @@ function Remove-AppPoolFromSQL($poolName)
 	{
 
 		$sqlConn = [J6SQLConnection]::new()
-		$dbName = $sqlConn.SqlConnection.Database
+		$dbName = $sqlConn.sqlSettings.settings.sql.database
 
 		#find users
 		$sql = "SELECT Name FROM sys.sysusers WHERE [Name] LIKE '"+$poolName+"%'"
-		$users = $sqlConn.ExecuteReader($sql, 30)
+		$users = $sqlConn.ExecuteSQL($sql)
 
-		#build drop sql
-		$sql = ""
-		foreach ($user in $users) {
-			$sql += "drop user ["+$user.Name+"]; "
+		if ($users)
+		{
+			#build drop sql
+			$sql = ""
+			foreach ($user in $users) {
+				$sql += "drop user ["+$user.Name+"]; "
+			}
+			
+			#execute drop sql commands
+			$data = $sqlConn.ExecuteSQL($sql)
 		}
-		
-		#execute drop sql commands
-		$data = $sqlConn.ExecuteNonquery($sql, 30)
-
 
 
 		#find logins
 		$sql = "SELECT Name FROM sys.syslogins WHERE [Name] LIKE 'IIS APPPOOL\"+$poolName+"%'"
-		$logins = $sqlConn.ExecuteReader($sql, 30)
+		$logins = $sqlConn.ExecuteSQL($sql)
 
-		#build drop sql
-		$sql = ""
-		foreach ($login in $logins) {
-			$sql += "drop login ["+$login.Name+"]; "
+		if ($logins)
+		{
+			#build drop sql
+			$sql = ""
+			foreach ($login in $logins) {
+				$sql += "drop login ["+$login.Name+"]; "
+			}
+
+			#execute drop sql commands
+			$data = $sqlConn.ExecuteSQL($sql)
 		}
-
-		#execute drop sql commands
-		$data = $sqlConn.ExecuteNonquery($sql, 30)
 
 	}
 
@@ -411,28 +416,28 @@ begin
 	PRINT @settingName +' = ' + @value
 end
 "
-		$data = $sqlConn.ExecuteNonquery($sql, 30)
+		$data = $sqlConn.ExecuteSQL($sql)
 
 		$sql = "exec #SetAppSetting 'BarcodeServerUrl', 'https://[fqdn]/employee/barcode.axd'".Replace("[fqdn]",$fqdn)
-		$data = $sqlConn.ExecuteNonquery($sql, 30)
+		$data = $sqlConn.ExecuteSQL($sql)
 
 		$sql = "exec #SetAppSetting 'ConsultantWebSiteBaseURL', 'https://[fqdn]/business/'".Replace("[fqdn]",$fqdn)
-		$data = $sqlConn.ExecuteNonquery($sql, 30)
+		$data = $sqlConn.ExecuteSQL($sql)
 
 		$sql = "exec #SetAppSetting 'EmployeeWebSiteBaseURL', 'https://[fqdn]/employee/'".Replace("[fqdn]",$fqdn)
-		$data = $sqlConn.ExecuteNonquery($sql, 30)
+		$data = $sqlConn.ExecuteSQL($sql)
 
 
 		if (Test-Path ".\Site\WebPWS\WebPWS.csproj")
 		{
 			$sql = "exec #SetAppSetting 'PersonalWebSiteBaseURL', 'https://[fqdn]/webpws/'".Replace("[fqdn]",$fqdn)
-			$data = $sqlConn.ExecuteNonquery($sql, 30)
+			$data = $sqlConn.ExecuteSQL($sql)
 			
 			$sql = "exec #SetAppSetting 'PWS3_APIPath', 'https://[fqdn]/webpws/API'".Replace("[fqdn]",$fqdn)
-			$data = $sqlConn.ExecuteNonquery($sql, 30)
+			$data = $sqlConn.ExecuteSQL($sql)
 
 			$sql = "exec #SetAppSetting 'PWS3_SitePath', 'https://[fqdn]/webpws/'".Replace("[fqdn]",$fqdn)
-			$data = $sqlConn.ExecuteNonquery($sql, 30)
+			$data = $sqlConn.ExecuteSQL($sql)
 		}
 	}
 }

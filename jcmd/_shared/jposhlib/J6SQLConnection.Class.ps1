@@ -1,171 +1,116 @@
-class J6SQLConnection: System.IDisposable
-{
-	[System.Data.SqlClient.SqlConnection]$SqlConnection
-	[xml]$SqlSettings
+class J6SQLConnection {
+    [xml]$SqlSettings
 
-
-	[void] Dispose()
-    {
-        Write-Verbose -Message "Disposed called"
-        $this.Disposing = $true
-        $this.Dispose($true)
-        [System.GC]::SuppressFinalize($this)
+    [xml] GetSqlSettings() {
+        $path = Join-Path (Get-Location) "Sql-Settings.xml"
+        if (!(Test-Path $path)) {
+            throw "Unable to load sql settings. You may not be in a j6 directory."
+        }
+        return [xml](Get-Content $path)
     }
 
-    [void] Dispose([bool]$disposing)
-    {
-        if($disposing)
+    [void] ImportSQLPS() {
+        if (!(get-module sqlps))
         {
-            # free managed resources here
-            $this.sqlConnection.close();
+            push-location
+            import-module sqlps 3>&1 | out-null
+            pop-location
         }
     }
 
-	[xml] GetSqlSettings() {
-		$path = Join-Path (Get-Location) "Sql-Settings.xml"
-		if (!(Test-Path $path))
-		{
-			throw "Unable to load sql settings. You may not be in a j6 directory."
-		}
-		return [xml](Get-Content $path)
-	}
+    [psobject] Execute([string] $fileName, [string]$sql, [int] $timeout, [switch] $quiet) {
 
+        $params = @{}
 
-	[System.Data.SqlClient.SqlConnection] GetConnection()
-	{
-		write-debug 1
-		$cred="integrated security=true"
-		if(Get-Member -inputobject $this.sqlSettings -name "uid" -Membertype Properties){$cred=("uid={0};pwd={1}" -f $this.sqlSettings.settings.sql.uid,$this.sqlSettings.settings.sql.pwd)}
-		write-debug 2
-		$connStr=("server={0};database={1};{2};connect timeout=600" -f $this.sqlSettings.settings.sql.server,$this.sqlSettings.settings.sql.database,$cred)
-		$cn=new-object System.Data.SqlClient.SqlConnection($connStr)
-		$cn.open()
-		return $cn
-	}
+        $hasUidPw = Get-Member -inputobject $this.sqlSettings -name "uid" -Membertype Properties
+        if ($hasUidPw) {
+            $params.Username = $this.sqlSettings.settings.sql.uid
+            $params.Password = $this.sqlSettings.settings.sql.pwd
+        }
 
-	[void] CreateSqlSettings(
-		[string] $server = "(local)",
-		[string] $db = $(throw 'Enter the database name'),
-		[string] $user,
-		[string] $pass
-	)
-	{
-		$contents = 
-	"<?xml version='1.0'?>
-		<settings>
-			<sql>
-			<server>$server</server>
-			<database>$db</database>
-			<uid>$user</uid>
-			<pwd>$pass</pwd>
-			</sql>
-		</settings>"
-		out-file -filePath "sql-settings.xml" -inputObject $contents
-	}
+        if ($fileName) {
+            $params.InputFile = $fileName
+        }
+        else {
+            $params.Query = $sql
+        }
 
-	[psobject] ExecuteReader(
-			[string] $sql,
-			[int] $timeout
-	)
-	{
-		if ($sql.Trim() -eq "") {return $null}
-		$database = $this.SqlSettings.settings.sql.database
-		$results = New-Object System.Collections.ArrayList
-		$rows = $null
-		$command = $null
-		$rows = $null
-		try
-		{
-			$command = $this.sqlConnection.createcommand()
-			if ($database) {
-				$command.commandtext = "use [$database]"
-				[void]$command.executenonquery()
-			}
-			$command.commandtimeout = $timeout
-			$command.commandtext = $sql
-			$rows = $command.ExecuteReader()
-			$names = @()
-			foreach ($i in 0..($rows.fieldcount - 1)) {
-				$name = $rows.getname($i)
-				$names += $name
-			}
-			while($rows.read()) {
-				$o = new-object psobject
-				foreach($name in $names) {
-					add-member -in $o -name $name -memberType noteproperty -value $rows.getvalue($rows.getordinal($name))
-				}
-				$results.Add($o);
-			}
-			$rows.close()
-			$rows.Dispose()
-			$rows = $null
-		}
-		catch {
-			write-host "Query failed: $_"
-		}
-		finally {
-			if ($rows) {
-				[void]$rows.close()
-				[void]$rows.Dispose()
-			}
-			if ($command) {[void]$command.Dispose()}
-		}
-		return $results;
-	}
+        if (!$quiet) {
+            $params.OutputSqlErrors = $true
+            $params.Verbose = $true
+        }
 
-	[void] ExecuteNonquery(
-			[string] $sql,
-			[int] $timeout
-	)
-	{
-		if ($sql.Trim() -eq "") {return}
-		
-		$database = $this.sqlSettings.settings.sql.database
-		$command = $null
-		try {
-			$command = $this.sqlConnection.createcommand()
-			$command.commandtimeout = $timeout
-			if ($database) {
-				$command.commandtext = "use [$database]"
-				[void]$command.executenonquery()
-			}
-			$command.commandtext = $sql
-			$command.executenonquery()
-		}
-		catch {
-			write-host "Query failed: $_"
-		}
-		finally{
-			if ($command) {[void]$command.Dispose()}
-		}
-		
-	}
+        $params.Database = $this.sqlSettings.settings.sql.database
+        $params.ServerInstance = $this.sqlSettings.settings.sql.server
+        $params.ConnectionTimeout = 15
+        $params.QueryTimeout = $timeout
+        $params.AbortOnError = $true
 
-	J6SQLConnection	(
-	)
-	{
-		$this.sqlSettings = $this.GetSqlSettings()
-		$this.sqlConnection = $this.GetConnection()
-	}
+        $result = $null
+        Push-Location
+        try {
+            $result = Invoke-Sqlcmd @params
+            $success = $?
+            if (!$success)
+            {
+                write-host "Unexpected Error. No further error details are available." -ForegroundColor Red
+                if ($result)
+                {
+                    write-host "Result:" -ForegroundColor Red
+                    write-host $result -ForegroundColor Red
+                }
+            }
+        }
+        catch {
+            write-host "Caught an exception:" -ForegroundColor Red
+            write-host "Exception type: $($_.Exception.GetType().FullName)" -ForegroundColor Red
+            write-host "Exception message: $($_.Exception.Message)" -ForegroundColor Red
+            write-host "Error: " $_.Exception -ForegroundColor Red
 
-	J6SQLConnection	(
-		$settings
-	)
-	{
-		if (!$settings) {$settings = $this.GetSqlSettings()}
-		$this.sqlSettings = $settings
-		$this.sqlConnection = $this.GetConnection()
-	}
+            Exit 1
+        }
+        finally {
+            Pop-Location
+        }
 
-	J6SQLConnection	(
-		$settings,
-		$connection
-	)
-	{
-		if (!$settings) {$settings = $this.GetSqlSettings()}
-		if (!$connection) {$connection = $this.GetConnection()}
-		$this.sqlSettings = $settings
-		$this.sqlConnection = $connection
-	}
+        return $result
+    }
+
+    [psobject] ExecuteSQL([string]$sql) {
+        $result = $this.ExecuteSQL($sql, 600, $false)
+        return $result
+    }
+
+    [psobject] ExecuteSQL([string]$sql, [int] $timeout = 600, [switch] $quiet = $false) {
+        $result = $this.Execute($null, $sql, $timeout, $quiet)
+        return $result
+    }
+
+    [psobject] ExecuteFile([string]$fileName) {
+        $result = $this.ExecuteFile($fileName, 600, $false)
+        return $result
+    }
+
+    [psobject] ExecuteFile([string]$fileName, [int] $timeout = 600, [switch] $quiet = $false) {
+        $result = $this.Execute($fileName, $null, $timeout, $quiet)
+        return $result
+    }
+
+    J6SQLConnection	(
+    ) {
+        $this.ImportSQLPS()
+
+        $this.sqlSettings = $this.GetSqlSettings()
+    }
+
+    J6SQLConnection	(
+        $settings
+    ) {
+        $this.ImportSQLPS()
+
+        if (!$settings) {$settings = $this.GetSqlSettings()}
+        $this.sqlSettings = $settings
+    }
+
 
 }
