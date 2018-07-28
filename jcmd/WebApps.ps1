@@ -415,30 +415,32 @@ begin
 
 	PRINT @settingName +' = ' + @value
 end
+
 "
-		$data = $sqlConn.ExecuteSQL($sql)
 
-		$sql = "exec #SetAppSetting 'BarcodeServerUrl', 'https://[fqdn]/employee/barcode.axd'".Replace("[fqdn]",$fqdn)
-		$data = $sqlConn.ExecuteSQL($sql)
+		$sql += "`n"
+		$sql += "exec #SetAppSetting 'BarcodeServerUrl', 'https://$fqdn/employee/barcode.axd'"
 
-		$sql = "exec #SetAppSetting 'ConsultantWebSiteBaseURL', 'https://[fqdn]/business/'".Replace("[fqdn]",$fqdn)
-		$data = $sqlConn.ExecuteSQL($sql)
+		$sql += "`n"
+		$sql += "exec #SetAppSetting 'ConsultantWebSiteBaseURL', 'https://$fqdn/business/'"
 
-		$sql = "exec #SetAppSetting 'EmployeeWebSiteBaseURL', 'https://[fqdn]/employee/'".Replace("[fqdn]",$fqdn)
-		$data = $sqlConn.ExecuteSQL($sql)
+		$sql += "`n"
+		$sql += "exec #SetAppSetting 'EmployeeWebSiteBaseURL', 'https://$fqdn/employee/'"
 
 
 		if (Test-Path ".\Site\WebPWS\WebPWS.csproj")
 		{
-			$sql = "exec #SetAppSetting 'PersonalWebSiteBaseURL', 'https://[fqdn]/webpws/'".Replace("[fqdn]",$fqdn)
-			$data = $sqlConn.ExecuteSQL($sql)
+			$sql += "`n"
+			$sql += "exec #SetAppSetting 'PersonalWebSiteBaseURL', 'https://$fqdn/webpws/'"
 			
-			$sql = "exec #SetAppSetting 'PWS3_APIPath', 'https://[fqdn]/webpws/API'".Replace("[fqdn]",$fqdn)
-			$data = $sqlConn.ExecuteSQL($sql)
+			$sql += "`n"
+			$sql += "exec #SetAppSetting 'PWS3_APIPath', 'https://$fqdn/webpws/API'"
 
-			$sql = "exec #SetAppSetting 'PWS3_SitePath', 'https://[fqdn]/webpws/'".Replace("[fqdn]",$fqdn)
-			$data = $sqlConn.ExecuteSQL($sql)
+			$sql += "`n"
+			$sql += "exec #SetAppSetting 'PWS3_SitePath', 'https://$fqdn/webpws/'"
 		}
+
+		$data = $sqlConn.ExecuteSQL($sql)
 	}
 }
 
