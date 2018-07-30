@@ -11,7 +11,6 @@ Describe 'jcmd BuildInit tests' {
   Context "BuildInit Git Tests" {
     It "Should not fail when building $testGitBranch" {
         Push-Location $testGitRepoPath
-        SourceControl_SetBranch $testGitBranch
         try {
             $params = @{}
             $params.commandName = "BuildInit"
