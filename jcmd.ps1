@@ -20,14 +20,14 @@
 
   Shows a list of all available commands.
 .EXAMPLE
-  PS C:\> jcmd help [CommandName]
+  PS C:\> jcmd help listcommands
 
-  Shows the help information for a specific command.
+  Shows the help information for "ListCommands"
 .EXAMPLE
-  PS C:\> jcmd reverall -LongPathCheck
+  PS C:\> jcmd revertall -LongPathCheck
 
-  Executes the ReverAll command with the -LongPathCheck argument.
-  Note: This is the same as executing .\jcmd\revertall.psa -LongPathCheck 
+  Executes the RevertAll command with the -LongPathCheck argument.
+  Note: This is the same as executing .\jcmd\revertall.ps1 -LongPathCheck 
   (assuming the current folder is the jcmd.ps1 folder)
 #>
 Param(
