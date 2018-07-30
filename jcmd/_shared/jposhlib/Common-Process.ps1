@@ -34,11 +34,12 @@ function ExecuteCommandsWithStatus($commands, [string]$operationName)
 				}
 			}
 			catch {
-				$ec = $GLOBAL:LASTEXITCODE
-				Write-Output "The command '$commandKey' exited with error code: $ec"
+				$success = $?
+				if (Test-Path VARIABLE:GLOBAL:LASTEXITCODE) {$exitCode = $GLOBAL:LASTEXITCODE;} else { $exitCode = 0;}
+				Write-Output "The command '$commandKey' exited with error code: $exitCode"
 				Write-Output $_.Exception|format-list -force
-				if ($ec -eq 0) {$ec = 1} #dont exit with 0 code if there was a problem
-				Exit $ec
+				if ($exitCode -eq 0) {$exitCode = 1} #dont exit with 0 code if there was a problem
+				Exit $exitCode
 			}
 	  }
 	}

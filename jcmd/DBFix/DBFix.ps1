@@ -15,7 +15,8 @@
   Created by Richard Carruthers 07/17/2018
 #>
 param(
-  [String] $script
+  [String] $script,
+  [switch] $quiet
 )
 
 . "$PSScriptRoot\..\_Shared\common.ps1"
@@ -31,7 +32,7 @@ if (($script) -and (Test-Path $sqlFile))
   $sqlConn = [J6SQLConnection]::new()
   try {
       $sqlFile = "$PSScriptRoot\$script.sql"
-      $sqlConn.ExecuteFile($sqlFile)
+      $sqlConn.ExecuteFile($sqlFile, $quiet)
   }
   finally {
 

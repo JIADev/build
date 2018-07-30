@@ -1,3 +1,4 @@
+. "$PSScriptRoot\..\common.ps1"
 . "$PSScriptRoot\SourceControlHg.ps1"
 . "$PSScriptRoot\SourceControlGit.ps1"
 

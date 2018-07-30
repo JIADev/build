@@ -1,7 +1,8 @@
+. "$PSScriptRoot\_common.ps1"
+
 # Pester tests
 Set-StrictMode -Version Latest
 
-$jcmd = "$PSScriptRoot\..\..\..\jcmd.ps1"
 $argTestCommand=".\_unittests\helpers\argtest"
 $exitCodeTestCommand=".\_unittests\helpers\exitcodetest"
 

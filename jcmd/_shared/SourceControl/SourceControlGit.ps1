@@ -12,14 +12,16 @@ function gitcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     Write-Debug "$cmd $arguments"
     
     $output = ((& $cmd @arguments) | Out-String)
-    if ($DoNotExitOnError -or $GLOBAL:LASTEXITCODE -eq 0)
+    $success = $?
+    if (Test-Path VARIABLE:GLOBAL:LASTEXITCODE) {$exitCode = $GLOBAL:LASTEXITCODE;} else { $exitCode = 0;}
+    if ((!$success -or ($exitCode -gt 0)) -and !$DoNotExitOnError)
     {
-        $lines = $output -split "`r`n"
-        return $lines
+        WriteGitError("$cmd $arguments", $output);
+        Exit $exitCode
     }
 
-    WriteGitError("$cmd $arguments", $output);
-    Exit 1
+    $lines = $output -split "`r`n"
+    return $lines
 }
 
 function SourceControlGit_Commit([string] $message) {

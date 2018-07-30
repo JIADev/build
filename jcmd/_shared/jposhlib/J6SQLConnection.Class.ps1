@@ -81,6 +81,11 @@ class J6SQLConnection {
         return $result
     }
 
+    [psobject] ExecuteSQL([string]$sql, [switch] $quiet) {
+        $result = $this.ExecuteSQL($sql, 600, $quiet)
+        return $result
+    }
+
     [psobject] ExecuteSQL([string]$sql, [int] $timeout = 600, [switch] $quiet = $false) {
         $result = $this.Execute($null, $sql, $timeout, $quiet)
         return $result
@@ -88,6 +93,11 @@ class J6SQLConnection {
 
     [psobject] ExecuteFile([string]$fileName) {
         $result = $this.ExecuteFile($fileName, 600, $false)
+        return $result
+    }
+
+    [psobject] ExecuteFile([string]$fileName, [switch] $quiet) {
+        $result = $this.ExecuteFile($fileName, 600, $quiet)
         return $result
     }
 
