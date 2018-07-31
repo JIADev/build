@@ -69,14 +69,12 @@ if (!(Test-Path $cmdScript))
 $exitCode = -100
 try {
   #run the command
-  $output = & $cmdScript @params
+  & $cmdScript @params
   #if we get to this point, we are not exiting with a 0
   #so see if we can get a better exit code
   $success = $?
   if (Test-Path VARIABLE:GLOBAL:LASTEXITCODE) {$exitCode = $GLOBAL:LASTEXITCODE;} else { $exitCode = 0;}
 
-  Write-Output $output
-  
   #check the result, if success, exit with exitcode 0
   if ($success) { EXIT 0 }
 }
