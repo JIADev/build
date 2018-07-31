@@ -5,14 +5,13 @@
   Completely initializes and builds a j6 development folder.
 
   1. Checks to ensure that visual studio is not running to avoid code loss/corruption.
-  2. j clean
-  3. Clean up schema update folder
-  4. j bootstrap
-  5. j ensuredb
-  6. j setup
-  7. j patch
-  8. j build (with hidden warnings)
-  9. runs webpack on PWS (if needed)
+  2. Clean up schema update folder
+  3. j bootstrap
+  4. j ensuredb
+  5. j setup
+  6. j patch
+  7. j build (with hidden warnings)
+  8. runs webpack on PWS (if needed)
 
 .PARAMETER ignoreVS
   Allows this script to run when Visual Studio is open.
@@ -53,7 +52,7 @@ function Remove-SchemaUpdate()
 
 $commands = @()
 $commands += @{name="Checking State"; command="ValidateEnv"; args=@()}
-$commands += @{name="j clean"; command="msbuild.exe"; args=@("/nologo","/t:clean","j6.proj")}
+#$commands += @{name="j clean"; command="msbuild.exe"; args=@("/nologo","/t:clean","j6.proj")}
 $commands += @{name="Remove Schema Update"; command="Remove-SchemaUpdate"; args=@()}
 $commands += @{name="j bootstrap"; command="msbuild.exe"; args=@("/nologo","/t:bootstrap","j6.proj")}
 $commands += @{name="j ensuredb"; command="msbuild.exe"; args=@("/nologo","/t:ensuredb","j6.proj")}
