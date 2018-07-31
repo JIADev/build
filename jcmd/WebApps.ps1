@@ -43,7 +43,8 @@
 param(
 	[string]$name = "",
 	[switch]$remove = $false,
-	[switch]$netPipe = $false,
+	[switch]$skipNetPipe = $false,
+	[switch]$systemIdentity = $false,
 	[switch]$skipDb = $false
 )
 
@@ -68,6 +69,13 @@ if (!$name)
 	$name = Split-Path -Path $path -leaf
 }
 
+#if the name starts with a dash, then this is probably a mistate, dont start websites with a dash
+if (!$remove -and ($name.StartsWith("-") -or $name.Trim() -eq "remove"))
+{
+	throw "$name is not a valid name for a website. This is probably a parameter typo." 
+}
+
+
 $fqdn=("www."+"$name"+".local").ToLower()
 $longName="$name - $fqdn"
 
@@ -75,8 +83,11 @@ Write-Debug "Constant: Name = $name"
 Write-Debug "Constant: FQDN = $fqdn"
 Write-Debug "Constant: Name = $longName"
 
-function Create-AppPool([string] $appPoolName)
+function Create-AppPool([string] $appPoolName, [string] $userName, [string] $password)
 {
+	Write-Debug "Create-AppPool([string] appPoolName)"
+	Write-Debug "  appPoolName: $appPoolName"
+
 	Push-Location
 	try
 	{
@@ -92,7 +103,17 @@ function Create-AppPool([string] $appPoolName)
 		#create the app pool
 		$pool = New-WebAppPool -Name $appPoolName
 		$pool.managedRuntimeVersion = $iisAppPoolDotNetVersion
+		if ($systemIdentity) {
+			$pool.processModel.identityType = 4
+		}
+		else {
+			$pool.processModel.userName = $userName
+			$pool.processModel.password = $password
+			$pool.processModel.identityType = 3
+		}
 		$pool | Set-Item
+
+		$pool.processModel.password = "" #not letting this value out of this scope
 
 		Write-Debug "AppPool '$appPoolName' created"
 		
@@ -100,6 +121,11 @@ function Create-AppPool([string] $appPoolName)
 	}
 	finally
 	{
+		if ($pool)
+		{
+			$pool.processModel.password = "" #not letting this value out of this scope
+		}
+		$password = $null
 		Pop-Location
 	}
 }
@@ -157,7 +183,7 @@ function Create-RootWebSite([string] $siteName, [string] $physicalPath)
 		New-WebBinding -Name $longName -Protocol "https" -Port $httpsPort -HostHeader $fqdn -SslFlags 1 | Out-Null
 	}
 
-	if ($netPipe)
+	if (!$skipNetPipe)
 	{
 		Enable-NetPipeProtocol $longName | Out-Null
 		Create-NetPipeBinding $longName | Out-Null
@@ -292,10 +318,16 @@ function Create-Site()
 	Write-Debug "  physicalPath: $sitePath"
 	try
 	{
-		Write-Debug "Createing Main AppPool $fqdn"
-		$pool=Create-AppPool $fqdn 
+		$username = $null
+		$password = $null
+		if (!$systemIdentity)
+		{
+			$username = "$([Environment]::UserDomainName)\$([Environment]::UserName)"
+			$userName, $password = Get-SecurePasswordFromConsole $userName
+		}
 
-		Add-AppPoolToSQL $fqdn
+		Write-Debug "Createing Main AppPool $fqdn"
+		$pool=Create-AppPool $fqdn $userName $password
 
 		$rootSite = Create-RootWebSite $name $sitePath
 		$rootSite | Write-Debug
@@ -320,15 +352,13 @@ function Create-Site()
 				{
 					$poolName = $fqdn+"_"+$siteFolderName
 					Write-Debug "Creating AppPool for sub-application: $poolName"
-					$pool = Create-AppPool $poolName
-
-					Add-AppPoolToSQL $poolName
+					$pool=Create-AppPool $poolName $userName $password
 
 					#create the sub-application
 					Write-Debug "Creating Application: $siteFolderName"
 					$webApp = New-WebApplication -Name $siteFolderName -Site $($rootSite.Name) -PhysicalPath $siteFolder -ApplicationPool $poolName
 
-					if ($netPipe -and ($siteFolderName -eq "integration"))
+					if ((!$skipNetPipe) -and ($siteFolderName -eq "integration"))
 					{
 						Enable-NetPipeProtocol $longName $siteFolderName
 					}			
@@ -350,12 +380,11 @@ function Configure-WebPWS ()
 	$pwsPath = Join-Path $sitePath "webpws"
 	if (Test-Path $pwsPath)
 	{
-		if ($netPipe)
-		{
-			$integrationOverrideBinding = "localhost/integration"
+		if ($skipNetPipe) {
+			$integrationOverrideBinding="$fqdn/integration"	
 		}
 		else {
-			$integrationOverrideBinding="$fqdn/integration"	
+			$integrationOverrideBinding = "localhost/integration"
 		}
 		
 
