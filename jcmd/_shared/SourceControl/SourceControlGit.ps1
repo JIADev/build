@@ -16,7 +16,7 @@ function gitcmd([string[]] $arguments, [switch]$DoNotExitOnError){
     if (Test-Path VARIABLE:GLOBAL:LASTEXITCODE) {$exitCode = $GLOBAL:LASTEXITCODE;} else { $exitCode = 0;}
     if ((!$success -or ($exitCode -gt 0)) -and !$DoNotExitOnError)
     {
-        WriteGitError("$cmd $arguments", $output);
+        WriteGitError "$cmd $arguments" $output
         Exit $exitCode
     }
 
@@ -64,7 +64,7 @@ function SourceControlGit_PushCommitsToRemote([switch] $newBranch) {
 }
 
 function SourceControlGit_MergeToCurrentBranch([string] $remoteBranch, [switch] $internalMerge) {
-    gitcmd merge,$remoteBranch
+    gitcmd merge,$remoteBranch -DoNotExitOnError
 }
 
 function SourceControlGit_MergeSingleCommit([string] $commitRevision, [switch] $internalMerge) {

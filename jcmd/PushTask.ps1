@@ -73,7 +73,7 @@ Write-ColorOutput "--No changes detected." -ForegroundColor Cyan
 
 Write-ColorOutput "UPDATING BRANCH TO '$baseBranch' FOR MERGING!!" -ForegroundColor Cyan
 try {
-    SourceControl_SetBranch $baseBranch
+    SourceControl_UpdateBranchToHead $baseBranch
     SourceControl_MergeToCurrentBranch $mergeBranch
     SourceControl_ResolveAllMergeConflicts
     if (SourceControl_HasPendingChanges)
