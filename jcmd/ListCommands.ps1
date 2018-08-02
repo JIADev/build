@@ -29,7 +29,7 @@ $cmdFolder = $PSScriptRoot;
 Get-ChildItem  -File -Include "*.ps1"
 
 $commands = Get-ChildItem "$cmdFolder\\*" -File -Include "*.ps1" | ForEach-Object {$_.FullName}
-$folderObjs = Get-ChildItem "$cmdFolder\\*" -Directory -Exclude "`_*"
+$folderObjs = Get-ChildItem "$cmdFolder" -Directory -Exclude "`_*"
 $folders = $folderObjs  | ForEach-Object { $_.FullName }
 
 $folderCommands =
