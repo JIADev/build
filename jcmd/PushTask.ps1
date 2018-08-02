@@ -40,7 +40,7 @@ if (SourceControl_HasPendingChanges)
 $currentBranch = SourceControl_GetCurrentBranch
 #we are going to merge the current branch back to the base branch
 $branchParts = $currentBranch -split "_"
-if (($branchParts.Length -lt 4) -or (($branchParts | Where-Object {-not $_}).Count -gt 0))
+if (($branchParts.Length -lt 4) -or ($branchParts | Where-Object {-not $_}))
 {
 	Write-ColorOutput "Cannot parse branch name for pushtask operation. Expected branch name format: TSK_[CustomerNumber]_[Environment]_[TaskId]" -ForegroundColor Red
 	Exit 1
