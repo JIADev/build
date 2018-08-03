@@ -29,9 +29,13 @@ param(
 
 function ValidateEnv()
 {
-  if (($ignoreVS -eq $false) -and ([bool](Get-Process devenv -ea "silentlycontinue"|where {$_.mainWindowTItle.StartsWith('all - Microsoft')} )))
+  if ($ignoreVS -eq $true)
   {
-    Throw "Please close all Visual Studio intances for j6 (All.sln) before running this script!"
+    $vsProcesses = Get-Process | Where-Object {($_.Name -eq "devenv") -and ($_.mainWindowTItle.StartsWith('all - Microsoft')) }
+    if ($vsProcesses)
+    {
+      Throw "Please close all Visual Studio intances for j6 (All.sln) before running this script!"
+    }
   }
 }
 
