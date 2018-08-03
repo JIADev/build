@@ -29,7 +29,7 @@ param(
 
 function ValidateEnv()
 {
-  if ($ignoreVS -eq $true)
+  if ($ignoreVS -eq $false)
   {
     $vsProcesses = Get-Process | Where-Object {($_.Name -eq "devenv") -and ($_.mainWindowTItle.StartsWith('all - Microsoft')) }
     if ($vsProcesses)

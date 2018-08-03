@@ -24,6 +24,8 @@ function ExecuteCommandsWithStatus($commands, [string]$operationName)
 			try {
 				Write-Debug "ExecuteCommandsWithStatus: $command $args"
 				#using splatting here: @args instead of $args
+				$Error.clear()
+				$global:LASTEXITCODE = 0
 				& $command @args
 				$success = $?
 				if (Test-Path VARIABLE:GLOBAL:LASTEXITCODE) {$exitCode = $GLOBAL:LASTEXITCODE;} else { $exitCode = 0;}
