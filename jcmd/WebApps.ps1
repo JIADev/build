@@ -444,6 +444,8 @@ begin
 
 	PRINT @settingName +' = ' + @value
 end
+GO
+-- GO is important, do not remove
 
 "
 
@@ -470,6 +472,8 @@ end
 		}
 
 		$data = $sqlConn.ExecuteSQL($sql)
+
+		Write-Host "Database updated. You may need to 'jcmd flush'!" -ForegroundColor Red
 	}
 }
 
