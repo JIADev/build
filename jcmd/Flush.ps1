@@ -2,7 +2,11 @@
 .SYNOPSIS
   Flushes j6 related services that are associated with cached data.
 .DESCRIPTION
-  Flushes j6 related services that are associated with cached data.
+  Flushes j6 related services (IIS, SQL, Redis, and IISExpress) that are associated 
+  with cached data.
+
+  The default is to flush redis and iis (jcmd flush), but to flush all of the services
+  execute "jcmd flush all".
 
 .PARAMETER services
   A string array of services from the following list that should be 
@@ -22,7 +26,7 @@
   Created by Richard Carruthers 07/17/2018
 #>
 param(
-    [String[]] $services = @('all')
+    [String[]] $services = @('iis','redis')
 )
 
 . "$PSScriptRoot\_Shared\common.ps1"
