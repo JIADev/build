@@ -53,7 +53,7 @@ function AddHostEntry (
  )
 {
 	$file = Join-Path -Path $($env:windir) -ChildPath "system32\drivers\etc\hosts"
-	$newHostFileLine = $ipAddress + "`t`t" + $hostName
+	$newHostFileLine = "`r`n" + $ipAddress + "`t`t" + $hostName + "`r`n"
 	if (!(Get-Content $file | Select-String $newHostFileLine -quiet))
 	{
 		 $newHostFileLine | Out-File -encoding ASCII -append $file
