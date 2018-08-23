@@ -62,8 +62,8 @@ foreach ($webserver in $webservers)
 		Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
 		Write-Host "You are here."
 		Write-Host "Driver $($driver)"
-		Write-Host "Build Number $($BUILD_NUMBER)"
-		$psdrive = "$($driver)_$($BUILD_NUMBER)SiteDeploy"
+		Write-Host "Build Number $($ENV:BUILD_NUMBER)"
+		$psdrive = "$($driver)_$($ENV:BUILD_NUMBER)SiteDeploy"
 		Write-Host	"You are here. psdrive is $($psdrive)"
 		New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
 		#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
