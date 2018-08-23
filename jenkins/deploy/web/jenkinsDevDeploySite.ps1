@@ -61,6 +61,8 @@ foreach ($webserver in $webservers)
 		$deployPkgPath = "\\$ip\$($siteDrive)$\$deployPkgDir"
 		Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
 		Write-Host "You are here."
+		Write-Host "Driver $($driver)"
+		Write-Host "Build Number $($BUILD_NUMBER)"
 		$psdrive = "$($driver)_$($BUILD_NUMBER)SiteDeploy"
 		Write-Host	"You are here. psdrive is $($psdrive)"
 		New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
