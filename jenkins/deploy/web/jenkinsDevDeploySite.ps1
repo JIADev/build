@@ -58,14 +58,14 @@ foreach ($webserver in $webservers)
 		$siteBAKSDir = $json.$driver.environments.$deploy_env.siteBAKSDir
 		#	Write-Host $hostname
 		#	Write-Host $ip
-		$deployPkgPath = "\\$ip\$($siteDrive)\$deployPkgDir"
+		$deployPkgPath = '\\$ip\$($siteDrive)$\$($deployPkgDir)'
 		Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
 		Write-Host "You are here."
 		Write-Host "Driver $($driver)"
 		Write-Host "Build Number $($ENV:BUILD_NUMBER)"
 		$psdrive = "$($driver)_$($ENV:BUILD_NUMBER)SiteDeploy"
 		Write-Host	"You are here. psdrive is $($psdrive)"
-		New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
+		New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath #-Credential $credential #-Persist 
 		#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
 		Write-Host "Now you are here. PSDrive supposedly created."
 		Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
