@@ -77,7 +77,7 @@ foreach ($webserver in $webservers)
 	{
 		Write-Host "In the catch"
 		$ErrorMessage = $_.Exception.Message
-		Write-Error $ErrorMessage
+		Write-Host $ErrorMessage
 	}
 	finally
 	{
