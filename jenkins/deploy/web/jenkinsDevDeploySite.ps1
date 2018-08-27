@@ -58,7 +58,7 @@ foreach ($webserver in $webservers)
 		$siteBAKSDir = $json.$driver.environments.$deploy_env.siteBAKSDir
 		#	Write-Host $hostname
 		#	Write-Host $ip
-		$deployPkgPath = "\\$ip\$($siteDrive)$\$deployPkgDir"
+		$deployPkgPath = "\\$ip\$($siteDrive)\$deployPkgDir"
 		Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
 		Write-Host "You are here."
 		Write-Host "Driver $($driver)"
