@@ -33,8 +33,11 @@ $ENV:ps_scripts_dir = "C:\dev\code\build\jenkins"
 
 #if (-not (test-path "$env:ProgramFiles\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe")) { throw "$env:ProgramFiles\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe" }
 #$exe = '"' + 'C:\Program Files (x86)\Microsoft SQL Server\120\DAC\bin\SqlPackage.exe' + '"'
-if (-not (test-path "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe")) { throw "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe" }
-$exe = '"' + 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe' + '"'
+#if (-not (test-path "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe")) { throw "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe" }
+#$exe = '"' + 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\SqlPackage.exe' + '"'
+
+if (-not (test-path "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\140\SqlPackage.exe")) { throw "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\140\SqlPackage.exe" }
+$exe = '"' + 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\140\SqlPackage.exe' + '"'
 
 #$workingDirectory = "$($ENV:WORKSPACE)" -from old file, to be deleted
 $workingDirectory = $workingdir
