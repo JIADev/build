@@ -33,55 +33,56 @@ $ErrorActionPreference = "Stop"
 $scriptDir = Split-Path -LiteralPath $(if ($PSVersionTable.PSVersion.Major -ge 3) { $PSCommandPath }
 	else { & { $MyInvocation.ScriptName } })
 
-$stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
-
 #$deploySitePkgScriptPath = "C:\dev\Repos\build\jenkins\deploy\web\jenkinsDeployExtractSiteOnServer.ps1" #will be changed to a version from the passed in path in PRD.
 $deploySitePkgScriptPath = "$ps_scripts_dir\deploy\web\jenkinsDeployExtractSiteOnServer.ps1"
 
-try
+#	$cust = $driver.Substring(4,($driver.Length - 4))
+
+#Get list of web servers from config.
+#get the contents of the JSON file with the server list in it.
+$json = Get-Content $config_json -Raw | ConvertFrom-Json
+$webservers = $json.$driver.environments.$deploy_env.webservers | Get-Member -MemberType NoteProperty | select -ExpandProperty Name
+$deployPkgDir = $json.$driver.environments.$deploy_env.pkgDir
+$siteReleasePkgPath = gci -Path "$($ENV:pkgs_dir)\$($ENV:buildJobName)\LatestSite" -Recurse | where { $_ -like '*_Site.zip' } | select -ExpandProperty FullName
+
+#Loop through each web server
+#Copy site to correct directory on each web server and extract.
+foreach ($webserver in $webservers)
 {
-	#	$cust = $driver.Substring(4,($driver.Length - 4))
-	
-	#Get list of web servers from config.
-	#get the contents of the JSON file with the server list in it.
-	$json = Get-Content $config_json -Raw | ConvertFrom-Json
-	$webservers = $json.$driver.environments.$deploy_env.webservers | Get-Member -MemberType NoteProperty | select -ExpandProperty Name
-	$deployPkgDir = $json.$driver.environments.$deploy_env.pkgDir
-	$siteReleasePkgPath = gci -Path "$($ENV:pkgs_dir)\$($ENV:buildJobName)\LatestSite" -Recurse | where { $_ -like '*_Site.zip' } | select -ExpandProperty FullName
-	
-	#Loop through each web server
-	#Copy site to correct directory on each web server and extract.
-	foreach ($webserver in $webservers)
+	try
 	{
-		try
-		{
-			$hostname = $json.$driver.environments.$deploy_env.webservers.$webserver.hostname
-			$ip = $json.$driver.environments.$deploy_env.webservers.$webserver.ip
-			$siteDrive = $json.$driver.environments.$deploy_env.appDrive
-			$siteDir = $json.$driver.environments.$deploy_env.appDir
-			$siteBAKSDir = $json.$driver.environments.$deploy_env.siteBAKSDir
-			#	Write-Host $hostname
-			#	Write-Host $ip
-			$deployPkgPath = "\\$ip\$($siteDrive)$\$deployPkgDir"
-			Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
-			$psdrive = "$($hostname)SiteDeploy"
-			Write-Host	"You are here. psdrive is $($psdrive)"
-			New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
-			#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
-			Write-Host "Now you are here. PSDrive supposedly created."
-			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
-			Write-Host "File copy complete."
-			Invoke-Command -ComputerName $hostname -Credential $credential -FilePath "$deploySitePkgScriptPath" -ArgumentList $siteDrive, $siteDir, $siteBAKSDir, $deployPkgDir
-			Write-Host "Now the extraction has been complete."
-		}
-		finally
-		{
-			Remove-PSDrive -Name $psdrive
-			
-		}
+		$hostname = $json.$driver.environments.$deploy_env.webservers.$webserver.hostname
+		$ip = $json.$driver.environments.$deploy_env.webservers.$webserver.ip
+		$siteDrive = $json.$driver.environments.$deploy_env.appDrive
+		$siteDir = $json.$driver.environments.$deploy_env.appDir
+		$siteBAKSDir = $json.$driver.environments.$deploy_env.siteBAKSDir
+		#	Write-Host $hostname
+		#	Write-Host $ip
+		$deployPkgPath = "\\$ip\$($siteDrive)$\$($deployPkgDir)"
+		Write-Host "Copying $siteReleasePkgPath to $deployPkgPath on $hostname"
+		Write-Host "You are here."
+		Write-Host "Driver $($driver)"
+		Write-Host "Build Number $($ENV:BUILD_NUMBER)"
+		$psdrive = "$($driver)_$($ENV:BUILD_NUMBER)SiteDeploy"
+		Write-Host	"You are here. psdrive is $($psdrive)"
+		New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $deployPkgPath -Credential $credential #-Persist 
+		#			Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
+		Write-Host "Now you are here. PSDrive supposedly created."
+		Copy-Item -Path "$siteReleasePkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
+		Write-Host "File copy complete."
+		Invoke-Command -ComputerName $hostname -Credential $credential -FilePath "$deploySitePkgScriptPath" -ArgumentList $siteDrive, $siteDir, $siteBAKSDir, $deployPkgDir
+		Write-Host "Now the extraction has been complete."
 	}
-}
-finally
-{
-	Write-Output "Done! $($stopwatch.Elapsed)"
+	catch
+	{
+		Write-Host "In the catch"
+		$ErrorMessage = $_.Exception.Message
+		Write-Host $ErrorMessage
+	}
+	finally
+	{
+		Write-Host "Hit the finally"
+		Remove-PSDrive -Name $psdrive
+		
+	}
 }
