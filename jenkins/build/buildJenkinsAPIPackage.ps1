@@ -51,10 +51,10 @@ else
 		#Zip RELEASE folder and copy to pkgs/artifacts folder
 		Write-Host "Zip RELEASE folder and copy to pkgs/artifacts folder"
 		$releaseZipPath = "$releasePkgDest\$($ENV:BUILD_NUMBER)\RELEASE_$($ENV:JOB_NAME)-Build$($ENV:BUILD_NUMBER)_$($ENV:BUILD_TIMESTAMP)"
-		#if (!(Test-Path -Path $releaseZipPath))
-		#{
-			#mkdir $releaseZipPath
-		#}
+		if (!(Test-Path -Path $releaseZipPath))
+		{
+			mkdir $releaseZipPath
+		}
 		Compress-Archive -path "$releasePath\*" -DestinationPath "$releaseZipPath"
 		
 	}
