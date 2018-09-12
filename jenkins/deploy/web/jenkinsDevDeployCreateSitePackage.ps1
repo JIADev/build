@@ -120,13 +120,18 @@ else
 		#$sites = gci $releasePath | select -ExpandProperty FullName | where { $_ -notlike '*Shared*' -and $_ -notlike '*Site*' -and $_ -notlike '*DacPacs*' -and $_ -notlike '*SchemaUpdate*' -and $_ -notlike '*deploy.targets*' -and $_ -notlike '*deployment.proj*' }
 		if ($ENV:API = $true)
 		{
-			$sites = gci $releasePath | where { ($_ -like 'Business' -or $_ -like 'Corporate' -or $_ -like 'Integration' -or $_ -like 'WebPWS' -or $_ -like 'API' -or $_ -like 'Auth') -and $_.PSIsContainer -eq $true } | select -ExpandProperty FullName
-		}
-		else
-		{
-			$sites = gci $releasePath | where { ($_ -like 'Business' -or $_ -like 'Corporate' -or $_ -like 'Integration' -or $_ -like 'WebPWS') -and $_.PSIsContainer -eq $true } | select -ExpandProperty FullName
+			$apisites = gci $releasePath | where { ($_ -like 'API' -or $_ -like 'Auth') -and $_.PSIsContainer -eq $true } | select -ExpandProperty FullName
+			foreach ($apisite in $apisites)
+			{
+				#$apisourcePath = gci -Path $apisite PackageTmp -Recurse -Directory | select -ExpandProperty FullName
+				$apidestPath = $siteDir + "\" + (Split-Path -Path $apisite -Leaf)
+				Copy-Item -Path $apisite -Recurse -Destination $apidestPath -Container
+				
+			}
 		}
 		
+		$sites = gci $releasePath | where { ($_ -like 'Business' -or $_ -like 'Corporate' -or $_ -like 'Integration' -or $_ -like 'WebPWS') -and $_.PSIsContainer -eq $true } | select -ExpandProperty FullName
+
 		
 		foreach ($site in $sites)
 		{
