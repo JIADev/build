@@ -25,6 +25,7 @@ $sharedBackupDir = "$($rteDrive):\$rteBAKSDir" #"R:\$($cust)_BAKS"
 $sharedAppDir = "$($rteDrive):\$rteDir\Shared" #"R:\$($cust)_APPS\Shared"
 $timestamp = Get-Date -Format "yyyyMMddhhmmss"
 $sharedBakZip = "$($sharedBackupDir)\shared_preDeploy_$($timestamp)_bak"
+$stgDir = "C:\RTEstage"
 
 #Zip current shared folder and copy to pkgs/CUST/latest folder
 if ((Test-Path -Path $sharedAppDir))
@@ -48,9 +49,11 @@ gci -Path $sharedAppDir -Recurse | Remove-Item -Force -Recurse
 #create temp staging folder for RTE on the C: drive. to avoid unresolved 2095 rte deployment errors.
 if (!(Test-Path -Path "C:\RTEstage"))
 {
-	$stgDir = "C:\RTEstage"
+	Write-Host "No RTE stage directory. Creating one."
 	mkdir $stgDir
+	Write-host "Made directory $stgDir"
 }
+Write-host "The RTE stage directory variable is set as $stgDir"
 
 Write-host "Expanding RTE zip to from $sharedZipfile to $stgDir"
 #Expand new RTE to stg folder
