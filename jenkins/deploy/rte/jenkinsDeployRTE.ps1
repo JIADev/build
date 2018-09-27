@@ -42,9 +42,14 @@ try
 	#	$psdrive = ls function:[d-z]: -n | ?{ !(test-path $_) } | random
 	#$psdrive = "$($hostname)RteDeploy"
 	$psdrive = "$($driver)_$($ENV:BUILD_NUMBER)RteDeploy"
+	Write-Host	"You are here. psdrive is $($psdrive)"
 	New-PSDrive -Name $psdrive -PSProvider FileSystem -Root $rtePkgPath -Credential $credential #-Persist
+	Write-Host "Now you are here. PSDrive supposedly created."
+	Write-Host "Copy variables: source: $sharedPkgPath -- Dest: $psdrive"
 	Copy-Item -Path "$sharedPkgPath" -Destination "$($psdrive):\" -Force -Recurse -Verbose
+	Write-Host "File copy complete."
 	Invoke-Command -ComputerName $rteHostname -Credential $credential -FilePath "$deploySharedExtractRTEScriptPath" -ArgumentList "$rteDrive", "$rteDir", "$rteBAKSDir", "$pkgDir"
+	Write-Host "Now the extraction has been complete."
 }
 finally
 {
