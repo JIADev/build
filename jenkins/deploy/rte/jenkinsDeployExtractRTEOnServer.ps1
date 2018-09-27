@@ -52,9 +52,11 @@ if (!(Test-Path -Path "C:\RTEstage"))
 	mkdir $stgDir
 }
 
+Write-host "Expanding RTE zip to from $sharedZipfile to $stgDir"
 #Expand new RTE to stg folder
 Expand-Archive -Path $sharedZipfile -DestinationPath $stgDir
 
+Write-Host "Copying from $stgDir\* to $sharedAppDir"
 #copy new shared rte files from stg to RTE Apps
 Copy-Item -Path $stgDir\* -Destination $sharedAppDir -Force -Recurse
 
