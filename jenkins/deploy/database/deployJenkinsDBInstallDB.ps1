@@ -56,7 +56,8 @@ try
 catch
 {
 	$ErrorMessage = $_.Exception.Message
-	Write-Error $ErrorMessage
+	Write-Host $ErrorMessage
+	exit 1
 }
 
 
@@ -77,7 +78,8 @@ try
 catch
 {
 	$ErrorMessage = $_.Exception.Message
-	Write-Error $ErrorMessage
+	Write-Host $ErrorMessage
+	exit 1
 }
 
 

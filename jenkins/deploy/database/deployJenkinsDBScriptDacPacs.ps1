@@ -75,7 +75,8 @@ try
 catch
 {
 	$ErrorMessage = $_.Exception.Message
-	Write-Error $ErrorMessage
+	Write-Host $ErrorMessage
+	exit 1
 }
 
 if (Test-Path -path "$schemaUpdateDir\$schemaUpdateScript")
@@ -96,7 +97,8 @@ try
 catch
 {
 	$ErrorMessage = $_.Exception.Message
-	Write-Error $ErrorMessage
+	Write-Host $ErrorMessage
+	exit 1
 }
 
 
