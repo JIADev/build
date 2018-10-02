@@ -1,4 +1,4 @@
--- Sets user passwords to "test" (except domain and api users)
+-- Sets user PW to "test" (except domain and api users)
 Print 'Setting user passwords to "test" (except domain and api users)'
 update Security.[User] 
 set 

@@ -1,4 +1,4 @@
--- Scrubs a database for Dev (Merchant Acct, Emails, Settings)
+-- Scrubs a DB for Dev (Merchant Acct, Emails, Settings)
 ------------------------------------------------------------------------------------
 -- Temporary Helper Procedures
 ------------------------------------------------------------------------------------
