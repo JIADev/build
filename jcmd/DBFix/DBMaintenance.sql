@@ -1,4 +1,4 @@
--- Sets Simple Recovery Mode, enables CLR, truncates logs, shrinks
+-- Sets Smpl Rcvry Mode, enables CLR, trunc logs, shrinks
 ------------------------------------------------------------------------------------
 -- Default DB configuration
 ------------------------------------------------------------------------------------

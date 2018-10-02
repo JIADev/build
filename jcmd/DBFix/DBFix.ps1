@@ -40,6 +40,8 @@ $scriptNumbers = Read-Host -Prompt 'List of scripts to execute (CSV: 1,4,2)'
 
 $scriptNumbersArr = $scriptNumbers -split ','
 
+if (-not $scriptNumbersArr) {Exit 0;}
+
 $sqlConn = [J6SQLConnection]::new()
 
 $scriptNumbersArr | % {
