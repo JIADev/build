@@ -51,6 +51,7 @@ param(
 Import-Module WebAdministration
 
 #include Common-Functions file so that we can use them
+. "$PSScriptRoot\_shared\common.ps1"
 . "$PSScriptRoot\_shared\jposhlib\Common.ps1"
 . "$PSScriptRoot\_shared\jposhlib\Common-IIS.ps1"
 . "$PSScriptRoot\_shared\jposhlib\Common-j6.ps1"
@@ -270,41 +271,47 @@ function Remove-AppPoolFromSQL($poolName)
 {
 	if (!$skipDb)
 	{
-
-		$sqlConn = [J6SQLConnection]::new()
-		$dbName = $sqlConn.sqlSettings.settings.sql.database
-
-		#find users
-		$sql = "SELECT Name FROM sys.sysusers WHERE [Name] LIKE '"+$poolName+"%'"
-		$users = $sqlConn.ExecuteSQL($sql)
-
-		if ($users)
+		try 
 		{
-			#build drop sql
-			$sql = ""
-			foreach ($user in $users) {
-				$sql += "drop user ["+$user.Name+"]; "
+			$sqlConn = [J6SQLConnection]::new()
+			$dbName = $sqlConn.sqlSettings.settings.sql.database
+
+			#find users
+			$sql = "SELECT Name FROM sys.sysusers WHERE [Name] LIKE '"+$poolName+"%'"
+			$users = $sqlConn.ExecuteSQL($sql)
+
+			if ($users)
+			{
+				#build drop sql
+				$sql = ""
+				foreach ($user in $users) {
+					$sql += "drop user ["+$user.Name+"]; "
+				}
+				
+				#execute drop sql commands
+				$data = $sqlConn.ExecuteSQL($sql)
 			}
-			
-			#execute drop sql commands
-			$data = $sqlConn.ExecuteSQL($sql)
+
+
+			#find logins
+			$sql = "SELECT Name FROM sys.syslogins WHERE [Name] LIKE 'IIS APPPOOL\"+$poolName+"%'"
+			$logins = $sqlConn.ExecuteSQL($sql)
+
+			if ($logins)
+			{
+				#build drop sql
+				$sql = ""
+				foreach ($login in $logins) {
+					$sql += "drop login ["+$login.Name+"]; "
+				}
+
+				#execute drop sql commands
+				$data = $sqlConn.ExecuteSQL($sql)
+			}
 		}
-
-
-		#find logins
-		$sql = "SELECT Name FROM sys.syslogins WHERE [Name] LIKE 'IIS APPPOOL\"+$poolName+"%'"
-		$logins = $sqlConn.ExecuteSQL($sql)
-
-		if ($logins)
+		catch
 		{
-			#build drop sql
-			$sql = ""
-			foreach ($login in $logins) {
-				$sql += "drop login ["+$login.Name+"]; "
-			}
-
-			#execute drop sql commands
-			$data = $sqlConn.ExecuteSQL($sql)
+			Write-Output "Could not execute removal from DB - Please handle manually if needed." 
 		}
 
 	}
@@ -481,14 +488,15 @@ GO
 
 # -- MAIN CODE SECTION --
 Ensure-Is64BitProcess
-Ensure-IsPowershellMinVersion4
+Ensure-IsPowershellMinVersion5
 Ensure-IsAdmin
+Ensure-IsJ6DevRootFolder
 
 #we only want to force j6 folder when we are creating a new site, not when
 #removing
 if (!$remove)
 {
-	Ensure-IsJ6DevRootFolder
+	Ensure-J6SiteFolder
 }
 
 if ($remove)

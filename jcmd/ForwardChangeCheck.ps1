@@ -39,6 +39,10 @@ param(
 . "$PSScriptRoot\_Shared\common.ps1"
 . "$PSScriptRoot\_Shared\SourceControl\SourceControl.ps1"
 
+Ensure-Is64BitProcess
+Ensure-IsPowershellMinVersion5
+Ensure-IsJ6DevRootFolder
+
 if (!($childBranch))
 {
     $childBranch = SourceControl_GetCurrentBranch

@@ -38,6 +38,10 @@ param(
 . "$PSScriptRoot\_Shared\common.ps1"
 . "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
+Ensure-Is64BitProcess
+Ensure-IsPowershellMinVersion5
+Ensure-IsJ6DevRootFolder
+
 $hasPendingChanges = SourceControl_HasPendingChanges
 if ($hasPendingChanges -eq $true) {
 	Write-ColorOutput "Pending changes found.  Please shelve or commit your changes before running starttask" Red

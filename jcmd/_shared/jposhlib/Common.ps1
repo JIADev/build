@@ -2,17 +2,13 @@
 # Common_Functions.ps1
 #
 #include sub files for Common-Functions file so that we can use them
+. "$PSScriptRoot\..\common.ps1" 
 . "$PSScriptRoot\Common-Environment.ps1" 
 
 function WriteLn([string] $line)
 {
 	Write-Output $line
 }
-
-function Test-IsAdmin {
-	([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
-}
-
 
 function Match-CommonFolderRoot([string]$sourcePath, [string]$comparePath)
 {
@@ -112,51 +108,6 @@ function Create-TrustedSelfSignedCertForLocalSite ([string] $FQDN)
 	Write-Debug "Certificate action complete."
 
 	return $cert
-}
-
-function Ensure-Is64BitProcess()
-{
-	if ([Environment]::Is64BitProcess -ne "True")
-	{
-		"You must use the 64 bit version of Powershell to run this script!"
-		exit 1
-	}
-}
-
-function Ensure-IsPowershellMinVersion4()
-{
-	If($PSVersionTable.PSVersion.Major -lt 4) 
-	{
-		Write-Host "This script requires Powershell v4 or greater!"
-		exit 1
-	}
-}
-
-function Ensure-IsAdmin()
-{
-	Ensure-ElevatedPermissions	
-}
-
-function Ensure-ElevatedPermissions()
-{
-If(!(Test-IsAdmin))
-	{
-		Write-Host "This script requires elevated permissions!"
-		exit 1
-	}
-}
-
-
-function Ensure-ExecutionPolicy()
-{
-	$policy = Get-ExecutionPolicy
-	if ($policy -eq "Restricted")
-	{
-		Write-Host "Please unrestrict your PowerShell environment by executing this command:"
-		Write-Host "Set-ExecutionPolicy AllSigned"
-
-		exit 1
-	}
 }
 
 function Get-SecurePasswordFromConsole([string] $defaultLogin)
