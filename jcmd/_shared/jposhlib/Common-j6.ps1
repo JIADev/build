@@ -2,20 +2,6 @@
 # 
 #
 
-function Ensure-IsJ6DevRootFolder()
-{
-	$isValid = $true;
-	$path = Get-Location
-	$sitePath = Join-Path $path "Site"
-	$isValid = $isValid -and (Test-Path $sitePath -pathType container)
-
-#ensure this is a path with a j6 style /site/ folder
-	if (!$isValid)
-	{
-		Throw "This is not a valid folder. Call this command from the root of a j6 source repository. Be sure to build first!"
-		exit 1;
-	}
-}
 
 function Test-J6NetworkConnected()
 {

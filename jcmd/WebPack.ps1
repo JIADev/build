@@ -9,6 +9,13 @@
   Created by Richard Carruthers on 08/05/18
 #>
 
+. "$PSScriptRoot\_Shared\common.ps1"
+
+# -- MAIN CODE SECTION --
+Ensure-Is64BitProcess
+Ensure-IsPowershellMinVersion4
+Ensure-IsJ6DevRootFolder
+
 if (Test-Path ".\Site\WebPWS\WebPWS.csproj") {
   & "msbuild.exe" "Site\WebPWS\WebPWS.csproj" "/t:Webpack"
 }

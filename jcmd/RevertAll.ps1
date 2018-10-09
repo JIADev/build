@@ -169,6 +169,13 @@ function RevertRepoFolder($path) {
     SourceControl_RevertAll
 }
 
+Ensure-Is64BitProcess
+Ensure-IsPowershellMinVersion5
+Ensure-IsAdmin
+Ensure-IsJ6DevRootFolder
+Ensure-IsJ6Console
+Ensure-VisualStudioNotRunning "all"
+
 #---- Debugging Settings -----
 #$DebugPreference = "Continue"
 #$RevertPath = "C:\dev\work1"

@@ -45,6 +45,7 @@ param(
   [switch]$ignoreVS = $false
 )
 
+. "$PSScriptRoot\_shared\common.ps1"
 . "$PSScriptRoot\_shared\jposhlib\Common-Process.ps1"
 
 function ValidateEnv()
@@ -76,5 +77,13 @@ $commands += @{name="Configure"; command=$jcmdPath; args=@("Configure","$Custome
 $commands += @{name="Build"; command=$jcmdPath; args=@("BuildInit")}
 $commands += @{name="Flush"; command=$jcmdPath; args=@("Flush","all")}
 $commands += @{name="Create Web Apps"; command=$jcmdPath; args=$websiteArgs}
+
+
+Ensure-Is64BitProcess
+Ensure-IsPowershellMinVersion5
+Ensure-IsAdmin
+Ensure-IsJ6DevRootFolder
+Ensure-IsJ6Console
+Ensure-VisualStudioNotRunning "all"
 
 ExecuteCommandsWithStatus $commands "EnvInit"

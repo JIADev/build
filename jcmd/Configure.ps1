@@ -45,10 +45,13 @@ param(
 	[Parameter(Mandatory=$false)][string]$ConfigurationOverride = "Debug"
 )
 
+. "$PSScriptRoot\_shared\common.ps1" 
+
+
 if (!$ReportDatabaseName)
 {
   $ReportDatabaseName = $DatabaseName
-  $ReportDatabaseServer = $ReportDatabaseServer
+  $ReportDatabaseServer = $DatabaseServer
 }
 
 if (!$CustomerDriverFeature)
@@ -56,24 +59,40 @@ if (!$CustomerDriverFeature)
   $CustomerDriverFeature = $CustomerCode
 }
 
+Ensure-Is64BitProcess
+Ensure-IsPowershellMinVersion5
+Ensure-IsJ6DevRootFolder
+Ensure-VisualStudioNotRunning "all"
+
 try
 {
-  & msbuild /t:Configure /p:Customer=$CustomerCode /p:DriverFeature=$CustomerCode j6.proj | Out-Null
-  if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
+  $params = "/t:Configure","/p:Customer=$CustomerCode", "/p:DriverFeature=$CustomerCode"
+  $params += "/p:CacheDatabase=$CacheDBId"
+  $params += "/p:DatabaseServer=$DatabaseServer","/p:DatabaseName=$DatabaseName"
+  $params += "/p:ReportDatabaseServer=$ReportDatabaseServer","/p:ReportDatabaseName=$ReportDatabaseName"
+  $params += "/p:Configuration=$ConfigurationOverride"
+  $params += "/nologo", "/t:showconfig"
+
+  & msbuild @params j6.proj 
+
+  # & msbuild /t:Configure /p:Customer=$CustomerCode /p:DriverFeature=$CustomerCode j6.proj | Out-Null
+  # if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
   
-  & msbuild /t:Configure /p:CacheDatabase=$CacheDBId j6.proj | Out-Null
-  if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
+  # & msbuild /t:Configure /p:CacheDatabase=$CacheDBId j6.proj | Out-Null
+  # if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
   
-  & msbuild /t:Configure /p:DatabaseServer=$DatabaseServer /p:DatabaseName=$DatabaseName j6.proj | Out-Null
-  if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
+  # & msbuild /t:Configure /p:DatabaseServer=$DatabaseServer /p:DatabaseName=$DatabaseName j6.proj | Out-Null
+  # if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
   
-  & msbuild /t:Configure /p:ReportDatabaseServer=$ReportDatabaseServer /p:ReportDatabaseName=$ReportDatabaseName j6.proj | Out-Null
-  if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
+  # & msbuild /t:Configure /p:ReportDatabaseServer=$ReportDatabaseServer /p:ReportDatabaseName=$ReportDatabaseName j6.proj | Out-Null
+  # if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
   
-  & msbuild /t:Configure /p:Configuration=$ConfigurationOverride j6.proj | Out-Null
-  if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
+  # & msbuild /t:Configure /p:Configuration=$ConfigurationOverride j6.proj | Out-Null
+  # if ($GLOBAL:LASTEXITCODE -ne 0) {throw "Error configuring j6!"}
   
-  & msbuild /nologo /t:showconfig j6.proj
+  # & msbuild /nologo /t:showconfig j6.proj
+
+
 }
 catch
 {
