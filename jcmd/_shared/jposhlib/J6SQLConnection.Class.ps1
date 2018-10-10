@@ -42,7 +42,7 @@ class J6SQLConnection {
 
         $params.Database = $this.sqlSettings.settings.sql.database
         $params.ServerInstance = $this.sqlSettings.settings.sql.server
-        $params.ConnectionTimeout = 15
+        $params.ConnectionTimeout = 60
         $params.QueryTimeout = $timeout
         $params.AbortOnError = $true
 
