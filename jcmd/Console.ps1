@@ -12,7 +12,6 @@
 . "$PSScriptRoot\_Shared\common.ps1"
 
 # -- MAIN CODE SECTION --
-Ensure-Is64BitProcess
 Ensure-IsPowershellMinVersion4
 Ensure-IsJ6DevRootFolder
 

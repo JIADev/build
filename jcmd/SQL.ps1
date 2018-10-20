@@ -16,7 +16,6 @@ param(
 )
 . "$PSScriptRoot\_shared\jposhlib\J6SQLConnection.Class.ps1"
 
-Ensure-Is64BitProcess
 Ensure-IsAdmin
 Ensure-IsPowershellMinVersion5
 Ensure-IsJ6DevRootFolder

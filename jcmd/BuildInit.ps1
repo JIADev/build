@@ -66,7 +66,6 @@ $commands += @{name="j patch"; command="msbuild.exe"; args=@("/nologo","/t:patch
 $commands += @{name="j build"; command="msbuild.exe"; args=@("/nologo","/t:build","j6.proj")}
 $commands += @{name="Check Webpack"; command="CheckWebpack"; args=@()}
 
-Ensure-Is64BitProcess
 Ensure-IsPowershellMinVersion5
 Ensure-IsJ6DevRootFolder
 Ensure-IsJ6Console

@@ -59,7 +59,6 @@ if (!$CustomerDriverFeature)
   $CustomerDriverFeature = $CustomerCode
 }
 
-Ensure-Is64BitProcess
 Ensure-IsPowershellMinVersion5
 Ensure-IsJ6DevRootFolder
 Ensure-VisualStudioNotRunning "all"
