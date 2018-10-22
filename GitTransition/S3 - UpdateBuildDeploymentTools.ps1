@@ -35,10 +35,13 @@ try {
     #dont process these brances
     [array] $ProcessInclude = @(
         "2083_ActiveInfra",
+        "2094COL_Sprint",
+        "2094PER_Sprint",
+        "2094_Bolivia",
         "2094_Colombia",
         "2094_PeruInfra",
+        "2094_Peru",
         "2095_Ver7.7",
-        "MPS_Sprint3",
         "2097JP_QAS",
         "2097JP_Ver7.7_PRD",
         "2097MY_Ver7.8",
@@ -46,8 +49,9 @@ try {
         "2097SG_ActiveInfra",
         "2097SG_Ver7.7_PRD",
         "2097_Ver7.7",
+        "2098_7.8.0",
         "7.6.8",
-        "2098_7.8.0"
+        "MPS_Sprint3"
     )
 
     #find the branches that used to be tags in HG
