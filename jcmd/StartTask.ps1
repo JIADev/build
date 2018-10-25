@@ -38,7 +38,6 @@ param(
 . "$PSScriptRoot\_Shared\common.ps1"
 . "$PSScriptRoot\_shared\SourceControl\SourceControl.ps1"
 
-Ensure-Is64BitProcess
 Ensure-IsPowershellMinVersion5
 Ensure-IsJ6DevRootFolder
 

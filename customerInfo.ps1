@@ -1,3 +1,3 @@
 $tagOverrides = @{ '2097SG' = @('AIAP') }
-$pushTaskBranches = @{ '2094' = @('7.6.8'); '2094PER' = @('2094_PeruInfra'); '2094BOL' = @('2094_PeruInfra'); '2096' = @('7.6.7') ; '2097' = @('xxxx_ActiveInfra') ; '1001' = @('1002_ActiveInfra_Sprint') ; '1002' = @('1002_ActiveInfra_Sprint') ; '2097SG' = @('2097_AIAP') }
+$pushTaskBranches = @{ '2094' = @('7.6.8'); '2094PER' = @('2094_Peru'); '2094BOL' = @('2094_Bolivia'); '2096' = @('7.6.7') ; '2097' = @('xxxx_ActiveInfra') ; '1001' = @('1002_ActiveInfra_Sprint') ; '1002' = @('1002_ActiveInfra_Sprint') ; '2097SG' = @('2097_AIAP') }
 $validCustomers = '000', '010', '065', '069', '077', '1000', '1001', '1002', '2082', '2083', '2085', '2086', '2087', '2088', '2089', '2090', '2092', '2094', '2094PER', '2094BOL', '2095', '2096', '2097', '2097BR', '2097JP', '2097SG'
