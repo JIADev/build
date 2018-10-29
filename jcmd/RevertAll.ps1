@@ -157,11 +157,20 @@ function Recurse($path) {
 }
 
 function CheckPendingChanges($path) {
-    if (SourceControl_HasPendingChanges)
+    Push-Location
+    try
     {
-        Write-ColorOutput "Path: $path"
-        Write-ColorOutput "ERROR: Folder has pending changes." -ForegroundColor Red
-        Exit 1;
+        Set-Location $path
+        if (SourceControl_HasPendingChanges)
+        {
+            Write-ColorOutput "Path: $path" -ForegroundColor Red
+            Write-ColorOutput "ERROR: Folder has pending changes." -ForegroundColor Red
+            Exit 1;
+        }
+    }
+    finally
+    {
+        Pop-Location
     }
 }
 
@@ -190,6 +199,12 @@ try {
 
     #lets make sure we arent about to lose important code
     CheckPendingChanges $RevertPath
+
+    $EngineCorePath = Join-Path $revertPath "EngineCore"
+    if (Test-Path $EngineCorePath)
+    {
+        CheckPendingChanges $EngineCorePath
+    }
 
     Write-ColorOutput "Reverting $RevertPath" -ForegroundColor Yellow
     #walk the folders and 
