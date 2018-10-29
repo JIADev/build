@@ -51,7 +51,12 @@ try {
         "2097_Ver7.7",
         "2098_7.8.0",
         "7.6.8",
-        "MPS_Sprint3"
+        "MPS_Sprint3",
+        "7.8.0",
+        "1002_7.8.0_Carlton",
+        "2095AU_DEV", 
+        "2095AU_UAT",
+        "2095AU_PRD"
     )
 
     #find the branches that used to be tags in HG
