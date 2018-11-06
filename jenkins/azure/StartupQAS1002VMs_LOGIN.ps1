@@ -1,16 +1,18 @@
-﻿Import-Module AzureRM 
+﻿#Import-Module AzureRM 
 #Create variable for AD Service App Password
 
  $pass = ConvertTo-SecureString "$;:Y%*ghkTr@[b4A'ht5" -AsPlainText –Force
 
- $cred = New-Object -TypeName pscredential –ArgumentList "cb45359d-45bb-48da-a520-0cdae8e180e7", $pass
+$cred = New-Object -TypeName pscredential –ArgumentList "cb45359d-45bb-48da-a520-0cdae8e180e7", $pass
+
+$subscriptionID = "55ee9d11-0e16-4eaf-9895-cfe5c02866d7"
  
  # Login to AZ
- Login-AzureRmAccount -Credential $cred	
+Login-AzureRmAccount -Credential $cred -ServicePrincipal –TenantId 8fcfe683-42d5-437d-8e8d-401f4ba55c88 -SubscriptionId $subscriptionId	
  
  # Select Dev/Test Subscription
  
- Select-AzureRmSubscription -SubscriptionId 55ee9d11-0e16-4eaf-9895-cfe5c02866d7
+ #Select-AzureRmSubscription -SubscriptionId 55ee9d11-0e16-4eaf-9895-cfe5c02866d7
 
 function Invoke-Parallel {
     <#
