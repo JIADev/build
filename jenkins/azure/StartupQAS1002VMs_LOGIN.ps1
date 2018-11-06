@@ -6,7 +6,7 @@
  $cred = New-Object -TypeName pscredential –ArgumentList "cb45359d-45bb-48da-a520-0cdae8e180e7", $pass
  
  # Login to AZ
- #Login-AzureRmAccount
+ Login-AzureRmAccount -Credential $cred	
  
  # Select Dev/Test Subscription
  
