@@ -1,4 +1,5 @@
-﻿ #Create variable for AD Service App Password
+﻿Import-Module AzureRM 
+#Create variable for AD Service App Password
 
  $pass = ConvertTo-SecureString "$;:Y%*ghkTr@[b4A'ht5" -AsPlainText –Force
 
