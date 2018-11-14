@@ -102,3 +102,9 @@ function SourceControl_TagExists($tag) {
 function SourceControl_TagExistsRemote($tag) {
     _SourceControl $MyInvocation.MyCommand $tag
 }
+function SourceControl_GetRemoteUrl() {
+    _SourceControl $MyInvocation.MyCommand
+}
+function SourceControl_SetRemoteUrl([string] $url) {
+    _SourceControl $MyInvocation.MyCommand $url
+}

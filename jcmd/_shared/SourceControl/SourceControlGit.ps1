@@ -159,3 +159,13 @@ function SourceControlGit_TagExistsRemote($branch) {
     if ($result -gt 0) { return $true; }
     return $false;
 }
+
+function SourceControlGit_GetRemoteUrl() {
+    $result = (gitcmd remote,get-url,origin) | where {$_.trim() -ne "" }
+    return $result;
+}
+function SourceControlGit_SetRemoteUrl([string] $url) {
+    gitcmd remote,set-url,origin,$url | Out-Null
+    $result = SourceControlGit_GetRemoteUrl 
+    return $result;
+}
