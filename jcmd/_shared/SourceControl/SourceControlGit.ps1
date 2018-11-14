@@ -49,6 +49,7 @@ function SourceControlGit_UpdateBranchToHead([string] $branchName) {
 
 function SourceControlGit_PullRepoCommits() {
         gitcmd fetch --all
+        gitcmd fetch --tags
 }
 
 function SourceControlGit_PushCommitsToRemote([switch] $newBranch) {

@@ -61,6 +61,8 @@ if ($taskPrefix -ne "TSK")
 	Exit 1
 }
 
+SourceControl_PullRepoCommits
+
 $envTag = "$customerId`_$env"
 Write-ColorOutput "Checking for updates to the env tag '$envTag' FOR MERGING!!" -ForegroundColor Cyan
 #see if there are any changes in the env tag that are not in 
